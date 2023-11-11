@@ -1,0 +1,83 @@
+package com.myboot.pojo;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * product_item
+ * @author 
+ */
+@Data
+public class ProductItem implements Serializable {
+    private Integer id;
+
+    private String  productId;
+
+    /**
+     * 图片
+     */
+    private String image;
+
+    /**
+     * 规格
+     */
+    private String guige;
+
+    /**
+     * 商品编号
+     */
+    private String bianhao;
+
+    /**
+     * 零售价格
+     */
+    private String lingshouPrice;
+
+    /**
+     * 零售上浮比例
+     */
+    private String lingshouBili;
+
+    /**
+     * 批发价格
+     */
+    private String pifaPrice;
+
+    /**
+     * 批发上浮比例
+     */
+    private String pifaBili;
+
+    /**
+     * 大客户价格
+     */
+    private String dakehuPrice;
+
+    /**
+     * 大客户上浮比例
+     */
+    private String dakehuBili;
+
+    /**
+     * 采购价格
+     */
+    private String caigouPrice;
+
+    /**
+     * 进项税率
+     */
+    private String jinxiang;
+
+    /**
+     * 销售税率
+     */
+    private String xiaoxiang;
+
+    /**
+     * 是否启用
+     */
+    private String enable;
+
+    private static final long serialVersionUID = 1L;
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.XiaoShouChuKuItemMapper">
+
+    <insert id="chuKuItemAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO xiaoshou_chuku_item(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,
+        xiaoshou_danjia,jiashui_xiaoji,beizhu,chuku_id)
+        VALUES (#{shangpin_bianma},#{name},#{guige},#{caizhi},#{jishu_biaozhun},#{zhibao_dengji},#{danwei},#{shuliang},
+        #{xiaoshou_danjia},#{jiashui_xiaoji},#{beizhu},#{chuku_id})
+    </insert>
+
+    <update id="chuKuItemUpd">
+        UPDATE xiaoshou_chuku_item set shangpin_bianma = #{shangpin_bianma},name = #{name},guige = #{guige},caizhi = #{caizhi},
+        jishu_biaozhun = #{jishu_biaozhun},zhibao_dengji = #{zhibao_dengji},danwei = #{danwei},shuliang = #{shuliang},
+        xiaoshou_danjia = #{xiaoshou_danjia},jiashui_xiaoji = #{jiashui_xiaoji},beizhu = #{beizhu},chuku_id = #{chuku_id}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByChuKuItemId">
+        DELETE from xiaoshou_chuku_item
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.XiaoShouChuKuItem">
+        SELECT *
+        FROM xiaoshou_chuku_item
+    </select>
+
+    <select id="selectByRuKuItemId" resultType="com.myboot.pojo.XiaoShouChuKuItem">
+        <![CDATA[
+            SELECT * from xiaoshou_chuku_item where chuku_id = #{id}
+        ]]>
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ShouZhiMingXiItemMapper">
+
+    <insert id="shouZhiItemAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO shouzhi_mingxi_item(mingxi_type,yongtu,jizhang_jine, kedi_shuie, shouzhi_id)
+        VALUES (#{mingxiType},#{yongtu},#{jizhangJine},#{kediShuie},#{shouzhiId})
+    </insert>
+
+    <update id="shouZhiItemUpd">
+        UPDATE shouzhi_mingxi_item set mingxi_type=#{mingxiType},yongtu=#{yongtu},jizhang_jine=#{jizhangJine}, kedi_shuie=#{kediShuie}, shouzhi_id=#{shouzhiId}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByShouZhiId">
+        DELETE from shouzhi_mingxi_item
+        WHERE shouzhi_id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.ShouZhiMingXiItem">
+        <![CDATA[
+            select * from shouzhi_mingxi_item
+        ]]>
+    </select>
+
+    <select id="selectByShouZhiId" resultType="com.myboot.pojo.ShouZhiMingXiItem">
+        <![CDATA[
+            select * from shouzhi_mingxi_item
+            where shouzhi_id = #{id}
+        ]]>
+    </select>
+</mapper>

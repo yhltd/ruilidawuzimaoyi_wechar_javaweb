@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.UserMapper">
+    <insert id="insertUser">
+        INSERT INTO `user`(id,userName,adminName,money,localdiqv,localAddress,`text`,phone,localPhone,fatherName)
+        VALUES(#{id},#{userName},#{adminName},#{money},#{localdiqv},#{localAddress},#{text},#{phone},#{localPhone},#{fatherName})
+    </insert>
+
+
+    <select id="getAll" resultType="com.myboot.pojo.User">
+        select *
+        from user
+    </select>
+</mapper>

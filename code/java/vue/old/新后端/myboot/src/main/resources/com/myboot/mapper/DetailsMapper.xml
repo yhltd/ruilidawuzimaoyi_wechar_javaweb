@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.DetailsMapper">
+    <insert id="detailAdd">
+        INSERT INTO details(`dImg`,`dSpecifications`,`dGoodsId`,`dRetailPrice`,`dProportion`,`dWholesalePrice`,`dWholesalePro`,`dComtuterPrice`,`dComyuterPro`,`dProcurementPrice`,`dSales`,`dEntry`,`dEnable`)
+        VALUES (#{dImg},#{dSpecifications},#{dGoodsId},#{dRetailPrice},#{dProportion},#{dWholesalePrice},#{dWholesalePro},#{dComtuterPrice},#{dComyuterPro},#{dProcurementPrice},#{dSales},#{dEntry},#{dEnable})
+    </insert>
+    <update id="detailsUpdate">
+        UPDATE details
+        <set>
+            <if test="dImg != null and dImg != ''">
+                dImg = #{dImg},
+            </if>
+            <if test="dSpecifications != null and dSpecifications != ''">
+                dSpecifications = #{dSpecifications},
+            </if>
+            <if test="dRetailPrice != 0">
+                dRetailPrice = #{dRetailPrice},
+            </if>
+            <if test="dProportion != null and dProportion != ''">
+                dProportion = #{dProportion},
+            </if>
+            <if test="dWholesalePrice != 0">
+                dWholesalePrice = #{dWholesalePrice},
+            </if>
+            <if test="dWholesalePro != null and dWholesalePro != ''">
+                dWholesalePro = #{dWholesalePro},
+            </if>
+            <if test="dComtuterPrice != 0">
+                dComtuterPrice = #{dComtuterPrice},
+            </if>
+            <if test="dComyuterPro != null and dComyuterPro != ''">
+                dComyuterPro = #{dComyuterPro},
+            </if>
+            <if test="dProcurementPrice != 0">
+                dProcurementPrice = #{dProcurementPrice},
+            </if>
+            <if test="dSales != null and dSales != ''">
+                dSales = #{dSales},
+             </if>
+            <if test="dEntry != null and dEntry != ''">
+                dEntry = #{dEntry},
+            </if>
+            <if test="dEnable != null and dEnable != ''">
+                dEnable = #{dEnable}
+            </if>
+        </set>
+        WHERE dId = #{dId}
+    </update>
+    <delete id="detailsDel">
+        DELETE FROM details
+        WHERE dId = #{dId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Details">
+        SELECT `dId`,`dImg`,`dSpecifications`,`dGoodsId`,`dRetailPrice`,`dProportion`,`dWholesalePrice`,`dWholesalePro`,`dComtuterPrice`,`dComyuterPro`,`dProcurementPrice`,`dSales`,`dEntry`,`dEnable`
+        FROM details
+    </select>
+</mapper>

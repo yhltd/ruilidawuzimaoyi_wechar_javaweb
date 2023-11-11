@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.XiaoShouBaoJiaMapper">
+
+    <insert id="baoJiaAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO xiaoshou_baojia(bianhao,riqi,kehu,yewuyuan,dianpu,xiaoxiang_shuilv,beizhu,shenhe,jiage_dengji,shenhe_zhuangtai)
+        VALUES (#{bianhao},#{riqi},#{kehu},#{yewuyuan},#{dianpu},#{xiaoxiangShuilv},#{beizhu},#{shenhe},#{jiageDengji},#{shenheZhuangtai})
+    </insert>
+
+    <update id="baoJiaUpd">
+        UPDATE xiaoshou_baojia set bianhao = #{bianhao},riqi = #{riqi},yewuyuan = #{yewuyuan},dianpu = #{dianpu},
+        xiaoxiang_shuilv = #{xiaoxiangShuilv},beizhu = #{beizhu},shenhe = #{shenhe},jiage_dengji = #{jiageDengji},shenhe_zhuangtai = #{shenheZhuangtai}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteBaoJiaById">
+        DELETE from xiaoshou_baojia
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia
+        ]]>
+    </select>
+
+    <select id="getAllByShenHe" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia where shenhe = #{shenhe}
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia
+            where riqi >= #{start_date} and riqi <= #{stop_date} and kehu like '%' + #{kehu} + '%' and shenhe_zhuangtai like '%' + #{shenhe_zhuangtai} + '%'
+        ]]>
+    </select>
+
+    <select id="selectBaoJiaById" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia
+            where id = #{id}
+        ]]>
+    </select>
+</mapper>

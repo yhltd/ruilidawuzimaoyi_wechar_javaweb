@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CaiGouShouPiaoMapper">
+
+    <insert id="caiGouDingDanAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO caigou_dingdan(caigou_bianhao,shoupiao_danwei,kaipiao_danwei,kaipiao_riqi,kaipiao_jine,kaipiao_shuie,
+        jiashui_heji,beizhu,xinxi_tuisong,shoupiao_zhuangtai)
+        VALUES (#{caigou_bianhao},#{shoupiao_danwei},#{kaipiao_danwei},#{kaipiao_riqi},#{kaipiao_jine},#{kaipiao_shuie},
+        #{jiashui_heji},#{beizhu},#{xinxi_tuisong},#{shoupiao_zhuangtai})
+    </insert>
+
+    <update id="caiGouShouPiaoUpd">
+        UPDATE caigou_shoupiao set caigou_bianhao = #{caigou_bianhao},shoupiao_danwei = #{shoupiao_danwei},kaipiao_danwei = #{kaipiao_danwei},kaipiao_riqi = #{kaipiao_riqi},kaipiao_jine = #{kaipiao_jine},kaipiao_shuie = #{kaipiao_shuie},jiashui_heji = #{jiashui_heji},beizhu = #{beizhu},xinxi_tuisong = #{xinxi_tuisong},shoupiao_zhuangtai = #{shoupiao_zhuangtai}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByCaiGouId">
+        DELETE from caigou_dingdan
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.CaiGouDingDan">
+        SELECT *
+        FROM caigou_dingdan
+    </select>
+
+    <select id="getAllByShenHe" resultType="com.myboot.pojo.CaiGouDingDan">
+        SELECT * from caigou_dingdan where xinxi_tuisong = #{xinxi_tuisong} and shoupiao_zhuangtai = '待收票'
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.CaiGouDingDan">
+        <![CDATA[
+            SELECT * from caigou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%" and shenhe_zhuangtai like "%" #{shenhe_zhuangtai} "%"
+        ]]>
+    </select>
+
+    <select id="selectByCaiGouId" resultType="com.myboot.pojo.CaiGouDingDan">
+        <![CDATA[
+            SELECT * from caigou_dingdan where id = #{id}
+        ]]>
+    </select>
+</mapper>

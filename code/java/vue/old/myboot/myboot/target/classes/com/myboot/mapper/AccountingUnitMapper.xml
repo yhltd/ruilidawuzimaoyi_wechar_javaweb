@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.AccountingUnitMapper">
+    <insert id="accountAdd">
+        INSERT INTO accounting_unit(aName)
+        VALUES (#{aName})
+    </insert>
+    <update id="accountUpdate">
+        UPDATE accounting_unit
+        SET aName =  #{aName}
+        WHERE aId = #{aId}
+    </update>
+    <delete id="accountDelete">
+        DELETE  accounting_unit
+        WHERE aId = #{aId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.AccountingUnit">
+        SELECT aID,aName,aMor
+        FROM accounting_unit
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CaiGouRuKuMapper">
+
+    <insert id="caiGouRuKuAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO caigou_ruku(bianhao,riqi,gongyingshang, dianpu, cangku,beizhu,caigou_id)
+        VALUES (#{bianhao},#{riqi},#{gongyingshang},#{dianpu},#{cangku},#{beizhu},#{caigou_id})
+    </insert>
+
+    <update id="caiGouRuKuUpd">
+        UPDATE caigou_ruku set bianhao = #{bianhao},riqi = #{riqi},gongyingshang = #{gongyingshang}, dianpu = #{dianpu},
+        cangku = #{cangku},,beizhu = #{beizhu},caigou_id = #{caigou_id}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByRuKuId">
+        DELETE from caigou_ruku
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.CaiGouRuKu">
+        SELECT *
+        FROM caigou_ruku
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.CaiGouRuKu">
+        <![CDATA[
+            SELECT * from caigou_ruku where
+            riqi >= #{start_date} and riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%"
+        ]]>
+    </select>
+
+    <select id="selectByCaiGouId" resultType="com.myboot.pojo.CaiGouRuKu">
+        <![CDATA[
+            SELECT * from caigou_ruku where id = #{id}
+        ]]>
+    </select>
+</mapper>

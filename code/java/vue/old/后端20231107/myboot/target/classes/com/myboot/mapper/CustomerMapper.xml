@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CustomerMapper">
+    <insert id="customerAdd">
+        INSERT INTO customer(`cId`,`cName`,`cFenl`,`cBoss`,`cLevel`,cCustLevel,`cRegion`,`cAddress`,`cText`,`salesMan`,`cFile`)
+        VALUES (#{cId},#{cName},#{cFenl},#{cBoss},#{cLevel},#{cCustLevel},#{cRegion},#{cAddress},#{cText},#{salesMan},#{cFile})
+    </insert>
+    <update id="customerUpdate">
+        UPDATE customer
+        <set>
+            <if test="cName != null and cName != ''">
+                `cName` = #{cName},
+            </if>
+            <if test="cFenl != null and cFenl != ''">
+                `cFenl` = #{cFenl},
+            </if>
+            <if test="cBoss != null and cBoss != ''">
+                `cBoss` = #{cBoss},
+            </if>
+            <if test="cLevel != null and cLevel != ''">
+                `cLevel` = #{cLevel},
+            </if>
+            <if test="cCustLevel != null and cCustLevel != ''">
+                `cCustLevel` = #{cCustLevel},
+            </if>
+            <if test="cRegion != null and cRegion != ''">
+                `cRegion` = #{cRegion},
+            </if>
+            <if test="cAddress != null and cAddress != ''">
+                `cAddress` = #{cAddress},
+            </if>
+            <if test="cText != null and cText != ''">
+                `cText` = #{cText},
+            </if>
+            <if test="salesMan != null and salesMan != ''">
+                `salesMan` = #{salesMan},
+            </if>
+            <if test="cFile != null and cFile != ''">
+                `cFile` = #{cFile}
+            </if>
+        </set>
+        WHERE `cId` = #{cId}
+    </update>
+    <delete id="customerDelete">
+        DELETE FROM customer
+        WHERE cId = #{cId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Customer">
+        SELECT `cId`,`cName`,`cFenl`,`cBoss`,`cLevel`,cCustLevel,`cRegion`,`cAddress`,`cText`,`salesMan`,`cFile`
+        FROM customer
+    </select>
+</mapper>

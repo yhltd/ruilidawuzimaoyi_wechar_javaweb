@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CaiGouRuKuItemMapper">
+
+    <insert id="caiGouRuKuAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO caigou_ruku_item(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,
+        lishi_zuidi,caigou_danjia,jiashui_xiaoji,jiaohuo_riqi,beizhu,ruku_id)
+        VALUES (#{shangpin_bianma},#{name},#{guige},#{caizhi},#{jishu_biaozhun},#{zhibao_dengji},#{danwei},#{shuliang},
+        #{lishi_zuidi},#{caigou_danjia},#{jiashui_xiaoji},#{jiaohuo_riqi},#{beizhu},#{ruku_id})
+    </insert>
+
+    <update id="caiGouRuKuUpd">
+        UPDATE caigou_ruku_item set shangpin_bianma = #{shangpin_bianma},name = #{name},guige = #{guige},caizhi = #{caizhi},
+        jishu_biaozhun = #{jishu_biaozhun}, zhibao_dengji = #{zhibao_dengji},danwei = #{danwei},shuliang = #{shuliang},
+        lishi_zuidi = #{lishi_zuidi},caigou_danjia = #{caigou_danjia},jiashui_xiaoji = #{jiashui_xiaoji}, jiaohuo_riqi =
+        #{jiaohuo_riqi},beizhu = #{beizhu},ruku_id = #{ruku_id}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByRuKuItemId">
+        DELETE from caigou_ruku_item
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.CaiGouRuKuItem">
+        SELECT *
+        FROM caigou_ruku_item
+    </select>
+
+    <select id="selectByRuKuItemId" resultType="com.myboot.pojo.CaiGouRuKuItem">
+        <![CDATA[
+            SELECT * from caigou_ruku_item where ruku_id = #{id}
+        ]]>
+    </select>
+</mapper>

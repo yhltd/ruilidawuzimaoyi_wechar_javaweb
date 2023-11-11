@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myboot.mapper.ProductItemMapper">
+  <resultMap id="BaseResultMap" type="com.myboot.pojo.ProductItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="guige" jdbcType="VARCHAR" property="guige" />
+    <result column="bianhao" jdbcType="VARCHAR" property="bianhao" />
+    <result column="lingshou_price" jdbcType="VARCHAR" property="lingshouPrice" />
+    <result column="lingshou_bili" jdbcType="VARCHAR" property="lingshouBili" />
+    <result column="pifa_price" jdbcType="VARCHAR" property="pifaPrice" />
+    <result column="pifa_bili" jdbcType="VARCHAR" property="pifaBili" />
+    <result column="dakehu_price" jdbcType="VARCHAR" property="dakehuPrice" />
+    <result column="dakehu_bili" jdbcType="VARCHAR" property="dakehuBili" />
+    <result column="caigou_price" jdbcType="VARCHAR" property="caigouPrice" />
+    <result column="jinxiang" jdbcType="VARCHAR" property="jinxiang" />
+    <result column="xiaoxiang" jdbcType="VARCHAR" property="xiaoxiang" />
+    <result column="enable" jdbcType="VARCHAR" property="enable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_id, image, guige, bianhao, lingshou_price, lingshou_bili, pifa_price, 
+    pifa_bili, dakehu_price, dakehu_bili, caigou_price, jinxiang, xiaoxiang, `enable`
+  </sql>
+  <select id="selectByExample" parameterType="com.myboot.pojo.ProductItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myboot.pojo.ProductItemExample">
+    delete from product_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.ProductItem" useGeneratedKeys="true">
+    insert into product_item (product_id, image, guige, 
+      bianhao, lingshou_price, lingshou_bili, 
+      pifa_price, pifa_bili, dakehu_price, 
+      dakehu_bili, caigou_price, jinxiang, 
+      xiaoxiang, `enable`)
+    values (#{productId,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{guige,jdbcType=VARCHAR}, 
+      #{bianhao,jdbcType=VARCHAR}, #{lingshouPrice,jdbcType=VARCHAR}, #{lingshouBili,jdbcType=VARCHAR}, 
+      #{pifaPrice,jdbcType=VARCHAR}, #{pifaBili,jdbcType=VARCHAR}, #{dakehuPrice,jdbcType=VARCHAR}, 
+      #{dakehuBili,jdbcType=VARCHAR}, #{caigouPrice,jdbcType=VARCHAR}, #{jinxiang,jdbcType=VARCHAR}, 
+      #{xiaoxiang,jdbcType=VARCHAR}, #{enable,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.ProductItem" useGeneratedKeys="true">
+    insert into product_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="guige != null">
+        guige,
+      </if>
+      <if test="bianhao != null">
+        bianhao,
+      </if>
+      <if test="lingshouPrice != null">
+        lingshou_price,
+      </if>
+      <if test="lingshouBili != null">
+        lingshou_bili,
+      </if>
+      <if test="pifaPrice != null">
+        pifa_price,
+      </if>
+      <if test="pifaBili != null">
+        pifa_bili,
+      </if>
+      <if test="dakehuPrice != null">
+        dakehu_price,
+      </if>
+      <if test="dakehuBili != null">
+        dakehu_bili,
+      </if>
+      <if test="caigouPrice != null">
+        caigou_price,
+      </if>
+      <if test="jinxiang != null">
+        jinxiang,
+      </if>
+      <if test="xiaoxiang != null">
+        xiaoxiang,
+      </if>
+      <if test="enable != null">
+        `enable`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null">
+        #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="bianhao != null">
+        #{bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="lingshouPrice != null">
+        #{lingshouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lingshouBili != null">
+        #{lingshouBili,jdbcType=VARCHAR},
+      </if>
+      <if test="pifaPrice != null">
+        #{pifaPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="pifaBili != null">
+        #{pifaBili,jdbcType=VARCHAR},
+      </if>
+      <if test="dakehuPrice != null">
+        #{dakehuPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dakehuBili != null">
+        #{dakehuBili,jdbcType=VARCHAR},
+      </if>
+      <if test="caigouPrice != null">
+        #{caigouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="jinxiang != null">
+        #{jinxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="xiaoxiang != null">
+        #{xiaoxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myboot.pojo.ProductItemExample" resultType="java.lang.Long">
+    select count(*) from product_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update product_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guige != null">
+        guige = #{record.guige,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bianhao != null">
+        bianhao = #{record.bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lingshouPrice != null">
+        lingshou_price = #{record.lingshouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lingshouBili != null">
+        lingshou_bili = #{record.lingshouBili,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pifaPrice != null">
+        pifa_price = #{record.pifaPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pifaBili != null">
+        pifa_bili = #{record.pifaBili,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dakehuPrice != null">
+        dakehu_price = #{record.dakehuPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dakehuBili != null">
+        dakehu_bili = #{record.dakehuBili,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caigouPrice != null">
+        caigou_price = #{record.caigouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jinxiang != null">
+        jinxiang = #{record.jinxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xiaoxiang != null">
+        xiaoxiang = #{record.xiaoxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enable != null">
+        `enable` = #{record.enable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update product_item
+    set id = #{record.id,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      guige = #{record.guige,jdbcType=VARCHAR},
+      bianhao = #{record.bianhao,jdbcType=VARCHAR},
+      lingshou_price = #{record.lingshouPrice,jdbcType=VARCHAR},
+      lingshou_bili = #{record.lingshouBili,jdbcType=VARCHAR},
+      pifa_price = #{record.pifaPrice,jdbcType=VARCHAR},
+      pifa_bili = #{record.pifaBili,jdbcType=VARCHAR},
+      dakehu_price = #{record.dakehuPrice,jdbcType=VARCHAR},
+      dakehu_bili = #{record.dakehuBili,jdbcType=VARCHAR},
+      caigou_price = #{record.caigouPrice,jdbcType=VARCHAR},
+      jinxiang = #{record.jinxiang,jdbcType=VARCHAR},
+      xiaoxiang = #{record.xiaoxiang,jdbcType=VARCHAR},
+      `enable` = #{record.enable,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myboot.pojo.ProductItem">
+    update product_item
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null">
+        guige = #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="bianhao != null">
+        bianhao = #{bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="lingshouPrice != null">
+        lingshou_price = #{lingshouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lingshouBili != null">
+        lingshou_bili = #{lingshouBili,jdbcType=VARCHAR},
+      </if>
+      <if test="pifaPrice != null">
+        pifa_price = #{pifaPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="pifaBili != null">
+        pifa_bili = #{pifaBili,jdbcType=VARCHAR},
+      </if>
+      <if test="dakehuPrice != null">
+        dakehu_price = #{dakehuPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dakehuBili != null">
+        dakehu_bili = #{dakehuBili,jdbcType=VARCHAR},
+      </if>
+      <if test="caigouPrice != null">
+        caigou_price = #{caigouPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="jinxiang != null">
+        jinxiang = #{jinxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="xiaoxiang != null">
+        xiaoxiang = #{xiaoxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        `enable` = #{enable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myboot.pojo.ProductItem">
+    update product_item
+    set product_id = #{productId,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      guige = #{guige,jdbcType=VARCHAR},
+      bianhao = #{bianhao,jdbcType=VARCHAR},
+      lingshou_price = #{lingshouPrice,jdbcType=VARCHAR},
+      lingshou_bili = #{lingshouBili,jdbcType=VARCHAR},
+      pifa_price = #{pifaPrice,jdbcType=VARCHAR},
+      pifa_bili = #{pifaBili,jdbcType=VARCHAR},
+      dakehu_price = #{dakehuPrice,jdbcType=VARCHAR},
+      dakehu_bili = #{dakehuBili,jdbcType=VARCHAR},
+      caigou_price = #{caigouPrice,jdbcType=VARCHAR},
+      jinxiang = #{jinxiang,jdbcType=VARCHAR},
+      xiaoxiang = #{xiaoxiang,jdbcType=VARCHAR},
+      `enable` = #{enable,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

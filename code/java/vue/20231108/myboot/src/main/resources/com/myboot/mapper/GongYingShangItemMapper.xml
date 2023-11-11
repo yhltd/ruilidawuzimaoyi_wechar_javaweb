@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.GongYingShangItemMapper">
+
+    <insert id="itemAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO gongyingshang_item(name,department,zhiwu,phone,address,type,gongyingshang_id)
+        VALUES (#{name},#{department},#{zhiwu},#{phone},#{address},#{type},#{gongyingshangId})
+    </insert>
+
+    <update id="itemUpd">
+        UPDATE gongyingshang_item set name = #{name},department = #{department},zhiwu = #{zhiwu},phone = #{phone},
+        address = #{address}, type = #{type},gongyingshang_id = #{gongyingshangId}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE from gongyingshang_item
+        WHERE gongyingshang_id = #{id}
+    </delete>
+
+    <select id="selectByGongYingShangId" resultType="com.myboot.pojo.GongYingShangItem">
+        <![CDATA[
+            SELECT * from gongyingshang_item where gongyingshang_id = #{id}
+        ]]>
+    </select>
+</mapper>

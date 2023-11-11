@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ShouZhiTongJiMapper">
+
+    <select id="getShouRuByDay" resultType="com.myboot.pojo.ShouZhiTongJi">
+        <![CDATA[
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
+        ]]>
+    </select>
+
+    <select id="getShouRuByMonth" resultType="com.myboot.pojo.ShouZhiTongJi">
+        <![CDATA[
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
+        ]]>
+    </select>
+
+    <select id="getZhiChuByDay" resultType="com.myboot.pojo.ShouZhiTongJi">
+        <![CDATA[
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
+        ]]>
+    </select>
+
+    <select id="getZhiChuByMonth" resultType="com.myboot.pojo.ShouZhiTongJi">
+        <![CDATA[
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
+        ]]>
+    </select>
+
+    <select id="getShouZhiByMonth" resultType="com.myboot.pojo.ShouZhiTongJi">
+        <![CDATA[
+            select shouzhi_riqi,shouzhi_type as jizhang_type,isnull(sum(money),0) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,shouzhi_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi) as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,shouzhi_type
+        ]]>
+    </select>
+</mapper>

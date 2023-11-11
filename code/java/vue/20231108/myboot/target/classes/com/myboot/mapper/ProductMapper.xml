@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ProductMapper">
+
+    <insert id="productAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.Product" useGeneratedKeys="true" >
+        INSERT INTO Product(name,type,danwei,caizhi,jishu_biaozhun,zhibao_dengji,beizhu)
+        VALUES (#{name},#{type},#{danwei},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{beizhu})
+    </insert>
+
+    <update id="productUpd">
+        UPDATE Product set name=#{name},type=#{type},danwei=#{danwei},caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji#={zhibaoDengji},beizhu#={beizhu}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE from Product
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            select * from Product
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            select * from Product
+            where name like '%'+#{name}+'%' and type like '%'+#{type}+'%'
+        ]]>
+    </select>
+
+    <select id="selectById" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            select * from Product
+            where id = #{id}
+        ]]>
+    </select>
+
+    <select id="selectCaiGouProduct" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            select * from (select p.id,name,type,danwei,caizhi,jishu_biaozhun,zhibao_dengji,beizhu,item.id as item_id,product_id,guige,bianhao,lingshou_price,lingshou_bili,pifa_price,pifa_bili,dakehu_price,dakehu_bili,convert(float,caigou_price) as caigou_price,jinxiang,xiaoxiang,enable,1 as isselect from product as p left join product_item as item on p.id = item.product_id where enable = '是' ) as pro left join (select shangpin_bianma,min(convert(float,caigou_danjia)) as zuidijia from caigou_dingdan_item group by shangpin_bianma) as price on pro.bianhao = price.shangpin_bianma
+        ]]>
+    </select>
+</mapper>

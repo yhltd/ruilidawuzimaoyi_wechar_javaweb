@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.GongYingShangMapper">
+
+    <insert id="gongyingshangAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.GongYingShang" useGeneratedKeys="true" >
+        INSERT INTO gongyingshang(bianhao,name,gongyingshang_dengji,suozai_diqu,dizhi,beizhu,caigouyuan,jianzuo_kehu,zhuyao_yewu,shoujian_name,shoujian_phone,shoujian_dizhi,kaipiao_danwei,shibiehao,kaipiao_dizhi,kaipiao_dianhua,kaipiao_yinhang,kaipiao_zhanghao)
+        VALUES (#{bianhao},#{name},#{gongyingshangDengji},#{suozaiDiqu},#{dizhi},#{beizhu},#{caigouyuan},#{jianzuoKehu},#{zhuyaoYewu},#{shoujianName},#{shoujianPhone},#{shoujianDizhi},#{kaipiaoDanwei},#{shibiehao},#{kaipiaoDizhi},#{kaipiaoDianhua},#{kaipiaoYinhang},#{kaipiaoZhanghao})
+    </insert>
+
+    <update id="gongyingshangupd">
+        UPDATE gongyingshang set bianhao=#{bianhao},name=#{name},gongyingshang_dengji=#{gongyingshangDengji},suozai_diqu=#{suozaiDiqu},dizhi=#{dizhi},beizhu=#{beizhu},caigouyuan=#{caigouyuan},jianzuo_kehu=#{jianzuoKehu},zhuyao_yewu=#{zhuyaoYewu},shoujian_name=#{shoujianName},shoujian_phone=#{shoujianPhone},shoujian_dizhi=#{shoujianDizhi},kaipiao_danwei=#{kaipiaoDanwei},shibiehao=#{shibiehao},kaipiao_dizhi=#{kaipiaoDizhi},kaipiao_dianhua=#{kaipiaoDianhua},kaipiao_yinhang=#{kaipiaoYinhang},kaipiao_zhanghao=#{kaipiaoZhanghao}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE from gongyingshang
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.GongYingShang">
+        <![CDATA[
+            select * from gongyingshang
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.GongYingShang">
+        <![CDATA[
+            select * from gongyingshang
+            where bianhao like '%'+#{bianhao}+'%' and name like '%'+#{name}+'%'
+        ]]>
+    </select>
+
+    <select id="selectById" resultType="com.myboot.pojo.GongYingShang">
+        <![CDATA[
+            select * from gongyingshang
+            where id = #{id}
+        ]]>
+    </select>
+</mapper>

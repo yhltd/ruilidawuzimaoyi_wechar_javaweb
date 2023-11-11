@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CustomerMapper">
+
+    <insert id="customerAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.Customer" useGeneratedKeys="true" >
+        INSERT INTO customer(bianhao,name,type,shangji_danwei,kehu_dengji,jiage_dengji,suozai_diqu,dizhi,beizhu,yewuyuan,shoujian_name,shoujian_phone,shoujian_dizhi,kaipiao_danwei,shibiehao,kaipiao_dizhi,kaipiao_dianhua,kaipiao_yinhang,kaipiao_zhanghao)
+        VALUES (#{bianhao},#{name},#{type},#{shangjiDanwei},#{kehuDengji},#{jiageDengji},#{suozaiDiqu},#{dizhi},#{beizhu},#{yewuyuan},#{shoujianName},#{shoujianPhone},#{shoujianDizhi},#{kaipiaoDanwei},#{shibiehao},#{kaipiaoDizhi},#{kaipiaoDianhua},#{kaipiaoYinhang},#{kaipiaoZhanghao})
+    </insert>
+
+    <update id="customerUpd">
+        UPDATE customer set bianhao=#{bianhao},name=#{name},type=#{type},shangji_danwei=#{shangjiDanwei},kehu_dengji=#{kehuDengji},jiage_dengji=#{jiageDengji},suozai_diqu=#{suozaiDiqu},dizhi=#{dizhi},beizhu=#{beizhu},yewuyuan=#{yewuyuan},shoujian_name=#{shoujianName},shoujian_phone=#{shoujianPhone},shoujian_dizhi=#{shoujianDizhi},kaipiao_danwei=#{kaipiaoDanwei},shibiehao=#{shibiehao},kaipiao_dizhi=#{kaipiaoDizhi},kaipiao_dianhua=#{kaipiaoDianhua},kaipiao_yinhang=#{kaipiaoYinhang},kaipiao_zhanghao=#{kaipiaoZhanghao}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE from customer
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Customer">
+        <![CDATA[
+            select * from customer
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.Customer">
+        <![CDATA[
+            select * from customer
+            where bianhao like '%'+#{bianhao}+'%' and name like '%'+#{name}+'%'
+        ]]>
+    </select>
+
+    <select id="selectById" resultType="com.myboot.pojo.Customer">
+        <![CDATA[
+            select * from customer
+            where id = #{id}
+        ]]>
+    </select>
+</mapper>

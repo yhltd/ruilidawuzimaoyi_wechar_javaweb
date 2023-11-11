@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ContactPersonMapper">
+    <insert id="contactAdd">
+        INSERT INTO contact_person(`cpName`,`cpDepartment`,`cpDuties`,`cpPhone`,`cpAddress`,`cpType`)
+        VALUES(#{cpName},#{cpDepartment},#{cpDuties},#{cpPhone},#{cpAddress},#{cpType})
+    </insert>
+    <update id="contactUpdate">
+        UPDATE contact_person
+        <set>
+            <if test="cpName != null and cpName != ''">
+                `cpName` = #{cpName},
+            </if>
+            <if test="cpDepartment != null and cpDepartment != ''">
+                `cpDepartment` = #{cpDepartment},
+            </if>
+            <if test="cpDuties != null and cpDuties != ''">
+                `cpDuties` = #{cpDuties},
+            </if>
+            <if test="cpPhone != null and cpPhone != ''">
+                `cpPhone` = #{cpPhone},
+            </if>
+            <if test="cpAddress != null and cpAddress != ''">
+                `cpAddress` = #{cpAddress},
+            </if>
+            <if test="cpType != null and cpType != ''">
+                `cpType` = #{cpType},
+            </if>
+        </set>
+        WHERE `cpId` = #{cpId}
+    </update>
+    <delete id="contactDel">
+        DELETE FROM contact_person
+        WHERE cpId = #{cpId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.ContactPerson">
+        SELECT `cpId`,`cpName`,`cpDepartment`,`cpDuties`,`cpPhone`,`cpAddress`,`cpType`
+        FROM contact_person
+    </select>
+</mapper>

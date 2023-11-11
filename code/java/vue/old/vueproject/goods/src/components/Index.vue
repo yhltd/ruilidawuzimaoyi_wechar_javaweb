@@ -1,0 +1,58 @@
+<template>
+  <div>
+    
+    <el-menu
+      
+      class="el-menu-demo"
+      mode="horizontal"
+
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      router
+    >
+    <el-submenu index="1" >
+        <template slot="title">销售</template>
+        <el-menu-item index="1-1">选项1</el-menu-item>
+        <el-menu-item index="1-2">选项2</el-menu-item>
+        <el-menu-item index="1-3">选项3</el-menu-item>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">采购</template>
+        <el-menu-item index="/dingdan">采购订单</el-menu-item>
+        <el-menu-item index="2-2">采购入库</el-menu-item>
+        <el-menu-item index="2-3">采购出库</el-menu-item>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">库存</template>
+        <el-menu-item index="3-1">选项1</el-menu-item>
+        <el-menu-item index="3-2">选项2</el-menu-item>
+        <el-menu-item index="3-3">选项3</el-menu-item>
+      </el-submenu>
+      <el-submenu index="4">
+        <template slot="title">基础资料</template>
+        <el-menu-item index="4-1">账号管理</el-menu-item>
+        <el-menu-item index="/user">客户</el-menu-item>
+        <el-menu-item index="/goods">商品</el-menu-item>
+        <el-menu-item index="4-4">供应商</el-menu-item>
+        <el-menu-item index="4-5">仓库</el-menu-item>
+        <el-menu-item index="4-6">店铺</el-menu-item>
+        <el-menu-item index="/collAccount">收款帐户</el-menu-item>
+        <el-menu-item index="/accountingunit">核算单位</el-menu-item>
+      </el-submenu>
+    </el-menu>
+    
+    <el-container>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style></style>

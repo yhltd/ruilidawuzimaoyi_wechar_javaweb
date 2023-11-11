@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.PeizhiMapper">
+    <sql id="baseSql">
+        id, name, type
+    </sql>
+    <select id="queryAllByType">
+        select <include refid="baseSql"/>
+        from peizhi where type=#{type}
+    </select>
+
+    <insert id="peiZhiAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.Peizhi" useGeneratedKeys="true" >
+        INSERT INTO peizhi(name,type)
+        VALUES (#{name},#{type})
+    </insert>
+
+    <update id="peiZhiUpd">
+        UPDATE peizhi set name = #{name},type = #{type}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByPeiZhiId">
+        DELETE from peizhi
+        WHERE id = #{id}
+    </delete>
+
+    <select id="selectByPeiZhiId" resultType="com.myboot.pojo.Peizhi">
+        <![CDATA[
+            select * from peizhi
+            where id = #{id}
+        ]]>
+    </select>
+</mapper>
+

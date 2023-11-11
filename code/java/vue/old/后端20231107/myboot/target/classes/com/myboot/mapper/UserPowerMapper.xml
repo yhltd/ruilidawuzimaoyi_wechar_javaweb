@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.UserPowerMapper">
+    <sql id="baseSql">
+        id,name,zhanghaoguanli_add,zhanghaoguanli_del,zhanghaoguanli_upd,zhanghaoguanli_sel,quanxian_add,quanxian_del,quanxian_upd,quanxian_sel,kehu_add,kehu_del,kehu_upd,
+        kehu_sel,gongyingshang_add,gongyingshang_del,gongyingshang_upd,gongyingshang_sel,shangpin_add,shangpin_del,shangpin_upd,shangpin_sel,fujiashui_upd,peizhi_add,peizhi_del,
+        peizhi_upd,peizhi_sel,xiaoshou_baojia_add,xiaoshou_baojia_del,xiaoshou_baojia_upd,xiaoshou_baojia_sel,xiaoshou_dingdan_add,xiaoshou_dingdan_del,xiaoshou_dingdan_upd,
+        xiaoshou_dingdan_sel,xiaoshou_chuku_add,xiaoshou_chuku_del,xiaoshou_chuku_upd,xiaoshou_chuku_sel,xiaoshou_kaipiao_add,xiaoshou_kaipiao_del,xiaoshou_kaipiao_upd,xiaoshou_kaipiao_sel,
+        shouru_add,shouru_del,shouru_upd,shouru_sel,caigou_dingdan_add,caigou_dingdan_del,caigou_dingdan_upd,caigou_dingdan_sel,caigou_ruku_add,caigou_ruku_del,caigou_ruku_upd,
+        caigou_ruku_sel,caigou_shoupiao_add,caigou_shoupiao_del,caigou_shoupiao_upd,caigou_shoupiao_sel,zhichu_add,zhichu_del,zhichu_upd,zhichu_sel,zhuanzhang_add,zhuanzhang_del,
+        zhuanzhang_upd,zhuanzhang_sel,kucun_sel,zhanghu_yue_sel,shouru_tongji_sel,zhichu_tongji_sel,yuedu_tongji_sel,fujiashui_sel
+    </sql>
+    <select id="getUserPowerByName" resultType="com.myboot.pojo.UserPower">
+        select
+            <include refid="baseSql"/>
+        from userPower
+        where
+            name = #{name}
+    </select>
+
+    <select id="getUserPowerIdAndName" resultType="com.myboot.pojo.UserPower">
+        select id, name
+        from userPower
+    </select>
+</mapper>

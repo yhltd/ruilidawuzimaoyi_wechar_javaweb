@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.KuCunMapper">
+
+    <select id="getKuCun" resultType="com.myboot.pojo.KuCun">
+        select shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,sum(shuliang) as
+        shuliang from (select shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,
+        sum(convert(float,isnull(shuliang,0))) as shuliang from caigou_ruku_item group by shangpin_bianma,
+        name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei union select shangpin_bianma,name,guige,caizhi,
+        jishu_biaozhun,zhibao_dengji,danwei,sum(convert(float,isnull(shuliang,0))) * -1 as shuliang from
+        xiaoshou_chuku_item group by shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei)
+        as kucun group by shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei
+    </select>
+
+    <select id="getKuCunByCangKu" resultType="com.myboot.pojo.KuCun">
+        select cangku,shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,sum(shuliang)
+        as shuliang from (select cangku,shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei
+        ,sum(convert(float,isnull(shuliang,0))) as shuliang from caigou_ruku_item as item left join caigou_ruku
+        as caigou on item.ruku_id = caigou.id group by cangku,shangpin_bianma,name,guige,caizhi,jishu_biaozhun,
+        zhibao_dengji,danwei union select cangku,shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,
+        danwei,sum(convert(float,isnull(shuliang,0))) * -1 as shuliang from xiaoshou_chuku_item as item left join
+        xiaoshou_chuku xiaoshou on item.chuku_id = xiaoshou.id group by cangku,shangpin_bianma,name,guige,caizhi,
+        jishu_biaozhun,zhibao_dengji,danwei) as kucun  where cangku = #{cangku} group by cangku,shangpin_bianma,
+        name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei
+    </select>
+</mapper>

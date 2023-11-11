@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ProductItemMapper">
+
+    <insert id="itemAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_item(product_id,image,guige,bianhao,lingshou_price,lingshou_bili,pifa_price,pifa_bili,dakehu_price,dakehu_bili,caigou_price,jinxiang,xiaoxiang,enable)
+        VALUES (#{productId},#{image},#{guige},#{bianhao},#{lingshouPrice},#{lingshouBili},#{pifaPrice},#{pifaBili},#{dakehuPrice},#{dakehuBili},#{caigouPrice},#{jinxiang},#{xiaoxiang},#{enable})
+    </insert>
+
+    <update id="itemUpd">
+        UPDATE product_item set product_id=#{productId},image=#{image},guige=#{guige},bianhao=#{bianhao},lingshou_price=#{lingshouPrice},lingshou_bili=#{lingshouBili},pifa_price=#{pifaPrice},pifa_bili=#{pifaBili},dakehu_price=#{dakehuPrice},dakehu_bili=#{dakehuBili},caigou_price=#{caigouPrice},jinxiang=#{jinxiang},xiaoxiang=#{xiaoxiang},enable=#{enable}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE from product_item
+        WHERE product_id = #{id}
+    </delete>
+
+    <select id="selectByProductId" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            SELECT * from product_item where product_id = #{id}
+        ]]>
+    </select>
+</mapper>

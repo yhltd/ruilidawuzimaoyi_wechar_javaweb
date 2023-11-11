@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CaiGouShouPiaoMapper">
+
+    <insert id="caiGouShouPiaoAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO caigou_shoupiao(caigou_bianhao,shoupiao_danwei,kaipiao_danwei,kaipiao_riqi,kaipiao_jine,kaipiao_shuie,
+        jiashui_heji,beizhu,xinxi_tuisong,shoupiao_zhuangtai)
+        VALUES (#{caigouBianhao},#{shoupiaoDanwei},#{kaipiaoDanwei},#{kaipiaoRiqi},#{kaipiaoJine},#{kaipiaoShuie},
+        #{jiashuiHeji},#{beizhu},#{xinxiTuisong},#{shoupiaoZhuangtai})
+    </insert>
+
+    <update id="caiGouShouPiaoUpd">
+        UPDATE caigou_shoupiao set caigou_bianhao = #{caigouBianhao},shoupiao_danwei = #{shoupiaoDanwei},kaipiao_danwei = #{kaipiaoDanwei},kaipiao_riqi = #{kaipiaoRiqi},kaipiao_jine = #{kaipiaoJine},kaipiao_shuie = #{kaipiaoShuie},jiashui_heji = #{jiashuiHeji},beizhu = #{beizhu},xinxi_tuisong = #{xinxiTuisong},shoupiao_zhuangtai = #{shoupiaoZhuangtai}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByShouPiaoId">
+        DELETE from caigou_shoupiao
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.CaiGouShouPiao">
+        SELECT *
+        FROM caigou_shoupiao
+    </select>
+
+    <select id="getAllByShenHe" resultType="com.myboot.pojo.CaiGouShouPiao">
+        SELECT * from caigou_shoupiao where xinxi_tuisong = #{xinxi_tuisong} and shoupiao_zhuangtai = '待收票'
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.CaiGouShouPiao">
+        <![CDATA[
+            SELECT * from caigou_shoupiao where kaipiao_riqi >= #{start_date} and kaipiao_riqi <= #{stop_date} and shoupiao_danwei like '%' + #{shoupiao_danwei} + '%' and kaipiao_danwei like '%' + #{kaipiao_danwei} + '%' and shoupiao_zhuangtai like '%' + #{shoupiao_zhuangtai} + '%'
+        ]]>
+    </select>
+
+    <select id="selectByShouPiaoId" resultType="com.myboot.pojo.CaiGouShouPiao">
+        <![CDATA[
+            SELECT * from caigou_shoupiao where id = #{id}
+        ]]>
+    </select>
+
+    <delete id="deleteUsrById">
+        delete from caigou_shoupiao where id=#{id}
+    </delete>
+</mapper>

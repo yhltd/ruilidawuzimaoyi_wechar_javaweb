@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myboot.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.myboot.pojo.Customer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bianhao" jdbcType="VARCHAR" property="bianhao" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="shangji_danwei" jdbcType="VARCHAR" property="shangjiDanwei" />
+    <result column="kehu_dengji" jdbcType="VARCHAR" property="kehuDengji" />
+    <result column="jiage_dengji" jdbcType="VARCHAR" property="jiageDengji" />
+    <result column="suozai_diqu" jdbcType="VARCHAR" property="suozaiDiqu" />
+    <result column="dizhi" jdbcType="VARCHAR" property="dizhi" />
+    <result column="beizhu" jdbcType="VARCHAR" property="beizhu" />
+    <result column="yewuyuan" jdbcType="VARCHAR" property="yewuyuan" />
+    <result column="shoujian_name" jdbcType="VARCHAR" property="shoujianName" />
+    <result column="shoujian_phone" jdbcType="VARCHAR" property="shoujianPhone" />
+    <result column="shoujian_dizhi" jdbcType="VARCHAR" property="shoujianDizhi" />
+    <result column="kaipiao_danwei" jdbcType="VARCHAR" property="kaipiaoDanwei" />
+    <result column="shibiehao" jdbcType="VARCHAR" property="shibiehao" />
+    <result column="kaipiao_dizhi" jdbcType="VARCHAR" property="kaipiaoDizhi" />
+    <result column="kaipiao_dianhua" jdbcType="VARCHAR" property="kaipiaoDianhua" />
+    <result column="kaipiao_yinhang" jdbcType="VARCHAR" property="kaipiaoYinhang" />
+    <result column="kaipiao_zhanghao" jdbcType="VARCHAR" property="kaipiaoZhanghao" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, bianhao, `name`, `type`, shangji_danwei, kehu_dengji, jiage_dengji, suozai_diqu, 
+    dizhi, beizhu, yewuyuan, shoujian_name, shoujian_phone, shoujian_dizhi, kaipiao_danwei, 
+    shibiehao, kaipiao_dizhi, kaipiao_dianhua, kaipiao_yinhang, kaipiao_zhanghao
+  </sql>
+  <select id="selectByExample" parameterType="com.myboot.pojo.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myboot.pojo.CustomerExample">
+    delete from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.Customer" useGeneratedKeys="true">
+    insert into customer (bianhao, `name`, `type`, 
+      shangji_danwei, kehu_dengji, jiage_dengji, 
+      suozai_diqu, dizhi, beizhu, 
+      yewuyuan, shoujian_name, shoujian_phone, 
+      shoujian_dizhi, kaipiao_danwei, shibiehao, 
+      kaipiao_dizhi, kaipiao_dianhua, kaipiao_yinhang, 
+      kaipiao_zhanghao)
+    values (#{bianhao,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{shangjiDanwei,jdbcType=VARCHAR}, #{kehuDengji,jdbcType=VARCHAR}, #{jiageDengji,jdbcType=VARCHAR}, 
+      #{suozaiDiqu,jdbcType=VARCHAR}, #{dizhi,jdbcType=VARCHAR}, #{beizhu,jdbcType=VARCHAR}, 
+      #{yewuyuan,jdbcType=VARCHAR}, #{shoujianName,jdbcType=VARCHAR}, #{shoujianPhone,jdbcType=VARCHAR}, 
+      #{shoujianDizhi,jdbcType=VARCHAR}, #{kaipiaoDanwei,jdbcType=VARCHAR}, #{shibiehao,jdbcType=VARCHAR}, 
+      #{kaipiaoDizhi,jdbcType=VARCHAR}, #{kaipiaoDianhua,jdbcType=VARCHAR}, #{kaipiaoYinhang,jdbcType=VARCHAR}, 
+      #{kaipiaoZhanghao,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.Customer" useGeneratedKeys="true">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bianhao != null">
+        bianhao,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="shangjiDanwei != null">
+        shangji_danwei,
+      </if>
+      <if test="kehuDengji != null">
+        kehu_dengji,
+      </if>
+      <if test="jiageDengji != null">
+        jiage_dengji,
+      </if>
+      <if test="suozaiDiqu != null">
+        suozai_diqu,
+      </if>
+      <if test="dizhi != null">
+        dizhi,
+      </if>
+      <if test="beizhu != null">
+        beizhu,
+      </if>
+      <if test="yewuyuan != null">
+        yewuyuan,
+      </if>
+      <if test="shoujianName != null">
+        shoujian_name,
+      </if>
+      <if test="shoujianPhone != null">
+        shoujian_phone,
+      </if>
+      <if test="shoujianDizhi != null">
+        shoujian_dizhi,
+      </if>
+      <if test="kaipiaoDanwei != null">
+        kaipiao_danwei,
+      </if>
+      <if test="shibiehao != null">
+        shibiehao,
+      </if>
+      <if test="kaipiaoDizhi != null">
+        kaipiao_dizhi,
+      </if>
+      <if test="kaipiaoDianhua != null">
+        kaipiao_dianhua,
+      </if>
+      <if test="kaipiaoYinhang != null">
+        kaipiao_yinhang,
+      </if>
+      <if test="kaipiaoZhanghao != null">
+        kaipiao_zhanghao,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bianhao != null">
+        #{bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="shangjiDanwei != null">
+        #{shangjiDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="kehuDengji != null">
+        #{kehuDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="jiageDengji != null">
+        #{jiageDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="suozaiDiqu != null">
+        #{suozaiDiqu,jdbcType=VARCHAR},
+      </if>
+      <if test="dizhi != null">
+        #{dizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null">
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="yewuyuan != null">
+        #{yewuyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianName != null">
+        #{shoujianName,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianPhone != null">
+        #{shoujianPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianDizhi != null">
+        #{shoujianDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDanwei != null">
+        #{kaipiaoDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="shibiehao != null">
+        #{shibiehao,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDizhi != null">
+        #{kaipiaoDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDianhua != null">
+        #{kaipiaoDianhua,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoYinhang != null">
+        #{kaipiaoYinhang,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoZhanghao != null">
+        #{kaipiaoZhanghao,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myboot.pojo.CustomerExample" resultType="java.lang.Long">
+    select count(*) from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update customer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.bianhao != null">
+        bianhao = #{record.bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        `type` = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shangjiDanwei != null">
+        shangji_danwei = #{record.shangjiDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kehuDengji != null">
+        kehu_dengji = #{record.kehuDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jiageDengji != null">
+        jiage_dengji = #{record.jiageDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suozaiDiqu != null">
+        suozai_diqu = #{record.suozaiDiqu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dizhi != null">
+        dizhi = #{record.dizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beizhu != null">
+        beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yewuyuan != null">
+        yewuyuan = #{record.yewuyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shoujianName != null">
+        shoujian_name = #{record.shoujianName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shoujianPhone != null">
+        shoujian_phone = #{record.shoujianPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shoujianDizhi != null">
+        shoujian_dizhi = #{record.shoujianDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kaipiaoDanwei != null">
+        kaipiao_danwei = #{record.kaipiaoDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shibiehao != null">
+        shibiehao = #{record.shibiehao,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kaipiaoDizhi != null">
+        kaipiao_dizhi = #{record.kaipiaoDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kaipiaoDianhua != null">
+        kaipiao_dianhua = #{record.kaipiaoDianhua,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kaipiaoYinhang != null">
+        kaipiao_yinhang = #{record.kaipiaoYinhang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kaipiaoZhanghao != null">
+        kaipiao_zhanghao = #{record.kaipiaoZhanghao,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update customer
+    set id = #{record.id,jdbcType=INTEGER},
+      bianhao = #{record.bianhao,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=VARCHAR},
+      shangji_danwei = #{record.shangjiDanwei,jdbcType=VARCHAR},
+      kehu_dengji = #{record.kehuDengji,jdbcType=VARCHAR},
+      jiage_dengji = #{record.jiageDengji,jdbcType=VARCHAR},
+      suozai_diqu = #{record.suozaiDiqu,jdbcType=VARCHAR},
+      dizhi = #{record.dizhi,jdbcType=VARCHAR},
+      beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      yewuyuan = #{record.yewuyuan,jdbcType=VARCHAR},
+      shoujian_name = #{record.shoujianName,jdbcType=VARCHAR},
+      shoujian_phone = #{record.shoujianPhone,jdbcType=VARCHAR},
+      shoujian_dizhi = #{record.shoujianDizhi,jdbcType=VARCHAR},
+      kaipiao_danwei = #{record.kaipiaoDanwei,jdbcType=VARCHAR},
+      shibiehao = #{record.shibiehao,jdbcType=VARCHAR},
+      kaipiao_dizhi = #{record.kaipiaoDizhi,jdbcType=VARCHAR},
+      kaipiao_dianhua = #{record.kaipiaoDianhua,jdbcType=VARCHAR},
+      kaipiao_yinhang = #{record.kaipiaoYinhang,jdbcType=VARCHAR},
+      kaipiao_zhanghao = #{record.kaipiaoZhanghao,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myboot.pojo.Customer">
+    update customer
+    <set>
+      <if test="bianhao != null">
+        bianhao = #{bianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="shangjiDanwei != null">
+        shangji_danwei = #{shangjiDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="kehuDengji != null">
+        kehu_dengji = #{kehuDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="jiageDengji != null">
+        jiage_dengji = #{jiageDengji,jdbcType=VARCHAR},
+      </if>
+      <if test="suozaiDiqu != null">
+        suozai_diqu = #{suozaiDiqu,jdbcType=VARCHAR},
+      </if>
+      <if test="dizhi != null">
+        dizhi = #{dizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null">
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="yewuyuan != null">
+        yewuyuan = #{yewuyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianName != null">
+        shoujian_name = #{shoujianName,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianPhone != null">
+        shoujian_phone = #{shoujianPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shoujianDizhi != null">
+        shoujian_dizhi = #{shoujianDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDanwei != null">
+        kaipiao_danwei = #{kaipiaoDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="shibiehao != null">
+        shibiehao = #{shibiehao,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDizhi != null">
+        kaipiao_dizhi = #{kaipiaoDizhi,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoDianhua != null">
+        kaipiao_dianhua = #{kaipiaoDianhua,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoYinhang != null">
+        kaipiao_yinhang = #{kaipiaoYinhang,jdbcType=VARCHAR},
+      </if>
+      <if test="kaipiaoZhanghao != null">
+        kaipiao_zhanghao = #{kaipiaoZhanghao,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myboot.pojo.Customer">
+    update customer
+    set bianhao = #{bianhao,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      shangji_danwei = #{shangjiDanwei,jdbcType=VARCHAR},
+      kehu_dengji = #{kehuDengji,jdbcType=VARCHAR},
+      jiage_dengji = #{jiageDengji,jdbcType=VARCHAR},
+      suozai_diqu = #{suozaiDiqu,jdbcType=VARCHAR},
+      dizhi = #{dizhi,jdbcType=VARCHAR},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      yewuyuan = #{yewuyuan,jdbcType=VARCHAR},
+      shoujian_name = #{shoujianName,jdbcType=VARCHAR},
+      shoujian_phone = #{shoujianPhone,jdbcType=VARCHAR},
+      shoujian_dizhi = #{shoujianDizhi,jdbcType=VARCHAR},
+      kaipiao_danwei = #{kaipiaoDanwei,jdbcType=VARCHAR},
+      shibiehao = #{shibiehao,jdbcType=VARCHAR},
+      kaipiao_dizhi = #{kaipiaoDizhi,jdbcType=VARCHAR},
+      kaipiao_dianhua = #{kaipiaoDianhua,jdbcType=VARCHAR},
+      kaipiao_yinhang = #{kaipiaoYinhang,jdbcType=VARCHAR},
+      kaipiao_zhanghao = #{kaipiaoZhanghao,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

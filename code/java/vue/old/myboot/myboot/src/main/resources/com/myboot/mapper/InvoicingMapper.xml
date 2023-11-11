@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.InvoicingMapper">
+    <insert id="invoicingAdd">
+        INSERT INTO invoicing(`iName`,`iNumber`,`iAddress`,`iPhone`,`iBank`,`iBankNumber`)
+        VALUES(#{iName},#{iNumber},#{iAddress},#{iPhone},#{iBank},#{iBankNumber})
+    </insert>
+    <update id="invoicingUpd">
+        UPDATE invoicing
+        <set>
+            <if test="iName != null and iName != ''">
+                iName = #{iName},
+            </if>
+            <if test="iNumber != null and iNumber != ''">
+                iNumber = #{iNumber},
+            </if>
+            <if test="iAddress != null and iAddress != ''">
+                iAddress = #{iAddress},
+            </if>
+            <if test="iPhone != null and iPhone != ''">
+                iPhone = #{iPhone},
+            </if>
+            <if test="iBank != null and iBank != ''">
+                iBank = #{iBank},
+            </if>
+            <if test="iBankNumber != null and iBankNumber != ''">
+                iBankNumber = #{iBankNumber}
+            </if>
+        </set>
+        WHERE iId = #{iId}
+    </update>
+    <delete id="invoicingDel">
+        DELETE FROM invoicing
+        WHERE iId = #{iId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Invoicing">
+        SELECT `iId`,`iName`,`iNumber`,`iAddress`,`iPhone`,`iBank`,`iBankNumber`
+        FROM invoicing
+    </select>
+</mapper>

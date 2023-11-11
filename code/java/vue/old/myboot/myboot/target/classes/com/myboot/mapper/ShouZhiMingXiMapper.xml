@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ShouZhiMingXiMapper">
+
+    <select id="getShouRu" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '收入'
+        ]]>
+    </select>
+
+    <select id="getZhiChu" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '支出'
+        ]]>
+    </select>
+
+    <select id="getShouRuByName" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '收入' and jizhangren = #{yuangong_name}
+        ]]>
+    </select>
+
+    <select id="getZhiChuByName" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '支出' and jizhangren = #{yuangong_name}
+        ]]>
+    </select>
+
+    <select id="queryShouRuList" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '收入'
+            and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%" and dianpu like "%" #{dianpu} "%" and jizhangren like "%" #{jizhangren} "%" and jizhang_zhanghu like "%" #{jizhang_zhanghu} "%"
+        ]]>
+    </select>
+
+    <select id="queryZhiChuList" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '支出'
+            and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%" and dianpu like "%" #{dianpu} "%" and jizhangren like "%" #{jizhangren} "%" and jizhang_zhanghu like "%" #{jizhang_zhanghu} "%"
+        ]]>
+    </select>
+
+    <select id="queryShouRuListByName" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '收入' and jizhangren = #{yuangong_name}
+            and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%" and dianpu like "%" #{dianpu} "%" and jizhangren like "%" #{jizhangren} "%" and jizhang_zhanghu like "%" #{jizhang_zhanghu} "%"
+        ]]>
+    </select>
+
+    <select id="queryZhiChuListByName" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi where shouzhi_type = '支出' and jizhangren = #{yuangong_name}
+            and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and gongyingshang like "%" #{gongyingshang} "%" and dianpu like "%" #{dianpu} "%" and jizhangren like "%" #{jizhangren} "%" and jizhang_zhanghu like "%" #{jizhang_zhanghu} "%"
+        ]]>
+    </select>
+
+    <delete id="deleteById">
+        DELETE from shouzhi_mingxi
+        WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select * from shouzhi_mingxi
+            where id = #{id}
+        ]]>
+    </select>
+
+    <insert id="shouzhiAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO shouzhi_mingxi(dianpu,danju_leixing,danju_bianhao,shouzhi_bianhao,shouzhi_riqi,jizhangren,jizhang_type,
+        jizhang_zhanghu,jizhang_jine,kedi_shuie,zhaiyao,shouzhi_type)
+        VALUES (#{dianpu},#{danju_leixing},#{danju_bianhao},#{shouzhi_bianhao},#{shouzhi_riqi},#{jizhangren},#{jizhang_type},
+        #{jizhang_zhanghu},#{jizhang_jine},#{kedi_shuie},#{zhaiyao},#{shouzhi_type})
+    </insert>
+
+    <update id="shouzhiUpd">
+        UPDATE shouzhi_mingxi set dianpu=#{dianpu},danju_leixing=#{danju_leixing},danju_bianhao=#{danju_bianhao},shouzhi_bianhao=#{shouzhi_bianhao},
+        shouzhi_riqi=#{shouzhi_riqi},jizhangren=#{jizhangren},jizhang_type=#{jizhang_type},jizhang_zhanghu=#{jizhang_zhanghu},
+        jizhang_jine=#{jizhang_jine},kedi_shuie=#{kedi_shuie},zhaiyao=#{zhaiyao},shouzhi_type = #{shouzhi_type}
+        WHERE id = #{id}
+    </update>
+</mapper>

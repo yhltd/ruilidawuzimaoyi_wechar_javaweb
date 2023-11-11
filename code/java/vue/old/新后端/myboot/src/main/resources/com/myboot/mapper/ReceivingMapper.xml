@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.ReceivingMapper">
+    <insert id="receAdd">
+        INSERT INTO receiving(`rName`,`rPhone`,`rAddress`)
+        VALUES(#{rName},#{rPhone},#{rAddress})
+    </insert>
+    <update id="receUpdate">
+        UPDATE receiving
+        <set>
+            <if test="rName != null and rName != ''">
+                rName = #{rName},
+            </if>
+            <if test="rPhone != null and rPhone != ''">
+                rPhone = #{rPhone},
+            </if>
+            <if test="rAddress != null and rAddress != ''">
+                rAddress = #{rAddress}
+            </if>
+        </set>
+        WHERE rId =#{rId}
+    </update>
+    <delete id="receDel">
+        DELETE FROM receiving
+        WHERE rId = #{rId}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.Receiving">
+        SELECT `rId`,`rName`,`rPhone`,`rAddress`
+        FROM receiving
+    </select>
+</mapper>

@@ -1,0 +1,28 @@
+server:
+  port: 8081
+spring:
+  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://user-20200618gm/accounting
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://user-20200618gm;databaseName=ruilida_20231024;Encrypt=false;
+#    username: root
+    username: sa
+    password: Yhltdtest
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+mybatis:
+  configuration:
+    # 驼峰映射
+    mapUnderscoreToCamelCase: true
+  mapper-locations: classpath:mapper/*.xml  #对应mapper映射xml文件所在路径
+  type-aliases-package: com.myboot.pojo  #对应实体类entity层路径
+logging.level.com.myboot.mapper: debug #mybatis配置日志文件，选择自己的mapper层路径
+
+
+
+

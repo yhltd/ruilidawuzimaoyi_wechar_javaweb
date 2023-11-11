@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.CaiGouDingDanItemMapper">
+
+    <insert id="caiGouDingDanAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO caigou_dingdan_item(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,
+        lishi_zuidi,caigou_danjia,jiashui_xiaoji,jiaohuo_riqi,beizhu,caigou_id)
+        VALUES (#{shangpinBianma},#{name},#{guige},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{danwei},#{shuliang},
+        #{lishiZuidi},#{caigouDanjia},#{jiashuiXiaoji},#{jiaohuoRiqi},#{beizhu},#{caigouId})
+    </insert>
+
+    <update id="caiGouDingDanUpd">
+        UPDATE caigou_dingdan_item set shangpin_bianma = #{shangpinBianma},name = #{name},guige = #{guige},caizhi = #{caizhi},
+        jishu_biaozhun = #{jishuBiaozhun}, zhibao_dengji = #{zhibaoDengji},danwei = #{danwei},shuliang = #{shuliang},
+        lishi_zuidi = #{lishiZuidi},caigou_danjia = #{caigouDanjia},jiashui_xiaoji = #{jiashuiXiaoji}, jiaohuo_riqi =
+        #{jiaohuoRiqi},beizhu = #{beizhu},caigou_id = #{caigouId}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByCaiGouId">
+        DELETE from caigou_dingdan_item
+        WHERE caigou_id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.CaiGouDingDanItem">
+        <![CDATA[
+            SELECT * from caigou_dingdan_item where caigou_id = #{id}
+        ]]>
+    </select>
+
+    <select id="selectByCaiGouId" resultType="com.myboot.pojo.CaiGouDingDanItem">
+        <![CDATA[
+            SELECT * from caigou_dingdan_item where caigou_id = #{id}
+        ]]>
+    </select>
+</mapper>

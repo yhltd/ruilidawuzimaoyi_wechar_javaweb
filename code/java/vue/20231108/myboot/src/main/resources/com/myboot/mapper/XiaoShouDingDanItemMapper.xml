@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.XiaoShouDingDanItemMapper">
+
+    <insert id="xiaoShouItemAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO xiaoshou_dingdan_item(shangpin_bianhao,shangpin_mingcheng,guige,caizhi,jishu_biaozhun,zhibao_dengji,
+        danwei,shuliang,baojia_danjia,jiashui_xiaoji,jianyi_baojia,xuyong_riqi,baojia_fudong,beizhu,xiaoshou_id)
+        VALUES (#{shangpinBianhao},#{shangpinMingcheng},#{guige},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{danwei},
+        #{shuliang},#{baojiaDanjia},#{jiashuiXiaoji},#{jianyiBaojia},#{xuyongRiqi},#{baojiaFudong},#{beizhu},#{xiaoshouId})
+    </insert>
+
+    <update id="xiaoShouItemUpd">
+        UPDATE xiaoshou_dingdan_item shangpin_bianhao=#{shangpinBianhao},shangpin_mingcheng=#{shangpinMingcheng},guige=#{guige},
+        caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji=#{zhibaoDengji},danwei=#{danwei},shuliang=#{shuliang},
+        baojia_danjia=#{baojiaDanjia},jiashui_xiaoji=#{jiashuiXiaoji},jianyi_baojia=#{jianyiBaojia},xuyong_riqi=#{xuyongRiqi},
+        baojia_fudong=#{baojiaFudong},beizhu=#{beizhu},xiaoshou_id=#{xiaoshouId}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByXiaoShouId">
+        DELETE from xiaoshou_dingdan_item
+        WHERE xiaoshou_id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.XiaoShouDingDanItem">
+        <![CDATA[
+            SELECT * from xiaoshou_dingdan_item where xiaoshou_id = #{id}
+        ]]>
+    </select>
+
+    <select id="selectByXiaoShouId" resultType="com.myboot.pojo.XiaoShouDingDanItem">
+        <![CDATA[
+            SELECT * from xiaoshou_dingdan_item where xiaoshou_id = #{id}
+        ]]>
+    </select>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.XiaoShouKaiPiaoMapper">
+
+    <insert id="kaiPiaoAdd" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO xiaoshou_kaipiao(xiaoshou_bianhao,shoupiao_danwei,shibiehao, kaipiao_dizhi, kaipiao_dianhua,kaipiao_yinhang,kaipiao_zhanghao, kaipiao_riqi,
+        kaipiao_jine, kaipiao_shuie,jiashui_heji,beizhu,kaipiao_danwei,xinxi_tuisong,kaipiao_zhuangtai)
+        VALUES (#{xiaoshouBianhao},#{shoupiaoDanwei},#{shibiehao},#{kaipiaoDizhi},#{kaipiaoDianhua},#{kaipiaoYinhang},#{kaipiaoZhanghao},#{kaipiaoRiqi},
+        #{kaipiaoJine},#{kaipiaoShuie},#{jiashuiHeji},#{beizhu},#{kaipiaoDanwei},#{xinxiTuisong},#{kaipiaoZhuangtai})
+    </insert>
+
+    <update id="kaiPiaoUpd">
+        UPDATE xiaoshou_kaipiao set xiaoshou_bianhao=#{xiaoshouBianhao},shoupiao_danwei=#{shoupiaoDanwei},shibiehao=#{shibiehao}, kaipiao_dizhi=#{kaipiaoDizhi},
+        kaipiao_dianhua=#{kaipiaoDianhua},kaipiao_yinhang=#{kaipiaoYinhang},kaipiao_zhanghao=#{kaipiaoZhanghao}, kaipiao_riqi=#{kaipiaoRiqi},
+        kaipiao_jine=#{kaipiaoJine}, kaipiao_shuie=#{kaipiaoShuie},jiashui_heji=#{jiashuiHeji},beizhu=#{beizhu},kaipiao_danwei=#{kaipiaoDanwei},xinxi_tuisong=#{xinxiTuisong},kaipiao_zhuangtai=#{kaipiaoZhuangtai}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteXiaoShouById">
+        DELETE from xiaoshou_kaipiao
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAll" resultType="com.myboot.pojo.XiaoShouKaiPiao">
+        <![CDATA[
+            select * from xiaoshou_kaipiao
+        ]]>
+    </select>
+
+    <select id="getAllByShenHe" resultType="com.myboot.pojo.XiaoShouKaiPiao">
+        <![CDATA[
+            select * from xiaoshou_kaipiao where xinxi_tuisong = #{xinxi_tuisong} and kaipiao_zhuangtai = '待开票'
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.XiaoShouKaiPiao">
+        <![CDATA[
+            select * from xiaoshou_kaipiao
+            where kaipiao_riqi >= #{start_date} and kaipiao_riqi <= #{stop_date} and shoupiao_danwei like '%' + #{shoupiao_danwei} + '%' and kaipiao_danwei like '%' + #{kaipiao_danwei} + '%' and kaipiao_zhuangtai like '%' + #{kaipiao_zhuangtai} + '%'
+        ]]>
+    </select>
+
+    <select id="selectXiaoShouById" resultType="com.myboot.pojo.XiaoShouKaiPiao">
+        <![CDATA[
+            select * from xiaoshou_kaipiao
+            where id = #{id}
+        ]]>
+    </select>
+
+    <delete id="deleteUsrById">
+        delete from xiaoshou_kaipiao where id=#{id}
+    </delete>
+</mapper>
