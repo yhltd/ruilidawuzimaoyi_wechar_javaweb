@@ -2,6 +2,7 @@ package com.myboot.service;
 
 import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouBaoJiaAdd;
+import com.myboot.pojo.XiaoShouChuKu;
 
 import java.util.List;
 
@@ -29,5 +30,7 @@ public interface XiaoShouBaoJiaService {
     public List<XiaoShouBaoJia> selectBaoJiaById(Integer id);
 
     int delUsers(List<Integer> list);
+
+    public List<XiaoShouBaoJia> selectMaxDanHao();
 
 }

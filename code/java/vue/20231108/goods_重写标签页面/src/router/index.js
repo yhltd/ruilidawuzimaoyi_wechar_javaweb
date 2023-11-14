@@ -21,6 +21,14 @@ import zhanghuyue from '../views/ZhangHuYuE.vue'
 import shourufenlei from '../views/ShouRuFenLei.vue'
 import zhuchufenlei from '../views/ZhiChuFenLei.vue'
 import yuedushouzhi from '../views/YueDuShouZhi.vue'
+import caigouruku from '../views/CaiGouRuKu.vue'
+import caigoushoupiao from '../views/CaiGouShouPiao.vue'
+import zhichujilu from '../views/ZhiChuJiLu.vue'
+import shourujilu from '../views/ShouRuJiLu.vue'
+import xiaoshoubaojia from '../views/XiaoShouBaoJia.vue'
+import xiaoshoudingdan from '../views/XiaoShouDingDan.vue'
+import xiaoshouchuku from '../views/XiaoShouChuKu.vue'
+import xiaoshoukaipiao from '../views/XiaoShouKaiPiao.vue'
 
 Vue.use(VueRouter);
 
@@ -314,6 +322,70 @@ const routes = [
                         },
                     },
                 ],
+            },
+            {
+                path: "/caigouruku",
+                name: "caigouruku",
+                component: caigouruku,
+                meta: {
+                    title: '采购入库'
+                }
+            },
+            {
+                path: "/caigoushoupiao",
+                name: "caigoushoupiao",
+                component: caigoushoupiao,
+                meta: {
+                    title: '采购收票'
+                }
+            },
+            {
+                path: "/zhichujilu",
+                name: "zhichujilu",
+                component: zhichujilu,
+                meta: {
+                    title: '支出记录'
+                }
+            },
+            {
+                path: "/shourujilu",
+                name: "shourujilu",
+                component: shourujilu,
+                meta: {
+                    title: '收入记录'
+                }
+            },
+            {
+                path: "/xiaoshoubaojia",
+                name: "xiaoshoubaojia",
+                component: xiaoshoubaojia,
+                meta: {
+                    title: '销售报价'
+                }
+            },
+            {
+                path: "/xiaoshoudingdan",
+                name: "xiaoshoudingdan",
+                component: xiaoshoudingdan,
+                meta: {
+                    title: '销售订单'
+                }
+            },
+            {
+                path: "/xiaoshouchuku",
+                name: "xiaoshouchuku",
+                component: xiaoshouchuku,
+                meta: {
+                    title: '销售出库'
+                }
+            },
+            {
+                path: "/xiaoshoukaipiao",
+                name: "xiaoshoukaipiao",
+                component: xiaoshoukaipiao,
+                meta: {
+                    title: '销售开票'
+                }
             },
         ],
     },

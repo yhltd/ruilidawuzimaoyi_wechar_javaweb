@@ -28,6 +28,11 @@ public interface CaiGouDingDanService {
     //根据采购id查询
     public List<CaiGouDingDan> selectByCaiGouId(Integer id);
 
+    //根据采购id查询
+    public List<CaiGouDingDan> selectMaxDanHao();
+
     int delUsers(List<Integer> list);
+
+    public List<CaiGouDingDan> selectWeiFu();
 
 }

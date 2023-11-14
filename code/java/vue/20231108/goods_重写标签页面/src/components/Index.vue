@@ -16,15 +16,18 @@
       >
         <el-submenu index="1">
           <template slot="title">销售</template>
-          <el-menu-item index="/1-1" @click="goRouter('/1-1')"><p class="custom-menu-item">选项1</p></el-menu-item>
-          <el-menu-item @click="goRouter('/1-2')"><p class="custom-menu-item">选项2</p></el-menu-item>
-          <el-menu-item @click="goRouter('/1-3')"><p class="custom-menu-item">选项3</p></el-menu-item>
+          <el-menu-item index="/1-1" @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoudingdan')"><p class="custom-menu-item">销售订单</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshouchuku')"><p class="custom-menu-item">销售出库</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoukaipiao')"><p class="custom-menu-item">销售开票</p></el-menu-item>
+          <el-menu-item @click="goRouter('/shourujilu')"><p class="custom-menu-item">收入记录</p></el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">采购</template>
           <el-menu-item @click="goRouter('/mingxi')"><p class="custom-menu-item">采购订单</p></el-menu-item>
-          <el-menu-item @click="goRouter('/2-2')"><p class="custom-menu-item">选项2</p></el-menu-item>
-          <el-menu-item @click="goRouter('/2-3')"><p class="custom-menu-item">选项3</p></el-menu-item>
+          <el-menu-item @click="goRouter('/caigouruku')"><p class="custom-menu-item">采购入库</p></el-menu-item>
+          <el-menu-item @click="goRouter('/caigoushoupiao')"><p class="custom-menu-item">采购收票</p></el-menu-item>
+          <el-menu-item @click="goRouter('/zhichujilu')"><p class="custom-menu-item">支出记录</p></el-menu-item>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">统计</template>

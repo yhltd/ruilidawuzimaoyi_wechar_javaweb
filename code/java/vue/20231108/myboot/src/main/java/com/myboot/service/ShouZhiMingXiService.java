@@ -1,5 +1,6 @@
 package com.myboot.service;
 
+import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.ShouZhiMingXi;
 import com.myboot.pojo.ShouZhiMingXiAdd;
 
@@ -44,5 +45,8 @@ public interface ShouZhiMingXiService {
     public List<ShouZhiMingXi> selectById(Integer id);
 
     int delUsers(List<Integer> list);
+
+
+    public List<ShouZhiMingXi> selectMaxDanHao();
 
 }

@@ -1,5 +1,6 @@
 package com.myboot.mapper;
 
+import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.CaiGouRuKuAdd;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,5 +29,10 @@ public interface CaiGouRuKuMapper {
     //根据采购id查询
     public List<CaiGouRuKu> selectByRuKuId(@Param("id") Integer id);
 
+    //查询最大单号
+    public List<CaiGouRuKu> selectMaxDanHao();
+
     int deleteUsrById(Integer id);
+
+    public List<CaiGouRuKu> selectWeiFu();
 }

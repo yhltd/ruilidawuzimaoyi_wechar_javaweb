@@ -19,4 +19,10 @@ public class XiaoShouDingDan {
     private String jiashuiHeji;
     private String jiageDengji;
     private String shenheZhuangtai;
+
+
+    private String jiashuiXiaoji;
+    private String yifu;
+    private String weifu;
+    private String isselect;
 }

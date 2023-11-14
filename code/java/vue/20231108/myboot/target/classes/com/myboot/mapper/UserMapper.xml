@@ -12,7 +12,7 @@
 
     <select id="getAll" resultType="com.myboot.pojo.User">
         select *
-        from user
+        from userInfo
     </select>
 
 

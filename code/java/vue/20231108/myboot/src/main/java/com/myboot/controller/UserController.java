@@ -5,13 +5,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
 import com.myboot.pojo.User;
+import com.myboot.pojo.UserPower;
 import com.myboot.pojo.User_Peizhi;
+import com.myboot.pojo.User_UserPower;
+import com.myboot.service.UserPowerService;
 import com.myboot.service.UserService;
+import com.myboot.util.GsonUtil;
+import com.myboot.util.SessionUtil;
 import lombok.NonNull;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +26,19 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService service;
+
+    @Autowired
+    private UserPowerService powerService;
+
+    @PostMapping("/getLogin")
+    public String getLogin(HttpSession session) {
+        String user_str = SessionUtil.getToken(session);
+        String power_str = SessionUtil.getPower(session);
+        User user = GsonUtil.toEntity(SessionUtil.getToken(session), User.class);
+        UserPower userPower = GsonUtil.toEntity(SessionUtil.getPower(session), UserPower.class);
+        User_UserPower user_UserPower = new User_UserPower(user, userPower);
+        return ResponseCommon.success(user_UserPower);
+    }
 
     @GetMapping("/getall")
     public List<User> getAll() {

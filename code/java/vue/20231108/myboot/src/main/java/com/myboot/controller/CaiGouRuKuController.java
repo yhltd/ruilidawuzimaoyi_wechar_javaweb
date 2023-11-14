@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class CaiGouRuKuController {
         return ResponseCommon.success(caiGouRuKu);
     }
 
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        List<CaiGouRuKu> caiGouRuKu = service.selectMaxDanHao();
+        return ResponseCommon.success(caiGouRuKu);
+    }
 
     @PostMapping("/caiGouRuKuAdd")
     public String caiGouRuKuAdd(@RequestBody @NonNull JSONObject data) {
@@ -101,6 +107,12 @@ public class CaiGouRuKuController {
             return ResponseCommon.failed(ResponseErrorCode.SEL_FAILED, "未找到该订单");
         }
         return ResponseCommon.success(caiGouRuKuAdd);
+    }
+
+    @PostMapping("/selectWeiFu")
+    public String selectWeiFu(HttpSession session,@RequestBody @NonNull JSONObject data) {
+        List<CaiGouRuKu> caiGouRuKu = service.selectWeiFu();
+        return ResponseCommon.success(caiGouRuKu);
     }
 
     @RequestMapping("/delCaiGouDingDan")

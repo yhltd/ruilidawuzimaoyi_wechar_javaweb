@@ -1,6 +1,8 @@
 package com.myboot.service;
 
+import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.XiaoShouChuKu;
+import com.myboot.pojo.XiaoShouDingDan;
 
 import java.util.List;
 
@@ -13,15 +15,21 @@ public interface XiaoShouChuKuService {
     public List<XiaoShouChuKu> queryList(String start_date,String stop_date,String kehu);
 
     //增加
-    public List<XiaoShouChuKu> chuKuAdd(String bianhao,String riqi,String kehu, String dianpu, String cangku,String beizhu,String xiaoshou_id);
+    public int chuKuAdd(XiaoShouChuKu xiaoShouChuKu);
 
     //修改
-    public List<XiaoShouChuKu> chuKuUpd(String bianhao,String riqi,String kehu, String dianpu, String cangku,String beizhu,String xiaoshou_id,Integer id);
+    public int chuKuUpd(XiaoShouChuKu xiaoShouChuKu);
 
     //根据采购id删除
-    public boolean deleteByChuKuId(Integer id);
+    public int deleteByChuKuId(Integer id);
 
     //根据采购id查询
     public List<XiaoShouChuKu> selectByChuKuId(Integer id);
+
+    int delUsers(List<Integer> list);
+
+    public List<XiaoShouChuKu> selectWeiFu();
+
+    public List<XiaoShouChuKu> selectMaxDanHao();
 
 }

@@ -5,6 +5,7 @@ import com.myboot.mapper.XiaoShouBaoJiaMapper;
 import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouBaoJiaAdd;
 import com.myboot.pojo.XiaoShouBaoJiaItem;
+import com.myboot.pojo.XiaoShouChuKu;
 import com.myboot.service.XiaoShouBaoJiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,11 @@ public class XiaoShouBaoJiaImpl implements XiaoShouBaoJiaService {
             itemMapper.deleteByBaoJiaId(id);
         }
         return count;
+    }
+
+    @Override
+    public List<XiaoShouBaoJia> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 

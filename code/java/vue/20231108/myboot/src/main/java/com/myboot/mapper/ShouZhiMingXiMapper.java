@@ -1,5 +1,6 @@
 package com.myboot.mapper;
 
+import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.ShouZhiMingXi;
 import com.myboot.pojo.ShouZhiMingXiAdd;
 import org.apache.ibatis.annotations.Mapper;
@@ -47,6 +48,9 @@ public interface ShouZhiMingXiMapper {
     public List<ShouZhiMingXi> selectById(Integer id);
 
     int deleteUsrById(Integer id);
+
+    //查询最大单号
+    public List<ShouZhiMingXi> selectMaxDanHao();
 
 
 }

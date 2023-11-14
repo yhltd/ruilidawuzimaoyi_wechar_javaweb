@@ -29,7 +29,7 @@
         FROM xiaoshou_chuku_item
     </select>
 
-    <select id="selectByRuKuItemId" resultType="com.myboot.pojo.XiaoShouChuKuItem">
+    <select id="selectByChuKuItemId" resultType="com.myboot.pojo.XiaoShouChuKuItem">
         <![CDATA[
             SELECT * from xiaoshou_chuku_item where chuku_id = #{id}
         ]]>

@@ -7,6 +7,7 @@
             v-model="start_date"
             type="date"
             format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             placeholder="选择起始日期">
         </el-date-picker>
       </el-col>
@@ -16,6 +17,7 @@
             v-model="stop_date"
             type="date"
             format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             placeholder="选择结束日期">
         </el-date-picker>
       </el-col>
@@ -54,9 +56,15 @@
         <el-button type="primary" @click="updUser()">编辑</el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="primary" @click="shenheClick()">审核</el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
+
+
+
     <el-table
         ref="multipleTable"
         :data="tableData"
@@ -145,6 +153,7 @@
                   v-model="gongYingShang.riqi"
                   type="date"
                   format="yyyy-MM-dd"
+                  value-format="yyyy-MM-dd"
                   placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
@@ -215,7 +224,7 @@
           <el-row :gutter="15">
             <el-col :span="6">
               <el-form-item label="商品编码" prop="shangpin_bianma" class="custom-form-item" >
-                <el-input ref="acc_inp" readonly="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpin_bianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
+                <el-input ref="acc_inp" readonly="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -250,7 +259,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="数量" prop="shuliang" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -260,7 +269,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="采购单价" prop="caigouDanjia" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -270,7 +279,15 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="交货日期" prop="jiaohuoRiqi" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiaohuoRiqi" class="custom-login-inp"></el-input>
+                <el-date-picker
+                    style="width:100%"
+                    v-model="gongYingShang.body[index].jiaohuoRiqi"
+                    type="date"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择交货日期">
+                </el-date-picker>
+<!--                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiaohuoRiqi" class="custom-login-inp"></el-input>-->
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -334,7 +351,7 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" style="width: 100%">
+      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
         <el-table-column
             prop="bianhao"
             label="编号"
@@ -407,6 +424,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      p_index:'',
       start_date:'',
       stop_date:'',
       gongyingshang:'',
@@ -440,7 +458,7 @@ export default {
         jinxiangShuilv: '',
         beizhu: '',
         shenhe:'',
-        shenheZhuangtai:'',
+        shenheZhuangtai:'审核中',
         body:[
           {
             shangpinBianma:'',
@@ -467,6 +485,7 @@ export default {
     }
   },
   created() {
+    this.getUser();
     this.getCaiGouProduct();
     this.getXiaLa_GongYingShang();
     this.getXiaLa_ShenHe();
@@ -494,6 +513,45 @@ export default {
         return "hidden-row";
       }
       return '';
+    },
+
+    rowClick(row,column,event){
+      console.log(row)
+      this.$confirm('是否选择此商品?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.gongYingShang.body[this.p_index].shangpinBianma = row.shangpinBianma
+        this.gongYingShang.body[this.p_index].name = row.name
+        this.gongYingShang.body[this.p_index].guige = row.guige
+        this.gongYingShang.body[this.p_index].caizhi = row.caizhi
+        this.gongYingShang.body[this.p_index].jishuBiaozhun = row.jishuBiaozhun
+        this.gongYingShang.body[this.p_index].zhibaoDengji = row.zhibaoDengji
+        this.gongYingShang.body[this.p_index].danwei = row.danwei
+        // this.gongYingShang.body[this.p_index].shuliang
+        this.gongYingShang.body[this.p_index].lishiZuidi = row.zuidijia
+        this.gongYingShang.body[this.p_index].caigouDanjia = row.caigouPrice
+        if(row.zuidijia != undefined && row.zuidijia != null && row.caigouPrice != ""){
+          if(row.zuidijia * 1 < row.caigouPrice * 1){
+            this.gongYingShang.body[this.p_index].caigouDanjia = row.zuidijia
+          }
+        }
+        // this.gongYingShang.body[this.p_index].jiashuiXiaoji
+        // this.gongYingShang.body[this.p_index].jiaohuoRiqi
+        // this.gongYingShang.body[this.p_index].beizhu
+        this.selProduct = false;
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
+    },
+
+    changeValue(index){
+      console.log(index)
+      this.gongYingShang.body[index].jiashuiXiaoji = Math.round(this.gongYingShang.body[index].caigouDanjia * this.gongYingShang.body[index].shuliang * 100) / 100
     },
 
     ProQuery(){
@@ -526,33 +584,52 @@ export default {
 
     //新增窗口弹出
     addUser() {
-      this.gongYingShang = {
-        bianhao:'123123',
-        riqi: '',
-        gongyingshang: '',
-        dianpu: '',
-        jinxiangShuilv: '',
-        beizhu: '',
-        shenhe:'',
-        shenheZhuangtai:'',
-        body:[
-          {
-            shangpinBianma:'',
-            name:'',
-            guige:'',
-            caizhi:'',
-            jishuBiaozhun:'',
-            zhibaoDengji:'',
-            danwei:'',
-            shuliang:'',
-            lishiZuidi:'',
-            caigouDanjia:'',
-            jiashuiXiaoji:'',
-            jiaohuoRiqi:'',
-            beizhu:'',
+      let url = "http://localhost:8081/caiGouDingDan/selectMaxDanHao"
+      this.axios.post(url, {}).then(res => {
+        if(res.data.code == '00') {
+          var this_danhao = Math.trunc(res.data.data[0].bianhao)
+          console.log(this_danhao)
+          this_danhao = PrefixInteger(this_danhao,6)
+          console.log(this_danhao)
+          this_danhao = "CG" + this_danhao
+          this.gongYingShang = {
+            bianhao:this_danhao,
+            riqi: getNowDate(),
+            gongyingshang: '',
+            dianpu: '',
+            jinxiangShuilv: '',
+            beizhu: '',
+            shenhe:'',
+            shenheZhuangtai:'审核中',
+            body:[
+              {
+                shangpinBianma:'',
+                name:'',
+                guige:'',
+                caizhi:'',
+                jishuBiaozhun:'',
+                zhibaoDengji:'',
+                danwei:'',
+                shuliang:'',
+                lishiZuidi:'',
+                caigouDanjia:'',
+                jiashuiXiaoji:'',
+                jiaohuoRiqi:'',
+                beizhu:'',
+              }
+            ]
           }
-        ]
-      }
+          console.log(res.data.data);
+          console.log("获取成功");
+          this.addDialog = true;
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+
+
       this.addDialog = true;
     },
 
@@ -562,6 +639,7 @@ export default {
 
     selectProduct(index){
       console.log(index)
+      this.p_index = index
       this.Proname = ""
       this.Protype = ""
       for(var i=0; i<this.CaiGou_Product.length; i++){
@@ -610,6 +688,22 @@ export default {
           console.log("采购商品列表已获取");
         } else {
           console.log("采购商品列表获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getUser(){
+      let url = "http://localhost:8081/user/getLogin"
+      this.axios.post(url,{}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.User_List = res.data.data;
+          console.log(this.CaiGou_Product)
+          console.log("登录信息已获取");
+        } else {
+          console.log("登录信息获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
@@ -703,7 +797,7 @@ export default {
         start_date:start_date,
         stop_date:stop_date,
         gongyingshang:this.gongyingshang,
-        shenhe_zhuangtai:this.shenhe_zhuangtai
+        shenhe_zhuangtai:this.shenhe
       }
       let url = "http://localhost:8081/caiGouDingDan/queryList"
       this.axios.post(url, date).then(res => {
@@ -741,14 +835,19 @@ export default {
     addLianXiRen(){
       var this_lianxiren = this.gongYingShang.body
       this_lianxiren.push({
-        id:0,
+        shangpinBianma:'',
         name:'',
-        department:'',
-        zhiwu:'',
-        phone:'',
-        address:'',
-        type:'',
-        gongyingshangId:'',
+        guige:'',
+        caizhi:'',
+        jishuBiaozhun:'',
+        zhibaoDengji:'',
+        danwei:'',
+        shuliang:'',
+        lishiZuidi:'',
+        caigouDanjia:'',
+        jiashuiXiaoji:'',
+        jiaohuoRiqi:'',
+        beizhu:'',
       })
       this.gongYingShang.body = this_lianxiren
     },
@@ -768,7 +867,35 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/gongYingShang/gongyingshangAdd"
+
+      if(save_list.gongyingshang == ''){
+        MessageUtil.error("请选择供应商");
+        return;
+      }
+      if(save_list.dianpu == ''){
+        MessageUtil.error("请选择店铺");
+        return;
+      }
+      if(save_list.shenhe == ''){
+        MessageUtil.error("请选择审核人");
+        return;
+      }
+      for(var i=0; i<save_list.body.length; i++){
+        if(save_list.body[i].shangpinBianma == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
+          return;
+        }
+        if(save_list.body[i].shuliang == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
+          return;
+        }
+        if(save_list.body[i].caigouDanjia == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写采购单价');
+          return;
+        }
+      }
+
+      let url = "http://localhost:8081/caiGouDingDan/caiGouDingDanAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -788,7 +915,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/gongYingShang/gongyingshangUpd"
+      let url = "http://localhost:8081/caiGouDingDan/caiGouDingDanUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -830,7 +957,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/gongYingShang/delGongYingShang";
+        let url = "http://localhost:8081/caiGouDingDan/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -850,6 +977,43 @@ export default {
       });
     },
   }
+}
+
+function PrefixInteger(num, n) {
+  return (Array(n).join(0) + num).slice(-n);
+}
+
+function getNowDate() {
+  var date = new Date();
+  var sign1 = "-";
+  var sign2 = ":";
+  var year = date.getFullYear() // 年
+  var month = date.getMonth() + 1; // 月
+  var day  = date.getDate(); // 日
+  var hour = date.getHours(); // 时
+  var minutes = date.getMinutes(); // 分
+  var seconds = date.getSeconds() //秒
+  var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+  var week = weekArr[date.getDay()];
+  // 给一位数数据前面加 “0”
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (day >= 0 && day <= 9) {
+    day = "0" + day;
+  }
+  if (hour >= 0 && hour <= 9) {
+    hour = "0" + hour;
+  }
+  if (minutes >= 0 && minutes <= 9) {
+    minutes = "0" + minutes;
+  }
+  if (seconds >= 0 && seconds <= 9) {
+    seconds = "0" + seconds;
+  }
+  // var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds + " " + week;
+  var currentdate = year + sign1 + month + sign1 + day ;
+  return currentdate;
 }
 </script>
 <style>

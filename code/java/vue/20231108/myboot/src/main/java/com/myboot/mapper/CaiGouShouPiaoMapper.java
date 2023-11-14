@@ -27,6 +27,9 @@ public interface CaiGouShouPiaoMapper {
     //根据采购id删除
     public int deleteByShouPiaoId(@Param("id") Integer id);
 
+    //获取所有应收票信息
+    public List<CaiGouShouPiao> selectYingShou();
+
     //根据采购id查询
     public List<CaiGouShouPiao> selectByShouPiaoId(@Param("id") Integer id);
 

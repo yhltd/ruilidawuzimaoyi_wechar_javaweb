@@ -2,6 +2,7 @@ package com.myboot.service.impl;
 
 import com.myboot.mapper.ShouZhiMingXiItemMapper;
 import com.myboot.mapper.ShouZhiMingXiMapper;
+import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.ShouZhiMingXi;
 import com.myboot.pojo.ShouZhiMingXiAdd;
 import com.myboot.service.ShouZhiMingXiService;
@@ -101,6 +102,10 @@ public class ShouZhiMingXiImpl implements ShouZhiMingXiService {
             itemMapper.deleteByShouZhiId(id);
         }
         return count;
+    }
+
+    public List<ShouZhiMingXi> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 }

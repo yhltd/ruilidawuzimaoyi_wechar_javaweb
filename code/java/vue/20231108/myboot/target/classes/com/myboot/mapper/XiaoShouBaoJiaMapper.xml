@@ -45,4 +45,10 @@
             where id = #{id}
         ]]>
     </select>
+
+    <select id="selectMaxDanHao" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select convert(float,SUBSTRING(isnull(max(bianhao),'BJ000000'),3,6)) + 1 as bianhao from xiaoshou_baojia
+        ]]>
+    </select>
 </mapper>

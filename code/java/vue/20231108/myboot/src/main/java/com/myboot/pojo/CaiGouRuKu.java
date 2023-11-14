@@ -12,4 +12,9 @@ public class CaiGouRuKu {
     private String cangku;
     private String beizhu;
     private String caigouId;
+
+    private String jiashuiXiaoji;
+    private String yifu;
+    private String weifu;
+    private String isselect;
 }

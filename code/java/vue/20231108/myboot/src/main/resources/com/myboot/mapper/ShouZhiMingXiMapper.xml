@@ -82,4 +82,10 @@
         jizhang_jine=#{jizhangJine},kedi_shuie=#{kediShuie},zhaiyao=#{zhaiyao},shouzhi_type = #{shouzhiType}
         WHERE id = #{id}
     </update>
+
+    <select id="selectMaxDanHao" resultType="com.myboot.pojo.ShouZhiMingXi">
+        <![CDATA[
+            select convert(float,SUBSTRING(isnull(max(shouzhi_bianhao),'SZ000000'),3,6)) + 1 as shouzhi_bianhao from shouzhi_mingxi
+        ]]>
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.myboot.service;
 
+import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.CaiGouRuKuAdd;
 
@@ -25,6 +26,11 @@ public interface CaiGouRuKuService {
     //根据采购id查询
     public List<CaiGouRuKu> selectByRuKuId(Integer id);
 
+    //获取最大单号
+    public List<CaiGouRuKu> selectMaxDanHao();
+
     int delUsers(List<Integer> list);
+
+    public List<CaiGouRuKu> selectWeiFu();
 
 }

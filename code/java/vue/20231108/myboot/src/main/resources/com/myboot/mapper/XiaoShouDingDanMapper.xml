@@ -49,4 +49,16 @@
             where id = #{id}
         ]]>
     </select>
+
+    <select id="selectWeiFu" resultType="com.myboot.pojo.XiaoShouDingDan">
+        <![CDATA[
+            select id,bianhao,riqi,kehu,dianpu,isnull(jiashui_xiaoji,0) as jiashui_xiaoji,isnull(yifu,0) as yifu,round(isnull(jiashui_xiaoji,0)-isnull(yifu,0),2) as weifu,1 as isselect from(select id,bianhao,riqi,kehu,dianpu,jiashui_xiaoji from xiaoshou_dingdan as xiaoshou left join (select xiaoshou_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji from xiaoshou_dingdan_item group by xiaoshou_id) as xiaoshou_money on xiaoshou.id = xiaoshou_money.xiaoshou_id) as xiaoshou_dingdan left join (select danju_leixing,danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as yifu from shouzhi_mingxi group by danju_leixing,danju_bianhao) as fukuan on xiaoshou_dingdan.bianhao = fukuan.danju_bianhao where round(isnull(jiashui_xiaoji,0)-isnull(yifu,0),2) > 0
+        ]]>
+    </select>
+
+    <select id="selectMaxDanHao" resultType="com.myboot.pojo.XiaoShouDingDan">
+        <![CDATA[
+            select convert(float,SUBSTRING(isnull(max(bianhao),'XS000000'),3,6)) + 1 as bianhao from xiaoshou_dingdan
+        ]]>
+    </select>
 </mapper>

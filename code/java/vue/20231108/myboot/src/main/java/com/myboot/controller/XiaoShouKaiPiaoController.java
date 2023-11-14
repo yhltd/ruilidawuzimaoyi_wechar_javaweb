@@ -3,6 +3,7 @@ package com.myboot.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
+import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.pojo.User;
 import com.myboot.pojo.XiaoShouKaiPiao;
 import com.myboot.service.UserService;
@@ -82,6 +83,12 @@ public class XiaoShouKaiPiaoController {
         StringBuffer sb = new StringBuffer();
         sb.append("成功删除了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条删除失败");
         return ResponseCommon.success(sb.toString());
+    }
+
+    @PostMapping("/selectYingKai")
+    public String selectYingKai(@RequestBody @NonNull JSONObject data) {
+        List<XiaoShouKaiPiao> xiaoShouKaiPiao = service.selectYingKai();
+        return ResponseCommon.success(xiaoShouKaiPiao);
     }
 
 

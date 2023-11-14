@@ -1,5 +1,7 @@
 package com.myboot.service;
 
+import com.myboot.pojo.CaiGouDingDan;
+import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouDingDan;
 import com.myboot.pojo.XiaoShouDingDanAdd;
 
@@ -29,5 +31,9 @@ public interface XiaoShouDingDanService {
     public List<XiaoShouDingDan> selectXiaoShouById(Integer id);
 
     int delUsers(List<Integer> list);
+
+    public List<XiaoShouDingDan> selectWeiFu();
+
+    public List<XiaoShouDingDan> selectMaxDanHao();
 
 }

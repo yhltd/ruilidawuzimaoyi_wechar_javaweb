@@ -93,6 +93,12 @@ public class ShouZhiMingXiController {
         return ResponseCommon.success(shouZhiMingXi);
     }
 
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(@RequestBody @NonNull JSONObject data) {
+        List<ShouZhiMingXi> shouZhiMingXi = service.selectMaxDanHao();
+        return ResponseCommon.success(shouZhiMingXi);
+    }
+
     /**
      * @param data
      * @return

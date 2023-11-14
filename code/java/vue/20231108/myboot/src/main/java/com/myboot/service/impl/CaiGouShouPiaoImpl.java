@@ -27,27 +27,37 @@ public class CaiGouShouPiaoImpl implements CaiGouShouPiaoService {
         return caiGouShouPiao;
     }
 
+    @Override
     public List<CaiGouShouPiao> queryList(String start_date,String stop_date,String kaipiao_danwei,String shoupiao_danwei,String shoupiao_zhuangtai){
         List<CaiGouShouPiao> caiGouShouPiao = mapper.queryList(start_date,stop_date,kaipiao_danwei,shoupiao_danwei,shoupiao_zhuangtai);
         return caiGouShouPiao;
     }
 
+    @Override
     public int caiGouShouPiaoAdd(CaiGouShouPiao caiGouShouPiao){
         Integer shouPiao = mapper.caiGouShouPiaoAdd(caiGouShouPiao);
         return shouPiao;
     }
 
+    @Override
     public int caiGouShouPiaoUpd(CaiGouShouPiao caiGouShouPiao){
         Integer shouPiao = mapper.caiGouShouPiaoUpd(caiGouShouPiao);
         return shouPiao;
     }
 
+    @Override
     public int deleteByShouPiaoId(Integer id){
         return mapper.deleteByShouPiaoId(id);
     }
 
+    @Override
     public List<CaiGouShouPiao> selectByShouPiaoId(Integer id){
         return mapper.selectByShouPiaoId(id);
+    }
+
+    @Override
+    public List<CaiGouShouPiao> selectYingShou() {
+        return mapper.selectYingShou();
     }
 
 

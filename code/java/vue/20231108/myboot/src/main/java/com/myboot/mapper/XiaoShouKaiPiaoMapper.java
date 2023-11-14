@@ -1,5 +1,6 @@
 package com.myboot.mapper;
 
+import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.pojo.XiaoShouDingDan;
 import com.myboot.pojo.XiaoShouKaiPiao;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,6 +33,8 @@ public interface XiaoShouKaiPiaoMapper {
     public List<XiaoShouKaiPiao> selectXiaoShouById(@Param("id") Integer id);
 
     int deleteUsrById(Integer id);
+
+    public List<XiaoShouKaiPiao> selectYingKai();
 
 
 }

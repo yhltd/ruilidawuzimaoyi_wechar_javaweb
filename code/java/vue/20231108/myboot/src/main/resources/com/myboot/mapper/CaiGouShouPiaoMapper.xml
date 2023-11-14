@@ -43,6 +43,12 @@
         ]]>
     </select>
 
+    <select id="selectYingShou" resultType="com.myboot.pojo.CaiGouShouPiao">
+        <![CDATA[
+            select id,riqi,bianhao,gongyingshang,jiashui_heji,isnull(shoupiao_jine,0) as shoupiao_jine,isnull(jiashui_heji,0)-isnull(shoupiao_jine,0) as weikai,1 as isselect from (select id,riqi,bianhao,gongyingshang,jiashui_heji from caigou_dingdan as caigou left join (select caigou_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_heji from caigou_dingdan_item group by caigou_id) as money on caigou.id = money.caigou_id) as caigoudan left join (select caigou_bianhao,sum(convert(float,isnull(jiashui_heji,0))) as shoupiao_jine from caigou_shoupiao GROUP BY caigou_bianhao) as shoupiao on caigoudan.bianhao = shoupiao.caigou_bianhao where isnull(jiashui_heji,0)-isnull(shoupiao_jine,0) > 0
+        ]]>
+    </select>
+
     <delete id="deleteUsrById">
         delete from caigou_shoupiao where id=#{id}
     </delete>

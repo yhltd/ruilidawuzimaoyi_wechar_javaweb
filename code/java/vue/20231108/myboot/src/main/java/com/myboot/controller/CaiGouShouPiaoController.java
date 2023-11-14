@@ -49,6 +49,12 @@ public class CaiGouShouPiaoController {
         return ResponseCommon.success(caiGouShouPiao);
     }
 
+    @PostMapping("/selectYingShou")
+    public String selectYingShou(@RequestBody @NonNull JSONObject data) {
+        List<CaiGouShouPiao> caiGouShouPiao = service.selectYingShou();
+        return ResponseCommon.success(caiGouShouPiao);
+    }
+
     @PostMapping("/shouPiaoUpd")
     public String shouPiaoUpd(@RequestBody CaiGouShouPiao caiGouShouPiao) {
         Integer result = service.caiGouShouPiaoUpd(caiGouShouPiao);

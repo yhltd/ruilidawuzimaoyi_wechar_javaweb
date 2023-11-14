@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class XiaoShouDingDanController {
         if (xiaoShouDingDan == null) {
             return ResponseCommon.failed(ResponseErrorCode.SEL_FAILED, "未找到该订单");
         }
-        return ResponseCommon.success(xiaoShouDingDan);
+        return ResponseCommon.success(xiaoShouDingDanAdd);
     }
 
     @RequestMapping("/delXiaoShouBaoJia")
@@ -121,6 +122,18 @@ public class XiaoShouDingDanController {
         StringBuffer sb = new StringBuffer();
         sb.append("成功删除了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条删除失败");
         return ResponseCommon.success(sb.toString());
+    }
+
+    @PostMapping("/selectWeiFu")
+    public String selectWeiFu(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        List<XiaoShouDingDan> xiaoShouDingDan = service.selectWeiFu();
+        return ResponseCommon.success(xiaoShouDingDan);
+    }
+
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        List<XiaoShouDingDan> xiaoShouDingDan = service.selectMaxDanHao();
+        return ResponseCommon.success(xiaoShouDingDan);
     }
 
 

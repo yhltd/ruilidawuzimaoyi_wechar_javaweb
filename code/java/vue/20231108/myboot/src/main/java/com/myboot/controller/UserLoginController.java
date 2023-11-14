@@ -5,6 +5,8 @@ import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
 import com.myboot.pojo.User_UserPower;
 import com.myboot.service.UserService;
+import com.myboot.util.SessionUtil;
+import com.myboot.util.StringUtils;
 import com.myboot.vo.UserVO;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用户登录、登出控制器
@@ -32,8 +38,10 @@ public class UserLoginController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(@RequestBody @NonNull UserVO userVO) {
+    public String login(HttpSession session, @RequestBody @NonNull UserVO userVO) {
         User_UserPower u = userService.login(userVO);
+        SessionUtil.remove(session, "token");
+        SessionUtil.remove(session, "power");
         if(u == null) {
             // 账密错误执行
             return ResponseCommon.failed(ResponseErrorCode.LOGIN_FAILED);
@@ -41,6 +49,11 @@ public class UserLoginController {
             // 用户无权限执行
             return ResponseCommon.failed(ResponseErrorCode.NO_PERMISSION);
         }
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", u.getUser());
+        map.put("power",u.getUserPower());
+        SessionUtil.setToken(session, map.get("token").toString());
+        SessionUtil.setPower(session, map.get("power").toString());
         JSONObject data = new JSONObject();
         data.put("user", u.getUser());
         data.put("userPower", u.getUserPower());

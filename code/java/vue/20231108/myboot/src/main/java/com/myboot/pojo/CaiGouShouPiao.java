@@ -15,4 +15,11 @@ public class CaiGouShouPiao {
     private String beizhu;
     private String xinxiTuisong;
     private String shoupiaoZhuangtai;
+
+    private String riqi;
+    private String bianhao;
+    private String gongyingshang;
+    private String shoupiaoJine;
+    private String weikai;
+    private String isselect;
 }

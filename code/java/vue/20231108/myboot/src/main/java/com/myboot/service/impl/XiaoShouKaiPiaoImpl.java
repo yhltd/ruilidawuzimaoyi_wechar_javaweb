@@ -2,6 +2,7 @@ package com.myboot.service.impl;
 
 import com.myboot.mapper.XiaoShouDingDanMapper;
 import com.myboot.mapper.XiaoShouKaiPiaoMapper;
+import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.pojo.XiaoShouDingDan;
 import com.myboot.pojo.XiaoShouKaiPiao;
 import com.myboot.service.XiaoShouDingDanService;
@@ -69,5 +70,9 @@ public class XiaoShouKaiPiaoImpl implements XiaoShouKaiPiaoService {
         return count;
     }
 
+    @Override
+    public List<XiaoShouKaiPiao> selectYingKai() {
+        return mapper.selectYingKai();
+    }
 
 }

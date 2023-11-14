@@ -1,5 +1,7 @@
 package com.myboot.mapper;
 
+import com.myboot.pojo.CaiGouDingDan;
+import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouDingDan;
 import com.myboot.pojo.XiaoShouDingDanAdd;
 import org.apache.ibatis.annotations.Mapper;
@@ -30,6 +32,10 @@ public interface XiaoShouDingDanMapper {
 
     //根据采购id查询
     public List<XiaoShouDingDan> selectXiaoShouById(@Param("id") Integer id);
+
+    public List<XiaoShouDingDan> selectWeiFu();
+
+    public List<XiaoShouDingDan> selectMaxDanHao();
 
 
 }

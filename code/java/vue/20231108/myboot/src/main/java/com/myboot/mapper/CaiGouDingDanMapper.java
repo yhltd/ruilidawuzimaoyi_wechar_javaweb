@@ -31,7 +31,12 @@ public interface CaiGouDingDanMapper {
     //根据采购id查询
     public List<CaiGouDingDan> selectByCaiGouId(@Param("id") Integer id);
 
+    //查询最大单号
+    public List<CaiGouDingDan> selectMaxDanHao();
+
     int deleteUsrById(Integer id);
+
+    public List<CaiGouDingDan> selectWeiFu();
 
 
 }

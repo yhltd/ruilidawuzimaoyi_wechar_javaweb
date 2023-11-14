@@ -55,6 +55,10 @@ public class CaiGouDingDanImpl implements CaiGouDingDanService {
         return mapper.selectByCaiGouId(id);
     }
 
+    public List<CaiGouDingDan> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int delUsers(List<Integer> list) {
@@ -64,6 +68,10 @@ public class CaiGouDingDanImpl implements CaiGouDingDanService {
             itemMapper.deleteByCaiGouId(id);
         }
         return count;
+    }
+
+    public List<CaiGouDingDan> selectWeiFu(){
+        return mapper.selectWeiFu();
     }
 
 

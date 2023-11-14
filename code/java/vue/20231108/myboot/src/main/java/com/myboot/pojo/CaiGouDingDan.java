@@ -16,4 +16,8 @@ public class CaiGouDingDan {
     private String rukuZhuangtai;
     private String shoupiaoZhuangtai;
     private String fukuanZhuangtai;
+    private String jiashuiXiaoji;
+    private String yifu;
+    private String weifu;
+    private String isselect;
 }

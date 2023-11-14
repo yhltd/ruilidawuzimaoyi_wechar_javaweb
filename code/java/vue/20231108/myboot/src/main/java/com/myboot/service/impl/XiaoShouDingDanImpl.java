@@ -2,6 +2,8 @@ package com.myboot.service.impl;
 
 import com.myboot.mapper.XiaoShouDingDanItemMapper;
 import com.myboot.mapper.XiaoShouDingDanMapper;
+import com.myboot.pojo.CaiGouDingDan;
+import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouDingDan;
 import com.myboot.pojo.XiaoShouDingDanAdd;
 import com.myboot.service.XiaoShouDingDanService;
@@ -69,6 +71,15 @@ public class XiaoShouDingDanImpl implements XiaoShouDingDanService {
             itemMapper.deleteByXiaoShouId(id);
         }
         return count;
+    }
+
+    public List<XiaoShouDingDan> selectWeiFu(){
+        return mapper.selectWeiFu();
+    }
+
+    @Override
+    public List<XiaoShouDingDan> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 }

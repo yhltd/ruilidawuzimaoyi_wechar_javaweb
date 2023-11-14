@@ -5,6 +5,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import axios from 'axios'
+// axios.defaults.withCredentials=true;
 import Route from "@/router";
 Vue.prototype.axios = axios
 Vue.config.productionTip = false

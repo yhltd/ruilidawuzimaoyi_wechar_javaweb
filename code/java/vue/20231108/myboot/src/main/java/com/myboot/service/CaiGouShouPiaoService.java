@@ -27,6 +27,11 @@ public interface CaiGouShouPiaoService {
     //根据采购id查询
     public List<CaiGouShouPiao> selectByShouPiaoId(Integer id);
 
+    //根据采购id查询
+    public List<CaiGouShouPiao> selectYingShou();
+
+
+
 
     /**
      * 事务处理 捕获范围 Exception

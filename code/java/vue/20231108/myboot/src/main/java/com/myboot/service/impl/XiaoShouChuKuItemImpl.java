@@ -21,19 +21,19 @@ public class XiaoShouChuKuItemImpl implements XiaoShouChuKuItemService {
     }
 
     @Override
-    public List<XiaoShouChuKuItem> chuKuItemAdd(String shangpin_bianma,String name,String guige,String caizhi,String jishu_biaozhun,String zhibao_dengji,String danwei,String shuliang,String xiaoshou_danjia,String jiashui_xiaoji,String beizhu,Integer chuku_id){
-        List<XiaoShouChuKuItem> xiaoShouChuKuItem = mapper.chuKuItemAdd(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,xiaoshou_danjia,jiashui_xiaoji,beizhu,chuku_id);
-        return xiaoShouChuKuItem;
+    public int chuKuItemAdd(XiaoShouChuKuItem xiaoShouChuKuItem){
+        Integer chuKuItem = mapper.chuKuItemAdd(xiaoShouChuKuItem);
+        return chuKuItem;
     }
 
     @Override
-    public List<XiaoShouChuKuItem> chuKuItemUpd(String shangpin_bianma,String name,String guige,String caizhi,String jishu_biaozhun,String zhibao_dengji,String danwei,String shuliang,String xiaoshou_danjia,String jiashui_xiaoji,String beizhu,Integer chuku_id,Integer id){
-        List<XiaoShouChuKuItem> xiaoShouChuKuItem = mapper.chuKuItemUpd(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,xiaoshou_danjia,jiashui_xiaoji,beizhu,chuku_id,id);
-        return xiaoShouChuKuItem;
+    public int chuKuItemUpd(XiaoShouChuKuItem xiaoShouChuKuItem){
+        Integer chuKuItem = mapper.chuKuItemUpd(xiaoShouChuKuItem);
+        return chuKuItem;
     }
 
     @Override
-    public boolean deleteByChuKuItemId(Integer id){
+    public int deleteByChuKuItemId(Integer id){
         return mapper.deleteByChuKuItemId(id);
     }
 

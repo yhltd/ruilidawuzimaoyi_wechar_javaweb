@@ -2,6 +2,7 @@ package com.myboot.service.impl;
 
 import com.myboot.mapper.CaiGouRuKuItemMapper;
 import com.myboot.mapper.CaiGouRuKuMapper;
+import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.CaiGouRuKuAdd;
 import com.myboot.service.CaiGouRuKuService;
@@ -48,6 +49,10 @@ public class CaiGouRuKuImpl implements CaiGouRuKuService {
         return mapper.selectByRuKuId(id);
     }
 
+    public List<CaiGouRuKu> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int delUsers(List<Integer> list) {
@@ -57,6 +62,10 @@ public class CaiGouRuKuImpl implements CaiGouRuKuService {
             itemMapper.deleteByRuKuItemId(id);
         }
         return count;
+    }
+
+    public List<CaiGouRuKu> selectWeiFu(){
+        return mapper.selectWeiFu();
     }
 
 }

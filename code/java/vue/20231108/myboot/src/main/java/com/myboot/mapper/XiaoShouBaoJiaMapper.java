@@ -2,6 +2,7 @@ package com.myboot.mapper;
 
 import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.pojo.XiaoShouBaoJiaAdd;
+import com.myboot.pojo.XiaoShouChuKu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,6 +33,8 @@ public interface XiaoShouBaoJiaMapper {
     public List<XiaoShouBaoJia> selectBaoJiaById(@Param("id") Integer id);
 
     int deleteUsrById(Integer id);
+
+    public List<XiaoShouBaoJia> selectMaxDanHao();
 
 
 }

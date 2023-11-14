@@ -37,4 +37,16 @@
             SELECT * from caigou_ruku where id = #{id}
         ]]>
     </select>
+
+    <select id="selectMaxDanHao" resultType="com.myboot.pojo.CaiGouRuKu">
+        <![CDATA[
+            select convert(float,SUBSTRING(isnull(max(bianhao),'RK000000'),3,6)) + 1 as bianhao from caigou_ruku
+        ]]>
+    </select>
+
+    <select id="selectWeiFu" resultType="com.myboot.pojo.CaiGouRuKu">
+        <![CDATA[
+            select id,bianhao,riqi,gongyingshang,dianpu,jiashui_xiaoji,isnull(yifu,0) as yifu,round(isnull(jiashui_xiaoji,0)-isnull(yifu,0),2) as weifu,1 as isselect from (select id,bianhao,riqi,gongyingshang,dianpu,jiashui_xiaoji from caigou_ruku as ruku left join(select ruku_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji from caigou_ruku_item group by ruku_id) as ruku_money on ruku.id = ruku_money.ruku_id) as ruku_dingdan left join(select danju_leixing,danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as yifu from shouzhi_mingxi group by danju_leixing,danju_bianhao) as fukuan on ruku_dingdan.bianhao = fukuan.danju_bianhao where round(isnull(jiashui_xiaoji,0)-isnull(yifu,0),2) > 0
+        ]]>
+    </select>
 </mapper>

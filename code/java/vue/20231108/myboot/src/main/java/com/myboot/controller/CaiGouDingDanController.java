@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +30,12 @@ public class CaiGouDingDanController {
     private CaiGouDingDanItemService itemService;
 
     @GetMapping("/getAll")
-    public String getAll() {
+    public String getAll(HttpSession session) {
         return ResponseCommon.success(service.getAll());
     }
 
     @PostMapping("/queryList")
-    public String queryList(@RequestBody @NonNull JSONObject data) {
+    public String queryList(HttpSession session,@RequestBody @NonNull JSONObject data) {
         String start_date = data.getString("start_date");
         String stop_date = data.getString("stop_date");
         String gongyingshang = data.getString("gongyingshang");
@@ -44,14 +45,26 @@ public class CaiGouDingDanController {
     }
 
     @PostMapping("/getShenHe")
-    public String getShenHe(@RequestBody @NonNull JSONObject data) {
+    public String getShenHe(HttpSession session,@RequestBody @NonNull JSONObject data) {
         String shenhe = data.getString("shenhe");
         List<CaiGouDingDan> caiGouDingDan = service.getAllByShenHe(shenhe);
         return ResponseCommon.success(caiGouDingDan);
     }
 
+    @PostMapping("/selectWeiFu")
+    public String selectWeiFu(HttpSession session,@RequestBody @NonNull JSONObject data) {
+        List<CaiGouDingDan> caiGouDingDan = service.selectWeiFu();
+        return ResponseCommon.success(caiGouDingDan);
+    }
+
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(HttpSession session,@RequestBody @NonNull JSONObject data) {
+        List<CaiGouDingDan> caiGouDingDan = service.selectMaxDanHao();
+        return ResponseCommon.success(caiGouDingDan);
+    }
+
     @PostMapping("/caiGouDingDanAdd")
-    public String caiGouDingDanAdd(@RequestBody @NonNull JSONObject data) {
+    public String caiGouDingDanAdd(HttpSession session,@RequestBody @NonNull JSONObject data) {
         System.out.println(data);
         JSONObject head = data.getJSONObject("head");
         JSONArray body = data.getJSONArray("body");
@@ -68,7 +81,7 @@ public class CaiGouDingDanController {
     }
 
     @PostMapping("/caiGouDingDanUpd")
-    public String caiGouDingDanUpd(@RequestBody @NonNull JSONObject data) {
+    public String caiGouDingDanUpd(HttpSession session,@RequestBody @NonNull JSONObject data) {
         System.out.println(data);
         JSONObject head = data.getJSONObject("head");
         JSONArray body = data.getJSONArray("body");
@@ -90,7 +103,7 @@ public class CaiGouDingDanController {
      * @return
      */
     @PostMapping("/selectByCaiGouId")
-    public String selectByCaiGouId(@RequestBody JSONObject data) {
+    public String selectByCaiGouId(HttpSession session,@RequestBody JSONObject data) {
         if (data == null || data.getInteger("id") == null) {
             return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
         }
@@ -118,7 +131,7 @@ public class CaiGouDingDanController {
     }
 
     @RequestMapping("/delCaiGouDingDan")
-    public String delCaiGouDingDan(@RequestBody JSONObject data) {
+    public String delCaiGouDingDan(HttpSession session,@RequestBody JSONObject data) {
         if(data == null || data.get("list") == null) {
             return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
         }

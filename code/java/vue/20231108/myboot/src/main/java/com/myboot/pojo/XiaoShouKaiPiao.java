@@ -20,4 +20,11 @@ public class XiaoShouKaiPiao {
     private String kaipiaoDanwei;
     private String xinxiTuisong;
     private String kaipiaoZhuangtai;
+
+    private String riqi;
+    private String bianhao;
+    private String kehu;
+    private String kaipiaJine;
+    private String weikai;
+    private String isselect;
 }
