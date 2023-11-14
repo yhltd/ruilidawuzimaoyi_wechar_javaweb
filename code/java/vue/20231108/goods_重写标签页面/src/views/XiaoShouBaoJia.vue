@@ -465,6 +465,8 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      userInfo:'',
+      userPower:'',
       p_index:'',
       start_date:'',
       stop_date:'',
@@ -680,11 +682,11 @@ export default {
             bianhao:this_danhao,
             riqi: getNowDate(),
             kehu: '',
-            yewuyuan: '',
+            yewuyuan: this.userInfo.name,
             dianpu: '',
             xiaoxiangShuilv: '',
             beizhu:'',
-            shenhe:'',
+            shenhe:this.userInfo.shenpi,
             jiageDengji:'',
             shenheZhuangtai:'审核中',
             body:[
@@ -786,15 +788,30 @@ export default {
     },
 
     getUser(){
-      let url = "http://localhost:8081/user/getLogin"
-      this.axios.post(url,{}).then(res => {
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
-          this.User_List = res.data.data;
-          console.log(this.CaiGou_Product)
-          console.log("登录信息已获取");
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
         } else {
-          console.log("登录信息获取失败");
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");

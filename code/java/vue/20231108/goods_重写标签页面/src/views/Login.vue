@@ -69,6 +69,10 @@ export default {
       }
     }
   },
+  created() {
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("userPower");
+  },
   methods: {
     /**
      * 登录
@@ -87,8 +91,10 @@ export default {
             switch (res.data.code) {
               case "00": {
                 MessageUtil.success("登录成功");
-                window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.data.user));
-                window.sessionStorage.setItem("userPower", JSON.stringify(res.data.data.userPower));
+                this.$store.commit('loginSuccess',JSON.stringify(res.data.data.user))
+                this.$store.commit('powerSuccess',JSON.stringify(res.data.data.userPower))
+                // window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.data.user));
+                // window.sessionStorage.setItem("userPower", JSON.stringify(res.data.data.userPower));
                 this.$router.push("index");
                 break;
               }

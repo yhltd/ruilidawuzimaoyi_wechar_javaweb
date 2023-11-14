@@ -32,6 +32,8 @@ import xiaoshoukaipiao from '../views/XiaoShouKaiPiao.vue'
 
 Vue.use(VueRouter);
 
+
+
 const routes = [
     {
         path: "/",
@@ -48,6 +50,7 @@ const routes = [
         component: Index,
         meta: {
             title: "首页",
+            // requireAuth: true
         },
         children: [
             {
@@ -57,6 +60,7 @@ const routes = [
                 props: '',
                 meta: {
                     title: '仓库',
+                    requireAuth: true
                 },
             },
             {
@@ -65,7 +69,8 @@ const routes = [
                 component: () => import('../views/peizhi/Cangku'),
                 meta: {
                     title: '仓库',
-                    type: '仓库'
+                    type: '仓库',
+                    requireAuth: true
                 }
             }, {
                 path: '/dianPu',
@@ -73,7 +78,8 @@ const routes = [
                 component: () => import('../views/peizhi/DianPu.vue'),
                 meta: {
                     title: '店铺',
-                    type: '店铺'
+                    type: '店铺',
+                    requireAuth: true
                 }
             }, {
                 path: '/gongyingshangLevel',
@@ -81,7 +87,8 @@ const routes = [
                 component: () => import('../views/peizhi/GongYingShangLevel.vue'),
                 meta: {
                     title: '供应商等级',
-                    type: '供应商等级'
+                    type: '供应商等级',
+                    requireAuth: true
                 }
             }, {
                 path: '/hesuanDanwei',
@@ -89,7 +96,8 @@ const routes = [
                 component: () => import('../views/peizhi/HeSuanDanWei.vue'),
                 meta: {
                     title: '核算单位',
-                    type: '核算单位'
+                    type: '核算单位',
+                    requireAuth: true
                 }
             }, {
                 path: '/jiageLevel',
@@ -98,6 +106,7 @@ const routes = [
                 meta: {
                     title: '价格等级',
                     type: '价格等级',
+                    requireAuth: true
                 }
             }, {
                 path: '/jiageShangFuLv',
@@ -105,7 +114,8 @@ const routes = [
                 component: () => import('../views/peizhi/JiaGeShangFuLv.vue'),
                 meta: {
                     title: '价格上浮率',
-                    type: '',
+                    type: '价格上浮率',
+                    requireAuth: true
                 }
             }, {
                 path: '/jizhangMingxiType',
@@ -114,6 +124,7 @@ const routes = [
                 meta: {
                     title: '记账明细类型',
                     type: '记账明细类型',
+                    requireAuth: true
                 }
             }, {
                 path: '/jizhangType',
@@ -122,6 +133,7 @@ const routes = [
                 meta: {
                     title: '记账分类',
                     type: '记账分类',
+                    requireAuth: true
                 }
             }, {
                 path: '/kehuLevel',
@@ -130,6 +142,7 @@ const routes = [
                 meta: {
                     title: '客户等级',
                     type: '客户等级',
+                    requireAuth: true
                 }
             }, {
                 path: '/kehuType',
@@ -138,6 +151,7 @@ const routes = [
                 meta: {
                     title: '客户分类',
                     type: '客户分类',
+                    requireAuth: true
                 }
             }, {
                 path: '/shangpinType',
@@ -146,6 +160,7 @@ const routes = [
                 meta: {
                     title: '商品分类',
                     type: '商品分类',
+                    requireAuth: true
                 }
             }, {
                 path: '/shouKuanZhanghu',
@@ -154,6 +169,7 @@ const routes = [
                 meta: {
                     title: '收款账户',
                     type: '收款账户',
+                    requireAuth: true
                 }
             }, {
                 path: '/zhibaoLevel',
@@ -162,6 +178,7 @@ const routes = [
                 meta: {
                     title: '质保等级',
                     type: '质保等级',
+                    requireAuth: true
                 }
             },
             {
@@ -169,7 +186,8 @@ const routes = [
                 name: 'supplier',
                 component: () => import("../views/GongYingShang.vue"),
                 meta: {
-                    title: '供应商'
+                    title: '供应商',
+                    requireAuth: true
                 }
             },
             {
@@ -177,7 +195,8 @@ const routes = [
                 name: 'zhuanzhang',
                 component: () => import("../views/ZhuanZhang.vue"),
                 meta: {
-                    title: '转账'
+                    title: '转账',
+                    requireAuth: true
                 }
             },
             {
@@ -185,7 +204,8 @@ const routes = [
                 name: 'kucun',
                 component: () => import("../views/KuCun.vue"),
                 meta: {
-                    title: '库存'
+                    title: '库存',
+                    requireAuth: true
                 }
             },
             {
@@ -193,7 +213,8 @@ const routes = [
                 name: 'zhanghuyue',
                 component: () => import("../views/ZhangHuYuE.vue"),
                 meta: {
-                    title: '账户余额'
+                    title: '账户余额',
+                    requireAuth: true
                 }
             },
             {
@@ -201,7 +222,8 @@ const routes = [
                 name: 'shourufenlei',
                 component: () => import("../views/ShouRuFenLei.vue"),
                 meta: {
-                    title: '收入分类统计'
+                    title: '收入分类统计',
+                    requireAuth: true
                 }
             },
             {
@@ -209,7 +231,8 @@ const routes = [
                 name: 'zhichufenlei',
                 component: () => import("../views/ZhiChuFenLei.vue"),
                 meta: {
-                    title: '支出分类统计'
+                    title: '支出分类统计',
+                    requireAuth: true
                 }
             },
             {
@@ -217,7 +240,8 @@ const routes = [
                 name: 'yuedushouzhi',
                 component: () => import("../views/YueDuShouZhi.vue"),
                 meta: {
-                    title: '月度收支统计'
+                    title: '月度收支统计',
+                    requireAuth: true
                 }
             },
             {
@@ -225,7 +249,8 @@ const routes = [
                 name: "powerManage",
                 component: () => import("../views/UserPower.vue"),
                 meta: {
-                    title: '权限管理'
+                    title: '权限管理',
+                    requireAuth: true
                 }
             },
             {
@@ -233,7 +258,8 @@ const routes = [
                 name: 'userInfo',
                 component: () => import('../views/UserInfo.vue'),
                 meta: {
-                    title: '账号管理'
+                    title: '账号管理',
+                    requireAuth: true
                 }
             },
             {
@@ -242,6 +268,7 @@ const routes = [
                 component: goods,
                 meta: {
                     title: "商品",
+                    requireAuth: true
                 }
             },
             {
@@ -250,6 +277,7 @@ const routes = [
                 component: user,
                 meta: {
                     title: "客户",
+                    requireAuth: true
                 }
             },
             {
@@ -257,7 +285,8 @@ const routes = [
                 name: "collAccount",
                 component: collAccount,
                 meta: {
-                    title: '收款账户'
+                    title: '收款账户',
+                    requireAuth: true
                 },
             },
             {
@@ -265,70 +294,26 @@ const routes = [
                 name: "accountingunit",
                 component: accountingunit,
                 meta: {
-                    title: '核算单位'
+                    title: '核算单位',
+                    requireAuth: true
                 },
-            },
-            {
-                path: "/editgoods",
-                name: "editgoods",
-                component: editgoods,
-                meta: {
-                    title: '编辑商品'
-                },
-            },
-            {
-                path: "/asd",
-                name: "asd",
-                component: asd,
-            },
-            {
-                path: "/updgoods",
-                name: "updgoods",
-                component: updgoods,
-                meta: {
-                    title: '修改商品'
-                },
-            },
-            {
-                path: "/dingdanadd",
-                name: "dingdanadd",
-                component: dingdanadd,
-                meta: {
-                    title: '添加订单'
-                }
             },
             {
                 path: "/mingxi",
                 name: "mingxi",
                 component: mingxi,
                 meta: {
-                    title: '订单'
+                    title: '订单',
+                    requireAuth: true
                 },
-                children: [
-                    {
-                        path: "/dingdan",
-                        name: "liebiao",
-                        component: liebiao,
-                        meta: {
-                            title: '列表'
-                        },
-                    },
-                    {
-                        path: "/mingxi",
-                        name: "mingxi",
-                        component: mingxi,
-                        meta: {
-                            title: '采购订单'
-                        },
-                    },
-                ],
             },
             {
                 path: "/caigouruku",
                 name: "caigouruku",
                 component: caigouruku,
                 meta: {
-                    title: '采购入库'
+                    title: '采购入库',
+                    requireAuth: true
                 }
             },
             {
@@ -336,7 +321,8 @@ const routes = [
                 name: "caigoushoupiao",
                 component: caigoushoupiao,
                 meta: {
-                    title: '采购收票'
+                    title: '采购收票',
+                    requireAuth: true
                 }
             },
             {
@@ -344,7 +330,8 @@ const routes = [
                 name: "zhichujilu",
                 component: zhichujilu,
                 meta: {
-                    title: '支出记录'
+                    title: '支出记录',
+                    requireAuth: true
                 }
             },
             {
@@ -352,7 +339,8 @@ const routes = [
                 name: "shourujilu",
                 component: shourujilu,
                 meta: {
-                    title: '收入记录'
+                    title: '收入记录',
+                    requireAuth: true
                 }
             },
             {
@@ -360,7 +348,8 @@ const routes = [
                 name: "xiaoshoubaojia",
                 component: xiaoshoubaojia,
                 meta: {
-                    title: '销售报价'
+                    title: '销售报价',
+                    requireAuth: true
                 }
             },
             {
@@ -368,7 +357,8 @@ const routes = [
                 name: "xiaoshoudingdan",
                 component: xiaoshoudingdan,
                 meta: {
-                    title: '销售订单'
+                    title: '销售订单',
+                    requireAuth: true
                 }
             },
             {
@@ -376,7 +366,8 @@ const routes = [
                 name: "xiaoshouchuku",
                 component: xiaoshouchuku,
                 meta: {
-                    title: '销售出库'
+                    title: '销售出库',
+                    requireAuth: true
                 }
             },
             {
@@ -384,7 +375,8 @@ const routes = [
                 name: "xiaoshoukaipiao",
                 component: xiaoshoukaipiao,
                 meta: {
-                    title: '销售开票'
+                    title: '销售开票',
+                    requireAuth: true
                 }
             },
         ],
@@ -392,11 +384,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
+    mode: "history",
     routes,
 });
 
 // 设置页面标题
 router.afterEach((to, from) => {
-    document.title = to.meta.title || "goods";
+    document.title = to.meta.title || "进销存系统";
 })
 export default router;

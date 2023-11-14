@@ -16,7 +16,7 @@
       >
         <el-submenu index="1">
           <template slot="title">销售</template>
-          <el-menu-item index="/1-1" @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>
           <el-menu-item @click="goRouter('/xiaoshoudingdan')"><p class="custom-menu-item">销售订单</p></el-menu-item>
           <el-menu-item @click="goRouter('/xiaoshouchuku')"><p class="custom-menu-item">销售出库</p></el-menu-item>
           <el-menu-item @click="goRouter('/xiaoshoukaipiao')"><p class="custom-menu-item">销售开票</p></el-menu-item>
