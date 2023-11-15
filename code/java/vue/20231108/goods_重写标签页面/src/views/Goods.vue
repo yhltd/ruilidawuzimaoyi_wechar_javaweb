@@ -25,9 +25,10 @@
         <el-button type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
+
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -78,16 +79,23 @@
     </el-table>
 
     <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
     </el-pagination>
 
-    <el-dialog title="" :visible.sync="addDialog" width="80%">
+    <el-dialog title="" :visible.sync="addDialog" width="90%">
 
       <el-form :model="Product" ref="addUsr" label-width="100px"
                class="demo-info">
 
+        <input ref="file" type="file" id="pic_file" @change="fileSelect()" style="display: none">
         <!--        商品基本信息-->
         <el-row :gutter="15">
           <el-col :span="6">
@@ -160,6 +168,32 @@
           </el-row>
           <el-row :gutter="15">
             <el-col :span="6">
+              <el-form-item label="商品图片" prop="image" class="custom-form-item">
+                <div style="height: 150px" >
+                  <img class="product" :src="Product.body[index].image"></img>
+                </div>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="3">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="uploadImg(index)">上传图片
+              </el-button>
+            </el-col>
+            <el-col :span="3">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="deleteImg(index)">删除图片
+              </el-button>
+            </el-col>
+            <el-col :span="3">
+              <el-button v-if="index > 0" class="custom-login-button"  type="primary"
+                         @click="delLianXiRen(index)">删除商品
+              </el-button>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="15">
+            <el-col :span="6">
               <el-form-item label="规格" prop="guige" class="custom-form-item">
                 <el-input ref="acc_inp" v-model="Product.body[index].guige" class="custom-login-inp"></el-input>
               </el-form-item>
@@ -228,10 +262,6 @@
                 <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
               </el-form-item>
             </el-col>
-
-            <el-button v-if="index > 0" class="custom-login-button" :loading="login_btn_loading" type="primary"
-                       @click="delLianXiRen(index)">删除
-            </el-button>
           </el-row>
         </div>
 
@@ -242,21 +272,21 @@
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
-              <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
+              <el-button class="custom-login-button"  type="primary"
                          @click="addItem">添加商品
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
-              <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
+              <el-button class="custom-login-button"  type="primary"
                          @click="save">保存
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
-              <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
+              <el-button class="custom-login-button"  type="primary"
                          @click="addClose">取消
               </el-button>
             </div>
@@ -282,6 +312,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       name:'',
       type:'',
       XiaLa_JianZuoKeHu:[
@@ -309,22 +342,22 @@ export default {
         type:'',
         danwei:'',
         caizhi:'',
-        jishu_biaozhun:'',
-        zhibao_dengji:'',
+        jishuBiaozhun:'',
+        zhibaoDengji:'',
         beizhu:'',
         body:[
           {
-            product_id:'',
+            productId:'',
             image:'',
             guige:'',
             bianhao:'',
-            lingshou_price:'',
-            lingshou_bili:'',
-            pifa_price:'',
-            pifa_bili:'',
-            dakehu_price:'',
-            dakehu_bili:'',
-            caigou_price:'',
+            lingshouPrice:'',
+            lingshouBili:'',
+            pifaPrice:'',
+            pifaBili:'',
+            dakehuPrice:'',
+            dakehuBili:'',
+            caigouPrice:'',
             jinxiang:'',
             xiaoxiang:'',
             enable:'',
@@ -340,7 +373,7 @@ export default {
   created() {
     this.getXiaLa_Level();
     this.getXiaLa_CaiGouYuan();
-    this.getAll();
+    this.getUser();
   },
   methods: {
     toggleSelection(rows) {
@@ -360,27 +393,31 @@ export default {
 
     //新增窗口弹出
     addUser() {
+      if(this.userPower.shangpinAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
       this.Product = {
             name:'',
             type:'',
             danwei:'',
             caizhi:'',
-            jishu_biaozhun:'',
-            zhibao_dengji:'',
+            jishuBiaozhun:'',
+            zhibaoDengji:'',
             beizhu:'',
             body:[
           {
-            product_id:'',
+            productId:'',
             image:'',
             guige:'',
             bianhao:'',
-            lingshou_price:'',
-            lingshou_bili:'',
-            pifa_price:'',
-            pifa_bili:'',
-            dakehu_price:'',
-            dakehu_bili:'',
-            caigou_price:'',
+            lingshouPrice:'',
+            lingshouBili:'',
+            pifaPrice:'',
+            pifaBili:'',
+            dakehuPrice:'',
+            dakehuBili:'',
+            caigouPrice:'',
             jinxiang:'',
             xiaoxiang:'',
             enable:'',
@@ -414,6 +451,38 @@ export default {
           var this_val = res.data.data
           this_val.body = this_val.itemList
           this.Product = this_val
+          var this_item = []
+
+          for(var i=0; i<this_val.itemList.length; i++){
+            this_item.push({
+              productId:this_val.itemList[i].productId,
+              image:this_val.itemList[i].image,
+              guige:this_val.itemList[i].guige,
+              bianhao:this_val.itemList[i].bianhao,
+              lingshouPrice:this_val.itemList[i].lingshouPrice,
+              lingshouBili:this_val.itemList[i].lingshouBili,
+              pifaPrice:this_val.itemList[i].pifaPrice,
+              pifaBili:this_val.itemList[i].pifaBili,
+              dakehuPrice:this_val.itemList[i].dakehuPrice,
+              dakehuBili:this_val.itemList[i].dakehuBili,
+              caigouPrice:this_val.itemList[i].caigouPrice,
+              jinxiang:this_val.itemList[i].jinxiang,
+              xiaoxiang:this_val.itemList[i].xiaoxiang,
+              enable:this_val.itemList[i].enable,
+            })
+          }
+          this.oldProduct = {
+            name:this_val.name,
+            type:this_val.type,
+            danwei:this_val.danwei,
+            caizhi:this_val.caizhi,
+            jishuBiaozhun:this_val.jishuBiaozhun,
+            zhibaoDengji:this_val.zhibaoDengji,
+            beizhu:this_val.beizhu,
+            body:this_item
+          }
+          console.log(this.Product)
+          console.log(this.oldProduct)
           console.log(res.data.data);
           console.log("获取成功");
           this.addDialog = true;
@@ -424,6 +493,44 @@ export default {
         MessageUtil.error("网络异常");
       })
 
+    },
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.shangpinSel == '是'){
+            this.getAll();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
     },
 
     getXiaLa_Level(){
@@ -462,10 +569,15 @@ export default {
 
     //查询全部
     getAll(){
+      if(this.userPower.shangpinSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       let url = "http://localhost:8081/product/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           console.log(res.data.data)
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -478,13 +590,19 @@ export default {
 
     //刷新
     refresh(){
-      this.bianhao = ""
-      this.name = ""
+      if(this.userPower.shangpinSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       this.getAll()
     },
 
     //条件查询
     query(){
+      if(this.userPower.shangpinSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       var date = {
         name:this.name,
         type:this.type,
@@ -494,6 +612,7 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -547,6 +666,22 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.Product
+
+      for(var i=0; i<save_list.body.length; i++){
+        if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
+          save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
+          var formData = new FormData();
+          formData.append("file",save_list.body[i].imgFile)
+          let url = "http://localhost:8081/file/upload"
+          this.axios.post(url,formData).then(res => {
+            console.log(res.msg)
+          }).catch(() => {
+            MessageUtil.error("网络异常");
+          })
+        }
+      }
+
+
       let url = "http://localhost:8081/product/productAdd"
       this.axios.post(url, {
         "head":this.Product,
@@ -567,6 +702,22 @@ export default {
 
     updGongYingShang(){
       var save_list = this.Product
+
+      for(var i=0; i<save_list.body.length; i++){
+        if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
+          save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
+          var formData = new FormData();
+          formData.append("file",save_list.body[i].imgFile)
+          let url = "http://localhost:8081/file/upload"
+          this.axios.post(url,formData).then(res => {
+            console.log(res.msg)
+          }).catch(() => {
+            MessageUtil.error("网络异常");
+          })
+        }
+      }
+
+
       let url = "http://localhost:8081/product/productUpd"
       this.axios.post(url, {
         "head":this.Product,
@@ -587,6 +738,10 @@ export default {
 
     save(){
       if(this.Product.id != undefined && this.Product.id != null){
+        if(this.userPower.shangpinUpd != '是'){
+          MessageUtil.error("无修改权限");
+          return;
+        }
         this.updGongYingShang()
       }else{
         this.saveGongYingShang()
@@ -594,11 +749,15 @@ export default {
     },
 
     deleteClick(){
+      if(this.userPower.shangpinDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
       }
-      this.$confirm('是否删除当前选中的客户信息?', '提示', {
+      this.$confirm('是否删除当前选中的信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -628,6 +787,50 @@ export default {
         });
       });
     },
+
+    uploadImg(index){
+      this.p_index = index
+      this.$refs.file.click();
+    },
+
+    fileSelect(){
+      var file = document.getElementById("pic_file").files;
+      var this_file = file[0];
+      var fileName = file[0].name;
+      console.log(fileName)
+      console.log(this_file)
+      let URL = window.URL || window.webkitURL;
+      // 通过 file 生成目标 url
+      let imgURL = URL.createObjectURL(this_file);
+      console.log(imgURL)
+      this.Product.body[this.p_index].image = imgURL
+      this.Product.body[this.p_index].imgFile = file[0]
+      this.Product.body[this.p_index].imgFileName = file[0].name
+      console.log(this.Product.body[this.p_index])
+    },
+
+    deleteImg(index){
+      this.Product.body[index].image = ""
+      this.Product.body[index].imgFile = ""
+      this.Product.body[index].imgFileName = ""
+      console.log("新商品:")
+      console.log(this.Product)
+      console.log("老商品:")
+      console.log(this.oldProduct)
+
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
   }
 }
 </script>
@@ -635,5 +838,9 @@ export default {
 .dialog-title{
   font-weight:bold;
   font-size: larger;
+}
+.product{
+  width: 100%; height: 100%;
+  object-fit: contain;
 }
 </style>

@@ -75,4 +75,15 @@ public class CaiGouDingDanImpl implements CaiGouDingDanService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int caiGouShenHe(List<Integer> list,String type) {
+        int count = 0;
+        for(Integer id : list) {
+            count += mapper.caiGouShenHe(id,type);
+        }
+        return count;
+    }
+
+
 }

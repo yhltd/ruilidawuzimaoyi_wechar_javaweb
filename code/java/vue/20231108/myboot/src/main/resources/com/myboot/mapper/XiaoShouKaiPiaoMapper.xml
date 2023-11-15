@@ -59,4 +59,9 @@
             select id,riqi,bianhao,kehu,isnull(jiashui_heji,0) as jiashui_heji,isnull(kaipiao_jine,0) as kaipiao_jine,isnull(jiashui_heji,0) - isnull(kaipiao_jine,0) as weikai,1 as isselect from (select id,riqi,bianhao,kehu,money.jiashui_heji from xiaoshou_dingdan as xiaoshou left join (select xiaoshou_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_heji from xiaoshou_dingdan_item group by xiaoshou_id) as money on xiaoshou.id = money.xiaoshou_id) as xiaoshoudan left join (select xiaoshou_bianhao,sum(convert(float,isnull(jiashui_heji,0))) as kaipiao_jine from xiaoshou_kaipiao GROUP BY xiaoshou_bianhao) as kaipiao on xiaoshoudan.bianhao = kaipiao.xiaoshou_bianhao where isnull(jiashui_heji,0) - isnull(kaipiao_jine,0) > 0
         ]]>
     </select>
+
+    <update id="kaiPiao">
+        UPDATE xiaoshou_kaipiao set kaipiao_zhuangtai='已开票'
+        WHERE id = #{id}
+    </update>
 </mapper>

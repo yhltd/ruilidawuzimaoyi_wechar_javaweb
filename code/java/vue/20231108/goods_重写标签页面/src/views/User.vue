@@ -49,7 +49,7 @@
       <el-main>
         <el-table
             border
-            :data="tableData"
+            :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
             style="width: 100%"
             @selection-change="handleSelectionChange"
         >
@@ -73,17 +73,19 @@
       </el-main>
     </el-container>
     <el-footer>
-      <div class="page">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="page"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize"
-            layout="sizes, prev, pager, next"
-            :total="total">
-        </el-pagination>
-      </div>
+
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+
     </el-footer>
     <el-dialog
         title="添加客户"
@@ -551,12 +553,17 @@ export default {
     this.queryAllCustomer();
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.currentPage = val
     },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
     edits(data) {
       this.id = data.cid
     },
@@ -722,6 +729,7 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            this.total = res.data.data.length;
             MessageUtil.success("共查询到" + this.tableData.length + "条数据")
             break;
           default: {
@@ -744,6 +752,7 @@ export default {
           .then((res) => {
             if (res.data.code == '00') {
               this.tableData = res.data.data;
+              this.total = res.data.data.length;
             } else {
               MessageUtil.error("获取用户失败");
             }
@@ -913,6 +922,7 @@ export default {
   },
   data() {
     return {
+
       id: "",
       userAdd: false, //弹框默认显示与否
       userupdate: false,
@@ -998,9 +1008,9 @@ export default {
       contactUserList_exist: [], // 记录已有联系人
       contactUserList: [  // 联系人
       ], // [{}]
-      page: 1,
-      total: 10,
-      pageSize: 10,
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       rules: {
         name: [],
       },

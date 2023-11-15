@@ -75,4 +75,14 @@ public class XiaoShouKaiPiaoImpl implements XiaoShouKaiPiaoService {
         return mapper.selectYingKai();
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int kaiPiao(List<Integer> list) {
+        int count = 0;
+        for(Integer id : list) {
+            count += mapper.kaiPiao(id);
+        }
+        return count;
+    }
+
 }

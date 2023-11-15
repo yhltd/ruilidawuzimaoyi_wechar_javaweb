@@ -71,4 +71,14 @@ public class CaiGouShouPiaoImpl implements CaiGouShouPiaoService {
         return count;
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int shouPiao(List<Integer> list) {
+        int count = 0;
+        for(Integer id : list) {
+            count += mapper.shouPiao(id);
+        }
+        return count;
+    }
+
 }

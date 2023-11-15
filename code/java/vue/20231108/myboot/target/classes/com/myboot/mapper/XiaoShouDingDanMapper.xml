@@ -30,6 +30,12 @@
         ]]>
     </select>
 
+    <select id="getAllByName" resultType="com.myboot.pojo.XiaoShouDingDan">
+        <![CDATA[
+            select * from xiaoshou_dingdan where yewuyuan = #{yewuyuan}
+        ]]>
+    </select>
+
     <select id="getAllByShenHe" resultType="com.myboot.pojo.XiaoShouDingDan">
         <![CDATA[
             select * from xiaoshou_dingdan where shenhe = #{shenhe}
@@ -42,6 +48,24 @@
             where riqi >= #{start_date} and riqi <= #{stop_date} and kehu like '%' + #{kehu} + '%' and shenhe_zhuangtai like '%' + #{shenhe_zhuangtai} + '%'
         ]]>
     </select>
+
+    <select id="queryListByName" resultType="com.myboot.pojo.XiaoShouDingDan">
+        <![CDATA[
+            select * from xiaoshou_dingdan
+            where yewuyuan = #{yewuyuan} and riqi >= #{start_date} and riqi <= #{stop_date} and kehu like '%' + #{kehu} + '%' and shenhe_zhuangtai like '%' + #{shenhe_zhuangtai} + '%'
+        ]]>
+    </select>
+
+    <select id="shenHeList" resultType="com.myboot.pojo.XiaoShouDingDan">
+        <![CDATA[
+            select * from xiaoshou_dingdan where shenhe = #{name} and shenhe_zhuangtai = '审核中'
+        ]]>
+    </select>
+
+    <update id="dingDanShenHe">
+        UPDATE xiaoshou_dingdan set shenhe_zhuangtai=#{type}
+        WHERE id = #{id}
+    </update>
 
     <select id="selectXiaoShouById" resultType="com.myboot.pojo.XiaoShouDingDan">
         <![CDATA[

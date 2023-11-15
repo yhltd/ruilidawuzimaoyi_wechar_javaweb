@@ -32,7 +32,7 @@
       </el-col>
     </el-row>
     <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         border
         style="width: 100%; margin-top: 10px;"
         @selection-change="handleSelectionChange"
@@ -58,6 +58,11 @@
           width="auto">
       </el-table-column>
       <el-table-column
+          prop="password"
+          label="密码"
+          width="auto">
+      </el-table-column>
+      <el-table-column
           prop="power"
           label="权限"
           width="auto">
@@ -68,17 +73,19 @@
           width="auto">
       </el-table-column>
     </el-table>
-    <div class="page">
-      <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="page"
-          :page-sizes="[10, 25, 50, 100]"
-          :page-size="pageSize"
-          layout="sizes, prev, pager, next"
-          :total="total">
-      </el-pagination>
-    </div>
+
+    <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
+        background
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
+    </el-pagination>
+
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
 
       <el-form :model="updUserInfo" ref="usrInfo" :rules="rules" label-width="100px"
@@ -89,7 +96,7 @@
                     @keyup.enter.native="inpFocus('pwd_inp')"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="updPassword" class="custom-form-item">
-          <el-input :disabled="!show_upd_btn" ref="pwd_inp" type="password" v-model="updUserInfo.updPassword"
+          <el-input :disabled="!show_upd_btn" ref="pwd_inp" v-model="updUserInfo.updPassword"
                     class="custom-login-inp"
                     @keyup.enter.native="(submitForm('usrInfo'))"></el-input>
         </el-form-item>
@@ -139,7 +146,7 @@
                     @keyup.enter.native="inpFocus('pwd_inp')"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" class="custom-form-item">
-          <el-input ref="pwd_inp" type="password" v-model="userInfo.password"
+          <el-input ref="pwd_inp" v-model="userInfo.password"
                     class="custom-login-inp"
                     @keyup.enter.native="(inpFocus('name_inp'))"></el-input>
         </el-form-item>
@@ -186,6 +193,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       dialogFormVisible: false,
       addDialog: false,
       tableData: [{
@@ -248,18 +258,18 @@ export default {
         ],
       },
       keyword: '',
-      page: 1,
-      total: 10,
-      pageSize: 10,
     }
   },
   methods: {
-    handleSizeChange(val) {
-      // let url=
-      console.log(`每页 ${val} 条`);
-    },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
     },
     /**
      * 查看按钮
@@ -267,12 +277,17 @@ export default {
     handleClick(row) {
     },
     fuzzyQuery() {
+      if(this.userPower.zhanghaoguanliSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       this.fuzzy_query_loading = true;
       let url = 'http://localhost:8081/user/fuzzyQuery';
       axios.post(url, {'keyword': this.keyword}).then(res => {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            this.total = res.data.data.length;
             MessageUtil.success("共查询到" + this.tableData.length + "条数据")
             break;
           default: {
@@ -289,6 +304,12 @@ export default {
      * 点击表格上的编辑按钮
      */
     updateBtnClick() {
+
+      if(this.userPower.zhanghaoguanliUpd != '是'){
+        MessageUtil.error("无修改权限");
+        return;
+      }
+
       let arr = this.multipleSelection;
       if (arr.length == 0) {
         MessageUtil.info("选择需要编辑的用户")
@@ -297,10 +318,59 @@ export default {
         MessageUtil.info("只能同时编辑一个用户")
         return;
       }
-      this.updUserInfo = arr[0];
+      this.updUserInfo.id = arr[0].id;
+      this.updUserInfo.name = arr[0].name;
+      this.updUserInfo.userName = arr[0].userName;
+      this.updUserInfo.password = arr[0].password;
+      this.updUserInfo.power = arr[0].power;
+      this.updUserInfo.shenpi = arr[0].shenpi;
+      this.updUserInfo.updPassword = arr[0].password;
       this.dialogFormVisible = true;
     },
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.zhanghaoguanliSel == '是'){
+            this.queryUsersInfo();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     addUser() {
+      if(this.userPower.zhanghaoguanliAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
       const info = this.userInfo
       info.name = '';
       info.userName = '';
@@ -342,6 +412,10 @@ export default {
       })
     },
     deleteUsers() {
+      if(this.userPower.zhanghaoguanliDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       this.del_popover_visible = false;
       let list = this.multipleSelection;
       this.del_loading = true;
@@ -507,7 +581,7 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
-
+            this.total = res.data.data.length;
             break;
           default: {
             MessageUtil.error("获取审批人失败");
@@ -519,7 +593,7 @@ export default {
     }
   },
   created() {
-    this.queryUsersInfo();
+    this.getUser();
   }
 }
 </script>

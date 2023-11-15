@@ -36,5 +36,7 @@ public interface XiaoShouKaiPiaoMapper {
 
     public List<XiaoShouKaiPiao> selectYingKai();
 
+    public int kaiPiao(int id);
+
 
 }

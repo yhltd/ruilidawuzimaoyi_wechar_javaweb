@@ -39,4 +39,6 @@ public interface XiaoShouKaiPiaoService {
 
     public List<XiaoShouKaiPiao> selectYingKai();
 
+    public int kaiPiao(List<Integer> list);
+
 }

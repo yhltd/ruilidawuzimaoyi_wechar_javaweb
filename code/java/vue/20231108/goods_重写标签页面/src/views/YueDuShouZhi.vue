@@ -68,7 +68,7 @@ export default {
     }
   },
   created() {
-    this.query();
+    this.getUser();
     this.riqi=getNowDate()
   },
   methods: {
@@ -90,11 +90,53 @@ export default {
 
     //刷新
     refresh(){
-      this.getAll()
+      this.query()
+    },
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.yueduTongjiSel == '是'){
+            this.query();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
     },
 
     //条件查询
     query(){
+      if(this.userPower.yueduTongjiSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       var riqi = this.riqi
       if(riqi == ""){
         MessageUtil.error("请选择日期");

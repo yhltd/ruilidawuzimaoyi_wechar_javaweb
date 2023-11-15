@@ -55,19 +55,25 @@
         </el-select>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
+        <el-button size="small" round type="primary" @click="query()">查询</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="refresh()">刷新</el-button>
+        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="addUser()">添加</el-button>
+        <el-button v-if="!shenheButton" size="small" round type="primary" @click="addUser()">添加</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="updUser()">编辑</el-button>
+        <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="deleteClick()">删除</el-button>
+        <el-button size="small" round type="primary" @click="myKaiPiao()">需要我开票</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button v-if="shenheButton" size="small" round type="primary" @click="kaiPiaoClick()">开票</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
 
@@ -75,7 +81,7 @@
 
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -169,9 +175,15 @@
     </el-table>
 
     <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
     </el-pagination>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
@@ -404,6 +416,10 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
+      shenheButton:false,
       start_date:'',
       stop_date:'',
       shoupiao_danwei:'',
@@ -457,7 +473,6 @@ export default {
     this.getXiaLa_GongYingShang();
     this.getXiaLa_HeSuanDanWei();
     this.getXiaLa_CangKu();
-    this.getAll();
   },
   methods: {
     toggleSelection(rows) {
@@ -552,6 +567,10 @@ export default {
 
     //新增窗口弹出
     addUser() {
+      if(this.userPower.xiaoshouKaiPiaoAdd != '是'){
+        MessageUtil.error("无添加权限");
+        return;
+      }
       this.gongYingShang = {
         xiaoshouBianhao:'',
         shoupiaoDanwei: '',
@@ -629,17 +648,39 @@ export default {
         MessageUtil.error("网络异常");
       })
     },
-    //读取账号信息（未实现）
+
     getUser(){
-      let url = "http://localhost:8081/user/getLogin"
-      this.axios.post(url,{}).then(res => {
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
-          this.User_List = res.data.data;
-          console.log(this.CaiGou_Product)
-          console.log("登录信息已获取");
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
         } else {
-          console.log("登录信息获取失败");
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.xiaoshouKaipiaoSel == '是'){
+            this.getAll();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
@@ -727,10 +768,15 @@ export default {
 
     //查询全部
     getAll(){
+      if(this.userPower.xiaoshouKaipiaoSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       let url = "http://localhost:8081/kaiPiao/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -742,16 +788,21 @@ export default {
 
     //刷新
     refresh(){
-      this.start_date = ""
-      this.stop_date = ""
-      this.shoupiao_danwei = ""
-      this.kaipiao_danwei = ""
-      this.shoupiao_zhuangtai = ""
+      this.shenheButton = false
       this.getAll()
     },
 
-    //条件查询
     query(){
+      this.shenheButton = false
+      if(this.userPower.xiaoshouKaipiaoSel == '是'){
+        this.queryList();
+      }else{
+        MessageUtil.error("无查询权限");
+      }
+    },
+
+    //条件查询
+    queryList(){
       var start_date = this.start_date
       var stop_date = this.stop_date
       if(start_date == '' || start_date == null){
@@ -771,6 +822,7 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -815,6 +867,12 @@ export default {
     },
     //根据对象中有无id执行保存或修改
     save(){
+
+      if(this.userPower.xiaoshouKaipiaoUpd != '是' && (this.gongYingShang.id != undefined && this.gongYingShang.id != null)){
+        MessageUtil.error("无修改权限");
+        return;
+      }
+
       if(this.gongYingShang.shoupiaoDanwei == ''){
         MessageUtil.error('请选择收票单位');
         return;
@@ -841,8 +899,30 @@ export default {
         this.saveGongYingShang()
       }
     },
+
+    //条件查询
+    myKaiPiao(){
+      this.shenheButton = true
+      let url = "http://localhost:8081/kaiPiao/getKaiPiao"
+      this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     //删除选中
     deleteClick(){
+      if(this.userPower.xiaoshouKaipiaoDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
@@ -877,6 +957,50 @@ export default {
         });
       });
     },
+
+    kaiPiaoClick(){
+      if(this.multipleSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }
+      this.$confirm('是否对当前选中的信息开票?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        var list = []
+        for(var i=0; i<this.multipleSelection.length; i++){
+          list.push(this.multipleSelection[i].id)
+        }
+        console.log(list)
+        let url = "http://localhost:8081/kaiPiao/kaiPiao";
+        axios.post(url, {"list": list}).then(res => {
+          MessageUtil.success(res.data.msg);
+          this.query()
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+        })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
   }
 }
 

@@ -35,5 +35,7 @@ public interface CaiGouShouPiaoMapper {
 
     int deleteUsrById(Integer id);
 
+    public int shouPiao(int id);
+
 
 }

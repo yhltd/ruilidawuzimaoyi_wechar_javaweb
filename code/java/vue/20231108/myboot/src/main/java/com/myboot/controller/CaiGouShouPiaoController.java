@@ -90,5 +90,17 @@ public class CaiGouShouPiaoController {
         return ResponseCommon.success(sb.toString());
     }
 
+    @RequestMapping("/shouPiao")
+    public String kaiPiao(@RequestBody JSONObject data) {
+        if(data == null || data.get("list") == null) {
+            return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
+        }
+        List<Integer> list = data.getObject("list", ArrayList.class);
+        int res = service.shouPiao(list);
+        StringBuffer sb = new StringBuffer();
+        sb.append("成功收票了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条收票失败");
+        return ResponseCommon.success(sb.toString());
+    }
+
 
 }

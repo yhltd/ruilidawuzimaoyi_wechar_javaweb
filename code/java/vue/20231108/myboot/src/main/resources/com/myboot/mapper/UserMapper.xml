@@ -87,7 +87,7 @@
     <!--    </select>-->
 
     <select id="queryAllUsers">
-        select id, username as userName, name, power, shenpi
+        select id, username as userName,password, name, power, shenpi
         from userInfo
     </select>
 
@@ -101,7 +101,7 @@
     </delete>
 
     <select id="fuzzyQuery">
-        select id, name, username as userName, power, shenpi from userInfo
+        select id, name, username as userName,password, power, shenpi from userInfo
         where 1=1
         and
         (
@@ -111,4 +111,17 @@
         or username like '%'+#{keyword}+'%'
         )
     </select>
+
+    <update id="updCangKu">
+        update userInfo set cangku = #{typeId} where id= #{id}
+    </update>
+
+    <update id="updDianPu">
+        update userInfo set dianpu = #{typeId} where id= #{id}
+    </update>
+
+    <update id="updHeSuanDanWei">
+        update userInfo set hesuan_danwei = #{typeId} where id= #{id}
+    </update>
+
 </mapper>

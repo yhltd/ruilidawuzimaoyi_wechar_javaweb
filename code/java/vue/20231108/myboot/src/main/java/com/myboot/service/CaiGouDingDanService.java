@@ -35,4 +35,6 @@ public interface CaiGouDingDanService {
 
     public List<CaiGouDingDan> selectWeiFu();
 
+    public int caiGouShenHe(List<Integer> list,String type);
+
 }

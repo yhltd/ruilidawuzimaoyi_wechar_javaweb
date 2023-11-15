@@ -42,4 +42,6 @@ public interface CaiGouShouPiaoService {
      */
     int delUsers(List<Integer> list);
 
+    public int shouPiao(List<Integer> list);
+
 }

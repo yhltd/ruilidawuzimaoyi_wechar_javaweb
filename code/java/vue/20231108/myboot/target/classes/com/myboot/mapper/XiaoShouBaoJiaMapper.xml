@@ -26,6 +26,12 @@
         ]]>
     </select>
 
+    <select id="getAllByName" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia where yewuyuan = #{yewuyuan}
+        ]]>
+    </select>
+
     <select id="getAllByShenHe" resultType="com.myboot.pojo.XiaoShouBaoJia">
         <![CDATA[
             select * from xiaoshou_baojia where shenhe = #{shenhe}
@@ -36,6 +42,13 @@
         <![CDATA[
             select * from xiaoshou_baojia
             where riqi >= #{start_date} and riqi <= #{stop_date} and kehu like '%' + #{kehu} + '%' and shenhe_zhuangtai like '%' + #{shenhe_zhuangtai} + '%'
+        ]]>
+    </select>
+
+    <select id="queryListByName" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia
+            where yewuyuan=#{yewuyuan} and riqi >= #{start_date} and riqi <= #{stop_date} and kehu like '%' + #{kehu} + '%' and shenhe_zhuangtai like '%' + #{shenhe_zhuangtai} + '%'
         ]]>
     </select>
 
@@ -51,4 +64,16 @@
             select convert(float,SUBSTRING(isnull(max(bianhao),'BJ000000'),3,6)) + 1 as bianhao from xiaoshou_baojia
         ]]>
     </select>
+
+    <select id="shenheList" resultType="com.myboot.pojo.XiaoShouBaoJia">
+        <![CDATA[
+            select * from xiaoshou_baojia where shenhe = #{name} and shenhe_zhuangtai = '审核中'
+        ]]>
+    </select>
+
+    <update id="baoJiaShenHe">
+        UPDATE xiaoshou_baojia set shenhe_zhuangtai = #{type}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

@@ -29,6 +29,7 @@ import xiaoshoubaojia from '../views/XiaoShouBaoJia.vue'
 import xiaoshoudingdan from '../views/XiaoShouDingDan.vue'
 import xiaoshouchuku from '../views/XiaoShouChuKu.vue'
 import xiaoshoukaipiao from '../views/XiaoShouKaiPiao.vue'
+import fujiashuishezhi from '../views/FuJiaShuiSheZhi.vue'
 
 Vue.use(VueRouter);
 
@@ -303,7 +304,7 @@ const routes = [
                 name: "mingxi",
                 component: mingxi,
                 meta: {
-                    title: '订单',
+                    title: '采购订单',
                     requireAuth: true
                 },
             },
@@ -376,6 +377,15 @@ const routes = [
                 component: xiaoshoukaipiao,
                 meta: {
                     title: '销售开票',
+                    requireAuth: true
+                }
+            },
+            {
+                path: "/fujiashuishezhi",
+                name: "fujiashuishezhi",
+                component: fujiashuishezhi,
+                meta: {
+                    title: '附加税设置',
                     requireAuth: true
                 }
             },

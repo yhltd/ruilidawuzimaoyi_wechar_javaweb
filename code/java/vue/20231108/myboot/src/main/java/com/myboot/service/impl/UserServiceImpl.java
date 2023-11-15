@@ -79,4 +79,16 @@ public class UserServiceImpl implements UserService {
     public List<User> fuzzyQuery(String keyword) {
         return mapper.fuzzyQuery(keyword);
     }
+
+    @Override
+    public boolean updateMoRen(String type,String typeId,Integer id) {
+        if(type.equals("仓库")){
+            return mapper.updCangKu(typeId,id);
+        }else if(type.equals("店铺")){
+            return mapper.updDianPu(typeId,id);
+        }else if(type.equals("核算单位")){
+            return mapper.updHeSuanDanWei(typeId,id);
+        }
+        return true;
+    }
 }

@@ -16,7 +16,7 @@
     </el-row>
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -33,9 +33,15 @@
     </el-table>
 
     <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
     </el-pagination>
 
   </el-container>
@@ -51,6 +57,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       stop_date:'',
       XiaLa_CangKu:[],
       addDialog: false,
@@ -60,7 +69,7 @@ export default {
     }
   },
   created() {
-    this.getAll();
+    this.getUser();
   },
   methods: {
     toggleSelection(rows) {
@@ -80,6 +89,10 @@ export default {
 
     //查询全部
     getAll(){
+      if(this.userPower.zhanghuYueSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       if(this.stop_date == ''){
         this.stop_date = getNowDate()
       }
@@ -87,6 +100,7 @@ export default {
       this.axios.post(url,{'riqi':this.stop_date}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -98,8 +112,56 @@ export default {
 
     //刷新
     refresh(){
-      this.cangku = ""
       this.getAll()
+    },
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.zhanghuYueSel == '是'){
+            this.getAll();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
     },
 
   }

@@ -85,6 +85,18 @@ public class XiaoShouKaiPiaoController {
         return ResponseCommon.success(sb.toString());
     }
 
+    @RequestMapping("/kaiPiao")
+    public String kaiPiao(@RequestBody JSONObject data) {
+        if(data == null || data.get("list") == null) {
+            return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
+        }
+        List<Integer> list = data.getObject("list", ArrayList.class);
+        int res = service.kaiPiao(list);
+        StringBuffer sb = new StringBuffer();
+        sb.append("成功开票了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条开票失败");
+        return ResponseCommon.success(sb.toString());
+    }
+
     @PostMapping("/selectYingKai")
     public String selectYingKai(@RequestBody @NonNull JSONObject data) {
         List<XiaoShouKaiPiao> xiaoShouKaiPiao = service.selectYingKai();

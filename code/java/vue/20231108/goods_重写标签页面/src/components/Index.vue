@@ -45,7 +45,7 @@
           <el-menu-item @click="goRouter('/user')"><p class="custom-menu-item">客户</p></el-menu-item>
           <el-menu-item @click="goRouter('/goods')"><p class="custom-menu-item">商品</p></el-menu-item>
           <el-menu-item @click="goRouter('/supplier')"><p class="custom-menu-item">供应商</p></el-menu-item>
-          <el-menu-item @click="goRouter('/4-5')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
+          <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">下拉配置</template>

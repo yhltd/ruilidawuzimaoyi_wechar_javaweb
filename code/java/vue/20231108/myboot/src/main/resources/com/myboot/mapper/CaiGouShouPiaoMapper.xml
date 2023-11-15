@@ -52,4 +52,9 @@
     <delete id="deleteUsrById">
         delete from caigou_shoupiao where id=#{id}
     </delete>
+
+    <update id="shouPiao">
+        UPDATE caigou_shoupiao set shoupiao_zhuangtai='已收票'
+        WHERE id = #{id}
+    </update>
 </mapper>

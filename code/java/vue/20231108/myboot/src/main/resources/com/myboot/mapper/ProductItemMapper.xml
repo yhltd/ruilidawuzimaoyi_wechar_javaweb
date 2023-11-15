@@ -19,7 +19,7 @@
         WHERE product_id = #{id}
     </delete>
 
-    <select id="selectByProductId" resultType="com.myboot.pojo.Product">
+    <select id="selectByProductId" resultType="com.myboot.pojo.ProductItem">
         <![CDATA[
             SELECT * from product_item where product_id = #{id}
         ]]>

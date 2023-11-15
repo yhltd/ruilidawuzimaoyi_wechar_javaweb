@@ -29,6 +29,12 @@ public class XiaoShouBaoJiaImpl implements XiaoShouBaoJiaService {
     }
 
     @Override
+    public List<XiaoShouBaoJia> getAllByName(String yewuyuan) {
+        List<XiaoShouBaoJia> xiaoShouBaoJia = mapper.getAllByName(yewuyuan);
+        return xiaoShouBaoJia;
+    }
+
+    @Override
     public List<XiaoShouBaoJia> getAllByShenHe(String shenhe) {
         List<XiaoShouBaoJia> xiaoShouBaoJia = mapper.getAllByShenHe(shenhe);
         return xiaoShouBaoJia;
@@ -37,6 +43,12 @@ public class XiaoShouBaoJiaImpl implements XiaoShouBaoJiaService {
     @Override
     public List<XiaoShouBaoJia> queryList(String start_date,String stop_date,String gongyingshang, String shenhe_zhuangtai){
         List<XiaoShouBaoJia> xiaoShouBaoJia = mapper.queryList(start_date,stop_date,gongyingshang,shenhe_zhuangtai);
+        return xiaoShouBaoJia;
+    }
+
+    @Override
+    public List<XiaoShouBaoJia> queryListByName(String yewuyuan,String start_date,String stop_date,String gongyingshang, String shenhe_zhuangtai){
+        List<XiaoShouBaoJia> xiaoShouBaoJia = mapper.queryListByName(yewuyuan,start_date,stop_date,gongyingshang,shenhe_zhuangtai);
         return xiaoShouBaoJia;
     }
 
@@ -76,6 +88,22 @@ public class XiaoShouBaoJiaImpl implements XiaoShouBaoJiaService {
     @Override
     public List<XiaoShouBaoJia> selectMaxDanHao(){
         return mapper.selectMaxDanHao();
+    }
+
+    @Override
+    public List<XiaoShouBaoJia> shenheList(String name){
+        return mapper.shenheList(name);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int baoJiaShenHe(List<Integer> list,String type) {
+        int count = 0;
+        for(Integer id : list) {
+            count += mapper.baoJiaShenHe(id,type);
+        }
+        return count;
     }
 
 

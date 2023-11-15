@@ -32,6 +32,12 @@ public class XiaoShouBaoJiaController {
         return ResponseCommon.success(service.getAll());
     }
 
+    @PostMapping("/getAllByName")
+    public String getAllByName(@RequestBody @NonNull JSONObject data) {
+        String yewuyuan = data.getString("yewuyuan");
+        return ResponseCommon.success(service.getAllByName(yewuyuan));
+    }
+
     @PostMapping("/queryList")
     public String queryList(@RequestBody @NonNull JSONObject data) {
         String start_date = data.getString("start_date");
@@ -39,6 +45,24 @@ public class XiaoShouBaoJiaController {
         String kehu = data.getString("kehu");
         String shenhe_zhuangtai = data.getString("shenhe_zhuangtai");
         List<XiaoShouBaoJia> xiaoShouBaoJia = service.queryList(start_date,stop_date,kehu,shenhe_zhuangtai);
+        return ResponseCommon.success(xiaoShouBaoJia);
+    }
+
+    @PostMapping("/queryListByName")
+    public String queryListByName(@RequestBody @NonNull JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        String kehu = data.getString("kehu");
+        String shenhe_zhuangtai = data.getString("shenhe_zhuangtai");
+        String yewuyuan = data.getString("yewuyuan");
+        List<XiaoShouBaoJia> xiaoShouBaoJia = service.queryListByName(yewuyuan,start_date,stop_date,kehu,shenhe_zhuangtai);
+        return ResponseCommon.success(xiaoShouBaoJia);
+    }
+
+    @PostMapping("/shenheList")
+    public String shenheList(@RequestBody @NonNull JSONObject data) {
+        String name = data.getString("name");
+        List<XiaoShouBaoJia> xiaoShouBaoJia = service.shenheList(name);
         return ResponseCommon.success(xiaoShouBaoJia);
     }
 
@@ -116,6 +140,19 @@ public class XiaoShouBaoJiaController {
         int res = service.delUsers(list);
         StringBuffer sb = new StringBuffer();
         sb.append("成功删除了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条删除失败");
+        return ResponseCommon.success(sb.toString());
+    }
+
+    @RequestMapping("/baoJiaShenHe")
+    public String baoJiaShenHe(@RequestBody JSONObject data) {
+        if(data == null || data.get("list") == null) {
+            return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
+        }
+        List<Integer> list = data.getObject("list", ArrayList.class);
+        String type = data.getString("type");
+        int res = service.baoJiaShenHe(list,type);
+        StringBuffer sb = new StringBuffer();
+        sb.append("成功审核了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条审核失败");
         return ResponseCommon.success(sb.toString());
     }
 

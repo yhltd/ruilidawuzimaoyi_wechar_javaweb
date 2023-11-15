@@ -33,4 +33,10 @@ public interface UserMapper  {
     int deleteUsrById(Integer id);
 
     List<User> fuzzyQuery(String keyword);
+
+    boolean updCangKu(String typeId,Integer id);
+
+    boolean updDianPu(String typeId,Integer id);
+
+    boolean updHeSuanDanWei(String typeId,Integer id);
 }

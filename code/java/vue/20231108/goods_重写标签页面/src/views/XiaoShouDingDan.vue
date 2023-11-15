@@ -44,22 +44,25 @@
         </el-select>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
+        <el-button size="small" round type="primary" @click="query()">查询</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="refresh()">刷新</el-button>
+        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="addUser()">添加</el-button>
+        <el-button v-if="!shenheButton" round size="small" type="primary" @click="addUser()">添加</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="updUser()">编辑</el-button>
+        <el-button v-if="!shenheButton" round size="small" type="primary" @click="updUser()">编辑</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="shenheClick()">审核</el-button>
+        <el-button size="small" round type="primary" @click="myShenHe()">需要我审核</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" @click="deleteClick()">删除</el-button>
+        <el-button v-if="shenheButton" round size="small" type="primary" @click="shenheClick()">审核</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button v-if="!shenheButton" round size="small" type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
 
@@ -67,7 +70,7 @@
 
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -160,9 +163,15 @@
     </el-table>
 
     <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
     </el-pagination>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
@@ -496,6 +505,19 @@
 
     </el-dialog>
 
+    <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose"
+        center>
+      <span>请选择审核状态</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button  type="primary" @click="shenheTrue">审核通过</el-button>
+        <el-button  @click="shenheFalse">审核未通过</el-button>
+      </span>
+    </el-dialog>
+
   </el-container>
 
 
@@ -509,6 +531,11 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
+      dialogVisible:false,
+      shenheButton:false,
       p_index:'',
       start_date:'',
       stop_date:'',
@@ -585,7 +612,6 @@ export default {
     this.getXiaLa_KeHu()
     this.getXiaLa_ShenHe();
     this.getXiaLa_DianPu();
-    this.getAll();
   },
   methods: {
     toggleSelection(rows) {
@@ -724,6 +750,10 @@ export default {
 
     //新增窗口弹出
     addUser() {
+      if(this.userPower.xiaoshouDingdanAdd != '是'){
+        MessageUtil.error("无添加权限");
+        return;
+      }
       let url = "http://localhost:8081/xiaoShouBaoJia/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
@@ -811,6 +841,9 @@ export default {
       let url = "http://localhost:8081/xiaoShouDingDan/selectXiaoShouById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
+          if(res.data.data.shenheZhuangtai == '审核未通过'){
+            res.data.data.shenheZhuangtai = '审核中'
+          }
           var this_val = res.data.data
           this_val.body = this_val.itemList
           this.gongYingShang = this_val
@@ -842,15 +875,39 @@ export default {
     },
 
     getUser(){
-      let url = "http://localhost:8081/user/getLogin"
-      this.axios.post(url,{}).then(res => {
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
-          this.User_List = res.data.data;
-          console.log(this.CaiGou_Product)
-          console.log("登录信息已获取");
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
         } else {
-          console.log("登录信息获取失败");
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.xiaoshouBaojiaSel == '查看全部'){
+            this.getAll();
+          }else if(this.userPower.xiaoshouBaojiaSel == '查看个人'){
+            this.getAllByName();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
@@ -944,10 +1001,29 @@ export default {
 
     //查询全部
     getAll(){
+      this.shenheButton = false
       let url = "http://localhost:8081/xiaoShouDingDan/getAll"
-      this.axios(url, this.form).then(res => {
+      this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    //查询全部
+    getAllByName(){
+      this.shenheButton = false
+      let url = "http://localhost:8081/xiaoShouDingDan/getAllByName"
+      this.axios.post(url, {"yewuyuan":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -959,13 +1035,29 @@ export default {
 
     //刷新
     refresh(){
-      this.bianhao = ""
-      this.name = ""
-      this.getAll()
+      this.shenheButton = false
+      if(this.userPower.xiaoshouDingdanSel == '查看全部'){
+        this.getAll();
+      }else if(this.userPower.xiaoshouDingdanSel == '查看个人'){
+        this.getAllByName();
+      }else{
+        MessageUtil.error("无查询权限");
+      }
+    },
+
+    query(){
+      this.shenheButton = false
+      if(this.userPower.xiaoshouDingdanSel == '查看全部'){
+        this.queryList();
+      }else if(this.userPower.xiaoshouDingdanSel == '查看个人'){
+        this.queryListByName();
+      }else{
+        MessageUtil.error("无查询权限");
+      }
     },
 
     //条件查询
-    query(){
+    queryList(){
       var start_date = this.start_date
       var stop_date = this.stop_date
       if(start_date == ''){
@@ -984,6 +1076,54 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    queryListByName(){
+      var start_date = this.start_date
+      var stop_date = this.stop_date
+      if(start_date == ''){
+        start_date = '1900-01-01'
+      }
+      if(stop_date == ''){
+        stop_date = '2100-12-31'
+      }
+      var date = {
+        start_date:start_date,
+        stop_date:stop_date,
+        kehu:this.kehu,
+        shenhe_zhuangtai:this.shenhe,
+        yewuyuan:this.userInfo.yewuyuan,
+      }
+      let url = "http://localhost:8081/xiaoShouDingDan/queryListByName"
+      this.axios.post(url, date).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    //条件查询
+    myShenHe(){
+      this.shenheButton = true
+      let url = "http://localhost:8081/xiaoShouDingDan/shenheList"
+      this.axios.post(url, {"name":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -1076,6 +1216,11 @@ export default {
 
     save(){
 
+      if(this.userPower.xiaoshouDingdanUpd != '是' && (this.gongYingShang.id != undefined && this.gongYingShang.id != null)){
+        MessageUtil.error("无修改权限");
+        return;
+      }
+
       if(this.gongYingShang.riqi == ''){
         MessageUtil.error('请选择日期');
         return;
@@ -1119,6 +1264,10 @@ export default {
     },
 
     deleteClick(){
+      if(this.userPower.xiaoshouDingdanDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
@@ -1153,6 +1302,60 @@ export default {
         });
       });
     },
+
+
+    shenheClick(){
+      if(this.multipleSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }
+      this.dialogVisible = true;
+    },
+
+    shenheTrue(){
+      var list = []
+      for(var i=0; i<this.multipleSelection.length; i++){
+        list.push(this.multipleSelection[i].id)
+      }
+      console.log(list)
+      let url = "http://localhost:8081/xiaoShouDingDan/dingDanShenHe";
+      axios.post(url, {"list": list,"type":"审核通过"}).then(res => {
+        MessageUtil.success(res.data.msg);
+        this.dialogVisible = false;
+        this.myShenHe()
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+        this.dialogVisible = false;
+      })
+    },
+    shenheFalse(){
+      var list = []
+      for(var i=0; i<this.multipleSelection.length; i++){
+        list.push(this.multipleSelection[i].id)
+      }
+      console.log(list)
+      let url = "http://localhost:8081/xiaoShouDingDan/dingDanShenHe";
+      axios.post(url, {"list": list,"type":"审核未通过"}).then(res => {
+        MessageUtil.success(res.data.msg);
+        this.dialogVisible = false;
+        this.myShenHe()
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+        this.dialogVisible = false;
+      })
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
   }
 }
 

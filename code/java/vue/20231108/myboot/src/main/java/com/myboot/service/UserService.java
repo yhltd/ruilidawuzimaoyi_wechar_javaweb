@@ -50,4 +50,7 @@ public interface UserService {
      * @return
      */
     List<User> fuzzyQuery(String keyword);
+
+
+    boolean updateMoRen(String type,String typeId,Integer id);
 }

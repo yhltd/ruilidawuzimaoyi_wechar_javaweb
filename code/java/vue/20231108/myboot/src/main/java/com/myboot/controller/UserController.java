@@ -114,4 +114,13 @@ public class UserController {
 
         return ResponseCommon.success(users);
     }
+
+    @PostMapping("/updateMoRen")
+    public String updateMoRen(@RequestBody JSONObject data) {
+        String type = data.getString("type");
+        String typeId = data.getString("typeId");
+        Integer id = data.getInteger("id");
+        boolean res = service.updateMoRen(type,typeId,id);
+        return res ? ResponseCommon.success() : ResponseCommon.failed(ResponseErrorCode.UPD_FAILED);
+    }
 }

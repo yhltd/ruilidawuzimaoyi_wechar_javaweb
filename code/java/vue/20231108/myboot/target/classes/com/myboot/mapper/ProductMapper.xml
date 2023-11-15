@@ -11,7 +11,7 @@
     </insert>
 
     <update id="productUpd">
-        UPDATE Product set name=#{name},type=#{type},danwei=#{danwei},caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji#={zhibaoDengji},beizhu#={beizhu}
+        UPDATE Product set name=#{name},type=#{type},danwei=#{danwei},caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji=#{zhibaoDengji},beizhu=#{beizhu}
         WHERE id = #{id}
     </update>
     <delete id="deleteById">

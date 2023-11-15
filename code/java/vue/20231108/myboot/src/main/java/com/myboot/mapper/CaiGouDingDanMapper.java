@@ -38,5 +38,5 @@ public interface CaiGouDingDanMapper {
 
     public List<CaiGouDingDan> selectWeiFu();
 
-
+    public int caiGouShenHe(int id,String type);
 }

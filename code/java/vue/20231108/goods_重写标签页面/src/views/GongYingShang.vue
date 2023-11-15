@@ -29,9 +29,10 @@
         <el-button type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
+
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -91,12 +92,26 @@
           width="200"
           show-overflow-tooltip>
       </el-table-column>
+      <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+        <template slot-scope="scope">
+          <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination
+        :currentPage="currentPage"
+        :page-sizes="[10,20,30,40,50]"
+        :page-size="pageSize"
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, sizes, prev,pager,next,jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    >
     </el-pagination>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
@@ -337,6 +352,33 @@
       </el-form>
     </el-dialog>
 
+    <el-dialog title="" :visible.sync="fileDialog" width="80%">
+
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-button type="primary" @click="upload()">文件上传</el-button>
+        </el-col>
+      </el-row>
+
+      <el-table :data="FileList" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+        <el-table-column
+            prop="fileName"
+            label="文件名"
+            width="auto"
+        ></el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+          <template>
+            <el-button @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
+            <el-button @click="deleteFile(scope.row)" type="text" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+    </el-dialog>
+
   </el-container>
 
 
@@ -350,8 +392,12 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       name:'',
       bianhao:'',
+      FileList:[],
       XiaLa_JianZuoKeHu:[
         {
           name:'是',
@@ -405,6 +451,7 @@ export default {
           }
         ]
       },
+      fileDialog:false,
       addDialog: false,
       updDialog: false,
       tableData: [],
@@ -414,7 +461,7 @@ export default {
   created() {
     this.getXiaLa_Level();
     this.getXiaLa_CaiGouYuan();
-    this.getAll();
+    this.getUser();
   },
   methods: {
     toggleSelection(rows) {
@@ -434,6 +481,10 @@ export default {
 
     //新增窗口弹出
     addUser() {
+      if(this.userPower.gongyingshangAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
       this.gongYingShang = {
           bianhao:'',
           name: '',
@@ -547,12 +598,55 @@ export default {
       })
     },
 
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.gongyingshangSel == '是'){
+            this.getAll();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     //查询全部
     getAll(){
+      if(this.userPower.gongyingshangSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       let url = "http://localhost:8081/gongYingShang/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -564,13 +658,19 @@ export default {
 
     //刷新
     refresh(){
-      this.bianhao = ""
-      this.name = ""
+      if(this.userPower.gongyingshangSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       this.getAll()
     },
 
     //条件查询
     query(){
+      if(this.userPower.gongyingshangSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       var date = {
         bianhao:this.bianhao,
         name:this.name
@@ -579,6 +679,7 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -678,6 +779,10 @@ export default {
 
     save(){
       if(this.gongYingShang.id != undefined && this.gongYingShang.id != null){
+        if(this.userPower.gongyingshangUpd != '是'){
+          MessageUtil.error("无修改权限");
+          return;
+        }
         this.updGongYingShang()
       }else{
         this.saveGongYingShang()
@@ -685,6 +790,10 @@ export default {
     },
 
     deleteClick(){
+      if(this.userPower.gongyingshangDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
@@ -719,8 +828,129 @@ export default {
         });
       });
     },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
+    getfileList(row){
+      console.log(row)
+      this.p_id = row.id
+      let url = "http://localhost:8081/fileTable/getAll"
+      this.axios.post(url, {"id":row.id,"type":"供应商"}).then(res => {
+        if(res.data.code == '00') {
+          this.FileList = res.data.data;
+          this.fileDialog = true
+          MessageUtil.success("共查询到" + this.FileList.length + "条数据")
+
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    downloadFile(row){
+      console.log(row)
+    },
+
+    deleteFile(row){
+      console.log(row)
+    }
+
+
   }
 }
+
+
+function dataURLtoBlob(dataurl, name) {//name:文件名
+  var mime = name.substring(name.lastIndexOf('.') + 1)//后缀名
+  var bstr = atob(dataurl), n = bstr.length, u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type: mime});
+}
+
+function downloadFile(url, name = '默认文件名') {
+  var a = document.createElement("a")//创建a标签触发点击下载
+  a.setAttribute("href", url)//附上
+  a.setAttribute("download", name);
+  a.setAttribute("target", "_blank");
+  let clickEvent = document.createEvent("MouseEvents");
+  clickEvent.initEvent("click", true, true);
+  a.dispatchEvent(clickEvent);
+}
+
+//主函数
+function downloadFileByBase64(name, base64) {
+  var myBlob = dataURLtoBlob(base64, name);
+  var myUrl = URL.createObjectURL(myBlob);
+  downloadFile(myUrl, name)
+}
+
+//获取后缀
+function getType(file) {
+  var filename = file;
+  var index1 = filename.lastIndexOf(".");
+  var index2 = filename.length;
+  var type = filename.substring(index1 + 1, index2);
+  return type;
+}
+
+//根据文件后缀 获取base64前缀不同
+function getBase64Type(type) {
+  switch (type) {
+    case 'data:text/plain;base64':
+      return 'txt';
+    case 'data:application/msword;base64':
+      return 'doc';
+    case 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64':
+      return 'docx';
+    case 'data:application/vnd.ms-excel;base64':
+      return 'xls';
+    case 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64':
+      return 'xlsx';
+    case 'data:application/pdf;base64':
+      return 'pdf';
+    case 'data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64':
+      return 'pptx';
+    case 'data:application/vnd.ms-powerpoint;base64':
+      return 'ppt';
+    case 'data:image/png;base64':
+      return 'png';
+    case 'data:image/jpeg;base64':
+      return 'jpg';
+    case 'data:image/gif;base64':
+      return 'gif';
+    case 'data:image/svg+xml;base64':
+      return 'svg';
+    case 'data:image/x-icon;base64':
+      return 'ico';
+    case 'data:image/bmp;base64':
+      return 'bmp';
+  }
+}
+
+function base64ToBlob(code) {
+  code = code.replace(/[\n\r]/g, '');
+  const raw = window.atob(code);
+  const rawLength = raw.length;
+  const uInt8Array = new Uint8Array(rawLength);
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i)
+  }
+  return new Blob([uInt8Array], {type: 'application/pdf'})
+}
+
 </script>
 <style>
 .dialog-title{

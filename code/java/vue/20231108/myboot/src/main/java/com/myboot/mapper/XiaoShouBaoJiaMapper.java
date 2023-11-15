@@ -14,11 +14,16 @@ public interface XiaoShouBaoJiaMapper {
     //查询全部
     public List<XiaoShouBaoJia> getAll();
 
+    public List<XiaoShouBaoJia> getAllByName(String yewuyuan);
+
     //查询需要自己审核
     public List<XiaoShouBaoJia> getAllByShenHe(@Param("shenhe") String shenhe);
 
     //条件查询
     public List<XiaoShouBaoJia> queryList(@Param("start_date") String start_date,@Param("stop_date") String stop_date,@Param("kehu") String kehu,@Param("shenhe_zhuangtai") String shenhe_zhuangtai);
+
+
+    public List<XiaoShouBaoJia> queryListByName(@Param("yewuyuan") String yewuyuan,@Param("start_date") String start_date,@Param("stop_date") String stop_date,@Param("kehu") String kehu,@Param("shenhe_zhuangtai") String shenhe_zhuangtai);
 
     //增加
     public int baoJiaAdd(XiaoShouBaoJia xiaoShouBaoJia);
@@ -35,6 +40,10 @@ public interface XiaoShouBaoJiaMapper {
     int deleteUsrById(Integer id);
 
     public List<XiaoShouBaoJia> selectMaxDanHao();
+
+    public List<XiaoShouBaoJia> shenheList(String name);
+
+    public int baoJiaShenHe(int id,String type);
 
 
 }

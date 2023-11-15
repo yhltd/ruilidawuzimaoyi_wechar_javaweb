@@ -19,6 +19,10 @@
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
+          <el-button v-if="PAGE_TYPE == '仓库' || PAGE_TYPE == '店铺' || PAGE_TYPE == '核算单位' " @click="moRenConfig();" type="primary">设置默认</el-button>
+          <!--      <el-button @click="" type="danger">删除</el-button>-->
+        </el-col>
+        <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
           <el-popover
               placement="bottom"
               width="160"
@@ -36,7 +40,7 @@
     </el-header>
     <el-main>
       <el-table
-          :data="tableData"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           border
           style="width: 100%; margin-top: 10px;"
           @selection-change="handleSelectionChange"
@@ -59,7 +63,24 @@
             :label=PAGE_TYPE
             width="auto">
         </el-table-column>
+        <el-table-column
+            prop="moren"
+            width="auto">
+        </el-table-column>
       </el-table>
+
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+
     </el-main>
 
     <el-dialog title="添加配置" :visible.sync="addDialog">
@@ -112,6 +133,9 @@ export default {
   name: "BasePeiZhi",
   data() {
     return {
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
       PAGE_TYPE: '', // 页面类型以及页面标题 不可轻易调用
       tableData: [{
         id: 0,
@@ -186,6 +210,10 @@ export default {
       })
     },
     addConfig() {
+      if(this.userPower.peizhiAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
       this.addForm = {
         name:'',
         type:this.PAGE_TYPE,
@@ -194,6 +222,10 @@ export default {
       return true;
     },
     updConfig() {
+      if(this.userPower.peizhiUpd != '是'){
+        MessageUtil.error("无修改权限");
+        return;
+      }
       let list = this.multipleSelection;
       if (list.length > 1) {
         MessageUtil.warning("只能同时更改一条数据");
@@ -211,6 +243,10 @@ export default {
       return true;
     },
     delConfig() {
+      if(this.userPower.peizhiDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
       let list = this.multipleSelection;
       if (list.length == 0) {
         MessageUtil.warning("至少选择一条数据");
@@ -247,17 +283,72 @@ export default {
           message: '已取消删除'
         });
       });
-
-
-
     },
+
+    moRenConfig() {
+      let list = this.multipleSelection;
+      if (list.length == 0) {
+        MessageUtil.warning("至少选择一条数据");
+        return;
+      }
+      this.$confirm('是否将当前信息设置为默认?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let tmp = [];
+        for (let i of list) {
+          tmp.push(i.id);
+        }
+        let url = "http://localhost:8081/user/updateMoRen";
+        axios.post(url,
+      {"type": this.PAGE_TYPE,
+            "typeId": this.multipleSelection[0].id,
+            "id": this.userInfo.id,
+            }).then(res => {
+          switch (res.data.code) {
+            case "00": {
+              MessageUtil.success("设置成功");
+              list.length = 0;
+              this.getUser();
+              break;
+            }
+            default: {
+              MessageUtil.error("网络异常");
+            }
+          }
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+
     queryByType() {
+      if(this.userPower.peizhiSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       this.fuzzy_query_loading = true;
       let url = 'http://localhost:8081/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            this.total = res.data.data.length;
+            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位'){
+              for(var i=0; i<this.tableData.length; i++){
+                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1){
+                  this.tableData[i].moren = '默认'
+                }else{
+                  this.tableData[i].moren = ""
+                }
+              }
+            }
             MessageUtil.success("共查询到" + this.tableData.length + "条数据")
             break;
           default: {
@@ -271,6 +362,10 @@ export default {
       })
     },
     fuzzyQuery() {
+      if(this.userPower.peizhiSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
       this.fuzzy_query_loading = true;
       let url = 'http://localhost:8081/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
@@ -278,6 +373,16 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            this.total = res.data.data.length;
+            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位'){
+              for(var i=0; i<this.tableData.length; i++){
+                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1){
+                  this.tableData[i].moren = '默认'
+                }else{
+                  this.tableData[i].moren = ""
+                }
+              }
+            }
             MessageUtil.success("共查询到" + this.tableData.length + "条数据")
             break;
           default: {
@@ -290,6 +395,45 @@ export default {
         this.fuzzy_query_loading = false;
       })
     },
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8081/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.peizhiSel == '是'){
+            this.fuzzyQuery();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -313,17 +457,24 @@ export default {
      */
     callParentChangeHeaderName() {
       this.$emit.childCallTitleRename(this.PAGE_TYPE)
-    }
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
+    },
+
   },
   created() {
-    console.log("1")
     this.getPageType();
-    console.log("2")
     changePageTitle(this.PAGE_TYPE);
-    // console.log("3")
-    // this.callParentChangeHeaderName();
-    console.log("4")
-    this.fuzzyQuery();
+    this.getUser();
   }
 }
 </script>

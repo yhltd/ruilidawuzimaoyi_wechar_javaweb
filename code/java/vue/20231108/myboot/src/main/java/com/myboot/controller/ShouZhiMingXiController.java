@@ -36,6 +36,18 @@ public class ShouZhiMingXiController {
         return ResponseCommon.success(service.getZhiChu());
     }
 
+    @PostMapping("/getShouRuByName")
+    public String getShouRuByName(@RequestBody @NonNull JSONObject data) {
+        String yuangong_name = data.getString("yuangong_name");
+        return ResponseCommon.success(service.getShouRuByName(yuangong_name));
+    }
+
+    @PostMapping("/getZhiChuByName")
+    public String getZhiChuByName(@RequestBody @NonNull JSONObject data) {
+        String yuangong_name = data.getString("yuangong_name");
+        return ResponseCommon.success(service.getZhiChuByName(yuangong_name));
+    }
+
     @PostMapping("/queryShouRuList")
     public String queryShouRuList(@RequestBody @NonNull JSONObject data) {
         String start_date = data.getString("start_date");
@@ -47,6 +59,18 @@ public class ShouZhiMingXiController {
         return ResponseCommon.success(shouZhiMingXi);
     }
 
+    @PostMapping("/queryShouRuListByName")
+    public String queryShouRuListByName(@RequestBody @NonNull JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        String dianpu = data.getString("dianpu");
+        String jizhangren = data.getString("jizhangren");
+        String jizhang_zhanghu = data.getString("jizhang_zhanghu");
+        String yuangong_name = data.getString("yuangong_name");
+        List<ShouZhiMingXi> shouZhiMingXi = service.queryShouRuListByName(start_date,stop_date,dianpu,jizhangren,jizhang_zhanghu,yuangong_name);
+        return ResponseCommon.success(shouZhiMingXi);
+    }
+
     @PostMapping("/queryZhiChuList")
     public String queryZhiChuList(@RequestBody @NonNull JSONObject data) {
         String start_date = data.getString("start_date");
@@ -55,6 +79,18 @@ public class ShouZhiMingXiController {
         String jizhangren = data.getString("jizhangren");
         String jizhang_zhanghu = data.getString("jizhang_zhanghu");
         List<ShouZhiMingXi> shouZhiMingXi = service.queryZhiChuList(start_date,stop_date,dianpu,jizhangren,jizhang_zhanghu);
+        return ResponseCommon.success(shouZhiMingXi);
+    }
+
+    @PostMapping("/queryZhiChuListByName")
+    public String queryZhiChuListByName(@RequestBody @NonNull JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        String dianpu = data.getString("dianpu");
+        String jizhangren = data.getString("jizhangren");
+        String jizhang_zhanghu = data.getString("jizhang_zhanghu");
+        String yuangong_name = data.getString("yuangong_name");
+        List<ShouZhiMingXi> shouZhiMingXi = service.queryZhiChuListByName(start_date,stop_date,dianpu,jizhangren,jizhang_zhanghu,yuangong_name);
         return ResponseCommon.success(shouZhiMingXi);
     }
 
