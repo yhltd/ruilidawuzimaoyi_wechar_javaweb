@@ -124,6 +124,14 @@
           width="200"
           show-overflow-tooltip>
       </el-table-column>
+      <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+        <template slot-scope="scope">
+          <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination
@@ -420,6 +428,34 @@
 
     </el-dialog>
 
+    <!-- 文件上传 -->
+    <el-dialog title="" :visible.sync="fileDialog" width="80%">
+      <input ref="up_file" type="file" id="up_file" @change="uploadSelect()" style="display: none">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-button type="primary" :loading="downloadLoading" @click="upload()">文件上传</el-button>
+        </el-col>
+      </el-row>
+
+      <el-table :data="FileList" style="width: 100%">
+        <el-table-column
+            prop="fileName"
+            label="文件名"
+            width="auto"
+        ></el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="200">
+          <template slot-scope="scope">
+            <el-button :loading="downloadLoading" @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
+            <el-button :loading="downloadLoading" @click="deleteFile(scope.row)" type="text" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+    </el-dialog>
+
     <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
@@ -446,6 +482,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      fileDialog:false,
+      downloadLoading:false,
+      FileList:[],
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -1130,6 +1169,120 @@ export default {
       console.log(`每页 ${val} 条`);
     },
 
+    getfileList(row){
+      console.log(row)
+      this.p_id = row.id
+      let url = "http://localhost:8081/fileTable/getAll"
+      this.axios.post(url, {"id":row.id,"type":"采购订单"}).then(res => {
+        if(res.data.code == '00') {
+          this.FileList = res.data.data;
+          this.fileDialog = true
+          MessageUtil.success("共查询到" + this.FileList.length + "条数据")
+
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    refreshfileList(){
+      let url = "http://localhost:8081/fileTable/getAll"
+      this.axios.post(url, {"id":this.p_id,"type":"采购订单"}).then(res => {
+        if(res.data.code == '00') {
+          this.FileList = res.data.data;
+          this.fileDialog = true
+          MessageUtil.success("共查询到" + this.FileList.length + "条数据")
+
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    downloadFile(row){
+      console.log(row)
+      let url = "http://localhost:8081/fileTable/getById"
+      this.axios.post(url, {"id":row.id}).then(res => {
+        if(res.data.code == '00') {
+          if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
+            downloadFileByBase64(res.data.data[0].fileName, res.data.data[0].file.split(',')[1])
+          }
+          MessageUtil.success("读取到文件，正在下载")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    deleteFile(row){
+      console.log(row)
+      this.downloadLoading = true
+      let url = "http://localhost:8081/fileTable/deleteById"
+      this.axios.post(url, {"list":[row.id]}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res)
+          MessageUtil.success(res.data.msg);
+          this.downloadLoading = false
+          this.refreshfileList()
+        } else {
+          MessageUtil.error(res.data.msg);
+          this.downloadLoading = false
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+        this.downloadLoading = false
+      })
+    },
+
+    upload(){
+      this.$refs.up_file.click();
+    },
+
+    uploadSelect(){
+      this.downloadLoading = true
+      var file = document.getElementById("up_file").files;
+      console.log(file)
+      if(file.length == 0){
+        this.downloadLoading = false
+      }
+      var oFReader = new FileReader();
+      var this_file = file[0];
+      var fileName = file[0].name;
+      var obj = [];
+      console.log("fileName:" + fileName)
+      oFReader.readAsDataURL(this_file);
+      oFReader.onload = oFRevent => {
+        console.log('oFRevent----', oFRevent)
+        this_file = oFRevent.target.result;
+        obj = {
+          "fileId": this.p_id,
+          "fileName": fileName,
+          "file": this_file,
+          "type": "采购订单",
+        };
+        let url = "http://localhost:8081/fileTable/fileAdd"
+        this.axios.post(url, obj).then(res => {
+          if(res.data.code == '00') {
+            console.log(res)
+            MessageUtil.success(res.data.msg);
+            this.downloadLoading = false
+            this.refreshfileList()
+          } else {
+            MessageUtil.error(res.data.msg);
+            this.downloadLoading = false
+          }
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+          this.downloadLoading = false
+        })
+      }
+    },
 
   }
 }
@@ -1170,6 +1323,87 @@ function getNowDate() {
   var currentdate = year + sign1 + month + sign1 + day ;
   return currentdate;
 }
+
+function dataURLtoBlob(dataurl, name) {//name:文件名
+  var mime = name.substring(name.lastIndexOf('.') + 1)//后缀名
+  var bstr = atob(dataurl), n = bstr.length, u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type: mime});
+}
+
+function downloadFile(url, name = '默认文件名') {
+  var a = document.createElement("a")//创建a标签触发点击下载
+  a.setAttribute("href", url)//附上
+  a.setAttribute("download", name);
+  a.setAttribute("target", "_blank");
+  let clickEvent = document.createEvent("MouseEvents");
+  clickEvent.initEvent("click", true, true);
+  a.dispatchEvent(clickEvent);
+}
+
+//主函数
+function downloadFileByBase64(name, base64) {
+  var myBlob = dataURLtoBlob(base64, name);
+  var myUrl = URL.createObjectURL(myBlob);
+  downloadFile(myUrl, name)
+}
+
+//获取后缀
+function getType(file) {
+  var filename = file;
+  var index1 = filename.lastIndexOf(".");
+  var index2 = filename.length;
+  var type = filename.substring(index1 + 1, index2);
+  return type;
+}
+
+//根据文件后缀 获取base64前缀不同
+function getBase64Type(type) {
+  switch (type) {
+    case 'data:text/plain;base64':
+      return 'txt';
+    case 'data:application/msword;base64':
+      return 'doc';
+    case 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64':
+      return 'docx';
+    case 'data:application/vnd.ms-excel;base64':
+      return 'xls';
+    case 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64':
+      return 'xlsx';
+    case 'data:application/pdf;base64':
+      return 'pdf';
+    case 'data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64':
+      return 'pptx';
+    case 'data:application/vnd.ms-powerpoint;base64':
+      return 'ppt';
+    case 'data:image/png;base64':
+      return 'png';
+    case 'data:image/jpeg;base64':
+      return 'jpg';
+    case 'data:image/gif;base64':
+      return 'gif';
+    case 'data:image/svg+xml;base64':
+      return 'svg';
+    case 'data:image/x-icon;base64':
+      return 'ico';
+    case 'data:image/bmp;base64':
+      return 'bmp';
+  }
+}
+
+function base64ToBlob(code) {
+  code = code.replace(/[\n\r]/g, '');
+  const raw = window.atob(code);
+  const rawLength = raw.length;
+  const uInt8Array = new Uint8Array(rawLength);
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i)
+  }
+  return new Blob([uInt8Array], {type: 'application/pdf'})
+}
+
 </script>
 <style>
 .dialog-title{

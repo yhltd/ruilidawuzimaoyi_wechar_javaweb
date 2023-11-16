@@ -353,14 +353,14 @@
     </el-dialog>
 
     <el-dialog title="" :visible.sync="fileDialog" width="80%">
-
+      <input ref="up_file" type="file" id="up_file" @change="uploadSelect()" style="display: none">
       <el-row :gutter="15">
         <el-col :span="3">
-          <el-button type="primary" @click="upload()">文件上传</el-button>
+          <el-button type="primary" :loading="downloadLoading" @click="upload()">文件上传</el-button>
         </el-col>
       </el-row>
 
-      <el-table :data="FileList" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+      <el-table :data="FileList" style="width: 100%">
         <el-table-column
             prop="fileName"
             label="文件名"
@@ -369,10 +369,10 @@
         <el-table-column
             fixed="right"
             label="操作"
-            width="100">
-          <template>
-            <el-button @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
-            <el-button @click="deleteFile(scope.row)" type="text" size="small">删除</el-button>
+            width="200">
+          <template slot-scope="scope">
+            <el-button :loading="downloadLoading" @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
+            <el-button :loading="downloadLoading" @click="deleteFile(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -392,6 +392,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      downloadLoading:false,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -858,13 +859,100 @@ export default {
       })
     },
 
+    refreshfileList(){
+      let url = "http://localhost:8081/fileTable/getAll"
+      this.axios.post(url, {"id":this.p_id,"type":"供应商"}).then(res => {
+        if(res.data.code == '00') {
+          this.FileList = res.data.data;
+          this.fileDialog = true
+          MessageUtil.success("共查询到" + this.FileList.length + "条数据")
+
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     downloadFile(row){
       console.log(row)
+      let url = "http://localhost:8081/fileTable/getById"
+      this.axios.post(url, {"id":row.id}).then(res => {
+        if(res.data.code == '00') {
+          if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
+            downloadFileByBase64(res.data.data[0].fileName, res.data.data[0].file.split(',')[1])
+          }
+          MessageUtil.success("读取到文件，正在下载")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
     },
 
     deleteFile(row){
       console.log(row)
-    }
+      this.downloadLoading = true
+      let url = "http://localhost:8081/fileTable/deleteById"
+      this.axios.post(url, {"list":[row.id]}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res)
+          MessageUtil.success(res.data.msg);
+          this.downloadLoading = false
+          this.refreshfileList()
+        } else {
+          MessageUtil.error(res.data.msg);
+          this.downloadLoading = false
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+        this.downloadLoading = false
+      })
+    },
+
+    upload(){
+      this.$refs.up_file.click();
+    },
+
+    uploadSelect(){
+      this.downloadLoading = true
+      var file = document.getElementById("up_file").files;
+      if(file.length == 0){
+        this.downloadLoading = false
+      }
+      var oFReader = new FileReader();
+      var this_file = file[0];
+      var fileName = file[0].name;
+      var obj = [];
+      oFReader.readAsDataURL(this_file);
+      oFReader.onload = oFRevent => {
+        console.log('oFRevent----', oFRevent)
+        this_file = oFRevent.target.result;
+        obj = {
+          "fileId": this.p_id,
+          "fileName": fileName,
+          "file": this_file,
+          "type": "供应商",
+        };
+        let url = "http://localhost:8081/fileTable/fileAdd"
+        this.axios.post(url, obj).then(res => {
+          if(res.data.code == '00') {
+            console.log(res)
+            MessageUtil.success(res.data.msg);
+            this.downloadLoading = false
+            this.refreshfileList()
+          } else {
+            MessageUtil.error(res.data.msg);
+            this.downloadLoading = false
+          }
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+          this.downloadLoading = false
+        })
+      }
+    },
 
 
   }

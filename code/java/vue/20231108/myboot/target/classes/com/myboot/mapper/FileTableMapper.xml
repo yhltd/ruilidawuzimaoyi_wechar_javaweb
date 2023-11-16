@@ -6,7 +6,7 @@
 <mapper namespace="com.myboot.mapper.FileTableMapper">
 
     <insert id="fileAdd" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO file_upload(file,file_name,type,file_id)
+        INSERT INTO file_upload([file],file_name,type,file_id)
         VALUES (#{file},#{fileName},#{type},#{fileId})
     </insert>
 
