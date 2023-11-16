@@ -30,6 +30,8 @@ import xiaoshoudingdan from '../views/XiaoShouDingDan.vue'
 import xiaoshouchuku from '../views/XiaoShouChuKu.vue'
 import xiaoshoukaipiao from '../views/XiaoShouKaiPiao.vue'
 import fujiashuishezhi from '../views/FuJiaShuiSheZhi.vue'
+import print from '../views/Print.vue'
+import printlist from '../views/PrintList.vue'
 
 Vue.use(VueRouter);
 
@@ -386,6 +388,24 @@ const routes = [
                 component: fujiashuishezhi,
                 meta: {
                     title: '附加税设置',
+                    requireAuth: true
+                }
+            },
+            {
+                path: "/print",
+                name: "print",
+                component: print,
+                meta: {
+                    title: '打印',
+                    requireAuth: true
+                }
+            },
+            {
+                path: "/printlist",
+                name: "printlist",
+                component: printlist,
+                meta: {
+                    title: '打印',
                     requireAuth: true
                 }
             },

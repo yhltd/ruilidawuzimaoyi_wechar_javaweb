@@ -46,6 +46,8 @@
           <el-menu-item @click="goRouter('/goods')"><p class="custom-menu-item">商品</p></el-menu-item>
           <el-menu-item @click="goRouter('/supplier')"><p class="custom-menu-item">供应商</p></el-menu-item>
           <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
+          <el-menu-item @click="goRouter('/printlist')"><p class="custom-menu-item">打印</p></el-menu-item>
+          <el-menu-item @click="goRouter('/print')"><p class="custom-menu-item">打印编辑</p></el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">下拉配置</template>
@@ -181,7 +183,7 @@ body {
 
 .container-box {
   width: 95%;
-  height: 89vh;
+  height: 95vh;
   margin: 0 auto;
   background-color: white;
   border-bottom-left-radius: 20px;

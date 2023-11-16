@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.PrintMuBanMapper">
+
+    <select id="getAll" resultType="com.myboot.pojo.PrintMuBan">
+        <![CDATA[
+            select * from dayin_muban
+        ]]>
+    </select>
+
+    <select id="queryList" resultType="com.myboot.pojo.PrintMuBan">
+        <![CDATA[
+            select * from dayin_muban
+            where name like '%'+#{name}+'%'
+        ]]>
+    </select>
+
+    <select id="getMuBanById" resultType="com.myboot.pojo.PrintMuBan">
+        <![CDATA[
+            select * from dayin_muban where id = #{id}
+        ]]>
+    </select>
+
+    <insert id="muBanAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.PrintMuBan" useGeneratedKeys="true" >
+        INSERT INTO dayin_muban(name,type,value)
+        VALUES (#{name},#{type},#{value})
+    </insert>
+
+    <update id="muBanUpd">
+        UPDATE dayin_muban set name = #{name},type = #{type},value = #{value}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delById">
+        DELETE from dayin_muban
+        WHERE id = #{id}
+    </delete>
+</mapper>
