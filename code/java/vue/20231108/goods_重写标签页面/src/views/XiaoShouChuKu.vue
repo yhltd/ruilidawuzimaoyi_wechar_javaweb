@@ -95,6 +95,14 @@
           width="200"
           show-overflow-tooltip>
       </el-table-column>
+      <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+        <template slot-scope="scope">
+          <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination
@@ -372,6 +380,27 @@
 
     </el-dialog>
 
+    <el-dialog title="" :visible.sync="printDialog" width="50%">
+
+      <el-form label-width="100px" class="demo-info">
+        <el-form-item label="打印模板" prop="printName" class="custom-form-item">
+          <el-select v-model="printName" clearable filterable placeholder="请选择模板">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_MuBan"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button  type="primary" @click="printStart()">打印预览</el-button>
+          <el-button  @click="printBack()">取消</el-button>
+        </span>
+    </el-dialog>
+
     <el-dialog title="" :visible.sync="selCaiGouDan" width="80%">
 
       <el-row :gutter="15">
@@ -465,6 +494,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      printName:'',
+      XiaLa_MuBan:[],
+      printDialog:false,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -541,6 +573,7 @@ export default {
     this.getXiaLa_KeHu();
     this.getXiaLa_DianPu();
     this.getXiaLa_CangKu();
+    this.getXiaLa_MuBan();
   },
   methods: {
     toggleSelection(rows) {
@@ -965,6 +998,23 @@ export default {
       })
     },
 
+    getXiaLa_MuBan(){
+      let url = "http://localhost:8081/printMuBan/getMuBanByType"
+      this.axios.post(url, {"type":"销售出库单"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_MuBan = res.data.data;
+          for(var i=0; i<this.XiaLa_MuBan.length; i++){
+            this.XiaLa_MuBan[i].label = this.XiaLa_MuBan.name
+          }
+          console.log("打印模板下拉已获取");
+        } else {
+          console.log("打印模板下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     //查询全部
     getAll(){
       let url = "http://localhost:8081/xiaoShouChuKu/getAll"
@@ -1238,6 +1288,56 @@ export default {
       this.currentPage = 1
       console.log(`每页 ${val} 条`);
     },
+
+    printShow(row){
+      console.log(row)
+      console.log(row.id)
+      this.p_id = row.id
+      this.printDialog = true
+      this.printName = ""
+    },
+
+    printBack(){
+      this.printDialog = false
+    },
+
+    printStart(){
+      var MuBan = ""
+      if(this.printName == ""){
+        MessageUtil.error("请选择模板");
+        return;
+      }
+      for(var i=0; i<this.XiaLa_MuBan.length; i++){
+        if(this.XiaLa_MuBan[i].name == this.printName){
+          MuBan = this.XiaLa_MuBan[i].value
+          if(MuBan != ""){
+            MuBan = JSON.parse(MuBan)
+            break;
+          }
+        }
+      }
+      if(MuBan == ""){
+        MessageUtil.error("未读取到模板信息，请设计此模板样式后再试");
+        return;
+      }
+
+      let url = "http://localhost:8081/xiaoShouChuKu/selectByChuKuId"
+      this.axios.post(url, {"id":this.p_id}).then(res => {
+        if(res.data.code == '00') {
+          var this_val = res.data.data
+          this_val.details = this_val.chuKuItem
+          this.$lodop.preview(MuBan, [this_val]);
+          console.log(res.data.data);
+          console.log("获取成功");
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+
+    }
+
   }
 }
 

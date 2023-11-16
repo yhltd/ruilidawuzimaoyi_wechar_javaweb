@@ -16,6 +16,9 @@ public interface PrintMuBanMapper {
     //条件查询
     public List<PrintMuBan> queryList(String name);
 
+
+    public List<PrintMuBan> getMuBanByType(String type);
+
     //增加
     public int muBanAdd(PrintMuBan printMuBan);
 

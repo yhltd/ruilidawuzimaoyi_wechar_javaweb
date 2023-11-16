@@ -139,9 +139,10 @@
       <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          width="200">
         <template slot-scope="scope">
           <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+          <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -297,7 +298,16 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhibaoDengji" class="custom-login-inp"></el-input>
+                <el-select v-model="gongYingShang.zhibaoDengji" clearable filterable placeholder="请选择质保等级">
+                  <!-- types 为后端查询 -->
+                  <el-option
+                      v-for="item in XiaLa_ZhiBaoDengJi"
+                      :key="item.name"
+                      :label="item.name"
+                      :value="item.name">
+                  </el-option>
+                </el-select>
+<!--                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhibaoDengji" class="custom-login-inp"></el-input>-->
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -469,6 +479,27 @@
 
     </el-dialog>
 
+    <el-dialog title="" :visible.sync="printDialog" width="50%">
+
+      <el-form label-width="100px" class="demo-info">
+          <el-form-item label="打印模板" prop="printName" class="custom-form-item">
+            <el-select v-model="printName" clearable filterable placeholder="请选择模板">
+              <!-- types 为后端查询 -->
+              <el-option
+                  v-for="item in XiaLa_MuBan"
+                  :key="item.name"
+                  :label="item.name"
+                  :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button  type="primary" @click="printStart()">打印预览</el-button>
+          <el-button  @click="printBack()">取消</el-button>
+        </span>
+    </el-dialog>
+
     <!-- 文件上传 -->
     <el-dialog title="" :visible.sync="fileDialog" width="80%">
       <input ref="up_file" type="file" id="up_file" @change="uploadSelect()" style="display: none">
@@ -501,7 +532,7 @@
         title="提示"
         :visible.sync="dialogVisible"
         width="30%"
-        :before-close="handleClose"
+<!--        :before-close="handleClose"-->
         center>
       <span>请选择审核状态</span>
       <span slot="footer" class="dialog-footer">
@@ -523,6 +554,9 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      printName:'',
+      XiaLa_MuBan:[],
+      printDialog:false,
       fileDialog:false,
       downloadLoading:false,
       FileList:[],
@@ -546,6 +580,7 @@ export default {
       XiaLa_DianPu:[],
       CaiGou_Product:[],
       XiaLa_GongYingShang:[],
+      XiaLa_ZhiBaoDengJi:[],
       XiaLa_ShenHe:[],
       XiaLa_ShenHeZhuangTai:[
         {
@@ -605,6 +640,8 @@ export default {
     this.getXiaLa_KeHu()
     this.getXiaLa_ShenHe();
     this.getXiaLa_DianPu();
+    this.getXiaLa_ZhiBaoDengJi();
+    this.getXiaLa_MuBan();
   },
   methods: {
     toggleSelection(rows) {
@@ -992,6 +1029,40 @@ export default {
           console.log("店铺下拉已获取");
         } else {
           console.log("店铺下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_ZhiBaoDengJi(){
+      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"质保等级"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_ZhiBaoDengJi = res.data.data;
+          for(var i=0; i<this.XiaLa_ZhiBaoDengJi.length; i++){
+            this.XiaLa_ZhiBaoDengJi[i].label = this.XiaLa_ZhiBaoDengJi.name
+          }
+          console.log("质保等级下拉已获取");
+        } else {
+          console.log("质保等级下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_MuBan(){
+      let url = "http://localhost:8081/printMuBan/getMuBanByType"
+      this.axios.post(url, {"type":"销售报价单"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_MuBan = res.data.data;
+          for(var i=0; i<this.XiaLa_MuBan.length; i++){
+            this.XiaLa_MuBan[i].label = this.XiaLa_MuBan.name
+          }
+          console.log("打印模板下拉已获取");
+        } else {
+          console.log("打印模板下拉获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
@@ -1470,6 +1541,56 @@ export default {
         })
       }
     },
+
+
+    printShow(row){
+      console.log(row)
+      console.log(row.id)
+      this.p_id = row.id
+      this.printDialog = true
+      this.printName = ""
+    },
+
+    printBack(){
+      this.printDialog = false
+    },
+
+    printStart(){
+      var MuBan = ""
+      if(this.printName == ""){
+        MessageUtil.error("请选择模板");
+        return;
+      }
+      for(var i=0; i<this.XiaLa_MuBan.length; i++){
+        if(this.XiaLa_MuBan[i].name == this.printName){
+          MuBan = this.XiaLa_MuBan[i].value
+          if(MuBan != ""){
+            MuBan = JSON.parse(MuBan)
+            break;
+          }
+        }
+      }
+      if(MuBan == ""){
+        MessageUtil.error("未读取到模板信息，请设计此模板样式后再试");
+        return;
+      }
+
+      let url = "http://localhost:8081/xiaoShouBaoJia/selectBaoJiaById"
+      this.axios.post(url, {"id":this.p_id}).then(res => {
+        if(res.data.code == '00') {
+          var this_val = res.data.data
+          this_val.details = this_val.itemList
+          this.$lodop.preview(MuBan, [this_val]);
+          console.log(res.data.data);
+          console.log("获取成功");
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+
+    }
 
   }
 }

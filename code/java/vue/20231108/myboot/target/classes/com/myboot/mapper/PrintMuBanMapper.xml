@@ -24,6 +24,12 @@
         ]]>
     </select>
 
+    <select id="getMuBanByType" resultType="com.myboot.pojo.PrintMuBan">
+        <![CDATA[
+            select * from dayin_muban where type = #{type}
+        ]]>
+    </select>
+
     <insert id="muBanAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.PrintMuBan" useGeneratedKeys="true" >
         INSERT INTO dayin_muban(name,type,value)
         VALUES (#{name},#{type},#{value})

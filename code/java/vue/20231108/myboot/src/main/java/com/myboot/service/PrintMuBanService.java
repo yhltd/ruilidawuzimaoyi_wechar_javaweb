@@ -10,11 +10,14 @@ public interface PrintMuBanService {
     //查询全部
     public List<PrintMuBan> getAll();
 
-    //查询需要自己审核
+    //查询
     public List<PrintMuBan> queryList(String name);
 
-    //查询需要自己审核
+    //查询
     public List<PrintMuBan> getMuBanById(Integer id);
+
+    //查询
+    public List<PrintMuBan> getMuBanByType(String type);
 
     //增加
     public int muBanAdd(PrintMuBan printMuBan);

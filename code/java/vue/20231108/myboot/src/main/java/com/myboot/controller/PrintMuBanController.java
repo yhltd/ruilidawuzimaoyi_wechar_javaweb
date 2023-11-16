@@ -42,6 +42,13 @@ public class PrintMuBanController {
         return ResponseCommon.success(printMuBans);
     }
 
+    @PostMapping("/getMuBanByType")
+    public String getMuBanByType(HttpSession session,@RequestBody @NonNull JSONObject data) {
+        String type = data.getString("type");
+        List<PrintMuBan> printMuBans = service.getMuBanByType(type);
+        return ResponseCommon.success(printMuBans);
+    }
+
     @PostMapping("/muBanAdd")
     public String muBanAdd(HttpSession session,@RequestBody PrintMuBan printMuBan) {
         Integer result = service.muBanAdd(printMuBan);

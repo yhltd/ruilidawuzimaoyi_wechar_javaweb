@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-        class="custom-header"
-    >
-      <div class="logo-box"> LOGO 预留</div>
+    <div class="custom-header">
 
       <el-menu
 
@@ -80,6 +77,7 @@
         </el-submenu>
 
       </el-menu>
+
     </div>
     <el-container>
       <el-main>
@@ -162,7 +160,7 @@ body {
 .custom-header {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  /*width: 100vw;*/
   background-color: var(--frame-bgcolor);
   display: flex;
   justify-content: left;
@@ -174,16 +172,16 @@ body {
   background-color: var(--frame-bgcolor);
 }
 
-.logo-box {
-  background-color: var(--frame-bgcolor);
-  height: 60px;
-  width: 200px;
-  background-color: #eeeeee;
-}
+/*.logo-box {*/
+/*  background-color: var(--frame-bgcolor);*/
+/*  height: 60px;*/
+/*  width: 200px;*/
+/*  background-color: #eeeeee;*/
+/*}*/
 
 .container-box {
   width: 95%;
-  height: 95vh;
+  height: 85vh;
   margin: 0 auto;
   background-color: white;
   border-bottom-left-radius: 20px;

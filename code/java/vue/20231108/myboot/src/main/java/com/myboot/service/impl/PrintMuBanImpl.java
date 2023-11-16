@@ -38,6 +38,12 @@ public class PrintMuBanImpl implements PrintMuBanService {
     }
 
     @Override
+    public List<PrintMuBan> getMuBanByType(String type){
+        List<PrintMuBan> printMuBan = mapper.getMuBanByType(type);
+        return printMuBan;
+    }
+
+    @Override
     public int muBanAdd(PrintMuBan printMuBan){
         int dingDan = mapper.muBanAdd(printMuBan);
         return dingDan;
