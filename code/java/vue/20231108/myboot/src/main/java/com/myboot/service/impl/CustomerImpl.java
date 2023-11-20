@@ -7,6 +7,7 @@ import com.myboot.mapper.CustomerMapper;
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.Customer;
 import com.myboot.pojo.CustomerItem;
+import com.myboot.pojo.GongYingShang;
 import com.myboot.service.CaiGouDingDanService;
 import com.myboot.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,11 @@ public class CustomerImpl implements CustomerService {
     @Override
     public List<Customer> selectById(Integer id){
         return mapper.selectById(id);
+    }
+
+    @Override
+    public List<Customer> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 }

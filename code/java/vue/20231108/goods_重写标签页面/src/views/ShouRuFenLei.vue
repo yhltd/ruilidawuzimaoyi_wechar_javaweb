@@ -1,55 +1,66 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="4">
-        <el-select v-model="type" filterable placeholder="选择统计类型">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_Type"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-date-picker
-            style="width:100%"
-            v-model="riqi"
-            :type="type=='按日'?'month':'year'"
-            :format="type=='按日'?'yyyy-MM':'yyyy'"
-            placeholder="选择日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-        ref="multipleTable"
-        :data="type_list.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          v-for="column in title"
-          :prop="column.columnName+ ''"
-          :label="column.name"
-          :width="column.width">
-      </el-table-column>
-    </el-table>
+  <el-container style="height: 100%;" direction="vertical">
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="4">
+          <el-select v-model="type" filterable placeholder="选择统计类型">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_Type"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-date-picker
+              style="width:100%"
+              v-model="riqi"
+              :type="type=='按日'?'month':'year'"
+              :format="type=='按日'?'yyyy-MM':'yyyy'"
+              placeholder="选择日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="query()">查询</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="type_list.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            v-for="column in title"
+            :prop="column.columnName+ ''"
+            :label="column.name"
+            :width="column.width">
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
+
 
   </el-container>
 
@@ -64,6 +75,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -123,7 +135,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -136,7 +148,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -176,7 +188,7 @@ export default {
         type:this.type,
         shouzhi_type:this.shouzhi_type,
       }
-      let url = "http://localhost:8081/shouZhiTongJI/getShouZhi"
+      let url = "http://localhost:8102/shouZhiTongJI/getShouZhi"
       this.axios.post(url, date).then(res => {
         console.log(res)
         this.tableData = res.data.data;

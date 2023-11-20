@@ -4,11 +4,11 @@
     <div class="custom-box">
       <div class="custom-header">
         <!-- 企业logo -->
-        <div class="logo">LOGO</div>
+        <div class="logo">进销存管理系统登录</div>
       </div>
       <div class="tab-box">
         <el-tabs v-model="activeName" style="border-bottom: none;">
-          <el-tab-pane label="账密登录" name="acc_pwd">
+<!--          <el-tab-pane label="账密登录" name="acc_pwd">-->
             <!-- ****** 所有在el-tab-pane下的字元素必须同时使用 custom-tab-pane 类选择器 ******        -->
             <el-form :model="ruleForm" ref="ruleForm" :rules="rules" label-width="60px"
                      class="demo-ruleForm custom-style custom-tab-pane">
@@ -25,13 +25,13 @@
                 </el-button>
               </el-form-item>
             </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="手机号登录" name="">
-            <div class="custom-tab-pane"></div>
-          </el-tab-pane>
-          <el-tab-pane label="扫码登录" name="">
-            <div class="custom-tab-pane"></div>
-          </el-tab-pane>
+<!--          </el-tab-pane>-->
+<!--          <el-tab-pane label="手机号登录" name="">-->
+<!--            <div class="custom-tab-pane"></div>-->
+<!--          </el-tab-pane>-->
+<!--          <el-tab-pane label="扫码登录" name="">-->
+<!--            <div class="custom-tab-pane"></div>-->
+<!--          </el-tab-pane>-->
         </el-tabs>
       </div>
       <!--        <div class="custom-footer">-->
@@ -70,8 +70,6 @@ export default {
     }
   },
   created() {
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("userPower");
   },
   methods: {
     /**
@@ -83,7 +81,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("ok")
-          let URL = "http://localhost:8081/V0/login";
+          let URL = "http://localhost:8102/V0/login";
           axios.post(
               URL, this.ruleForm, false
           ).then(res => {
@@ -175,7 +173,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../assets/login-bg.webp") no-repeat;
+  background: url("../assets/login-bg.png") no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 }
@@ -204,7 +202,7 @@ body {
 }
 
 .tab-box {
-  height: 300px;
+  height: 200px;
   display: flex;
   justify-content: center;
   padding-top: 30px;

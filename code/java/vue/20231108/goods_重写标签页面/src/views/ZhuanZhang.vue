@@ -1,117 +1,129 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            value-format="yyyy-MM-dd"
-            v-model="start_date"
-            type="date"
-            placeholder="选择起始日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            value-format="yyyy-MM-dd"
-            v-model="stop_date"
-            type="date"
-            placeholder="选择结束日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="zhuanru" clearable filterable placeholder="选择转入账户">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_ZhangHu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-<!--        <el-input placeholder="转入账户" v-model="zhuanru" class="input-with-select">-->
-<!--        </el-input>-->
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="zhuanchu" clearable filterable placeholder="选择转出账户">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_ZhangHu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-<!--        <el-input placeholder="转出账户" v-model="zhuanchu" class="input-with-select">-->
-<!--        </el-input>-->
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="money"
-          label="金额"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="riqi"
-          label="日期"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="zhuanru"
-          label="转入账户"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="zhuanchu"
-          label="转出账户"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="zhaiyao"
-          label="摘要"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-    </el-table>
+  <el-container style="height: 100%;" direction="vertical">
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              value-format="yyyy-MM-dd"
+              v-model="start_date"
+              type="date"
+              placeholder="选择起始日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              value-format="yyyy-MM-dd"
+              v-model="stop_date"
+              type="date"
+              placeholder="选择结束日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="zhuanru" clearable filterable placeholder="选择转入账户">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_ZhangHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+          <!--        <el-input placeholder="转入账户" v-model="zhuanru" class="input-with-select">-->
+          <!--        </el-input>-->
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="zhuanchu" clearable filterable placeholder="选择转出账户">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_ZhangHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+          <!--        <el-input placeholder="转出账户" v-model="zhuanchu" class="input-with-select">-->
+          <!--        </el-input>-->
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="money"
+            label="金额"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="riqi"
+            label="日期"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="zhuanru"
+            label="转入账户"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="zhuanchu"
+            label="转出账户"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="zhaiyao"
+            label="摘要"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
+
 
     <el-dialog title="" :visible.sync="addDialog" width="50%">
 
@@ -203,6 +215,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -281,7 +294,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/zhuanZhang/selectZhuanZhangById"
+      let url = "http://localhost:8102/zhuanZhang/selectZhuanZhangById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -299,7 +312,7 @@ export default {
     },
 
     getXiaLa_ZhangHu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"收款账户"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhangHu = res.data.data;
@@ -320,7 +333,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -333,7 +346,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -359,7 +372,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8081/zhuanZhang/getAll"
+      let url = "http://localhost:8102/zhuanZhang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -403,7 +416,7 @@ export default {
         zhuanru:this.zhuanru,
         zhuanchu:this.zhuanchu,
       }
-      let url = "http://localhost:8081/zhuanZhang/queryList"
+      let url = "http://localhost:8102/zhuanZhang/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -420,7 +433,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://localhost:8081/zhuanZhang/zhuanZhangAdd"
+      let url = "http://localhost:8102/zhuanZhang/zhuanZhangAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -437,7 +450,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://localhost:8081/zhuanZhang/zhuanZhangUpd"
+      let url = "http://localhost:8102/zhuanZhang/zhuanZhangUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -485,7 +498,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/zhuanZhang/delZhuanZhang";
+        let url = "http://localhost:8102/zhuanZhang/delZhuanZhang";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

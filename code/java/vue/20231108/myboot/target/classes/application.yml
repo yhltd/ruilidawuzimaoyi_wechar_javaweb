@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8102
 spring:
   servlet:
     multipart:
@@ -10,10 +10,10 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://user-20200618gm/accounting
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://user-20200618gm;databaseName=ruilida_20231024;Encrypt=false;
+    url: jdbc:sqlserver://yhocn.cn;databaseName=ruilida_20231024;Encrypt=false;
 #    username: root
     username: sa
-    password: Yhltdtest
+    password: Lyh07910_001
   mvc:
     hiddenmethod:
       filter:

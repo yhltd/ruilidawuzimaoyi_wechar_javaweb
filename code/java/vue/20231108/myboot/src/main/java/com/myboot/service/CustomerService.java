@@ -2,6 +2,7 @@ package com.myboot.service;
 
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.Customer;
+import com.myboot.pojo.GongYingShang;
 
 import java.util.List;
 
@@ -24,5 +25,7 @@ public interface CustomerService {
 
     //根据采购id查询
     public List<Customer> selectById(Integer id);
+
+    public List<Customer> selectMaxDanHao();
 
 }

@@ -2,6 +2,7 @@ package com.myboot.mapper;
 
 import com.myboot.pojo.Customer;
 import com.myboot.pojo.GongYingShang;
+import com.myboot.pojo.XiaoShouBaoJia;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,6 +28,8 @@ public interface GongYingShangMapper {
 
     //根据采购id查询
     public List<GongYingShang> selectById(@Param("id") Integer id);
+
+    public List<GongYingShang> selectMaxDanHao();
 
 
 }

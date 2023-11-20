@@ -6,6 +6,7 @@ import com.myboot.mapper.GongYingShangItemMapper;
 import com.myboot.mapper.GongYingShangMapper;
 import com.myboot.pojo.Customer;
 import com.myboot.pojo.GongYingShang;
+import com.myboot.pojo.XiaoShouBaoJia;
 import com.myboot.service.CustomerService;
 import com.myboot.service.GongYingShangItemService;
 import com.myboot.service.GongYingShangService;
@@ -62,6 +63,11 @@ public class GongYingShangImpl implements GongYingShangService {
     @Override
     public List<GongYingShang> selectById(Integer id){
         return mapper.selectById(id);
+    }
+
+    @Override
+    public List<GongYingShang> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 }

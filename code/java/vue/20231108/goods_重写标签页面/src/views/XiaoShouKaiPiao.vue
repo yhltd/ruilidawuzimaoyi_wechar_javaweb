@@ -1,198 +1,206 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="start_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择起始日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="stop_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择结束日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="shoupiao_danwei" clearable filterable placeholder="请选择收票单位">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_KeHu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="kaipiao_danwei" clearable filterable placeholder="请选择开票单位">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_HeSuanDanWei"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="kaipiao_zhuangtai" clearable filterable placeholder="请选择开票状态">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_KaiPiaoZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="myKaiPiao()">需要我开票</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="shenheButton" size="small" round type="primary" @click="kaiPiaoClick()">开票</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
+  <el-container style="height: 100%;" direction="vertical">
 
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="start_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择起始日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="stop_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择结束日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="shoupiao_danwei" clearable filterable placeholder="请选择收票单位">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_KeHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="kaipiao_danwei" clearable filterable placeholder="请选择开票单位">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_HeSuanDanWei"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="kaipiao_zhuangtai" clearable filterable placeholder="请选择开票状态">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_KaiPiaoZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="myKaiPiao()">需要我开票</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="shenheButton" size="small" round type="primary" @click="kaiPiaoClick()">开票</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="xiaoshouBianhao"
+            label="销售订单编号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="shoupiaoDanwei"
+            label="收票单位"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="shibiehao"
+            label="纳税人识别号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDizhi"
+            label="开票地址"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDianhua"
+            label="开票电话"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoYinhang"
+            label="开户银行"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoZhanghao"
+            label="银行账号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDanwei"
+            label="开票单位"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoRiqi"
+            label="开票日期"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoJine"
+            label="开票金额"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoShuie"
+            label="开票税额"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jiashuiHeji"
+            label="价税合计"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="beizhu"
+            label="备注"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="xinxiTuisong"
+            label="信息推送"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoZhuangtai"
+            label="开票状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+          <template slot-scope="scope">
+            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="xiaoshouBianhao"
-          label="销售订单编号"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="shoupiaoDanwei"
-          label="收票单位"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="shibiehao"
-          label="纳税人识别号"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoDizhi"
-          label="开票地址"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoDianhua"
-          label="开票电话"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoYinhang"
-          label="开户银行"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoZhanghao"
-          label="银行账号"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoDanwei"
-          label="开票单位"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoRiqi"
-          label="开票日期"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoJine"
-          label="开票金额"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoShuie"
-          label="开票税额"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jiashuiHeji"
-          label="价税合计"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="beizhu"
-          label="备注"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="xinxiTuisong"
-          label="信息推送"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="kaipiaoZhuangtai"
-          label="开票状态"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-        <template slot-scope="scope">
-          <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
@@ -376,7 +384,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
         <el-table-column
             prop="riqi"
             label="日期"
@@ -420,7 +431,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="FileList" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="FileList" style="width: 100%">
         <el-table-column
             prop="fileName"
             label="文件名"
@@ -452,6 +466,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       fileDialog:false,
       downloadLoading:false,
       FileList:[],
@@ -655,7 +670,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/kaiPiao/selectXiaoShouById"
+      let url = "http://localhost:8102/kaiPiao/selectXiaoShouById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -673,7 +688,7 @@ export default {
     },
     //查询窗口table中的内容列表
     getCaiGouProduct(){
-      let url = "http://localhost:8081/kaiPiao/selectYingKai"
+      let url = "http://localhost:8102/kaiPiao/selectYingKai"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -693,7 +708,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -706,7 +721,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -727,7 +742,7 @@ export default {
     },
     //读取下拉列表
     getXiaLa_User(){
-      let url = "http://localhost:8081/user/getall"
+      let url = "http://localhost:8102/user/getall"
       this.axios(url).then(res => {
         this.XiaLa_User = res.data;
         for(var i=0; i<this.XiaLa_User.length; i++){
@@ -739,7 +754,7 @@ export default {
       })
     },
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8081/gongYingShang/getAll"
+      let url = "http://localhost:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -756,7 +771,7 @@ export default {
     },
 
     getXiaLa_KeHu(){
-      let url = "http://localhost:8081/customer/getAll"
+      let url = "http://localhost:8102/customer/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHu = res.data.data;
@@ -773,7 +788,7 @@ export default {
     },
 
     getXiaLa_HeSuanDanWei(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"核算单位"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_HeSuanDanWei = res.data.data;
@@ -789,7 +804,7 @@ export default {
       })
     },
     getXiaLa_CangKu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"仓库"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CangKu = res.data.data;
@@ -811,7 +826,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8081/kaiPiao/getAll"
+      let url = "http://localhost:8102/kaiPiao/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -857,7 +872,7 @@ export default {
         kaipiao_danwei:this.kaipiao_danwei,
         kaipiao_zhuangtai:this.kaipiao_zhuangtai,
       }
-      let url = "http://localhost:8081/kaiPiao/queryList"
+      let url = "http://localhost:8102/kaiPiao/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -873,7 +888,7 @@ export default {
     //保存
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/kaiPiao/kaiPiaoAdd"
+      let url = "http://localhost:8102/kaiPiao/kaiPiaoAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -890,7 +905,7 @@ export default {
     //修改
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/kaiPiao/kaiPiaoUpd"
+      let url = "http://localhost:8102/kaiPiao/kaiPiaoUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -942,7 +957,7 @@ export default {
     //条件查询
     myKaiPiao(){
       this.shenheButton = true
-      let url = "http://localhost:8081/kaiPiao/getKaiPiao"
+      let url = "http://localhost:8102/kaiPiao/getKaiPiao"
       this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -977,7 +992,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/kaiPiao/delKaiPiao";
+        let url = "http://localhost:8102/kaiPiao/delKaiPiao";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1013,7 +1028,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/kaiPiao/kaiPiao";
+        let url = "http://localhost:8102/kaiPiao/kaiPiao";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.query()
@@ -1043,7 +1058,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"销售开票"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1059,7 +1074,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"销售开票"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1076,7 +1091,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8081/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1094,7 +1109,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8081/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1137,7 +1152,7 @@ export default {
           "file": this_file,
           "type": "销售开票",
         };
-        let url = "http://localhost:8081/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)

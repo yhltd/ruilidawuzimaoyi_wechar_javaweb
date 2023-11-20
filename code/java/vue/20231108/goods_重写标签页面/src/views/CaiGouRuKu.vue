@@ -1,6 +1,7 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
+  <el-container style="height: 100%;" direction="vertical">
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
       <el-col :span="3">
         <el-date-picker
             style="width:100%"
@@ -48,74 +49,81 @@
         <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
+    </el-header>
 
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%;"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="bianhao"
+            label="编号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="riqi"
+            label="日期"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="gongyingshang"
+            label="供应商"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="dianpu"
+            label="店铺"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="cangku"
+            label="仓库"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="beizhu"
+            label="备注"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+          <template slot-scope="scope">
+            <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
 
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="bianhao"
-          label="编号"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="riqi"
-          label="日期"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="gongyingshang"
-          label="供应商"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="dianpu"
-          label="店铺"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="cangku"
-          label="仓库"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="beizhu"
-          label="备注"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-        <template slot-scope="scope">
-          <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        >
-    </el-pagination>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
@@ -320,7 +328,13 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="CaiGou_Product"
+          :row-class-name="rowClassName"
+          @row-click="rowClick"
+          style="width: 100%">
         <el-table-column
             prop="bianhao"
             label="编号"
@@ -415,7 +429,13 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGouDan" :row-class-name="rowClassName2" @row-click="CaiGouDanClick" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="CaiGouDan"
+          :row-class-name="rowClassName2"
+          @row-click="CaiGouDanClick"
+          style="width: 100%">
         <el-table-column
             prop="bianhao"
             label="编号"
@@ -494,6 +514,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       printName:'',
       XiaLa_MuBan:[],
       printDialog:false,
@@ -615,7 +636,7 @@ export default {
         this.gongYingShang.caigouId = row.bianhao
 
         var id = row.id
-        let url = "http://localhost:8081/caiGouDingDan/selectByCaiGouId"
+        let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
         this.axios.post(url, {"id":id}).then(res => {
           if(res.data.code == '00') {
             var this_val = res.data.data
@@ -758,7 +779,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8081/caiGouRuKu/selectMaxDanHao"
+      let url = "http://localhost:8102/caiGouRuKu/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -843,7 +864,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/caiGouRuKu/selectByRuKuId"
+      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -862,7 +883,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://localhost:8081/product/selectCaiGouProduct"
+      let url = "http://localhost:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -877,7 +898,7 @@ export default {
     },
 
     getCaiGouDan(){
-      let url = "http://localhost:8081/caiGouDingDan/getAll"
+      let url = "http://localhost:8102/caiGouDingDan/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGouDan = res.data.data;
@@ -896,7 +917,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -909,7 +930,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -930,7 +951,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8081/gongYingShang/getAll"
+      let url = "http://localhost:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -947,7 +968,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -964,7 +985,7 @@ export default {
     },
 
     getXiaLa_CangKu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"仓库"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CangKu = res.data.data;
@@ -982,7 +1003,7 @@ export default {
 
     //查询全部
     getAll(){
-      let url = "http://localhost:8081/caiGouRuKu/getAll"
+      let url = "http://localhost:8102/caiGouRuKu/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -997,7 +1018,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8081/printMuBan/getMuBanByType"
+      let url = "http://localhost:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"采购入库单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1046,7 +1067,7 @@ export default {
         stop_date:stop_date,
         gongyingshang:this.gongyingshang,
       }
-      let url = "http://localhost:8081/caiGouRuKu/queryList"
+      let url = "http://localhost:8102/caiGouRuKu/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1141,7 +1162,7 @@ export default {
         }
       }
 
-      let url = "http://localhost:8081/caiGouRuKu/caiGouRuKuAdd"
+      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1161,7 +1182,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/caiGouRuKu/caiGouRuKuUpd"
+      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1213,7 +1234,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/caiGouRuKu/delCaiGouDingDan";
+        let url = "http://localhost:8102/caiGouRuKu/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1276,7 +1297,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8081/caiGouRuKu/selectByRuKuId"
+      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1341,4 +1362,12 @@ function getNowDate() {
 .el-table .hidden-row {
   display: none;
 }
+
+html,body,#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 </style>

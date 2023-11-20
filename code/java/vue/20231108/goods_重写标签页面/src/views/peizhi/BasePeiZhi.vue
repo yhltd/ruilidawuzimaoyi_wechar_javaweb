@@ -5,7 +5,7 @@
   质保等级
   -->
   <el-container>
-    <el-header>
+    <el-header style="background-color: transparent;">
       <el-row :gutter="20">
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
           <el-button @click="addConfig();" type="primary">添加</el-button>
@@ -38,11 +38,14 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main>
+
+    <el-main refs="main" style="height: 50%;">
       <el-table
-          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           border
-          style="width: 100%; margin-top: 10px;"
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          style="width: 100%;"
+          :height="tableHeight"
           @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -68,7 +71,9 @@
             width="auto">
         </el-table-column>
       </el-table>
+    </el-main>
 
+    <el-footer style="height: 10%;margin-bottom: 5%">
       <el-pagination
           :currentPage="currentPage"
           :page-sizes="[10,20,30,40,50]"
@@ -80,8 +85,8 @@
           @current-change="handleCurrentChange"
       >
       </el-pagination>
+    </el-footer>
 
-    </el-main>
 
     <el-dialog title="添加配置" :visible.sync="addDialog">
       <el-form :model="addForm" ref="addConfig" :rules="rules" label-width="100px"
@@ -133,14 +138,12 @@ export default {
   name: "BasePeiZhi",
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
       PAGE_TYPE: '', // 页面类型以及页面标题 不可轻易调用
-      tableData: [{
-        id: 0,
-        name: '',
-      }],
+      tableData: [],
       addForm: {
         id: 0,
         name: '',
@@ -172,7 +175,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addForm.type = this.PAGE_TYPE
-          let url = "http://localhost:8081/peizhi/peizhiAdd";
+          let url = "http://localhost:8102/peizhi/peizhiAdd";
           this.axios.post(url, this.addForm).then(res => {
             if (res.data.code == '00') {
               MessageUtil.success("添加成功");
@@ -192,7 +195,7 @@ export default {
     updFormSub(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = "http://localhost:8081/peizhi/peizhiUpd";
+          let url = "http://localhost:8102/peizhi/peizhiUpd";
           this.axios.post(url, this.addForm).then(res => {
             if (res.data.code == '00') {
               MessageUtil.success("添加成功");
@@ -261,7 +264,7 @@ export default {
         for (let i of list) {
           tmp.push(i.id);
         }
-        let url = "http://localhost:8081/peizhi/delPeizhi";
+        let url = "http://localhost:8102/peizhi/delPeizhi";
         axios.post(url, {"list": tmp}).then(res => {
           switch (res.data.code) {
             case "00": {
@@ -300,7 +303,7 @@ export default {
         for (let i of list) {
           tmp.push(i.id);
         }
-        let url = "http://localhost:8081/user/updateMoRen";
+        let url = "http://localhost:8102/user/updateMoRen";
         axios.post(url,
       {"type": this.PAGE_TYPE,
             "typeId": this.multipleSelection[0].id,
@@ -334,7 +337,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8081/peizhi/queryPeiZhi';
+      let url = 'http://localhost:8102/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -367,7 +370,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8081/peizhi/queryPeiZhi';
+      let url = 'http://localhost:8102/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
         console.log(res)
         switch (res.data.code) {
@@ -401,7 +404,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -414,7 +417,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

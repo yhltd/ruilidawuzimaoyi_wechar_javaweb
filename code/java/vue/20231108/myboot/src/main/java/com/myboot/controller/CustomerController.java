@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,5 +131,11 @@ public class CustomerController {
         return ResponseCommon.success(sb.toString());
     }
 
+
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        List<Customer> customer = service.selectMaxDanHao();
+        return ResponseCommon.success(customer);
+    }
 
 }

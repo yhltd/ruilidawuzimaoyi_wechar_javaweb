@@ -1,94 +1,105 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-input placeholder="名称" v-model="name" class="input-with-select">
-        </el-input>
-      </el-col>
-      <el-col :span="3">
-        <el-input placeholder="类型" v-model="type" class="input-with-select">
-        </el-input>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
+  <el-container style="height: 100%;" direction="vertical">
 
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="name"
-          label="商品名称"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="type"
-          label="商品分类"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="danwei"
-          label="单位"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="caizhi"
-          label="材质"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jishuBiaozhun"
-          label="技术标准"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="zhibaoDengji"
-          label="质保等级"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="beizhu"
-          label="备注"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-    </el-table>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-input placeholder="名称" v-model="name" class="input-with-select">
+          </el-input>
+        </el-col>
+        <el-col :span="3">
+          <el-input placeholder="类型" v-model="type" class="input-with-select">
+          </el-input>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="商品名称"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="type"
+            label="商品分类"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="danwei"
+            label="单位"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="caizhi"
+            label="材质"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jishuBiaozhun"
+            label="技术标准"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="zhibaoDengji"
+            label="质保等级"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="beizhu"
+            label="备注"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
+
 
     <el-dialog title="" :visible.sync="addDialog" width="90%">
 
@@ -312,6 +323,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -445,7 +457,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/product/selectById"
+      let url = "http://localhost:8102/product/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -500,7 +512,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -513,7 +525,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -534,7 +546,7 @@ export default {
     },
 
     getXiaLa_Level(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"供应商等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_Level = res.data.data;
@@ -551,7 +563,7 @@ export default {
     },
 
     getXiaLa_CaiGouYuan(){
-      let url = "http://localhost:8081/user/fuzzyQuery"
+      let url = "http://localhost:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CaiGouYuan = res.data.data;
@@ -573,7 +585,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8081/product/getAll"
+      let url = "http://localhost:8102/product/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -608,7 +620,7 @@ export default {
         type:this.type,
         enable:'',
       }
-      let url = "http://localhost:8081/product/queryList"
+      let url = "http://localhost:8102/product/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -672,7 +684,7 @@ export default {
           save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
-          let url = "http://localhost:8081/file/upload"
+          let url = "http://localhost:8102/file/upload"
           this.axios.post(url,formData).then(res => {
             console.log(res.msg)
           }).catch(() => {
@@ -682,7 +694,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8081/product/productAdd"
+      let url = "http://localhost:8102/product/productAdd"
       this.axios.post(url, {
         "head":this.Product,
         "body":this.Product.body
@@ -708,7 +720,7 @@ export default {
           save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
-          let url = "http://localhost:8081/file/upload"
+          let url = "http://localhost:8102/file/upload"
           this.axios.post(url,formData).then(res => {
             console.log(res.msg)
           }).catch(() => {
@@ -718,7 +730,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8081/product/productUpd"
+      let url = "http://localhost:8102/product/productUpd"
       this.axios.post(url, {
         "head":this.Product,
         "body":this.Product.body
@@ -768,7 +780,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/product/delProduct";
+        let url = "http://localhost:8102/product/delProduct";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

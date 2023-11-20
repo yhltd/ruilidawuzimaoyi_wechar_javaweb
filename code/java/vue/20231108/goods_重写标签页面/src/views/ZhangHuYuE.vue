@@ -1,48 +1,60 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            value-format="yyyy-MM-dd"
-            v-model="stop_date"
-            type="date"
-            placeholder="选择截止日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="getAll()">查询</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          prop="jizhangZhanghu"
-          label="账户"
-          width="200">
-      </el-table-column>
-      <el-table-column
-          prop="money"
-          label="余额"
-          width="200">
-      </el-table-column>
-    </el-table>
+  <el-container style="height: 100%;" direction="vertical">
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              value-format="yyyy-MM-dd"
+              v-model="stop_date"
+              type="date"
+              placeholder="选择截止日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="getAll()">查询</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            prop="jizhangZhanghu"
+            label="账户"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="money"
+            label="余额"
+            width="auto">
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
+
 
   </el-container>
 
@@ -57,6 +69,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -96,7 +109,7 @@ export default {
       if(this.stop_date == ''){
         this.stop_date = getNowDate()
       }
-      let url = "http://localhost:8081/zhangHuYuE/queryList"
+      let url = "http://localhost:8102/zhangHuYuE/queryList"
       this.axios.post(url,{'riqi':this.stop_date}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -120,7 +133,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -133,7 +146,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

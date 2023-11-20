@@ -1,54 +1,65 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-input placeholder="权限名" v-model="name" class="input-with-select">
-        </el-input>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="name"
-          label="权限名"
-          width="200">
-      </el-table-column>
-    </el-table>
+  <el-container style="height: 100%;" direction="vertical">
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-input placeholder="权限名" v-model="name" class="input-with-select">
+          </el-input>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="danger" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="权限名"
+            width="auto">
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
@@ -1230,6 +1241,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -1294,7 +1306,78 @@ export default {
         return;
       }
       this.Power = {
-        name:'', zhanghaoguanliAdd:'', zhanghaoguanliDel:'', zhanghaoguanliUpd:'', zhanghaoguanliSel:'', quanxianAdd:'', quanxianDel:'', quanxianUpd:'', quanxianSel:'', kehuAdd:'', kehuDel:'', kehuUpd:'', kehuSel:'', gongyingshangAdd:'', gongyingshangDel:'', gongyingshangUpd:'', gongyingshangSel:'', shangpinAdd:'', shangpinDel:'', shangpinUpd:'', shangpinSel:'', fujiashuiUpd:'', peizhiAdd:'', peizhiDel:'', peizhiUpd:'', peizhiSel:'', xiaoshouBaojiaAdd:'', xiaoshouBaojiaDel:'', xiaoshouBaojiaUpd:'', xiaoshouBaojiaSel:'', xiaoshouDingdanAdd:'', xiaoshouDingdanDel:'', xiaoshouDingdanUpd:'', xiaoshouDingdanSel:'', xiaoshouChukuAdd:'', xiaoshouChukuDel:'', xiaoshouChukuUpd:'', xiaoshouChukuSel:'', xiaoshouKaipiaoAdd:'', xiaoshouKaipiaoDel:'', xiaoshouKaipiaoUpd:'', xiaoshouKaipiaoSel:'', shouruAdd:'', shouruDel:'', shouruUpd:'', shouruSel:'', caigouDingdanAdd:'', caigouDingdanDel:'', caigouDingdanUpd:'', caigouDingdanSel:'', caigouRukuAdd:'', caigouRukuDel:'', caigouRukuUpd:'', caigouRukuSel:'', caigouShoupiaoAdd:'', caigouShoupiaoDel:'', caigouShoupiaoUpd:'', caigouShoupiaoSel:'', zhichuAdd:'', zhichuDel:'', zhichuUpd:'', zhichuSel:'', zhuanzhangAdd:'', zhuanzhangDel:'', zhuanzhangUpd:'', zhuanzhangSel:'', kucunSel:'', zhanghuYueSel:'', shouruTongjiSel:'', zhichuTongjiSel:'', yueduTongjiSel:'', fujiashuiSel:''
+        name:'',
+        zhanghaoguanliAdd:'是',
+        zhanghaoguanliDel:'是',
+        zhanghaoguanliUpd:'是',
+        zhanghaoguanliSel:'是',
+        quanxianAdd:'是',
+        quanxianDel:'是',
+        quanxianUpd:'是',
+        quanxianSel:'是',
+        kehuAdd:'是',
+        kehuDel:'是',
+        kehuUpd:'是',
+        kehuSel:'是',
+        gongyingshangAdd:'是',
+        gongyingshangDel:'是',
+        gongyingshangUpd:'是',
+        gongyingshangSel:'是',
+        shangpinAdd:'是',
+        shangpinDel:'是',
+        shangpinUpd:'是',
+        shangpinSel:'是',
+        fujiashuiUpd:'是',
+        peizhiAdd:'是',
+        peizhiDel:'是',
+        peizhiUpd:'是',
+        peizhiSel:'是',
+        xiaoshouBaojiaAdd:'是',
+        xiaoshouBaojiaDel:'是',
+        xiaoshouBaojiaUpd:'是',
+        xiaoshouBaojiaSel:'查看全部',
+        xiaoshouDingdanAdd:'是',
+        xiaoshouDingdanDel:'是',
+        xiaoshouDingdanUpd:'是',
+        xiaoshouDingdanSel:'查看全部',
+        xiaoshouChukuAdd:'是',
+        xiaoshouChukuDel:'是',
+        xiaoshouChukuUpd:'是',
+        xiaoshouChukuSel:'是',
+        xiaoshouKaipiaoAdd:'是',
+        xiaoshouKaipiaoDel:'是',
+        xiaoshouKaipiaoUpd:'是',
+        xiaoshouKaipiaoSel:'是',
+        shouruAdd:'是',
+        shouruDel:'是',
+        shouruUpd:'是',
+        shouruSel:'查看全部',
+        caigouDingdanAdd:'是',
+        caigouDingdanDel:'是',
+        caigouDingdanUpd:'是',
+        caigouDingdanSel:'是',
+        caigouRukuAdd:'是',
+        caigouRukuDel:'是',
+        caigouRukuUpd:'是',
+        caigouRukuSel:'是',
+        caigouShoupiaoAdd:'是',
+        caigouShoupiaoDel:'是',
+        caigouShoupiaoUpd:'是',
+        caigouShoupiaoSel:'是',
+        zhichuAdd:'是',
+        zhichuDel:'是',
+        zhichuUpd:'是',
+        zhichuSel:'查看全部',
+        zhuanzhangAdd:'是',
+        zhuanzhangDel:'是',
+        zhuanzhangUpd:'是',
+        zhuanzhangSel:'是',
+        kucunSel:'是',
+        zhanghuYueSel:'是',
+        shouruTongjiSel:'是',
+        zhichuTongjiSel:'是',
+        yueduTongjiSel:'是',
+        fujiashuiSel:'是'
       }
 
       this.addDialog = true;
@@ -1317,7 +1400,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/userpower/queryUserPowerById"
+      let url = "http://localhost:8102/userpower/queryUserPowerById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1341,7 +1424,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8081/userpower/queryPower"
+      let url = "http://localhost:8102/userpower/queryPower"
       this.axios.post(url, {"name":""}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1360,7 +1443,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1373,7 +1456,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1411,7 +1494,7 @@ export default {
       var date = {
         name:this.name
       }
-      let url = "http://localhost:8081/userpower/queryPower"
+      let url = "http://localhost:8102/userpower/queryPower"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1427,7 +1510,7 @@ export default {
 
     savePower(){
       var save_list = this.Power
-      let url = "http://localhost:8081/userpower/powerAdd"
+      let url = "http://localhost:8102/userpower/powerAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1448,7 +1531,7 @@ export default {
         return;
       }
       var save_list = this.Power
-      let url = "http://localhost:8081/userpower/powerUpd"
+      let url = "http://localhost:8102/userpower/powerUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1480,7 +1563,7 @@ export default {
         MessageUtil.error("未选中信息");
         return;
       }
-      this.$confirm('是否删除当前选中的客户信息?', '提示', {
+      this.$confirm('是否删除当前选中的信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -1491,7 +1574,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/userpower/delPower";
+        let url = "http://localhost:8102/userpower/delPower";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

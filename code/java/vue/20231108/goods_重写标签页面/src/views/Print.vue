@@ -1,14 +1,15 @@
 <template>
-  <div id="app">
+  <el-container style="height: 100%;padding-bottom: 5%" direction="vertical">
+
     <kr-print-designer
         ref="printDesigner"
-        style="margin-bottom: 5%"
         :temp-value="value"
         :widget-options="widgets"
         :lodop-license="licenseInfo"
         @save="handleSave"
     />
-  </div>
+
+  </el-container>
 </template>
 
 <script>
@@ -901,7 +902,7 @@ export default {
       }
       console.log(this.id)
       console.log(this.type)
-      let url = "http://localhost:8081/printMuBan/getMuBanById"
+      let url = "http://localhost:8102/printMuBan/getMuBanById"
       this.axios.post(url, {"id":this.id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -934,7 +935,7 @@ export default {
 
     handleSave(e) {
       this.MuBan.value = JSON.stringify(e)
-      let url = "http://localhost:8081/printMuBan/muBanUpd"
+      let url = "http://localhost:8102/printMuBan/muBanUpd"
       this.axios.post(url, this.MuBan).then(res => {
         if(res.data.code == '00') {
           console.log(res)

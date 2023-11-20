@@ -1,53 +1,70 @@
 <template>
-  <el-container style="height: 100%;">
-    <el-row :gutter="20">
-      <el-col :xs="20" :sm="6" :md="10" :lg="10" :xl="4">
-        <el-form :inline="true" :model="fuzzyQueryKeyword">
-          <el-form-item label="编号">
+  <el-container style="height: 100%;" direction="vertical">
+
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+<!--        <el-col :xs="20" :sm="6" :md="10" :lg="10" :xl="4">-->
+<!--          <el-form :inline="true" :model="fuzzyQueryKeyword">-->
+<!--            <el-form-item label="编号">-->
+<!--              <el-input placeholder="请输入编号" v-model="fuzzyQueryKeyword.bianhao" class="input-with-select">-->
+<!--              </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="姓名">-->
+<!--              <el-input placeholder="请输入内容" v-model="fuzzyQueryKeyword.name" class="input-with-select">-->
+<!--              </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item>-->
+<!--              <el-button icon="el-icon-search" @click="fuzzyQuery()">查询</el-button>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </el-col>-->
+        <el-col :span="3">
             <el-input placeholder="请输入编号" v-model="fuzzyQueryKeyword.bianhao" class="input-with-select">
             </el-input>
-          </el-form-item>
-          <el-form-item label="姓名">
-            <el-input placeholder="请输入内容" v-model="fuzzyQueryKeyword.name" class="input-with-select">
+        </el-col>
+        <el-col :span="3">
+            <el-input placeholder="请输入客户名" v-model="fuzzyQueryKeyword.name" class="input-with-select">
             </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button icon="el-icon-search" @click="fuzzyQuery()">查询</el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-      <el-col :xs="6" :sm="3" :md="2" :lg="2" :xl="1.1">
-        <el-button size="medium" @click="queryAllCustomer()">刷新</el-button>
-      </el-col>
-      <el-col :xs="5" :sm="3" :md="2" :lg="2" :xl="1.1">
-        <el-button size="medium" @click="addDialog">新增</el-button>
-      </el-col>
-      <el-col :xs="5" :sm="3" :md="2" :lg="2" :xl="1.1">
-        <el-button size="medium" @click="updDialog()">编辑</el-button>
-      </el-col>
-      <el-col :xs="5" :sm="3" :md="2" :lg="2" :xl="1.1">
-        <el-button size="medium" @click="delUsrList()">删除</el-button>
-      </el-col>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" @click="fuzzyQuery()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" @click="queryAllCustomer()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" @click="addDialog">新增</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" @click="updDialog()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" @click="delUsrList()">删除</el-button>
+        </el-col>
 
-      <!--        <el-col :xs="9" :sm="6" :md="3" :lg="3" :xl="2">-->
+        <!--        <el-col :xs="9" :sm="6" :md="3" :lg="3" :xl="2">-->
 
-      <!--          <el-dropdown>-->
-      <!--            <el-button>-->
-      <!--              批量更改<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-      <!--            </el-button>-->
-      <!--            <el-dropdown-menu slot="dropdown">-->
-      <!--              <el-dropdown-item>更改业务员</el-dropdown-item>-->
-      <!--            </el-dropdown-menu>-->
-      <!--          </el-dropdown>-->
-      <!--        </el-col>-->
-    </el-row>
-    <br/>
-    <el-container style="height: 600px;">
-      <el-main>
+        <!--          <el-dropdown>-->
+        <!--            <el-button>-->
+        <!--              批量更改<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+        <!--            </el-button>-->
+        <!--            <el-dropdown-menu slot="dropdown">-->
+        <!--              <el-dropdown-item>更改业务员</el-dropdown-item>-->
+        <!--            </el-dropdown-menu>-->
+        <!--          </el-dropdown>-->
+        <!--        </el-col>-->
+      </el-row>
+    </el-header>
+
+
+    <el-main refs="main" style="height: 50%;">
         <el-table
             border
+            :header-cell-style="{background:'#F2F5F7'}"
             :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+            tooltip-effect="dark"
             style="width: 100%"
+            :height="tableHeight"
             @selection-change="handleSelectionChange"
         >
           <el-table-column
@@ -76,8 +93,8 @@
           </el-table-column>
         </el-table>
       </el-main>
-    </el-container>
-    <el-footer>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
 
       <el-pagination
           :currentPage="currentPage"
@@ -199,6 +216,8 @@
                     <div class="app-container home">
             <div class="table">
             <el-table
+                border
+                :header-cell-style="{background:'#F2F5F7'}"
                 :data="contactUserList"
                 style="width: 100%"
                 class="list-table"
@@ -422,6 +441,8 @@
           <div class="app-container home">
             <div class="table">
             <el-table
+                border
+                :header-cell-style="{background:'#F2F5F7'}"
                 :data="contactUserList"
                 style="width: 100%"
                 class="list-table"
@@ -543,7 +564,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="FileList" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="FileList" style="width: 100%">
         <el-table-column
             prop="fileName"
             label="文件名"
@@ -624,7 +648,7 @@ export default {
         return;
       }
       let id = arr[0].id;
-      let url = 'http://localhost:8081/customer/selectById';
+      let url = 'http://localhost:8102/customer/selectById';
       this.queryAllSelectInfo(id);
       this.axios.post(url, {id: arr[0].id}).then(res => {
         if (res.data.code == '00') {
@@ -664,7 +688,7 @@ export default {
     SubmitEvent() {
       // 需要事务 list为联系人列表  baseInfo 为基础信息
       this.axios
-          .post("http://localhost:8081/customer/customerAdd", {'body': this.contactUserList, 'head': this.ruleForm})
+          .post("http://localhost:8102/customer/customerAdd", {'body': this.contactUserList, 'head': this.ruleForm})
           .then((res) => {
             switch (res.data.code) {
               case '00': {
@@ -685,7 +709,7 @@ export default {
     SubmitEventTwo() {
       //  可以拆分为两次请求
       this.axios
-          .post("http://localhost:8081/customer/customerUpd", {'body': this.contactUserList, 'head': this.ruleForm})
+          .post("http://localhost:8102/customer/customerUpd", {'body': this.contactUserList, 'head': this.ruleForm})
           .then((res) => {
             switch (res.data.code) {
               case '00': {
@@ -715,7 +739,7 @@ export default {
      * 前端产生提示消息由用户点击进行下载
      */
     async exportExcel() {
-      let url = "http://localhost:8081/customer/exportExcel";
+      let url = "http://localhost:8102/customer/exportExcel";
       this.axios(url).then(res => {
         if (res.data.code == '00') {
           // TODO 获取到后端连接后提示用户可以下载 res.data.data.
@@ -757,7 +781,7 @@ export default {
     async fuzzyQuery() {
       console.log("查询")
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8081/customer/queryList';
+      let url = 'http://localhost:8102/customer/queryList';
       axios.post(url, this.fuzzyQueryKeyword).then(res => {
         switch (res.data.code) {
           case '00':
@@ -781,7 +805,7 @@ export default {
     queryAllCustomer() {
       console.log("模糊查询:")
       this.axios
-          .get("http://localhost:8081/customer/getAll")
+          .get("http://localhost:8102/customer/getAll")
           .then((res) => {
             if (res.data.code == '00') {
               this.tableData = res.data.data;
@@ -804,7 +828,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8081/customer/delCustomer";
+      let url = "http://localhost:8102/customer/delCustomer";
       let tmp = [];
       for (let i of list) {
         tmp.push(i.id);
@@ -844,7 +868,7 @@ export default {
      * 查询用户已有的联系人
      */
     queryContactUser(id) {
-      let url = "http://localhost:8081/customer/selectById";
+      let url = "http://localhost:8102/customer/selectById";
       this.axios.post(url, {'id': id}).then(res => {
         if (res.data.code == '00') {
           this.contactUserList_exist = res.data.data.itemList;
@@ -861,7 +885,7 @@ export default {
      * 查询用户等级
      */
     queryUserLevel() {
-      let URL = "http://localhost:8081/peizhi/queryPeiZhi";
+      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
       axios.post(URL, {type: "客户等级"}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -880,7 +904,7 @@ export default {
      */
     queryJiageLevel() {
       console.log("价格等级调用成功")
-      let URL = "http://localhost:8081/peizhi/queryPeiZhi";
+      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
       axios.post(URL, {type: "价格等级"}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -898,7 +922,7 @@ export default {
      * 查询用户分类
      */
     queryUserTypeLevel() {
-      let URL = "http://localhost:8081/peizhi/queryPeiZhi";
+      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
       axios.post(URL, {type: "客户分类"}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -956,7 +980,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -972,7 +996,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -989,7 +1013,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8081/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1007,7 +1031,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8081/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1050,7 +1074,7 @@ export default {
           "file": this_file,
           "type": "客户",
         };
-        let url = "http://localhost:8081/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -1071,6 +1095,7 @@ export default {
   },
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       fileDialog:false,
       downloadLoading:false,
       FileList:[],
@@ -1254,28 +1279,41 @@ function base64ToBlob(code) {
 </script>
 
 <style>
-.el-table .warning-row {
-  background: oldlace;
+/*.el-table .warning-row {*/
+/*  background: oldlace;*/
+/*}*/
+
+/*.el-table .success-row {*/
+/*  background: #f0f9eb;*/
+/*}*/
+
+/*.el-header {*/
+/*  background-color: #afb4b9;*/
+/*  color: #333;*/
+/*  line-height: 60px;*/
+/*  font-size: 20px;*/
+/*}*/
+
+/*.spans {*/
+/*  display: block;*/
+/*  font-size: 20px;*/
+/*}*/
+
+/*.view-box {*/
+/*  height: 60vh;*/
+/*  overflow-y: scroll;*/
+/*}*/
+.dialog-title{
+  font-weight:bold;
+  font-size: larger;
+}
+.el-table .hidden-row {
+  display: none;
 }
 
-.el-table .success-row {
-  background: #f0f9eb;
-}
-
-.el-header {
-  background-color: #afb4b9;
-  color: #333;
-  line-height: 60px;
-  font-size: 20px;
-}
-
-.spans {
-  display: block;
-  font-size: 20px;
-}
-
-.view-box {
-  height: 60vh;
-  overflow-y: scroll;
+html,body,#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

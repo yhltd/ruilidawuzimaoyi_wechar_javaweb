@@ -1,4 +1,4 @@
-<template>
+template>
   <div>
     <el-container>
       <el-header>核算单位</el-header>
@@ -85,7 +85,7 @@ export default {
   inject: ["reload"],
   created() {
     this.axios
-      .get("http://localhost:8081/account/getall")
+      .get("http://localhost:8102/account/getall")
       .then((res) => {
         this.tableData = res.data;
       })
@@ -111,7 +111,7 @@ export default {
     SubmitEvent() {
       //确定事件
       this.axios
-        .post("http://localhost:8081/account/add" + "/" + this.ruleForm.aname)
+        .post("http://localhost:8102/account/add" + "/" + this.ruleForm.aname)
         .then((res) => {
           if (res.data == "success") {
             this.$message({
@@ -131,7 +131,7 @@ export default {
     edit() {
       this.axios
         .put(
-          "http://localhost:8081/account/update" +
+          "http://localhost:8102/account/update" +
             "/" +
             this.updateForm.aname +
             "/" +
@@ -166,7 +166,7 @@ export default {
           type: 'warning'
         }).then(() => {
           this.axios
-            .delete("http://localhost:8081/account/delete" + "/" + data.aid)
+            .delete("http://localhost:8102/account/delete" + "/" + data.aid)
             .then((res) => {
               if (res.data == "success") {
                 this.$message({

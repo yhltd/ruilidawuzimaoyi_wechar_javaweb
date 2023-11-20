@@ -1,90 +1,88 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="4">
-        <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select"
-                  @keyup.enter.native="fuzzyQuery()">
-          <el-button :loading="fuzzy_query_loading" slot="append" icon="el-icon-search"
+  <el-container style="height: 100%;" direction="vertical">
 
-                     @click="fuzzyQuery()"></el-button>
-        </el-input>
-      </el-col>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="4">
+          <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select"
+                    @keyup.enter.native="fuzzyQuery()">
+            <el-button :loading="fuzzy_query_loading" slot="append" icon="el-icon-search"
 
-      <el-col :span="1.5">
-        <el-button type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="updateBtnClick()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5" :offset="0">
-        <el-popover
-            placement="bottom"
-            width="160"
-            v-model="del_popover_visible"
-        >
-          <p>确定要删除选中的账号吗？</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="del_popover_visible = false">取消</el-button>
-            <el-button :loding="del_loading" type="danger" size="mini" @click="deleteUsers()">确定</el-button>
-          </div>
-          <el-button :loading="del_loading" type="danger" slot="reference">删除</el-button>
-        </el-popover>
-      </el-col>
-    </el-row>
-    <el-table
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        border
-        style="width: 100%; margin-top: 10px;"
-        @selection-change="handleSelectionChange"
-    >
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column fixed prop="id" label="编号" width="50">
+                       @click="fuzzyQuery()"></el-button>
+          </el-input>
+        </el-col>
 
-      </el-table-column>
-      <el-table-column
-          fixed
-          prop="name"
-          label="姓名"
-          width="auto">
-        <el-button style="text-decoration: underline" type="text" size="mini" slot-scope="scope">{{ scope.row.name }}
-        </el-button>
-      </el-table-column>
-      <el-table-column
-          prop="userName"
-          label="账号"
-          width="auto">
-      </el-table-column>
-      <el-table-column
-          prop="password"
-          label="密码"
-          width="auto">
-      </el-table-column>
-      <el-table-column
-          prop="power"
-          label="权限"
-          width="auto">
-      </el-table-column>
-      <el-table-column
-          prop="shenpi"
-          label="审批人"
-          width="auto">
-      </el-table-column>
-    </el-table>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="updateBtnClick()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="danger" @click="deleteUsers()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          border
+          style="width: 100%; "
+          :height="tableHeight"
+          @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column fixed prop="id" label="编号" width="50">
+
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="姓名"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="userName"
+            label="账号"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="password"
+            label="密码"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="power"
+            label="权限"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="shenpi"
+            label="审批人"
+            width="auto">
+        </el-table-column>
+      </el-table>
+    </el-main>
+
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
+
 
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
 
@@ -98,9 +96,9 @@
         <el-form-item label="密码" prop="updPassword" class="custom-form-item">
           <el-input :disabled="!show_upd_btn" ref="pwd_inp" v-model="updUserInfo.updPassword"
                     class="custom-login-inp"
-                    @keyup.enter.native="(submitForm('usrInfo'))"></el-input>
+                    @keyup.enter.native="inpFocus('name')"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="name" class="custom-form-item">
+        <el-form-item label="姓名" prop="name" class="custom-form-item">
           <el-input :disabled="!show_upd_btn" ref="name" v-model="updUserInfo.name" class="custom-login-inp"
                     @keyup.enter.native="inpFocus('pwd_inp')"></el-input>
         </el-form-item>
@@ -131,7 +129,6 @@
                      @click="submitForm('usrInfo')">提交修改
           </el-button>
           <el-button v-show="!show_upd_btn" @click="changeBtnHid(); queryAllSelectInfo()">修改</el-button>
-          <el-button v-show="show_upd_btn" @click="resetForm();login_btn_loading=false">重置</el-button>
           <el-button v-show="show_upd_btn" @click="changeBtnHid();dialogFormVisible=false">取消</el-button>
         </el-form-item>
       </el-form>
@@ -146,9 +143,8 @@
                     @keyup.enter.native="inpFocus('pwd_inp')"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" class="custom-form-item">
-          <el-input ref="pwd_inp" v-model="userInfo.password"
-                    class="custom-login-inp"
-                    @keyup.enter.native="(inpFocus('name_inp'))"></el-input>
+          <el-input ref="pwd_inp" v-model="userInfo.password" class="custom-login-inp"
+                    @keyup.enter.native="inpFocus('name_inp')"></el-input>
         </el-form-item>
         <el-form-item label="用户名" prop="name" class="custom-form-item">
           <el-input ref="name_inp" v-model="userInfo.name" class="custom-login-inp"
@@ -193,18 +189,13 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
       dialogFormVisible: false,
       addDialog: false,
-      tableData: [{
-        id: 0,
-        name: '',
-        userName: '',
-        power: '',
-        shenpi: '',
-      }],
+      tableData: [],
       multipleSelection: [],
       del_popover_visible: false,
       visible: false,
@@ -282,7 +273,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8081/user/fuzzyQuery';
+      let url = 'http://localhost:8102/user/fuzzyQuery';
       axios.post(url, {'keyword': this.keyword}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -333,7 +324,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -346,7 +337,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -371,12 +362,13 @@ export default {
         MessageUtil.error("无新增权限");
         return;
       }
-      const info = this.userInfo
-      info.name = '';
-      info.userName = '';
-      info.password = '';
-      info.power = '';
-      info.shenpi = '';
+      this.userInfo = {
+        name: '',
+        userName: '',
+        password: '',
+        power: '',
+        shenpi: '',
+      }
       this.addDialog = true;
       this.queryAllSelectInfo();
     },
@@ -384,7 +376,7 @@ export default {
       this.login_btn_loading = true;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let URL = "http://localhost:8081/user/useradd";
+          let URL = "http://localhost:8102/user/useradd";
           axios.post(
               URL, this.userInfo, true
           ).then(res => {
@@ -423,34 +415,50 @@ export default {
         MessageUtil.info("至少选择一条数据");
         return;
       }
-      let tmp = [];
-      for (let i of list) {
-        tmp.push(i.id);
-      }
-      let url = "http://localhost:8081/user/delUsers";
-      axios.post(url, {"list": tmp}).then(res => {
-        switch (res.data.code) {
-          case "00": {
-            MessageUtil.success("删除成功");
-            list.length = 0;
-            this.queryUsersInfo();
-            break;
-          }
-          case "02": {
-            MessageUtil.error(res.data.msg);
-            break;
-          }
-          default: {
-            MessageUtil.error("网络异常");
-          }
+
+      this.$confirm('是否删除当前选中的信息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        let tmp = [];
+        for (let i of list) {
+          tmp.push(i.id);
         }
-        this.del_popover_visible = false;
-        this.del_loading = false;
+        let url = "http://localhost:8102/user/delUsers";
+        axios.post(url, {"list": tmp}).then(res => {
+          switch (res.data.code) {
+            case "00": {
+              MessageUtil.success("删除成功");
+              list.length = 0;
+              this.queryUsersInfo();
+              break;
+            }
+            case "02": {
+              MessageUtil.error(res.data.msg);
+              break;
+            }
+            default: {
+              MessageUtil.error("网络异常");
+            }
+          }
+          this.del_popover_visible = false;
+          this.del_loading = false;
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+          this.del_loading = false;
+          this.del_popover_visible = false;
+        })
+
       }).catch(() => {
-        MessageUtil.error("网络异常");
-        this.del_loading = false;
-        this.del_popover_visible = false;
-      })
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+
     },
     toggleSelection(rows) {
       if (rows) {
@@ -471,7 +479,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           info.password = info.updPassword;
-          let URL = "http://localhost:8081/user/updUsrInfo";
+          let URL = "http://localhost:8102/user/updUsrInfo";
           axios.post(
               URL, info, true
           ).then(res => {
@@ -505,17 +513,13 @@ export default {
         }
       })
     },
-    async queryAllSelectInfo() {
-      this.queryPowers().catch(() => {
-        MessageUtil.error("网络异d常")
-      })
-      this.queryShenPis().catch(() => {
-        MessageUtil.error("网络异常")
-      });
+    queryAllSelectInfo() {
+      this.queryPowers()
+      this.queryShenPis()
     },
-    async queryPowers() {
+    queryPowers() {
       this.Power_Loading = true;
-      let url = "http://localhost:8081/userpower/queryPower";
+      let url = "http://localhost:8102/userpower/queryPower";
       axios.post(url, {"name": ""}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -532,9 +536,9 @@ export default {
         this.Power_Loading = false;
       })
     },
-    async queryShenPis() {
+    queryShenPis() {
       this.SP_Loading = true
-      let url = "http://localhost:8081/user/queryShenpis";
+      let url = "http://localhost:8102/user/queryShenpis";
       axios.post(url).then(res => {
         switch (res.data.code) {
           case '00':
@@ -561,7 +565,7 @@ export default {
       this.show_upd_btn = !this.show_upd_btn;
     },
     resetForm() {
-      let url = "http://localhost:8081/user/queryUserInfoById";
+      let url = "http://localhost:8102/user/queryUserInfoById";
       axios.post(url, {'id': this.userInfo.id}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -575,8 +579,8 @@ export default {
         MessageUtil.error("网络异常");
       })
     },
-    async queryUsersInfo() {
-      let url = "http://localhost:8081/user/queryAllUsers";
+    queryUsersInfo() {
+      let url = "http://localhost:8102/user/queryAllUsers";
       axios.post(url).then(res => {
         switch (res.data.code) {
           case '00':
@@ -594,6 +598,8 @@ export default {
   },
   created() {
     this.getUser();
+    this.queryPowers()
+    this.queryShenPis()
   }
 }
 </script>

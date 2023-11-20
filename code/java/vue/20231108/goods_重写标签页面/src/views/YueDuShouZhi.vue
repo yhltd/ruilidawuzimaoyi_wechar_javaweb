@@ -1,37 +1,41 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="4">
-        <el-date-picker
-            v-model="riqi"
-            type="year"
-            format="yyyy"
-            placeholder="选择日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" @click="query()">查询</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-        ref="multipleTable"
-        :data="type_list"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          v-for="column in title"
-          :prop="column.columnName+ ''"
-          :label="column.name"
-          :width="column.width">
-      </el-table-column>
-    </el-table>
+  <el-container style="height: 100%;" direction="vertical">
 
-    <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="1000">
-    </el-pagination>
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="4">
+          <el-date-picker
+              style="width:100%"
+              v-model="riqi"
+              type="year"
+              format="yyyy"
+              placeholder="选择日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="query()">查询</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="type_list"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            v-for="column in title"
+            :prop="column.columnName+ ''"
+            :label="column.name"
+            :width="column.width">
+        </el-table-column>
+      </el-table>
+    </el-main>
 
   </el-container>
 
@@ -46,6 +50,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       title:[],
       type_list:[],
       riqi:getNowDate(),
@@ -98,7 +103,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -111,7 +116,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -146,7 +151,7 @@ export default {
       var date = {
         riqi:riqi,
       }
-      let url = "http://localhost:8081/shouZhiTongJI/getShouZhiByMonth"
+      let url = "http://localhost:8102/shouZhiTongJI/getShouZhiByMonth"
       this.axios.post(url, date).then(res => {
         var title = [
               {

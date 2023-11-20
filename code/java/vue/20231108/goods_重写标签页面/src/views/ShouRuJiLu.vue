@@ -1,179 +1,187 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="start_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择起始日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="stop_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择结束日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="dianpu" clearable filterable placeholder="请选择店铺">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_DianPu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="jizhangren" clearable filterable placeholder="请选择记账人">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_User"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="jizhang_zhanghu" clearable filterable placeholder="请选择记账账户">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_ShouKuanZhangHu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
+  <el-container style="height: 100%;" direction="vertical">
 
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="start_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择起始日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="stop_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择结束日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="dianpu" clearable filterable placeholder="请选择店铺">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_DianPu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="jizhangren" clearable filterable placeholder="请选择记账人">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_User"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="jizhang_zhanghu" clearable filterable placeholder="请选择记账账户">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_ShouKuanZhangHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="dianpu"
+            label="对应店铺"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="danjuLeixing"
+            label="单据类型"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="danjuBianhao"
+            label="单据编号"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shouzhiBianhao"
+            label="记账单号"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shouzhiRiqi"
+            label="收支日期"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jizhangren"
+            label="记账人"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jizhangType"
+            label="记账分类"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jizhangZhanghu"
+            label="记账账户"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jizhangJine"
+            label="记账金额"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kediShuie"
+            label="可抵税额"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="zhaiyao"
+            label="摘要"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shouzhiType"
+            label="收支类型"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+          <template slot-scope="scope">
+            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="dianpu"
-          label="对应店铺"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="danjuLeixing"
-          label="单据类型"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="danjuBianhao"
-          label="单据编号"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="shouzhiBianhao"
-          label="记账单号"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="shouzhiRiqi"
-          label="收支日期"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jizhangren"
-          label="记账人"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jizhangType"
-          label="记账分类"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jizhangZhanghu"
-          label="记账账户"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jizhangJine"
-          label="记账金额"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="kediShuie"
-          label="可抵税额"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="zhaiyao"
-          label="摘要"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="shouzhiType"
-          label="收支类型"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-        <template slot-scope="scope">
-          <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
@@ -415,7 +423,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
         <el-table-column
             prop="bianhao"
             label="单据编号"
@@ -464,7 +475,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="FileList" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="FileList" style="width: 100%">
         <el-table-column
             prop="fileName"
             label="文件名"
@@ -496,6 +510,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       fileDialog:false,
       downloadLoading:false,
       FileList:[],
@@ -694,7 +709,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8081/shouZhiMingXi/selectMaxDanHao"
+      let url = "http://localhost:8102/shouZhiMingXi/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].shouzhiBianhao)
@@ -776,7 +791,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/shouZhiMingXi/selectById"
+      let url = "http://localhost:8102/shouZhiMingXi/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -795,7 +810,7 @@ export default {
     },
     //查询窗口table中的内容列表
     getCaiGouProduct(){
-      let url = "http://localhost:8081/xiaoShouDingDan/selectWeiFu"
+      let url = "http://localhost:8102/xiaoShouDingDan/selectWeiFu"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -810,7 +825,7 @@ export default {
       })
     },
     getRuKuProduct(){
-      let url = "http://localhost:8081/xiaoShouChuKu/selectWeiFu"
+      let url = "http://localhost:8102/xiaoShouChuKu/selectWeiFu"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -830,7 +845,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -843,7 +858,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -866,7 +881,7 @@ export default {
     },
     //读取下拉列表
     getXiaLa_User(){
-      let url = "http://localhost:8081/user/getall"
+      let url = "http://localhost:8102/user/getall"
       this.axios(url).then(res => {
         this.XiaLa_User = res.data;
         for(var i=0; i<this.XiaLa_User.length; i++){
@@ -878,7 +893,7 @@ export default {
       })
     },
     getXiaLa_KeHu(){
-      let url = "http://localhost:8081/customer/getAll"
+      let url = "http://localhost:8102/customer/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHu = res.data.data;
@@ -894,7 +909,7 @@ export default {
       })
     },
     getXiaLa_ShouKuanZhangHu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"收款账户"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShouKuanZhangHu = res.data.data;
@@ -910,7 +925,7 @@ export default {
       })
     },
     getXiaLa_DianPu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -926,7 +941,7 @@ export default {
       })
     },
     getXiaLa_JiZhangFenLei(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"记账分类"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiZhangFenLei = res.data.data;
@@ -942,7 +957,7 @@ export default {
       })
     },
     getXiaLa_JiZhangMingXiLeiXing(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"记账明细类型"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiZhangMingXiLeiXing = res.data.data;
@@ -960,7 +975,7 @@ export default {
 
     //查询全部
     getAll(){
-      let url = "http://localhost:8081/shouZhiMingXi/getShouRu"
+      let url = "http://localhost:8102/shouZhiMingXi/getShouRu"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -976,7 +991,7 @@ export default {
 
     //查询全部
     getAllByName(){
-      let url = "http://localhost:8081/shouZhiMingXi/getShouRuByName"
+      let url = "http://localhost:8102/shouZhiMingXi/getShouRuByName"
       this.axios.post(url, {"yuangong_name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1029,7 +1044,7 @@ export default {
         jizhangren:this.jizhangren,
         jizhang_zhanghu:this.jizhang_zhanghu,
       }
-      let url = "http://localhost:8081/shouZhiMingXi/queryShouRuList"
+      let url = "http://localhost:8102/shouZhiMingXi/queryShouRuList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1060,7 +1075,7 @@ export default {
         jizhang_zhanghu:this.jizhang_zhanghu,
         yuangong_name:this.userInfo.name
       }
-      let url = "http://localhost:8081/shouZhiMingXi/queryShouRuListByName"
+      let url = "http://localhost:8102/shouZhiMingXi/queryShouRuListByName"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1077,7 +1092,7 @@ export default {
     //保存
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/shouZhiMingXi/shouzhiAdd"
+      let url = "http://localhost:8102/shouZhiMingXi/shouzhiAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1097,7 +1112,7 @@ export default {
     //修改
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/shouZhiMingXi/shouzhiUpd"
+      let url = "http://localhost:8102/shouZhiMingXi/shouzhiUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1179,7 +1194,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/shouZhiMingXi/delShouZhi";
+        let url = "http://localhost:8102/shouZhiMingXi/delShouZhi";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1213,7 +1228,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"收支记录"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1229,7 +1244,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"收支记录"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1246,7 +1261,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8081/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1264,7 +1279,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8081/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1307,7 +1322,7 @@ export default {
           "file": this_file,
           "type": "收支记录",
         };
-        let url = "http://localhost:8081/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)

@@ -2,6 +2,7 @@ package com.myboot.service;
 
 import com.myboot.pojo.Customer;
 import com.myboot.pojo.GongYingShang;
+import com.myboot.pojo.XiaoShouBaoJia;
 
 import java.util.List;
 
@@ -24,5 +25,8 @@ public interface GongYingShangService {
 
     //根据id查询
     public List<GongYingShang> selectById(Integer id);
+
+
+    public List<GongYingShang> selectMaxDanHao();
 
 }

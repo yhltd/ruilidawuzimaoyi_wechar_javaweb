@@ -1,163 +1,171 @@
 <template>
-  <el-container direction="vertical">
-    <el-row :gutter="15">
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="start_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择起始日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-date-picker
-            style="width:100%"
-            v-model="stop_date"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择结束日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="kehu" clearable filterable placeholder="请选择客户">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_KeHu"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="shenhe" clearable filterable placeholder="请选择审核状态">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_ShenHeZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="query()">查询</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="addUser()">添加</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="myShenHe()">需要我审核</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="shenheButton" size="small" round type="primary" @click="shenheClick()">审核</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
-      </el-col>
-    </el-row>
+  <el-container style="height: 100%;" direction="vertical">
 
+    <el-header style="background-color: transparent;">
+      <el-row :gutter="15">
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="start_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择起始日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-date-picker
+              style="width:100%"
+              v-model="stop_date"
+              type="date"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择结束日期">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="kehu" clearable filterable placeholder="请选择客户">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_KeHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="shenhe" clearable filterable placeholder="请选择审核状态">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_ShenHeZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="addUser()">添加</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="myShenHe()">需要我审核</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="shenheButton" size="small" round type="primary" @click="shenheClick()">审核</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
+    <el-main refs="main" style="height: 50%;">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="bianhao"
+            label="编号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="riqi"
+            label="日期"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="kehu"
+            label="客户"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="yewuyuan"
+            label="业务员"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="dianpu"
+            label="店铺"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="xiaoxiangShuilv"
+            label="销项税率"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="beizhu"
+            label="备注"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shenhe"
+            label="审核人"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jiageDengji"
+            label="价格等级"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shenheZhuangtai"
+            label="审核状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="200">
+          <template slot-scope="scope">
+            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+            <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 
-    <el-table
-        ref="multipleTable"
-        :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-      <el-table-column
-          type="selection"
-          width="55">
-      </el-table-column>
-      <el-table-column
-          prop="bianhao"
-          label="编号"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="riqi"
-          label="日期"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          prop="kehu"
-          label="客户"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="yewuyuan"
-          label="业务员"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="dianpu"
-          label="店铺"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="xiaoxiangShuilv"
-          label="销项税率"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="beizhu"
-          label="备注"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="shenhe"
-          label="审核人"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="jiageDengji"
-          label="价格等级"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          prop="shenheZhuangtai"
-          label="审核状态"
-          width="200"
-          show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-          fixed="right"
-          label="操作"
-          width="200">
-        <template slot-scope="scope">
-          <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
-          <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <el-pagination
-        :currentPage="currentPage"
-        :page-sizes="[10,20,30,40,50]"
-        :page-size="pageSize"
-        background
-        layout="total, sizes, prev,pager,next,jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-footer style="height: 10%;margin-bottom: 5%">
+      <el-pagination
+          :currentPage="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          background
+          layout="total, sizes, prev,pager,next,jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </el-footer>
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
@@ -414,7 +422,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
         <el-table-column
             prop="bianhao"
             label="编号"
@@ -509,7 +520,10 @@
         </el-col>
       </el-row>
 
-      <el-table :data="FileList" style="width: 100%">
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="FileList" style="width: 100%">
         <el-table-column
             prop="fileName"
             label="文件名"
@@ -532,7 +546,6 @@
         title="提示"
         :visible.sync="dialogVisible"
         width="30%"
-<!--        :before-close="handleClose"-->
         center>
       <span>请选择审核状态</span>
       <span slot="footer" class="dialog-footer">
@@ -554,6 +567,7 @@ import parseArea from "@/utils/ParseDataArea";
 export default {
   data() {
     return {
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
       printName:'',
       XiaLa_MuBan:[],
       printDialog:false,
@@ -634,6 +648,7 @@ export default {
     }
   },
   created() {
+    console.log(window.innerHeight)
     this.getUser();
     this.getCaiGouProduct();
     this.getXiaLa_GongYingShang();
@@ -776,7 +791,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8081/xiaoShouBaoJia/selectMaxDanHao"
+      let url = "http://localhost:8102/xiaoShouBaoJia/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -815,7 +830,7 @@ export default {
             ]
           }
 
-          let url = "http://localhost:8081/peizhi/selectByPeiZhiId"
+          let url = "http://localhost:8102/peizhi/selectByPeiZhiId"
           this.axios.post(url,{"id":this.userInfo.dianpu}).then(res => {
             if(res.data.code == '00') {
               console.log(res.data.data[0].name)
@@ -874,7 +889,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8081/xiaoShouBaoJia/selectBaoJiaById"
+      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -896,7 +911,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://localhost:8081/product/selectCaiGouProduct"
+      let url = "http://localhost:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -915,7 +930,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -928,7 +943,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -951,7 +966,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8081/gongYingShang/getAll"
+      let url = "http://localhost:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -968,7 +983,7 @@ export default {
     },
 
     getXiaLa_KeHu(){
-      let url = "http://localhost:8081/customer/getAll"
+      let url = "http://localhost:8102/customer/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHu = res.data.data;
@@ -985,7 +1000,7 @@ export default {
     },
 
     getXiaLa_User(){
-      let url = "http://localhost:8081/user/getall"
+      let url = "http://localhost:8102/user/getall"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_User = res.data.data;
@@ -1002,7 +1017,7 @@ export default {
     },
 
     getXiaLa_ShenHe(){
-      let url = "http://localhost:8081/user/fuzzyQuery"
+      let url = "http://localhost:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShenHe = res.data.data;
@@ -1019,7 +1034,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1036,7 +1051,7 @@ export default {
     },
 
     getXiaLa_ZhiBaoDengJi(){
-      let url = "http://localhost:8081/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"质保等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhiBaoDengJi = res.data.data;
@@ -1053,7 +1068,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8081/printMuBan/getMuBanByType"
+      let url = "http://localhost:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1072,7 +1087,7 @@ export default {
     //查询全部
     getAll(){
       this.shenheButton = false
-      let url = "http://localhost:8081/xiaoShouBaoJia/getAll"
+      let url = "http://localhost:8102/xiaoShouBaoJia/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1089,7 +1104,7 @@ export default {
     //查询全部
     getAllByName(){
       this.shenheButton = false
-      let url = "http://localhost:8081/xiaoShouBaoJia/getAllByName"
+      let url = "http://localhost:8102/xiaoShouBaoJia/getAllByName"
       this.axios.post(url, {"yewuyuan":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1143,7 +1158,7 @@ export default {
         kehu:this.kehu,
         shenhe_zhuangtai:this.shenhe
       }
-      let url = "http://localhost:8081/xiaoShouBaoJia/queryList"
+      let url = "http://localhost:8102/xiaoShouBaoJia/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1175,7 +1190,7 @@ export default {
         shenhe_zhuangtai:this.shenhe,
         yewuyuan:this.userInfo.name,
       }
-      let url = "http://localhost:8081/xiaoShouBaoJia/queryListByName"
+      let url = "http://localhost:8102/xiaoShouBaoJia/queryListByName"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1192,7 +1207,7 @@ export default {
     //条件查询
     myShenHe(){
       this.shenheButton = true
-      let url = "http://localhost:8081/xiaoShouBaoJia/shenheList"
+      let url = "http://localhost:8102/xiaoShouBaoJia/shenheList"
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1249,7 +1264,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/xiaoShouBaoJia/baoJiaAdd"
+      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1269,7 +1284,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8081/xiaoShouBaoJia/baoJiaUpd"
+      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1355,7 +1370,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8081/xiaoShouBaoJia/delXiaoShouBaoJia";
+        let url = "http://localhost:8102/xiaoShouBaoJia/delXiaoShouBaoJia";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1389,7 +1404,7 @@ export default {
         list.push(this.multipleSelection[i].id)
       }
       console.log(list)
-      let url = "http://localhost:8081/xiaoShouBaoJia/baoJiaShenHe";
+      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
       axios.post(url, {"list": list,"type":"审核通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1405,7 +1420,7 @@ export default {
         list.push(this.multipleSelection[i].id)
       }
       console.log(list)
-      let url = "http://localhost:8081/xiaoShouBaoJia/baoJiaShenHe";
+      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
       axios.post(url, {"list": list,"type":"审核未通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1430,7 +1445,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1446,7 +1461,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8081/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1463,7 +1478,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8081/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1481,7 +1496,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8081/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1524,7 +1539,7 @@ export default {
           "file": this_file,
           "type": "销售报价单",
         };
-        let url = "http://localhost:8081/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -1575,7 +1590,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8081/xiaoShouBaoJia/selectBaoJiaById"
+      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1720,5 +1735,11 @@ function base64ToBlob(code) {
 }
 .el-table .hidden-row {
   display: none;
+}
+
+html,body,#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

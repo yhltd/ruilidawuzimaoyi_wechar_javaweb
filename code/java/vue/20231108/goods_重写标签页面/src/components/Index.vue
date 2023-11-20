@@ -3,15 +3,18 @@
     <div class="custom-header">
 
       <el-menu
-
           class="el-menu-demo"
           mode="horizontal"
-          background-color="#000"
+          background-color="#3A3A3A"
           text-color="#fff"
           active-text-color="#ffd04b"
           router
       >
-        <el-submenu index="1">
+        <el-menu-item  style="margin-left:3%">
+          <img src="../assets/menuLogo.png" style="height: 40px;width: 40px;margin-right: 10px">
+          <span style="font-size: 15px">进销存系统</span>
+        </el-menu-item>
+        <el-submenu index="1" style="margin-left:5%" >
           <template slot="title">销售</template>
           <el-menu-item @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>
           <el-menu-item @click="goRouter('/xiaoshoudingdan')"><p class="custom-menu-item">销售订单</p></el-menu-item>
@@ -44,7 +47,6 @@
           <el-menu-item @click="goRouter('/supplier')"><p class="custom-menu-item">供应商</p></el-menu-item>
           <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
           <el-menu-item @click="goRouter('/printlist')"><p class="custom-menu-item">打印</p></el-menu-item>
-          <el-menu-item @click="goRouter('/print')"><p class="custom-menu-item">打印编辑</p></el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">下拉配置</template>
@@ -76,11 +78,16 @@
           </el-menu-item>
         </el-submenu>
 
+        <el-menu-item style="float: right;margin-right: 5%" index="7" @click="quit()">
+          <i class="el-icon-switch-button"></i>
+          <span>退出登录</span>
+        </el-menu-item>
+
       </el-menu>
 
     </div>
     <el-container>
-      <el-main>
+      <el-main style="padding-top:0px;padding-bottom: 0px;">
         <div class="container-box">
           <el-header height="40px" class="inner-header">{{ PageTitle || '错误' }}</el-header>
           <div class="view-box">
@@ -119,6 +126,11 @@ export default {
     },
     childCallTitleRename(title) {
       this.PageTitle = title
+    },
+    quit(){
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("userPower");
+      RouterUtil.to("/");
     }
   },
   mounted() {
@@ -129,7 +141,7 @@ export default {
 
 <style>
 :root {
-  --frame-bgcolor: #000;
+  --frame-bgcolor: #3A3A3A;
 
 }
 
@@ -164,7 +176,7 @@ body {
   background-color: var(--frame-bgcolor);
   display: flex;
   justify-content: left;
-  border-bottom: 1px solid #FFF;
+  /*border-bottom: 1px solid #FFF;*/
 }
 
 .el-menu-demo {
@@ -184,16 +196,16 @@ body {
   height: 85vh;
   margin: 0 auto;
   background-color: white;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   overflow: hidden;
 }
 
 .inner-header {
-  font-size: 25px;
+  font-size: 20px;
   line-height: 40px;
   font-weight: 600;
-  background-color: white;
+  background-color: #F2F5F7;
   border-bottom: 1px solid lightgray;
 }
 
@@ -203,4 +215,9 @@ body {
   margin: 20px auto 10px;
   height: calc(100% - 20px);
 }
+
+.el-menu {
+  border: 0 !important;
+}
+
 </style>

@@ -5,11 +5,11 @@
              class="demo-info">
 
       <el-form-item label="税率" prop="shuilv" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" ></el-input>
+        <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px"></el-input>
       </el-form-item>
 
-      <el-form-item label="是否启用" prop="zhuangtai" class="custom-form-item">
-        <el-select v-model="ZhuanZhang.zhuangtai" clearable filterable placeholder="请选择">
+      <el-form-item label="是否启用" prop="zhuangtai" class="custom-form-item" >
+        <el-select v-model="ZhuanZhang.zhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
           <!-- types 为后端查询 -->
           <el-option
               v-for="item in XiaLa_ZhuangTai"
@@ -22,15 +22,15 @@
       </el-form-item>
 
       <el-form-item label="零售上浮比例" prop="lingshou" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" ></el-input>
+        <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px"></el-input>
       </el-form-item>
 
       <el-form-item label="批发上浮比例" prop="pifa" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" ></el-input>
+        <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px"></el-input>
       </el-form-item>
 
       <el-form-item label="大客户上浮比例" prop="dakehu" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" ></el-input>
+        <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px"></el-input>
       </el-form-item>
 
 
@@ -124,7 +124,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8081/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -137,7 +137,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8081/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -163,7 +163,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8081/peiZhiShuiLv/getAll"
+      let url = "http://localhost:8102/peiZhiShuiLv/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.ZhuanZhang = res.data.data[0];
@@ -192,7 +192,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://localhost:8081/peiZhiShuiLv/update"
+      let url = "http://localhost:8102/peiZhiShuiLv/update"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
