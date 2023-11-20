@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^1.5.1",
+    "element-china-area-data": "^6.1.0",
     "element-ui": "^2.15.14",
     "kr-print-designer": "^1.1.8",
     "vue": "^2.6.14",
