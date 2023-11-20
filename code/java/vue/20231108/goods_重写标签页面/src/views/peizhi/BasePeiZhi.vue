@@ -8,14 +8,14 @@
     <el-header style="background-color: transparent;">
       <el-row :gutter="20">
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button @click="addConfig();" type="primary">添加</el-button>
+          <el-button size="small" round @click="addConfig();" type="primary">添加</el-button>
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button @click="updConfig();" type="primary">修改</el-button>
+          <el-button size="small" round @click="updConfig();" type="primary">修改</el-button>
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button @click="delConfig();" type="primary">删除</el-button>
+          <el-button size="small" round type="danger" @click="delConfig();">删除</el-button>
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">

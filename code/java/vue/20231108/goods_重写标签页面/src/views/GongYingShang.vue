@@ -10,24 +10,20 @@
           <el-input placeholder="名称" v-model="name" class="input-with-select">
           </el-input>
         </el-col>
-        <el-col :span="3">
-          <el-input placeholder="名称" v-model="name" class="input-with-select">
-          </el-input>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="refresh()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="addUser()">添加</el-button>
+          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="updUser()">编辑</el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button type="primary" @click="deleteClick()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -159,18 +155,13 @@
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="地区" prop="suozaiDiqu" class="custom-form-item">
-
-              <el-cascader v-model="gongYingShang.suozaiDiqu" :options="areaOptions" placeholder="地区"
-                           :props="{value:'label'}">
-                <template #default="{  data }">
-                  <span>{{ data.label }}</span>
-                </template>
-              </el-cascader>
-
-<!--              <el-input ref="acc_inp" v-model="gongYingShang.suozaiDiqu" class="custom-login-inp"></el-input>-->
+              <el-input ref="acc_inp" v-model="gongYingShang.suozaiDiqu" class="custom-login-inp"></el-input>
             </el-form-item>
+          </el-col>
+          <el-col :span="1">
+            <el-cascader separator="-" :filterable="true" v-model="XiaLa_Area" class="custom-login-inp" :options="optionsnative_place" @change="areaChange"/>
           </el-col>
           <el-col :span="6">
             <el-form-item label="地址" prop="dizhi" class="custom-form-item">
@@ -413,10 +404,18 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
-import areaOptions from "@/utils/shengShiData";
+import { provinceAndCityData,regionData,pcTextArr,pcaTextArr, codeToText} from 'element-china-area-data'
+
+const optionsnative_place = pcaTextArr
 export default {
   data() {
     return {
+      provinceAndCityData,
+      regionData,
+      pcTextArr,
+      pcaTextArr,
+      codeToText,
+      optionsnative_place,
       tableHeight:window.innerHeight-window.innerHeight * 0.48,
       downloadLoading:false,
       currentPage: 1, // 当前页数，
@@ -427,7 +426,7 @@ export default {
       FileList:[],
       XiaLa_Level:[],
       XiaLa_CaiGouYuan:[],
-
+      XiaLa_Area:[],
       XiaLa_JianZuoKeHu:[
         {
           name:'是',
@@ -509,6 +508,12 @@ export default {
       console.log(val)
     },
 
+    areaChange(value){
+      console.log(value)
+      this.gongYingShang.suozaiDiqu = value[0] + "-" + value[1] + "-" + value[2]
+      this.XiaLa_Area = []
+    },
+
     //新增窗口弹出
     addUser() {
       if(this.userPower.gongyingshangAdd != '是'){
@@ -532,7 +537,7 @@ export default {
             suozaiDiqu: '',
             dizhi: '',
             beizhu: '',
-            caigouyuan:'',
+            caigouyuan:this.userInfo.name,
             jianzuoKehu:'',
             zhuyaoYewu:'',
             shoujianName:'',
@@ -819,6 +824,10 @@ export default {
     },
 
     save(){
+      if(this.gongYingShang.name == ''){
+        MessageUtil.error("请输入供应商名称");
+        return;
+      }
       if(this.gongYingShang.id != undefined && this.gongYingShang.id != null){
         if(this.userPower.gongyingshangUpd != '是'){
           MessageUtil.error("无修改权限");
@@ -839,7 +848,7 @@ export default {
         MessageUtil.error("未选中信息");
         return;
       }
-      this.$confirm('是否删除当前选中的客户信息?', '提示', {
+      this.$confirm('是否删除当前选中的信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -1144,5 +1153,8 @@ function base64ToBlob(code) {
 .dialog-title{
   font-weight:bold;
   font-size: larger;
+}
+.el-cascader-panel {
+  height: 300px;
 }
 </style>

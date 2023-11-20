@@ -5,6 +5,7 @@ import com.myboot.mapper.CustomerMapper;
 import com.myboot.mapper.ProductItemMapper;
 import com.myboot.mapper.ProductMapper;
 import com.myboot.pojo.Customer;
+import com.myboot.pojo.GongYingShang;
 import com.myboot.pojo.Product;
 import com.myboot.service.CustomerService;
 import com.myboot.service.ProductService;
@@ -67,6 +68,11 @@ public class ProductImpl implements ProductService {
     @Override
     public List<Product> selectCaiGouProduct(){
         return mapper.selectCaiGouProduct();
+    }
+
+    @Override
+    public List<Product> selectMaxDanHao(){
+        return mapper.selectMaxDanHao();
     }
 
 }

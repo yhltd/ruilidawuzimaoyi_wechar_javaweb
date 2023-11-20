@@ -316,7 +316,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="15">
-            <el-col :span="6">
+            <el-col :span="5.5">
               <el-form-item label="明细类型" prop="mingxiType" class="custom-form-item" >
                 <el-select v-model="gongYingShang.body[index].mingxiType" clearable filterable placeholder="请选择明细类型">
                   <!-- types 为后端查询 -->
@@ -329,24 +329,26 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5.5">
               <el-form-item label="用途" prop="yongtu" class="custom-form-item">
                 <el-input ref="acc_inp"  v-model="gongYingShang.body[index].yongtu" class="custom-login-inp" placeholder="请填写用途"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5.5">
               <el-form-item label="记账金额" prop="jizhangJine" class="custom-form-item">
                 <el-input ref="acc_inp" @change="changeValue()" v-model="gongYingShang.body[index].jizhangJine" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5.5">
               <el-form-item label="可抵税额" prop="kediShuie" class="custom-form-item">
                 <el-input ref="acc_inp" @change="changeValue()" v-model="gongYingShang.body[index].kediShuie" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
-            <el-button v-if="index > 0" class="custom-login-button"  type="primary"
-                       @click="delLianXiRen(index)">删除
-            </el-button>
+            <el-col :span="2">
+              <el-button v-if="index > 0" class="custom-login-button"  type="primary"
+                         @click="delLianXiRen(index)">删除
+              </el-button>
+            </el-col>
           </el-row>
         </div>
 

@@ -1,6 +1,7 @@
 package com.myboot.service;
 
 import com.myboot.pojo.Customer;
+import com.myboot.pojo.GongYingShang;
 import com.myboot.pojo.Product;
 
 import java.util.List;
@@ -27,5 +28,7 @@ public interface ProductService {
 
     //获取采购单可选择的产品
     public List<Product> selectCaiGouProduct();
+
+    public List<Product> selectMaxDanHao();
 
 }

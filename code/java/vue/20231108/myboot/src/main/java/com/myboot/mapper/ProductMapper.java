@@ -1,6 +1,7 @@
 package com.myboot.mapper;
 
 import com.myboot.pojo.Customer;
+import com.myboot.pojo.GongYingShang;
 import com.myboot.pojo.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,5 @@ public interface ProductMapper {
     //获取采购单可选择的产品
     public List<Product> selectCaiGouProduct();
 
+    public List<Product> selectMaxDanHao();
 }

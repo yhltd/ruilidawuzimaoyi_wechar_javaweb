@@ -8,19 +8,19 @@
           </el-input>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="refresh()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="addUser()">添加</el-button>
+          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="updUser()">编辑</el-button>
+          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="danger" @click="deleteClick()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>

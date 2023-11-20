@@ -1095,7 +1095,7 @@ export default {
 
     delLianXiRen(index){
       console.log(index)
-      this.$confirm('是否删除此联系人?', '提示', {
+      this.$confirm('是否删除此信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -60,7 +60,7 @@
           <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -487,7 +487,7 @@ export default {
         MessageUtil.error("未选中信息");
         return;
       }
-      this.$confirm('是否删除当前选中的客户信息?', '提示', {
+      this.$confirm('是否删除当前选中的信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

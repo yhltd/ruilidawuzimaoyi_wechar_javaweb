@@ -1,101 +1,171 @@
 <template>
   <el-container style="height: 100%;" direction="vertical">
-
     <el-header style="background-color: transparent;">
       <el-row :gutter="15">
-<!--        <el-col :xs="20" :sm="6" :md="10" :lg="10" :xl="4">-->
-<!--          <el-form :inline="true" :model="fuzzyQueryKeyword">-->
-<!--            <el-form-item label="编号">-->
-<!--              <el-input placeholder="请输入编号" v-model="fuzzyQueryKeyword.bianhao" class="input-with-select">-->
-<!--              </el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="姓名">-->
-<!--              <el-input placeholder="请输入内容" v-model="fuzzyQueryKeyword.name" class="input-with-select">-->
-<!--              </el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button icon="el-icon-search" @click="fuzzyQuery()">查询</el-button>-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </el-col>-->
         <el-col :span="3">
-            <el-input placeholder="请输入编号" v-model="fuzzyQueryKeyword.bianhao" class="input-with-select">
-            </el-input>
+          <el-input placeholder="编号" v-model="bianhao" class="input-with-select">
+          </el-input>
         </el-col>
         <el-col :span="3">
-            <el-input placeholder="请输入客户名" v-model="fuzzyQueryKeyword.name" class="input-with-select">
-            </el-input>
+          <el-input placeholder="名称" v-model="name" class="input-with-select">
+          </el-input>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" @click="fuzzyQuery()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()">查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" @click="queryAllCustomer()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" @click="addDialog">新增</el-button>
+          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" @click="updDialog()">编辑</el-button>
+          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" @click="delUsrList()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
-
-        <!--        <el-col :xs="9" :sm="6" :md="3" :lg="3" :xl="2">-->
-
-        <!--          <el-dropdown>-->
-        <!--            <el-button>-->
-        <!--              批量更改<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-        <!--            </el-button>-->
-        <!--            <el-dropdown-menu slot="dropdown">-->
-        <!--              <el-dropdown-item>更改业务员</el-dropdown-item>-->
-        <!--            </el-dropdown-menu>-->
-        <!--          </el-dropdown>-->
-        <!--        </el-col>-->
       </el-row>
     </el-header>
 
-
     <el-main refs="main" style="height: 50%;">
-        <el-table
-            border
-            :header-cell-style="{background:'#F2F5F7'}"
-            :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-            tooltip-effect="dark"
-            style="width: 100%"
-            :height="tableHeight"
-            @selection-change="handleSelectionChange"
-        >
-          <el-table-column
-              type="selection"
-              width="55">
-          </el-table-column>
-<!--          <el-table-column width="50" prop="id" v-show="false">-->
-<!--          </el-table-column>-->
-          <el-table-column prop="bianhao" label="客户编号"></el-table-column>
-          <el-table-column prop="name" label="客户名称"></el-table-column>
-          <el-table-column prop="type" label="客户分类"></el-table-column>
-          <el-table-column prop="shangjiDanwei" label="上级单位"></el-table-column>
-          <el-table-column prop="kehuDengji" label="客户等级"></el-table-column>
-          <el-table-column prop="jiageDengji" label="价格等级"></el-table-column>
-          <el-table-column prop="suozaiDiqu" label="所在地区"></el-table-column>
-          <el-table-column prop="dizhi" label="地址"></el-table-column>
-          <el-table-column prop="beizhu" label="备注"></el-table-column>
-          <el-table-column prop="yewuyuan" label="业务员"></el-table-column>
-          <el-table-column
-              fixed="right"
-              label="操作"
-              width="100">
-            <template slot-scope="scope">
-              <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-main>
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          ref="multipleTable"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="bianhao"
+            label="编号"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="名称"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="type"
+            label="客户分类"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shangjiDanwei"
+            label="上级单位"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kehuDengji"
+            label="客户等级"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="jiageDengji"
+            label="价格等级"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="suozaiDiqu"
+            label="所在地区"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="dizhi"
+            label="地址"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="beizhu"
+            label="备注"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="yewuyuan"
+            label="业务员"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shoujianName"
+            label="收件人姓名"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shoujianPhone"
+            label="收件人电话"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shoujianDizhi"
+            label="收件地址"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDanwei"
+            label="开票单位名称"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shibiehao"
+            label="纳税人识别号"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDizhi"
+            label="开票地址"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoDianhua"
+            label="开票电话"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoYinhang"
+            label="开户银行"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoZhanghao"
+            label="银行账号"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+          <template slot-scope="scope">
+            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 
     <el-footer style="height: 10%;margin-bottom: 5%">
-
       <el-pagination
           :currentPage="currentPage"
           :page-sizes="[10,20,30,40,50]"
@@ -107,455 +177,261 @@
           @current-change="handleCurrentChange"
       >
       </el-pagination>
-
     </el-footer>
-    <el-dialog
-        title="添加客户"
-        :visible.sync="userAdd"
-        width="70%"
-        :fullscreen="false"
-        :close-on-press-escape="false"
-        show-close
-        :close-on-click-modal="false"
-        :before-close="closeDialog"
-    >
-      <div class="view-box">
-      <span>
-        <el-form
-            :model="ruleForm"
-            :rules="rules"
-            ref="ruleForm"
-            label-width="100px"
-            class="demo-ruleForm"
-            inline
-        >
-          <span class="spans">基本信息</span>
-          <!--          <el-form-item label="客户编号" prop="name">-->
-          <!--            <el-input v-model="ruleForm.cid"></el-input>-->
-          <!--          </el-form-item>-->
-          <el-form-item label="客户名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="客户分类">
-            <el-select v-model="ruleForm.type" placeholder="请选择">
-              <!-- types 为后端查询 -->
-            <el-option
-                v-for="item in types"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="上级单位">
-            <el-input v-model="ruleForm.shangjiDanwei"></el-input>
-          </el-form-item>
-          <el-form-item label="客户等级">
-            <el-select v-model="ruleForm.kehuDengji" placeholder="请选择" @click="queryUserLevel()">
-            <el-option
-                v-for="item in kehuLevel"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="价格等级">
-            <el-select v-model="ruleForm.jiageDengji" placeholder="请选择">
-            <el-option
-                v-for="item in jiageLevel"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="所在地区">
-            <el-select v-model="area.proId" placeholder="省份"
-                       @change="queryNextArea('CITY');">
-              <el-option
-                  v-for="(v, k) in area.proArr"
-                  :key="k"
-                  :label="v"
-                  :value="k">{{ v }}
-            </el-option>
-            </el-select>
-            <el-select v-model="area.cityId" placeholder="所在市" @change="queryNextArea('COUNTRY');concatArea()">
-              <el-option
-                  v-for="(item) in area.cityArr"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">{{ item.name }}
-            </el-option>
-            </el-select>
-            <el-select v-model="area.countId" placeholder="所在县/区" @change="concatArea();concatArea()">
-              <el-option
-                  v-for="item in area.countArr"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">{{ item.name }}
-            </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="详细地址">
-            <el-input v-model="ruleForm.dizhi"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="ruleForm.ctext"></el-input>
-          </el-form-item>
-          <el-form-item label="业务员">
-            <el-input v-model="ruleForm.salesMan"></el-input>
-          </el-form-item>
-          <el-form-item label="客户资料">
-            <el-input v-model="ruleForm.cfile"></el-input>
-          </el-form-item>
 
+    <el-dialog title="" :visible.sync="addDialog" width="80%">
 
-          <span class="spans">联系人信息</span>
-          <!-- 动态添加添加联系人 -->
-                    <div class="app-container home">
-            <div class="table">
-            <el-table
-                border
-                :header-cell-style="{background:'#F2F5F7'}"
-                :data="contactUserList"
-                style="width: 100%"
-                class="list-table"
-                size="mini"
-                border
-            >
-              <el-table-column>
-                <template slot-scope="scope">联系人{{ scope.$index + 1 }}
-                </template>
-              </el-table-column>
+      <el-form :model="gongYingShang" ref="addUsr" label-width="100px"
+               class="demo-info">
 
-              <el-table-column
-                  label="姓名"
-                  align="center"
-                  prop="name"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.name"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="部门"
-                  align="center"
-                  prop="department"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.department"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="职务"
-                  align="center"
-                  prop="zhiwu"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.zhiwu"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="手机号"
-                  align="center"
-                  prop="phone"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.phone"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label=""
-                  align="center"
-                  prop="customerId"
-                  v-if="false"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.customerId"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="主联系人" align="center" prop="type">
-                <template slot-scope="scope">
-                  <el-checkbox   true-label="主联系人" false-label="" v-model="mainUser"></el-checkbox >
-                </template>
-              </el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button @click="delColumn(scope.$index)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+        <!--        供应商基本信息-->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title">客户基本信息</p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <el-form-item label="编号" prop="bianhao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.bianhao" class="custom-login-inp" disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="名称" prop="name" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.name" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="客户分类" prop="type" class="custom-form-item">
+              <el-select v-model="gongYingShang.type" clearable filterable placeholder="请选择客户分类">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_Type"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="上级单位" prop="shangjiDanwei" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shangjiDanwei" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="客户等级" prop="kehuDengji" class="custom-form-item">
+              <el-select v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择客户等级">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_KeHuDengJi"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item">
+              <el-select v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_JiaGeDengJi"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="所在地区" prop="suozaiDiqu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.suozaiDiqu" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="1">
+            <el-cascader separator="-" :filterable="true" v-model="XiaLa_Area" class="custom-login-inp" :options="optionsnative_place" @change="areaChange"/>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="地址" prop="dizhi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.dizhi" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="备注" prop="beizhu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
+              <el-select v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择业务员">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_YeWuYuan"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+              <!--              <el-input ref="acc_inp" v-model="gongYingShang.caigouyuan" class="custom-login-inp"></el-input>-->
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!--        收件信息-->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title">收件人信息</p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+
+          <el-col :span="6">
+            <el-form-item label="收件人姓名" prop="shoujianName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shoujianName" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="收件人电话" prop="shoujianPhone" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shoujianPhone" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="收件人地址" prop="shoujianDizhi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shoujianDizhi" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-button class="custom-login-button"  type="primary"
+                     @click="copyLianXiRen()">复制主联系人
+          </el-button>
+
+        </el-row>
+
+        <!--        开票信息-->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title">开票信息</p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <el-form-item label="单位名称" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDanwei" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="纳税人识别号" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shibiehao" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="开票地址" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDizhi" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="电话" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDianhua" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="开户银行" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoYinhang" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="银行账号" prop="userName" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <div v-for="(item, index) in gongYingShang.body">
+          <!--        联系人信息-->
+          <el-row :gutter="15">
+            <el-col :span="6">
+              <p class="dialog-title">联系人信息{{index + 1}}</p>
+            </el-col>
+          </el-row>
+          <el-row :gutter="15">
+            <el-col :span="6">
+              <el-form-item label="姓名" prop="name" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].name" class="custom-login-inp"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="部门" prop="department" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].department" class="custom-login-inp"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="职务" prop="zhiwu" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhiwu" class="custom-login-inp"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="电话" prop="phone" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].phone" class="custom-login-inp"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地址" prop="address" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].address" class="custom-login-inp"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="类型" prop="type" class="custom-form-item">
+                <el-select :index="index" @change="selectLeiXing(index,value)" v-model="gongYingShang.body[index].type" clearable filterable placeholder="请选择联系人类型">
+                  <!-- types 为后端查询 -->
+                  <el-option
+                      v-for="item in XiaLa_LianXiRenLeiXing"
+                      :key="item.name"
+                      :label="item.name"
+                      :value="item.name">
+                  </el-option>
+                </el-select>
+                <!--                <el-input ref="acc_inp" v-model="gongYingShang.body[index].type" class="custom-login-inp"></el-input>-->
+              </el-form-item>
+            </el-col>
+            <el-button v-if="index > 0" class="custom-login-button"  type="primary"
+                       @click="delLianXiRen(index)">删除
+            </el-button>
+          </el-row>
         </div>
-          </div>
 
-          <el-form-item>
-            <el-button @click="addUserItem()">增加</el-button>
-          </el-form-item>
+        <el-row :gutter="15">
+          <el-col :span="4">
+          </el-col>
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="addLianXiRen">添加联系人
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="save">保存
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="addClose">取消
+              </el-button>
+            </div>
+          </el-col>
+        </el-row>
 
 
 
-          <span class="spans">收件信息</span>
-          <el-form-item label="收件人姓名">
-            <el-input v-model="ruleForm.shoujianName"></el-input>
-          </el-form-item>
-          <el-form-item label="收件人电话">
-            <el-input v-model="ruleForm.shoujianPhone"></el-input>
-          </el-form-item>
-          <el-form-item label="收件地址">
-            <el-input v-model="ruleForm.shoujianDizhi"></el-input>
-          </el-form-item>
-
-
-          <span class="spans">开票信息</span>
-          <el-form-item label="单位名称">
-            <el-input v-model="ruleForm.kaipiaoDanwei"></el-input>
-          </el-form-item>
-          <el-form-item label="纳税人标识号">
-            <el-input v-model="ruleForm.shibiehao"></el-input>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-input v-model="ruleForm.kaipiaoDizhi"></el-input>
-          </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="ruleForm.kaipiaoDianhua"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行">
-            <el-input v-model="ruleForm.kaipiaoYinhang"></el-input>
-          </el-form-item>
-          <el-form-item label="开票账号">
-            <el-input v-model="ruleForm.kaipiaoZhanghao"></el-input>
-          </el-form-item>
-          </el-form>
-      </span>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="SubmitEvent">确 定</el-button>
-      </span>
+      </el-form>
     </el-dialog>
 
-    <!-- 修改 -->
-    <el-dialog
-        title="修改"
-        :visible.sync="userupdate"
-        width="70%"
-        :fullscreen="false"
-        :close-on-press-escape="false"
-        show-close
-        :close-on-click-modal="false"
-        :before-close="closeDialog"
-    >
-      <span>
-        <el-form
-            v-model="ruleForm"
-            :rules="rules"
-            ref="ruleForm"
-            label-width="100px"
-            class="demo-ruleForm"
-            inline
-        >
-                <div class="view-box">
-
-          <span class="spans">基本信息</span>
-          <el-form-item label="客户编号" prop="name">
-            <el-input v-model="ruleForm.id"></el-input>
-          </el-form-item>
-          <el-form-item label="客户名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-                    <el-form-item label="客户分类">
-            <el-select v-model="ruleForm.type" placeholder="请选择">
-              <!-- types 为后端查询 -->
-            <el-option
-                v-for="item in types"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="上级单位">
-            <el-input v-model="ruleForm.shangjiDanwei"></el-input>
-          </el-form-item>
-          <el-form-item label="客户等级">
-            <el-select v-model="ruleForm.kehuDengji" placeholder="请选择" @click="queryUserLevel()">
-            <el-option
-                v-for="item in kehuLevel"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="价格等级">
-            <el-select v-model="ruleForm.jiageDengji" placeholder="请选择">
-            <el-option
-                v-for="item in jiageLevel"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name">
-            </el-option>
-          </el-select>
-          </el-form-item>
-          <el-form-item label="所在地区">
-            <el-select v-model="area.proId" placeholder="省份"
-                       @change="queryNextArea('CITY');">
-              <el-option
-                  v-for="(v, k) in area.proArr"
-                  :key="k"
-                  :label="v"
-                  :value="k">{{ v }}
-            </el-option>
-            </el-select>
-            <el-select v-model="area.cityId" placeholder="所在市" @change="queryNextArea('COUNTRY');concatArea()">
-              <el-option
-                  v-for="(item) in area.cityArr"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">{{ item.name }}
-            </el-option>
-            </el-select>
-            <el-select v-model="area.countId" placeholder="所在县/区" @change="concatArea();concatArea()">
-              <el-option
-                  v-for="item in area.countArr"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">{{ item.name }}
-            </el-option>
-            </el-select>
-          </el-form-item>
-                  <!--          </el-form-item>-->
-          <el-form-item label="地址">
-            <el-input v-model="ruleForm.dizhi"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="ruleForm.beizhu"></el-input>
-          </el-form-item>
-          <el-form-item label="业务员">
-            <el-input v-model="ruleForm.yewuyuan"></el-input>
-          </el-form-item>
-
-          <span class="spans">联系人信息</span>
-
-          <div class="app-container home">
-            <div class="table">
-            <el-table
-                border
-                :header-cell-style="{background:'#F2F5F7'}"
-                :data="contactUserList"
-                style="width: 100%"
-                class="list-table"
-                highlight-current-row
-                @current-change="tableChange"
-                size="mini"
-                border
-            >
-              <el-table-column></el-table-column>
-
-              <el-table-column
-                  label="姓名"
-                  align="center"
-                  prop="name"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.name"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="部门"
-                  align="center"
-                  prop="department"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.department"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="职务"
-                  align="center"
-                  prop="zhiwu"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.zhiwu"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label="手机号"
-                  align="center"
-                  prop="phone"
-              >
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.phone"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  label=""
-                  align="center"
-                  prop="customerId"
-                  v-if="false"
-              >
-                <template slot-scope="scope" v-if="false">
-                  <el-input v-model="scope.row.customerId"></el-input>
-                </template>
-              </el-table-column>
-<!--              <el-table-column label="主联系人" align="center" prop="type">-->
-<!--                <template slot-scope="scope">-->
-<!--                  <el-checkbox name="checkbox" @change="changeMainUser(scope.$index)" true-label="主联系人" false-label=""   v-model="mainUser"></el-checkbox >-->
-<!--                </template>-->
-<!--              </el-table-column>-->
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button @click="delColumn(scope.$index)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-        </div>
-          </div>
-
-          <el-form-item>
-            <el-button @click="addUserItem()">增加</el-button>
-          </el-form-item>
-          <span class="spans">收件信息</span>
-          <el-form-item label="收件人姓名">
-            <el-input v-model="ruleForm.shoujianName"></el-input>
-          </el-form-item>
-          <el-form-item label="收件人电话">
-            <el-input v-model="ruleForm.shoujianPhone"></el-input>
-          </el-form-item>
-          <el-form-item label="收件地址">
-            <el-input v-model="ruleForm.shoujianDizhi"></el-input>
-          </el-form-item>
-
-          <span class="spans">开票信息</span>
-          <el-form-item label="单位名称">
-            <el-input v-model="ruleForm.kaipiaoDanwei"></el-input>
-          </el-form-item>
-          <el-form-item label="纳税人标识号">
-            <el-input v-model="ruleForm.shibiehao"></el-input>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-input v-model="ruleForm.kaipiaoDizhi"></el-input>
-          </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="ruleForm.kaipiaoDianhua"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行">
-            <el-input v-model="ruleForm.kaipiaoYinhang"></el-input>
-          </el-form-item>
-          <el-form-item label="银行账号">
-            <el-input v-model="ruleForm.kaipiaoZhanghao"></el-input>
-          </el-form-item>
-                </div>
-        </el-form>
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog()">取 消</el-button>
-        <el-button type="primary" @click="SubmitEventTwo">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <!-- 文件上传 -->
     <el-dialog title="" :visible.sync="fileDialog" width="80%">
       <input ref="up_file" type="file" id="up_file" @change="uploadSelect()" style="display: none">
       <el-row :gutter="15">
@@ -585,175 +461,104 @@
       </el-table>
 
     </el-dialog>
+
   </el-container>
+
 
 
 </template>
 
 <script>
-import ParseDataArea from "@/utils/ParseDataArea";
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
-import exportExcel from "@/utils/FileUtil";
+import parseArea from "@/utils/ParseDataArea";
+import { provinceAndCityData,regionData,pcTextArr,pcaTextArr, codeToText} from 'element-china-area-data'
 
-/**
- * 深复制 确保复制内容不会相互影响
- * @param {any} obj
- * @returns {any}
- */
-const deepCopy = (obj) => {
-  return JSON.parse(JSON.stringify(obj));
-};
+const optionsnative_place = pcaTextArr
 export default {
-  inject: ["reload"],
+  data() {
+    return {
+      provinceAndCityData,
+      regionData,
+      pcTextArr,
+      pcaTextArr,
+      codeToText,
+      optionsnative_place,
+      tableHeight:window.innerHeight-window.innerHeight * 0.48,
+      downloadLoading:false,
+      currentPage: 1, // 当前页数，
+      pageSize: 10, // 每一页显示的条数
+      total:20,
+      name:'',
+      bianhao:'',
+      ShuiLv:{},
+      FileList:[],
+      XiaLa_Type :[],
+      XiaLa_KeHuDengJi:[],
+      XiaLa_Area:[],
+      XiaLa_JiaGeDengJi:[],
+      XiaLa_YeWuYuan:[],
+      XiaLa_LianXiRenLeiXing:[
+        {
+          name:'联系人',
+          label:'联系人',
+        },
+        {
+          name:'主联系人',
+          label:'主联系人',
+        }
+      ],
+      gongYingShang: {
+        id: 0,
+        bianhao:'',
+        name: '',
+        type: '',
+        shangjiDanwei: '',
+        kehuDengji: '',
+        jiageDengji: '',
+        suozaiDiqu:'',
+        dizhi:'',
+        beizhu:'',
+        yewuyuan:'',
+        shoujianName:'',
+        shoujianPhone:'',
+        shoujianDizhi:'',
+        kaipiaoDanwei:'',
+        shibiehao:'',
+        kaipiaoDizhi:'',
+        kaipiaoDianhua:'',
+        kaipiaoYinhang:'',
+        kaipiaoZhanghao:'',
+        body:[
+          {
+            id:0,
+            name:'',
+            department:'',
+            zhiwu:'',
+            phone:'',
+            address:'',
+            type:'',
+            customerId:'',
+          }
+        ]
+      },
+      fileDialog:false,
+      addDialog: false,
+      updDialog: false,
+      tableData: [],
+      multipleSelection: []
+    }
+  },
   created() {
-    this.queryAllCustomer();
+    this.getXiaLa_Type();
+    this.getXiaLa_KeHuDengJi();
+    this.getXiaLa_JiaGeDengJi()
+    this.getXiaLa_YeWuYuan()
+    this.getUser();
   },
   methods: {
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.currentPage = val
-    },
-
-    handleSizeChange(val) {
-      this.pageSize = val
-      this.currentPage = 1
-      console.log(`每页 ${val} 条`);
-    },
-
-    edits(data) {
-      this.id = data.cid
-    },
-    setCurrent(row) {
-      this.$refs.singleTable.setCurrentRow(row);
-    },
-    tableChange(val) {
-      this.currentRow = val;
-    },
-    addDialog() {
-      //显示Dialog弹框
-      this.userAdd = true;
-      this.queryNextArea('PROVINCE', undefined);
-      this.queryAllSelectInfo(-1);
-
-      // queryContactUser
-    },
-    updDialog() {
-      let arr = this.tableCheckList;
-      if (arr.length == 0) {
-        MessageUtil.info("选择需要编辑的用户")
-        return;
-      } else if (arr.length > 1) {
-        MessageUtil.info("只能同时编辑一个用户")
-        return;
-      }
-      let id = arr[0].id;
-      let url = 'http://localhost:8102/customer/selectById';
-      this.queryAllSelectInfo(id);
-      this.axios.post(url, {id: arr[0].id}).then(res => {
-        if (res.data.code == '00') {
-          this.itemsList = res.data.data.itemList;
-          this.ruleForm = res.data.data;
-          console.log(this.ruleForm)
-          console.log(res.data.data)
-        } else {
-          MessageUtil.error("查找联系人失败")
-        }
-      }).catch(() => {
-        MessageUtil.error("网络异常")
-      })
-      //显示Dialog弹框
-      this.userupdate = true;
-
-    },
-    changeMainUser(ind) {
-      console.log("get", ind)
-      let count = 0;
-      for(let item of this.contactUserList) {
-        console.log("联系人",count,item)
-        if(count == ind) {
-          item.type="主联系人"
-        } else {
-          item.type = ""
-        }
-      }
-    },
-    closeDialog() {
-      //弹框的关闭方法
-      this.userAdd = false;
-      this.userupdate = false;
-      this.queryNextArea('PROVINCE');
-
-    },
-    SubmitEvent() {
-      // 需要事务 list为联系人列表  baseInfo 为基础信息
-      this.axios
-          .post("http://localhost:8102/customer/customerAdd", {'body': this.contactUserList, 'head': this.ruleForm})
-          .then((res) => {
-            switch (res.data.code) {
-              case '00': {
-                MessageUtil.success("添加成功");
-                this.closeDialog();
-                this.queryAllCustomer()
-                break;
-              }
-              default: {
-                MessageUtil.error("添加失败");
-              }
-            }
-          })
-          .catch((error) => {
-            MessageUtil.error("网络异常")
-          });
-    },
-    SubmitEventTwo() {
-      //  可以拆分为两次请求
-      this.axios
-          .post("http://localhost:8102/customer/customerUpd", {'body': this.contactUserList, 'head': this.ruleForm})
-          .then((res) => {
-            switch (res.data.code) {
-              case '00': {
-                MessageUtil.success("修改成功");
-                this.closeDialog();
-                this.queryAllCustomer()
-                break;
-              }
-              default: {
-                MessageUtil.error("修改失败");
-              }
-            }
-          })
-          .catch((error) => {
-            MessageUtil.error("网络异常")
-          });
-    },
-    updateYewu() {
-    },
-
-    //  后添加方法
-    /**
-     * 导出excel
-     *
-     * 向后端发送请求获取文件下载地址
-     *
-     * 前端产生提示消息由用户点击进行下载
-     */
-    async exportExcel() {
-      let url = "http://localhost:8102/customer/exportExcel";
-      this.axios(url).then(res => {
-        if (res.data.code == '00') {
-          // TODO 获取到后端连接后提示用户可以下载 res.data.data.
-          this.file.exportFileDialog = true;
-          exportExcel.download(this.fileName, url)
-
-        } else {
-          MessageUtil.error("文件导出失败");
-        }
-      }).catch(() => {
-        MessageUtil.error("未知错误");
-      })
-    },
     toggleSelection(rows) {
+      console.log(rows)
       if (rows) {
         rows.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row);
@@ -763,218 +568,451 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      this.tableCheckList = val;
-    },
-    /**
-     * 下拉列表获取
-     */
-    async queryAllSelectInfo(id) {
-      this.queryNextArea('PROVINCE', undefined);
-      this.queryUserLevel();
-      this.queryJiageLevel();
-      this.queryUserTypeLevel();
-      if (id != -1) {
-        this.queryContactUser(id);
-      }
+      this.multipleSelection = val;
+      console.log(val)
     },
 
-    async fuzzyQuery() {
-      console.log("查询")
-      this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8102/customer/queryList';
-      axios.post(url, this.fuzzyQueryKeyword).then(res => {
-        switch (res.data.code) {
-          case '00':
-            this.tableData = res.data.data;
-            this.total = res.data.data.length;
-            MessageUtil.success("共查询到" + this.tableData.length + "条数据")
-            break;
-          default: {
-            MessageUtil.error("查询失败");
-          }
-        }
-        this.fuzzy_query_loading = false;
-      }).catch(() => {
-        MessageUtil.error("网络异常");
-        this.fuzzy_query_loading = false;
-      })
+    areaChange(value){
+      console.log(value)
+      this.gongYingShang.suozaiDiqu = value[0] + "-" + value[1] + "-" + value[2]
+      this.XiaLa_Area = []
     },
-    /**
-     * 查询所有用户
-     */
-    queryAllCustomer() {
-      console.log("模糊查询:")
-      this.axios
-          .get("http://localhost:8102/customer/getAll")
-          .then((res) => {
-            if (res.data.code == '00') {
-              this.tableData = res.data.data;
-              this.total = res.data.data.length;
-            } else {
-              MessageUtil.error("获取用户失败");
-            }
-          })
-          .catch((error) => {
-            MessageUtil.error("获取用户失败");
-          });
-    },
-    /**
-     * 批量删除用户
-     */
-    delUsrList() {
-      let list = this.tableCheckList;
-      if (list == undefined || list.length == 0) {
-        Message.info("至少选择一个用户");
+
+    //新增窗口弹出
+    addUser() {
+      if(this.userPower.kehuAdd != '是'){
+        MessageUtil.error("无新增权限");
         return;
       }
 
-      let url = "http://localhost:8102/customer/delCustomer";
-      let tmp = [];
-      for (let i of list) {
-        tmp.push(i.id);
-      }
-      axios.post(url, {"list": tmp}).then(res => {
-        switch (res.data.code) {
-          case "00": {
-            MessageUtil.success("删除成功");
-            this.queryAllCustomer();
-            list.length = 0;
-            break;
-          }
-          case "02": {
-            MessageUtil.error(res.data.msg);
-            break;
-          }
-          default: {
-            MessageUtil.error("网络异常");
-          }
-        }
-      }).catch(() => {
-        MessageUtil.error("网络异常");
-      })
-    },
-    /**
-     * 动态添加联系人
-     */
-    addUserItem() {
-      let data = deepCopy(this.contactUser);
-      this.contactUserList.push(data)
-    },
-    delColumn(index) {
-      this.contactUserList.splice(index, 1);
-    },
+      let url = "http://localhost:8102/customer/selectMaxDanHao"
+      this.axios.post(url, {}).then(res => {
+        if(res.data.code == '00') {
+          var this_danhao = Math.trunc(res.data.data[0].bianhao)
+          console.log(this_danhao)
+          this_danhao = PrefixInteger(this_danhao,6)
+          console.log(this_danhao)
+          this_danhao = "KH" + this_danhao
 
-    /**
-     * 查询用户已有的联系人
-     */
-    queryContactUser(id) {
-      let url = "http://localhost:8102/customer/selectById";
-      this.axios.post(url, {'id': id}).then(res => {
-        if (res.data.code == '00') {
-          this.contactUserList_exist = res.data.data.itemList;
-          this.contactUserList = deepCopy(this.contactUserList_exist);
+          this.gongYingShang = {
+            id: 0,
+            bianhao:this_danhao,
+            name: '',
+            type: '',
+            shangjiDanwei: '',
+            kehuDengji: '',
+            jiageDengji: '',
+            suozaiDiqu:'',
+            dizhi:'',
+            beizhu:'',
+            yewuyuan:this.userInfo.name,
+            shoujianName:'',
+            shoujianPhone:'',
+            shoujianDizhi:'',
+            kaipiaoDanwei:'',
+            shibiehao:'',
+            kaipiaoDizhi:'',
+            kaipiaoDianhua:'',
+            kaipiaoYinhang:'',
+            kaipiaoZhanghao:'',
+            body:[
+              {
+                id:0,
+                name:'',
+                department:'',
+                zhiwu:'',
+                phone:'',
+                address:'',
+                type:'',
+                customerId:'',
+              }
+            ]
+          }
+
+          console.log(res.data.data);
+          console.log("获取成功");
+          this.addDialog = true;
         } else {
-          MessageUtil.error("获取联系人列表失败")
+          MessageUtil.error("获取失败");
         }
       }).catch(() => {
-        MessageUtil.error("网络异常")
+        MessageUtil.error("网络异常");
       })
+
+      this.addDialog = true;
     },
 
-    /**
-     * 查询用户等级
-     */
-    queryUserLevel() {
-      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
-      axios.post(URL, {type: "客户等级"}).then(res => {
-        switch (res.data.code) {
-          case '00':
-            this.kehuLevel = res.data.data;
-            break;
-          default: {
-            MessageUtil.error("获取用户等级失败");
+    addClose(){
+      this.addDialog = false;
+    },
+
+    //修改窗口弹出
+    updUser() {
+      if(this.multipleSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }else if(this.multipleSelection.length > 1){
+        MessageUtil.error("请选择一条明细信息再进行修改");
+        return;
+      }
+      var this_id = this.multipleSelection[0].id
+
+      console.log(this.multipleSelection)
+
+      let url = "http://localhost:8102/customer/selectById"
+      this.axios.post(url, {"id":this_id}).then(res => {
+        if(res.data.code == '00') {
+          var this_val = res.data.data
+          this_val.body = this_val.itemList
+          this.gongYingShang = this_val
+          console.log(res.data.data);
+          console.log("获取成功");
+          this.addDialog = true;
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+
+    },
+
+    getXiaLa_Type(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"客户分类"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_Type = res.data.data;
+          for(var i=0; i<this.XiaLa_Type.length; i++){
+            this.XiaLa_Type[i].label = this.XiaLa_Type.name
           }
+          console.log("客户分类下拉已获取");
+        } else {
+          console.log("客户分类下拉获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
     },
-    /**
-     * 查询jiage等级
-     */
-    queryJiageLevel() {
-      console.log("价格等级调用成功")
-      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
-      axios.post(URL, {type: "价格等级"}).then(res => {
-        switch (res.data.code) {
-          case '00':
-            this.jiageLevel = res.data.data;
-            break;
-          default: {
-            MessageUtil.error("获取价格等级失败");
+
+    getXiaLa_KeHuDengJi(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"客户等级"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_KeHuDengJi = res.data.data;
+          for(var i=0; i<this.XiaLa_KeHuDengJi.length; i++){
+            this.XiaLa_KeHuDengJi[i].label = this.XiaLa_KeHuDengJi.name
           }
+          console.log("客户等级下拉已获取");
+        } else {
+          console.log("客户等级下拉获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
     },
-    /**
-     * 查询用户分类
-     */
-    queryUserTypeLevel() {
-      let URL = "http://localhost:8102/peizhi/queryPeiZhi";
-      axios.post(URL, {type: "客户分类"}).then(res => {
-        switch (res.data.code) {
-          case '00':
-            this.types = res.data.data;
-            break;
-          default: {
-            MessageUtil.error("获取用户分类失败");
+
+    getXiaLa_JiaGeDengJi(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"价格等级"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_JiaGeDengJi = res.data.data;
+          for(var i=0; i<this.XiaLa_JiaGeDengJi.length; i++){
+            this.XiaLa_JiaGeDengJi[i].label = this.XiaLa_JiaGeDengJi.name
           }
+          console.log("价格等级下拉已获取");
+        } else {
+          console.log("价格等级下拉获取失败");
         }
-
       }).catch(() => {
-
         MessageUtil.error("网络异常");
       })
     },
-    concatArea(e) {
-      this.ruleForm.suozaiDiqu = this.area.province + "-" + this.area.city + "-" + this.area.country;
+
+
+    getXiaLa_YeWuYuan(){
+      let url = "http://localhost:8102/user/fuzzyQuery"
+      this.axios.post(url,{"keyword":""}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_YeWuYuan = res.data.data;
+          for(var i=0; i<this.XiaLa_YeWuYuan.length; i++){
+            this.XiaLa_YeWuYuan[i].label = this.XiaLa_YeWuYuan.name
+          }
+          console.log("业务员下拉已获取");
+        } else {
+          console.log("业务员下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
     },
-    /**
-     * 查询下一个地区
-     * @param {"PROVINCE" | "CITY" | "COUNTRY"} type 省市区
-     */
-    queryNextArea(type) {
-      switch (type) {
-        case "PROVINCE": {
-          this.area.proArr = ParseDataArea.queryProvince();
-          if (this.area.city != '') this.clearCity();
-          break;
+
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8102/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
         }
-        case "CITY": {
-          if (this.area.country != '') this.clearCity();
-          console.log("选择的省级", this.area.proId)
-          this.area.cityArr = ParseDataArea.queryCity(this.area.proId.substring(0, 2));
-          break;
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          if(this.userPower.kehuSel == '是'){
+            this.getAll();
+          }else{
+            MessageUtil.error("无查询权限");
+          }
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
         }
-        case "COUNTRY": {
-          console.log("选择的市级单位", this.area.cityId)
-          this.area.countArr = ParseDataArea.queryCountry(this.area.cityId.substring(0, 4));
-          break;
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    //查询全部
+    getAll(){
+      if(this.userPower.gongyingshangSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
+      let url = "http://localhost:8102/customer/getAll"
+      this.axios(url, this.form).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    //刷新
+    refresh(){
+      if(this.userPower.kehuSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
+      this.getAll()
+    },
+
+    //条件查询
+    query(){
+      if(this.userPower.kehuSel != '是'){
+        MessageUtil.error("无查询权限");
+        return;
+      }
+      var date = {
+        bianhao:this.bianhao,
+        name:this.name
+      }
+      let url = "http://localhost:8102/customer/queryList"
+      this.axios.post(url, date).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    delLianXiRen(index){
+      console.log(index)
+      this.$confirm('是否删除此联系人?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.gongYingShang.body.splice(index, 1)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+
+    addLianXiRen(){
+      var this_lianxiren = this.gongYingShang.body
+      this_lianxiren.push({
+        id:0,
+        name:'',
+        department:'',
+        zhiwu:'',
+        phone:'',
+        address:'',
+        type:'',
+        customerId:'',
+      })
+      this.gongYingShang.body = this_lianxiren
+    },
+
+    selectLeiXing(index,value){
+      console.log(index)
+      console.log(value)
+      console.log(this.gongYingShang.body)
+      if(this.gongYingShang.body[index].type == '主联系人'){
+        for(var i=0; i<this.gongYingShang.body.length; i++){
+          if(i != index){
+            this.gongYingShang.body[i].type = "联系人"
+          }
         }
       }
     },
-    clearCity() {
-      this.area.cityId = '';
-      this.area.city = '';
-      this.area.cityArr.length = 0;
-      this.clearCountry();
+
+    saveGongYingShang(){
+      var save_list = this.gongYingShang
+      let url = "http://localhost:8102/customer/customerAdd"
+      this.axios.post(url, {
+        "head":this.gongYingShang,
+        "body":this.gongYingShang.body
+      }).then(res => {
+        if(res.data.code == '00') {
+          console.log(res)
+          MessageUtil.success(res.data.msg);
+          this.addDialog = false;
+          this.query()
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
     },
-    clearCountry() {
-      this.area.countId = '';
-      this.area.country = '';
-      this.area.countArr.length = 0;
+
+    updGongYingShang(){
+      var save_list = this.gongYingShang
+      let url = "http://localhost:8102/customer/customerUpd"
+      this.axios.post(url, {
+        "head":this.gongYingShang,
+        "body":this.gongYingShang.body
+      }).then(res => {
+        if(res.data.code == '00') {
+          console.log(res)
+          MessageUtil.success(res.data.msg);
+          this.addDialog = false;
+          this.query()
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    save(){
+      if(this.gongYingShang.name == ''){
+        MessageUtil.error("请输入客户名称");
+        return;
+      }
+      if(this.gongYingShang.id != undefined && this.gongYingShang.id != null){
+        if(this.userPower.kehuUpd != '是'){
+          MessageUtil.error("无修改权限");
+          return;
+        }
+        this.updGongYingShang()
+      }else{
+        this.saveGongYingShang()
+      }
+    },
+
+    deleteClick(){
+      if(this.userPower.kehuDel != '是'){
+        MessageUtil.error("无删除权限");
+        return;
+      }
+      if(this.multipleSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }
+      this.$confirm('是否删除当前选中的信息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        var list = []
+        for(var i=0; i<this.multipleSelection.length; i++){
+          list.push(this.multipleSelection[i].id)
+        }
+        console.log(list)
+        let url = "http://localhost:8102/customer/delCustomer";
+        axios.post(url, {"list": list}).then(res => {
+          MessageUtil.success(res.data.msg);
+          this.del_popover_visible = false;
+          this.del_loading = false;
+          this.query()
+        }).catch(() => {
+          MessageUtil.error("网络异常");
+          this.del_loading = false;
+          this.del_popover_visible = false;
+        })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+
+
+    copyLianXiRen(){
+      this.$confirm('是否复制主联系人信息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var list = this.gongYingShang.body
+        for(var i=0; i<list.length; i++){
+          if(list[i].type == '主联系人'){
+            this.gongYingShang.shoujianName = list[i].name
+            this.gongYingShang.shoujianPhone = list[i].phone
+            this.gongYingShang.shoujianDizhi = list[i].address
+          }
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
+    },
+
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+    },
+
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.currentPage = 1
+      console.log(`每页 ${val} 条`);
     },
 
     getfileList(row){
@@ -1055,7 +1093,6 @@ export default {
     uploadSelect(){
       this.downloadLoading = true
       var file = document.getElementById("up_file").files;
-      console.log(file)
       if(file.length == 0){
         this.downloadLoading = false
       }
@@ -1063,7 +1100,6 @@ export default {
       var this_file = file[0];
       var fileName = file[0].name;
       var obj = [];
-      console.log("fileName:" + fileName)
       oFReader.readAsDataURL(this_file);
       oFReader.onload = oFRevent => {
         console.log('oFRevent----', oFRevent)
@@ -1092,109 +1128,47 @@ export default {
       }
     },
 
-  },
-  data() {
-    return {
-      tableHeight:window.innerHeight-window.innerHeight * 0.48,
-      fileDialog:false,
-      downloadLoading:false,
-      FileList:[],
-      id: "",
-      userAdd: false, //弹框默认显示与否
-      userupdate: false,
-      update: [],
 
-      tableData: [],
-      itemsList: [],
-      ruleForm: {
-        id: 0,
-        bianhao: '',
-        name: '',
-        type: '',
-        shangjiDanwei: '',
-        kehuDengji: '',
-        jiageDengji: '',
-        suozaiDiqu: '',
-        dizhi: '',
-        beizhu: '',
-        yewuyuan: '',
-        shoujianName: '',
-        shoujianPhone: '',
-        shoujianDizhi: '',
-        kaipiaoDanwei: '',
-        kaipiaoDizhi: '',
-        kaipiaoDianhua: '',
-        shibiehao: '',
-        kaipiaoYinhang: '',
-        kaipiaoZhanghao: '',
-      },
-      ruleFdorm: {
-        id: 0,
-        bianhao: '',
-        name: '',
-        type: '',
-        shangjiDanwei: '',
-        kehuDengji: '',
-        jiageDengji: '',
-        suozaiDiqu: '',
-        dizhi: '',
-        beizhu: '',
-        yewuyuan: '',
-        shoujianName: '',
-        shoujianPhone: '',
-        shoujianDizhi: '',
-        kaipiaoDanwei: '',
-        kaipiaoDizhi: '',
-        kaipiaoDianhua: '',
-        shibiehao: '',
-        kaipiaoYinhang: '',
-        kaipiaoZhanghao: '',
-      },
-      types: [], // 查询到的客户分类 [{name}]
-      kehuLevel: [], // 客户等级 [{name}]
-      jiageLevel: [], // 数据结构与上级相同
-      kehuState: [],
-      yewuyuans: [],
-      area: { // 三级联动
-        province: '', // 省
-        city: '', // 市
-        country: '', // 县
-        address: '', // 详细地址
-        proId: '',
-        cityId: '',
-        countId: '',
-        proArr: [],
-        cityArr: [],
-        countArr: [],
-      },
-      fuzzyQueryKeyword: {
-        bianhao: '',
-        name: '',
-      },
-      contactUser: {
-        id: 0,
-        name: '',
-        department: '',
-        zhiwu: '',
-        phone: '',
-        address: '',
-        type: '', // 主联系人
-        customerId: 0,
-      },
-      contactUserList_exist: [], // 记录已有联系人
-      contactUserList: [  // 联系人
-      ], // [{}]
-      currentPage: 1, // 当前页数，
-      pageSize: 10, // 每一页显示的条数
-      total:20,
-      rules: {
-        name: [],
-      },
-      tableCheckList: [], // 批量删除用户
-      currentRow: [], // 主联系人如果页面中勾选了主联系人，则这个为该联系人在数组中的下标
-    };
-  },
-};
+  }
+}
+
+function PrefixInteger(num, n) {
+  return (Array(n).join(0) + num).slice(-n);
+}
+
+function getNowDate() {
+  var date = new Date();
+  var sign1 = "-";
+  var sign2 = ":";
+  var year = date.getFullYear() // 年
+  var month = date.getMonth() + 1; // 月
+  var day  = date.getDate(); // 日
+  var hour = date.getHours(); // 时
+  var minutes = date.getMinutes(); // 分
+  var seconds = date.getSeconds() //秒
+  var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+  var week = weekArr[date.getDay()];
+  // 给一位数数据前面加 “0”
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (day >= 0 && day <= 9) {
+    day = "0" + day;
+  }
+  if (hour >= 0 && hour <= 9) {
+    hour = "0" + hour;
+  }
+  if (minutes >= 0 && minutes <= 9) {
+    minutes = "0" + minutes;
+  }
+  if (seconds >= 0 && seconds <= 9) {
+    seconds = "0" + seconds;
+  }
+  // var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds + " " + week;
+  var currentdate = year + sign1 + month + sign1 + day ;
+  return currentdate;
+}
+
 
 function dataURLtoBlob(dataurl, name) {//name:文件名
   var mime = name.substring(name.lastIndexOf('.') + 1)//后缀名
@@ -1277,43 +1251,12 @@ function base64ToBlob(code) {
 }
 
 </script>
-
 <style>
-/*.el-table .warning-row {*/
-/*  background: oldlace;*/
-/*}*/
-
-/*.el-table .success-row {*/
-/*  background: #f0f9eb;*/
-/*}*/
-
-/*.el-header {*/
-/*  background-color: #afb4b9;*/
-/*  color: #333;*/
-/*  line-height: 60px;*/
-/*  font-size: 20px;*/
-/*}*/
-
-/*.spans {*/
-/*  display: block;*/
-/*  font-size: 20px;*/
-/*}*/
-
-/*.view-box {*/
-/*  height: 60vh;*/
-/*  overflow-y: scroll;*/
-/*}*/
 .dialog-title{
   font-weight:bold;
   font-size: larger;
 }
-.el-table .hidden-row {
-  display: none;
-}
-
-html,body,#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+.el-cascader-panel {
+  height: 300px;
 }
 </style>

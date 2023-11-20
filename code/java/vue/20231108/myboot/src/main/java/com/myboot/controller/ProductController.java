@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,10 +105,10 @@ public class ProductController {
         productAdd.setGuige(product.get(0).getGuige());
         productAdd.setBianhao(product.get(0).getBianhao());
         productAdd.setLingshouPrice(product.get(0).getLingshouPrice());
-        productAdd.setLingshouBili(product.get(0).getLingshouBlli());
+        productAdd.setLingshouBili(product.get(0).getLingshouBili());
         productAdd.setPifaPrice(product.get(0).getPifaPrice());
         productAdd.setPifaBili(product.get(0).getPifaBili());
-        productAdd.setDakehuPrice(product.get(0).getDakehuPirce());
+        productAdd.setDakehuPrice(product.get(0).getDakehuPrice());
         productAdd.setDakehuBili(product.get(0).getDakehuBili());
         productAdd.setCaigouPrice(product.get(0).getCaigouPrice());
         productAdd.setJinxiang(product.get(0).getJinxiang());
@@ -135,6 +136,12 @@ public class ProductController {
             sb.append("成功删除了 ").append(res).append(" 条数据");
         }
         return ResponseCommon.success(sb.toString());
+    }
+
+    @PostMapping("/selectMaxDanHao")
+    public String selectMaxDanHao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        List<Product> product = service.selectMaxDanHao();
+        return ResponseCommon.success(product);
     }
 
 

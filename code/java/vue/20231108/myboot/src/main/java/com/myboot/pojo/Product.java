@@ -17,10 +17,10 @@ public class Product {
     private String guige;
     private String bianhao;
     private String lingshouPrice;
-    private String lingshouBlli;
+    private String lingshouBili;
     private String pifaPrice;
     private String pifaBili;
-    private String dakehuPirce;
+    private String dakehuPrice;
     private String dakehuBili;
     private String caigouPrice;
     private String jinxiang;

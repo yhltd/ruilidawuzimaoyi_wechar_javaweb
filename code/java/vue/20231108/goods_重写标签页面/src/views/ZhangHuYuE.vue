@@ -13,7 +13,7 @@
           </el-date-picker>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="getAll()">查询</el-button>
+          <el-button size="small" round type="primary" @click="getAll()">查询</el-button>
         </el-col>
       </el-row>
     </el-header>

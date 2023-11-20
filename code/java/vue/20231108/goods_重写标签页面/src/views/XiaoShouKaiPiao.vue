@@ -621,7 +621,7 @@ export default {
 
     //新增窗口弹出
     addUser() {
-      if(this.userPower.xiaoshouKaiPiaoAdd != '是'){
+      if(this.userPower.xiaoshouKaipiaoAdd != '是'){
         MessageUtil.error("无添加权限");
         return;
       }
