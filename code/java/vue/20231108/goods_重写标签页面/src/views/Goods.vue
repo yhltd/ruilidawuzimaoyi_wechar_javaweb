@@ -288,47 +288,47 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="零售价格" prop="lingshouPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].lingshouPrice" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="Product.body[index].lingshouPrice" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="零售上浮比例" prop="lingshouBili" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].lingshouBili" class="custom-login-inp"></el-input>
+              <el-form-item label="零售上浮比例%" prop="lingshouBili" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="Product.body[index].lingshouBili" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="批发价格" prop="pifaPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].pifaPrice" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="Product.body[index].pifaPrice" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="批发上浮比例" prop="pifaBili" class="custom-form-item">
-                  <el-input ref="acc_inp" v-model="Product.body[index].pifaBili" class="custom-login-inp"></el-input>
+              <el-form-item label="批发上浮比例%" prop="pifaBili" class="custom-form-item">
+                  <el-input ref="acc_inp" v-model="Product.body[index].pifaBili" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="大客户价格" prop="dakehuPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].dakehuPrice" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="Product.body[index].dakehuPrice" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="大客户上浮比例" prop="dakehuBili" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].dakehuBili" class="custom-login-inp"></el-input>
+              <el-form-item label="大客户上浮比例%" prop="dakehuBili" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="Product.body[index].dakehuBili" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="采购价格" prop="caigouPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].caigouPrice" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="Product.body[index].caigouPrice" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="进项税率" prop="jinxiang" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].jinxiang" class="custom-login-inp"></el-input>
+              <el-form-item label="进项税率%" prop="jinxiang" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="Product.body[index].jinxiang" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="销项税率" prop="xiaoxiang" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].xiaoxiang" class="custom-login-inp"></el-input>
+              <el-form-item label="销项税率%" prop="xiaoxiang" class="custom-form-item">
+                <el-input ref="acc_inp" v-model="Product.body[index].xiaoxiang" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -865,7 +865,7 @@ export default {
 
       for(var i=0; i<save_list.body.length; i++){
         if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
-          save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
+          save_list.body[i].image = "http://localhost:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
           let url = "http://localhost:8102/file/upload"
@@ -901,7 +901,7 @@ export default {
 
       for(var i=0; i<save_list.body.length; i++){
         if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
-          save_list.body[i].image = "http://192.168.0.102:9088/ruilida/" + save_list.body[i].imgFileName
+          save_list.body[i].image = "http://localhost:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
           let url = "http://localhost:8102/file/upload"

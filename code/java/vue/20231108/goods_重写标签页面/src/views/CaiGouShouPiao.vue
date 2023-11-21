@@ -75,7 +75,7 @@
           <el-button v-if="shenheButton" size="small" round type="primary" @click="shouPiaoClick()">收票</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
+          <el-button v-if="!shenheButton" size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -813,30 +813,6 @@ export default {
     },
     //保存
     saveGongYingShang(){
-      var save_list = this.gongYingShang
-
-      if(save_list.shoupiaoDanwei == ''){
-        MessageUtil.error("请选择收票单位");
-        return;
-      }
-      if(save_list.kaipiaoDanwei == ''){
-        MessageUtil.error("请选择开票单位");
-        return;
-      }
-      if(save_list.kaipiaoRiqi == ''){
-        MessageUtil.error("请选择开票日期");
-        return;
-      }
-      if(save_list.kaipiaoJine == ''){
-        MessageUtil.error("请选择开票金额");
-        return;
-      }
-      if(save_list.xinxiTuisong == ''){
-        MessageUtil.error("请选择信息推送");
-        return;
-      }
-
-
       let url = "http://localhost:8102/shouPiao/shouPiaoAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
@@ -873,6 +849,29 @@ export default {
 
       if(this.userPower.caigouShoupiaoUpd != '是' && (this.gongYingShang.id != undefined && this.gongYingShang.id != null)){
         MessageUtil.error("无修改权限");
+        return;
+      }
+
+      var save_list = this.gongYingShang
+
+      if(save_list.shoupiaoDanwei == ''){
+        MessageUtil.error("请选择收票单位");
+        return;
+      }
+      if(save_list.kaipiaoDanwei == ''){
+        MessageUtil.error("请选择开票单位");
+        return;
+      }
+      if(save_list.kaipiaoRiqi == ''){
+        MessageUtil.error("请选择开票日期");
+        return;
+      }
+      if(save_list.kaipiaoJine == ''){
+        MessageUtil.error("请选择开票金额");
+        return;
+      }
+      if(save_list.xinxiTuisong == ''){
+        MessageUtil.error("请选择信息推送");
         return;
       }
 

@@ -294,7 +294,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="收件人电话" prop="shoujianPhone" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="gongYingShang.shoujianPhone" class="custom-login-inp"></el-input>
+              <el-input ref="acc_inp" v-model="gongYingShang.shoujianPhone" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -333,7 +333,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="电话" prop="userName" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDianhua" class="custom-login-inp"></el-input>
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDianhua" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -343,7 +343,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="银行账号" prop="userName" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp"></el-input>
+              <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -373,7 +373,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="电话" prop="phone" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].phone" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].phone" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">

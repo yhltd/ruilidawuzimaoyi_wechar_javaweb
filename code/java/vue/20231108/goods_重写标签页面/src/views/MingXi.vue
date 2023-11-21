@@ -64,7 +64,7 @@
           <el-button v-if="shenheButton" size="small" round type="primary" @click="shenheClick()">审核</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
+          <el-button v-if="!shenheButton" size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -124,6 +124,24 @@
         <el-table-column
             prop="shenheZhuangtai"
             label="审核状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="rukuZhuangtai"
+            label="入库状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shoupiaoZhuangtai"
+            label="收票状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="fukuanZhuangtai"
+            label="付款状态"
             width="200"
             show-overflow-tooltip>
         </el-table-column>
@@ -211,8 +229,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="进项税率" prop="jinxiangShuilv" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="gongYingShang.jinxiangShuilv" class="custom-login-inp"></el-input>
+            <el-form-item label="进项税率%" prop="jinxiangShuilv" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.jinxiangShuilv" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -283,22 +301,22 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="数量" prop="shuliang" class="custom-form-item">
-                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="历史最低价" prop="lishiZuidi" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].lishiZuidi" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].lishiZuidi" class="custom-login-inp" type="number" disabled="true"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="采购单价" prop="caigouDanjia" class="custom-form-item">
-                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="价税小计" prop="jiashuiXiaoji" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -1046,35 +1064,6 @@ export default {
     },
 
     saveGongYingShang(){
-      var save_list = this.gongYingShang
-
-      if(save_list.gongyingshang == ''){
-        MessageUtil.error("请选择供应商");
-        return;
-      }
-      if(save_list.dianpu == ''){
-        MessageUtil.error("请选择店铺");
-        return;
-      }
-      if(save_list.shenhe == ''){
-        MessageUtil.error("请选择审核人");
-        return;
-      }
-      for(var i=0; i<save_list.body.length; i++){
-        if(save_list.body[i].shangpinBianma == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
-          return;
-        }
-        if(save_list.body[i].shuliang == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
-          return;
-        }
-        if(save_list.body[i].caigouDanjia == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未填写采购单价');
-          return;
-        }
-      }
-
       let url = "http://localhost:8102/caiGouDingDan/caiGouDingDanAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
@@ -1118,6 +1107,35 @@ export default {
       if(this.userPower.caigouDingdanUpd != '是' && (this.gongYingShang.id != undefined && this.gongYingShang.id != null)){
         MessageUtil.error("无修改权限");
         return;
+      }
+
+      var save_list = this.gongYingShang
+
+      if(save_list.gongyingshang == ''){
+        MessageUtil.error("请选择供应商");
+        return;
+      }
+      if(save_list.dianpu == ''){
+        MessageUtil.error("请选择店铺");
+        return;
+      }
+      if(save_list.shenhe == ''){
+        MessageUtil.error("请选择审核人");
+        return;
+      }
+      for(var i=0; i<save_list.body.length; i++){
+        if(save_list.body[i].shangpinBianma == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
+          return;
+        }
+        if(save_list.body[i].shuliang == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
+          return;
+        }
+        if(save_list.body[i].caigouDanjia == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写采购单价');
+          return;
+        }
       }
 
       if(this.gongYingShang.id != undefined && this.gongYingShang.id != null){

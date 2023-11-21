@@ -46,7 +46,7 @@
         <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button size="small" round type="primary" @click="deleteClick()">删除</el-button>
+        <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
       </el-col>
     </el-row>
     </el-header>
@@ -144,7 +144,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="采购单号" prop="caigouId" class="custom-form-item">
-              <el-input ref="acc_inp" @click.native="selectCaiGouDan()" v-model="gongYingShang.caigouId" class="custom-login-inp" disabled="true"></el-input>
+              <el-input ref="acc_inp" @click.native="selectCaiGouDan()" v-model="gongYingShang.caigouId" class="custom-login-inp" disabled="true" placeholder="点击选择采购单"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -219,7 +219,7 @@
           <el-row :gutter="15">
             <el-col :span="6">
               <el-form-item label="商品编码" prop="shangpin_bianma" class="custom-form-item" >
-                <el-input ref="acc_inp" readonly="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
+                <el-input ref="acc_inp" disabled="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -254,17 +254,17 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="数量" prop="shuliang" class="custom-form-item">
-                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="采购单价" prop="caigouDanjia" class="custom-form-item">
-                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index)" v-model="gongYingShang.body[index].caigouDanjia" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="价税小计" prop="jiashuiXiaoji" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -1133,35 +1133,6 @@ export default {
     },
 
     saveGongYingShang(){
-      var save_list = this.gongYingShang
-
-      if(save_list.gongyingshang == ''){
-        MessageUtil.error("请选择供应商");
-        return;
-      }
-      if(save_list.dianpu == ''){
-        MessageUtil.error("请选择店铺");
-        return;
-      }
-      if(save_list.shenhe == ''){
-        MessageUtil.error("请选择审核人");
-        return;
-      }
-      for(var i=0; i<save_list.body.length; i++){
-        if(save_list.body[i].shangpinBianma == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
-          return;
-        }
-        if(save_list.body[i].shuliang == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
-          return;
-        }
-        if(save_list.body[i].caigouDanjia == ''){
-          MessageUtil.error('第' + (i * 1+1) + '条商品未填写采购单价');
-          return;
-        }
-      }
-
       let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
@@ -1205,6 +1176,35 @@ export default {
       if(this.userPower.caigouRukuUpd != '是' && (this.gongYingShang.id != undefined && this.gongYingShang.id != null)){
         MessageUtil.error("无修改权限");
         return;
+      }
+
+      var save_list = this.gongYingShang
+
+      if(save_list.gongyingshang == ''){
+        MessageUtil.error("请选择供应商");
+        return;
+      }
+      if(save_list.dianpu == ''){
+        MessageUtil.error("请选择店铺");
+        return;
+      }
+      if(save_list.shenhe == ''){
+        MessageUtil.error("请选择审核人");
+        return;
+      }
+      for(var i=0; i<save_list.body.length; i++){
+        if(save_list.body[i].shangpinBianma == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
+          return;
+        }
+        if(save_list.body[i].shuliang == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
+          return;
+        }
+        if(save_list.body[i].caigouDanjia == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写采购单价');
+          return;
+        }
       }
 
       if(this.gongYingShang.id != undefined && this.gongYingShang.id != null){

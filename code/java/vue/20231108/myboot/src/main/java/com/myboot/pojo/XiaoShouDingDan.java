@@ -20,6 +20,10 @@ public class XiaoShouDingDan {
     private String jiageDengji;
     private String shenheZhuangtai;
 
+    private String chukuZhuangtai;
+    private String kaipiaoZhuangtai;
+    private String shoukuanZhuangtai;
+
 
     private String jiashuiXiaoji;
     private String yifu;

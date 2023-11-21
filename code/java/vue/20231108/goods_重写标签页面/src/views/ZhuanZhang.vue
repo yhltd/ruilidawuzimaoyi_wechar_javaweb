@@ -130,7 +130,7 @@
       <el-form :model="ZhuanZhang" ref="addUsr" label-width="100px"
                class="demo-info">
 
-        <el-form-item label="金额" prop="money" class="custom-form-item">
+        <el-form-item label="金额" prop="money" class="custom-form-item" type="number">
           <el-input v-model="ZhuanZhang.money" class="custom-login-inp" ></el-input>
         </el-form-item>
 

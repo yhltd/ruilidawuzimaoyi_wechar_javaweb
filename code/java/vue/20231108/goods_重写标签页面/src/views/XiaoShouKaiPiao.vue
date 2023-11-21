@@ -75,7 +75,7 @@
           <el-button v-if="shenheButton" size="small" round type="primary" @click="kaiPiaoClick()">开票</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" size="small" round type="primary" @click="deleteClick()">删除</el-button>
+          <el-button v-if="!shenheButton" size="small" round type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>

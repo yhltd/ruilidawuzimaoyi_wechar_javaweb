@@ -64,7 +64,7 @@
           <el-button v-if="shenheButton" round size="small" type="primary" @click="shenheClick()">审核</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" round size="small" type="primary" @click="deleteClick()">删除</el-button>
+          <el-button v-if="!shenheButton" round size="small" type="danger" @click="deleteClick()">删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -142,26 +142,38 @@
             show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-            prop="shenhe"
-            label="审核人"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="jiageshuiHeji"
-            label="价税合计"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
             prop="jiageDengji"
             label="价格等级"
             width="200"
             show-overflow-tooltip>
         </el-table-column>
         <el-table-column
+            prop="shenhe"
+            label="审核人"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
             prop="shenheZhuangtai"
             label="审核状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="chukuZhuangtai"
+            label="出库状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="kaipiaoZhuangtai"
+            label="开票状态"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+            prop="shoukuanZhuangtai"
+            label="收款状态"
             width="200"
             show-overflow-tooltip>
         </el-table-column>
@@ -1334,12 +1346,12 @@ export default {
         MessageUtil.error('请选择店铺');
         return;
       }
-      if(this.gongYingShang.shenheren == ''){
+      if(this.gongYingShang.shenhe == ''){
         MessageUtil.error('请选择审核人');
         return;
       }
       for(var i=0; i<this.gongYingShang.body.length; i++){
-        if(this.gongYingShang.body[i].shangpinBianma == ''){
+        if(this.gongYingShang.body[i].shangpinBianhao == ''){
           MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
           return;
         }

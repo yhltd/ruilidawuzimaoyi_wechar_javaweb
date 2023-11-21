@@ -4,8 +4,8 @@
     <el-form :model="ZhuanZhang" ref="addUsr" label-width="150px"
              class="demo-info">
 
-      <el-form-item label="税率" prop="shuilv" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px"></el-input>
+      <el-form-item label="税率%" prop="shuilv" class="custom-form-item">
+        <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 
       <el-form-item label="是否启用" prop="zhuangtai" class="custom-form-item" >
@@ -21,16 +21,16 @@
         <!--          <el-input ref="acc_inp" v-model="ZhuanZhang.zhuanru" class="custom-login-inp" ></el-input>-->
       </el-form-item>
 
-      <el-form-item label="零售上浮比例" prop="lingshou" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px"></el-input>
+      <el-form-item label="零售上浮比例%" prop="lingshou" class="custom-form-item">
+        <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 
-      <el-form-item label="批发上浮比例" prop="pifa" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px"></el-input>
+      <el-form-item label="批发上浮比例%" prop="pifa" class="custom-form-item">
+        <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 
-      <el-form-item label="大客户上浮比例" prop="dakehu" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px"></el-input>
+      <el-form-item label="大客户上浮比例%" prop="dakehu" class="custom-form-item">
+        <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 
 

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.myboot.MybootApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.046 s - in com.myboot.MybootApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 37.965 s - in com.myboot.MybootApplicationTests
