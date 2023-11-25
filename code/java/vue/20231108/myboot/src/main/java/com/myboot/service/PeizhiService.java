@@ -32,4 +32,8 @@ public interface PeizhiService {
     public List<Peizhi> selectByPeiZhiId(Integer id);
 
     int delUsers(List<Integer> list);
+
+    List<Peizhi> addChaChong(String name,String type);
+
+    List<Peizhi> updChaChong(String name,String type,Integer id);
 }

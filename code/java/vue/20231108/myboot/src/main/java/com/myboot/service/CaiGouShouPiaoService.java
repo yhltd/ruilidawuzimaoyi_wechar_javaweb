@@ -13,7 +13,7 @@ public interface CaiGouShouPiaoService {
     public List<CaiGouShouPiao> getAllByShenHe(String xinxi_tuisong);
 
     //条件查询
-    public List<CaiGouShouPiao> queryList(String start_date,String stop_date,String kaipiao_danwei,String shoupiao_danwei,String shoupiao_zhuangtai);
+    public List<CaiGouShouPiao> queryList(String start_date,String stop_date,String shoupiao_danwei,String kaipiao_danwei,String shoupiao_zhuangtai);
 
     //增加
     public int caiGouShouPiaoAdd(CaiGouShouPiao caiGouShouPiao);

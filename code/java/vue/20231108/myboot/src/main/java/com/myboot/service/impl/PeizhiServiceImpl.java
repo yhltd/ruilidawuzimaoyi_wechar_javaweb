@@ -55,5 +55,15 @@ public class PeizhiServiceImpl implements PeizhiService {
         return count;
     }
 
+    @Override
+    public List<Peizhi> addChaChong(String name, String type) {
+        return peizhiMapper.addChaChong(name,type);
+    }
+
+    @Override
+    public List<Peizhi> updChaChong(String name, String type, Integer id) {
+        return peizhiMapper.updChaChong(name,type,id);
+    }
+
 
 }

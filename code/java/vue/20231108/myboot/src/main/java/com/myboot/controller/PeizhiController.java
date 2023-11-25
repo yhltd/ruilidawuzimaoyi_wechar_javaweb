@@ -35,6 +35,24 @@ public class PeizhiController {
         return ResponseCommon.success(list);
     }
 
+
+    @PostMapping("/addChaChong")
+    public String addChaChong(@RequestBody JSONObject data) {
+        String name = data.getString("name");
+        String type = data.getString("type");
+        List<Peizhi> list = peizhiService.addChaChong(name,type);
+        return ResponseCommon.success(list);
+    }
+
+    @PostMapping("/updChaChong")
+    public String updChaChong(@RequestBody JSONObject data) {
+        String name = data.getString("name");
+        String type = data.getString("type");
+        Integer id = data.getInteger("id");
+        List<Peizhi> list = peizhiService.updChaChong(name,type,id);
+        return ResponseCommon.success(list);
+    }
+
 //    //仓库
 //    @PostMapping("/queryAllCangKu")
 //    public String queryAllCangku() {

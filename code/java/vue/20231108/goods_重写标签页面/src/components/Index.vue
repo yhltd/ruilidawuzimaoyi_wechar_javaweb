@@ -87,11 +87,13 @@
 
     </div>
     <el-container>
-      <el-main style="padding-top:0px;padding-bottom: 0px;">
+      <el-main style="padding-top:0px;padding-bottom: 0px;" >
         <div class="container-box">
           <el-header height="40px" class="inner-header">{{ PageTitle || '错误' }}</el-header>
           <div class="view-box">
-            <router-view></router-view>
+            <router-view>
+
+            </router-view>
           </div>
         </div>
       </el-main>
@@ -211,13 +213,22 @@ body {
 
 .view-box {
   background: none;
-  width: 95%;
-  margin: 20px auto 10px;
+  /*width: 95%;*/
+  /*margin: 20px auto 10px;*/
   height: calc(100% - 20px);
 }
 
 .el-menu {
   border: 0 !important;
+}
+
+.bg-image{
+  /**
+  no-repeat:背景图片不平铺
+  repeat:背景图片平铺
+   */
+  background: url("../assets/backgroundImage.jpg") center fixed;
+  background-size: cover;
 }
 
 </style>

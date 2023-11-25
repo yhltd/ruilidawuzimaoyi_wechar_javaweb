@@ -33,5 +33,19 @@
             where id = #{id}
         ]]>
     </select>
+
+    <select id="addChaChong" resultType="com.myboot.pojo.Peizhi">
+        <![CDATA[
+            select * from peizhi
+            where name = #{name} and type = #{type}
+        ]]>
+    </select>
+
+    <select id="updChaChong" resultType="com.myboot.pojo.Peizhi">
+        <![CDATA[
+            select * from peizhi
+            where name = #{name} and type = #{type} and id != #{id}
+        ]]>
+    </select>
 </mapper>
 

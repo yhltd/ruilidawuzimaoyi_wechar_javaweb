@@ -294,7 +294,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/zhuanZhang/selectZhuanZhangById"
+      let url = "http://user-20200618gm:8102/zhuanZhang/selectZhuanZhangById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -312,7 +312,7 @@ export default {
     },
 
     getXiaLa_ZhangHu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"收款账户"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhangHu = res.data.data;
@@ -333,7 +333,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -346,7 +346,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -372,7 +372,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/zhuanZhang/getAll"
+      let url = "http://user-20200618gm:8102/zhuanZhang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -416,7 +416,7 @@ export default {
         zhuanru:this.zhuanru,
         zhuanchu:this.zhuanchu,
       }
-      let url = "http://localhost:8102/zhuanZhang/queryList"
+      let url = "http://user-20200618gm:8102/zhuanZhang/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -433,7 +433,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://localhost:8102/zhuanZhang/zhuanZhangAdd"
+      let url = "http://user-20200618gm:8102/zhuanZhang/zhuanZhangAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -450,7 +450,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://localhost:8102/zhuanZhang/zhuanZhangUpd"
+      let url = "http://user-20200618gm:8102/zhuanZhang/zhuanZhangUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -498,7 +498,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/zhuanZhang/delZhuanZhang";
+        let url = "http://user-20200618gm:8102/zhuanZhang/delZhuanZhang";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

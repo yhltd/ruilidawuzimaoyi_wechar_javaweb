@@ -26,6 +26,7 @@ import xiaoshoukaipiao from '../views/XiaoShouKaiPiao.vue'
 import fujiashuishezhi from '../views/FuJiaShuiSheZhi.vue'
 import print from '../views/Print.vue'
 import printlist from '../views/PrintList.vue'
+import main from '../views/main.vue'
 
 Vue.use(VueRouter);
 
@@ -400,6 +401,15 @@ const routes = [
                 component: printlist,
                 meta: {
                     title: '打印',
+                    requireAuth: true
+                }
+            },
+            {
+                path: "/main",
+                name: "main",
+                component: main,
+                meta: {
+                    title: '首页',
                     requireAuth: true
                 }
             },

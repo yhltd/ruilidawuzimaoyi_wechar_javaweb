@@ -175,18 +175,31 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addForm.type = this.PAGE_TYPE
-          let url = "http://localhost:8102/peizhi/peizhiAdd";
-          this.axios.post(url, this.addForm).then(res => {
-            if (res.data.code == '00') {
-              MessageUtil.success("添加成功");
-              this.addDialog = false;
-              this.queryByType();
+
+          let url = 'http://user-20200618gm:8102/peizhi/addChaChong';
+          axios.post(url, this.addForm).then(res => {
+            if (res.data.data.length == 0) {
+
+              let url = "http://user-20200618gm:8102/peizhi/peizhiAdd";
+              this.axios.post(url, this.addForm).then(res => {
+                if (res.data.code == '00') {
+                  MessageUtil.success("添加成功");
+                  this.addDialog = false;
+                  this.queryByType();
+                } else {
+                  MessageUtil.error("添加失败")
+                }
+              }).catch(() => {
+                MessageUtil.error("网络异常")
+              });
+
             } else {
-              MessageUtil.error("添加失败")
+              MessageUtil.error("已有此项配置，请检查")
             }
           }).catch(() => {
-            MessageUtil.error("网络异常")
-          });
+            MessageUtil.error("网络异常");
+          })
+
         } else {
           MessageUtil.error("格式错误")
         }
@@ -195,18 +208,30 @@ export default {
     updFormSub(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = "http://localhost:8102/peizhi/peizhiUpd";
-          this.axios.post(url, this.addForm).then(res => {
-            if (res.data.code == '00') {
-              MessageUtil.success("添加成功");
-              this.queryByType();
-              this.updDialog = false;
+
+          let url = 'http://user-20200618gm:8102/peizhi/updChaChong';
+          axios.post(url, this.addForm).then(res => {
+            if (res.data.data.length == 0) {
+
+              let url = "http://user-20200618gm:8102/peizhi/peizhiUpd";
+              this.axios.post(url, this.addForm).then(res => {
+                if (res.data.code == '00') {
+                  MessageUtil.success("添加成功");
+                  this.queryByType();
+                  this.updDialog = false;
+                } else {
+                  MessageUtil.error("添加失败")
+                }
+              }).catch(() => {
+                MessageUtil.error("网络异常")
+              });
+
             } else {
-              MessageUtil.error("添加失败")
+              MessageUtil.error("已有此项配置，请检查")
             }
           }).catch(() => {
-            MessageUtil.error("网络异常")
-          });
+            MessageUtil.error("网络异常");
+          })
         } else {
           MessageUtil.error("格式错误")
         }
@@ -264,7 +289,7 @@ export default {
         for (let i of list) {
           tmp.push(i.id);
         }
-        let url = "http://localhost:8102/peizhi/delPeizhi";
+        let url = "http://user-20200618gm:8102/peizhi/delPeizhi";
         axios.post(url, {"list": tmp}).then(res => {
           switch (res.data.code) {
             case "00": {
@@ -303,7 +328,7 @@ export default {
         for (let i of list) {
           tmp.push(i.id);
         }
-        let url = "http://localhost:8102/user/updateMoRen";
+        let url = "http://user-20200618gm:8102/user/updateMoRen";
         axios.post(url,
       {"type": this.PAGE_TYPE,
             "typeId": this.multipleSelection[0].id,
@@ -337,7 +362,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8102/peizhi/queryPeiZhi';
+      let url = 'http://user-20200618gm:8102/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -370,7 +395,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://localhost:8102/peizhi/queryPeiZhi';
+      let url = 'http://user-20200618gm:8102/peizhi/queryPeiZhi';
       axios.post(url, {'type': this.PAGE_TYPE}).then(res => {
         console.log(res)
         switch (res.data.code) {
@@ -404,7 +429,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -417,7 +442,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

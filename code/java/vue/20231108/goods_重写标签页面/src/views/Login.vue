@@ -81,7 +81,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("ok")
-          let URL = "http://localhost:8102/V0/login";
+          let URL = "http://user-20200618gm:8102/V0/login";
           axios.post(
               URL, this.ruleForm, false
           ).then(res => {
@@ -93,7 +93,7 @@ export default {
                 this.$store.commit('powerSuccess',JSON.stringify(res.data.data.userPower))
                 // window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.data.user));
                 // window.sessionStorage.setItem("userPower", JSON.stringify(res.data.data.userPower));
-                this.$router.push("index");
+                this.$router.push("main");
                 break;
               }
               case "06": {

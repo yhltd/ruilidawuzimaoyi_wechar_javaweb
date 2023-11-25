@@ -28,8 +28,8 @@ public class CaiGouShouPiaoImpl implements CaiGouShouPiaoService {
     }
 
     @Override
-    public List<CaiGouShouPiao> queryList(String start_date,String stop_date,String kaipiao_danwei,String shoupiao_danwei,String shoupiao_zhuangtai){
-        List<CaiGouShouPiao> caiGouShouPiao = mapper.queryList(start_date,stop_date,kaipiao_danwei,shoupiao_danwei,shoupiao_zhuangtai);
+    public List<CaiGouShouPiao> queryList(String start_date,String stop_date,String shoupiao_danwei,String kaipiao_danwei,String shoupiao_zhuangtai){
+        List<CaiGouShouPiao> caiGouShouPiao = mapper.queryList(start_date,stop_date,shoupiao_danwei,kaipiao_danwei,shoupiao_zhuangtai);
         return caiGouShouPiao;
     }
 

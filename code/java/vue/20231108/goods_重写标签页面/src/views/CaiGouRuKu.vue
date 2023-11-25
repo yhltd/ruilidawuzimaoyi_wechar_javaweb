@@ -144,7 +144,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="采购单号" prop="caigouId" class="custom-form-item">
-              <el-input ref="acc_inp" @click.native="selectCaiGouDan()" v-model="gongYingShang.caigouId" class="custom-login-inp" disabled="true" placeholder="点击选择采购单"></el-input>
+              <el-input ref="acc_inp" @click.native="selectCaiGouDan()" v-model="gongYingShang.caigouId" class="custom-login-inp" readonly="true" placeholder="点击选择采购单"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -219,7 +219,7 @@
           <el-row :gutter="15">
             <el-col :span="6">
               <el-form-item label="商品编码" prop="shangpin_bianma" class="custom-form-item" >
-                <el-input ref="acc_inp" disabled="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
+                <el-input ref="acc_inp" readonly="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianma" class="custom-login-inp" placeholder="点击选择商品"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -244,7 +244,16 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhibaoDengji" class="custom-login-inp"></el-input>
+                <el-select v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
+                  <!-- types 为后端查询 -->
+                  <el-option
+                      v-for="item in XiaLa_ZhiBaoDengJi"
+                      :key="item.name"
+                      :label="item.name"
+                      :value="item.name">
+                  </el-option>
+                </el-select>
+<!--                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhibaoDengji" class="custom-login-inp"></el-input>-->
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -538,6 +547,7 @@ export default {
       CaiGou_Product:[],
       XiaLa_GongYingShang:[],
       XiaLa_ShenHe:[],
+      XiaLa_ZhiBaoDengJi:[],
       XiaLa_ShenHeZhuangTai:[
         {
           name:'审核中',
@@ -593,6 +603,7 @@ export default {
     this.getXiaLa_DianPu();
     this.getXiaLa_CangKu();
     this.getXiaLa_MuBan();
+    this.getXiaLa_ZhiBaoDengJi();
   },
   methods: {
     toggleSelection(rows) {
@@ -636,7 +647,7 @@ export default {
         this.gongYingShang.caigouId = row.bianhao
 
         var id = row.id
-        let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
+        let url = "http://user-20200618gm:8102/caiGouDingDan/selectByCaiGouId"
         this.axios.post(url, {"id":id}).then(res => {
           if(res.data.code == '00') {
             var this_val = res.data.data
@@ -686,7 +697,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.gongYingShang.body[this.p_index].shangpinBianma = row.shangpinBianma
+        this.gongYingShang.body[this.p_index].shangpinBianma = row.bianhao
         this.gongYingShang.body[this.p_index].name = row.name
         this.gongYingShang.body[this.p_index].guige = row.guige
         this.gongYingShang.body[this.p_index].caizhi = row.caizhi
@@ -779,7 +790,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/caiGouRuKu/selectMaxDanHao"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -864,7 +875,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -883,7 +894,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://localhost:8102/product/selectCaiGouProduct"
+      let url = "http://user-20200618gm:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -898,7 +909,7 @@ export default {
     },
 
     getCaiGouDan(){
-      let url = "http://localhost:8102/caiGouDingDan/getAll"
+      let url = "http://user-20200618gm:8102/caiGouDingDan/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGouDan = res.data.data;
@@ -917,7 +928,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -930,7 +941,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -951,7 +962,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://user-20200618gm:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -968,7 +979,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -985,7 +996,7 @@ export default {
     },
 
     getXiaLa_CangKu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"仓库"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CangKu = res.data.data;
@@ -1003,7 +1014,7 @@ export default {
 
     //查询全部
     getAll(){
-      let url = "http://localhost:8102/caiGouRuKu/getAll"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1018,7 +1029,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8102/printMuBan/getMuBanByType"
+      let url = "http://user-20200618gm:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"采购入库单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1067,7 +1078,7 @@ export default {
         stop_date:stop_date,
         gongyingshang:this.gongyingshang,
       }
-      let url = "http://localhost:8102/caiGouRuKu/queryList"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1133,7 +1144,7 @@ export default {
     },
 
     saveGongYingShang(){
-      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuAdd"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/caiGouRuKuAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1153,7 +1164,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuUpd"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/caiGouRuKuUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1234,7 +1245,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/caiGouRuKu/delCaiGouDingDan";
+        let url = "http://user-20200618gm:8102/caiGouRuKu/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1297,7 +1308,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
+      let url = "http://user-20200618gm:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

@@ -109,7 +109,7 @@ export default {
       if(this.stop_date == ''){
         this.stop_date = getNowDate()
       }
-      let url = "http://localhost:8102/zhangHuYuE/queryList"
+      let url = "http://user-20200618gm:8102/zhangHuYuE/queryList"
       this.axios.post(url,{'riqi':this.stop_date}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -133,7 +133,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -146,7 +146,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

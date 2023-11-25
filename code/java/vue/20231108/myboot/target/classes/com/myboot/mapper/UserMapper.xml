@@ -102,14 +102,7 @@
 
     <select id="fuzzyQuery">
         select id, name, username as userName,password, power, shenpi from userInfo
-        where 1=1
-        and
-        (
-        name like '%'+#{keyword}+'%'
-        or power like '%'+#{keyword}+'%'
-        or shenpi like '%'+#{keyword}+'%'
-        or username like '%'+#{keyword}+'%'
-        )
+        where name like '%'+#{keyword}+'%'
     </select>
 
     <update id="updCangKu">

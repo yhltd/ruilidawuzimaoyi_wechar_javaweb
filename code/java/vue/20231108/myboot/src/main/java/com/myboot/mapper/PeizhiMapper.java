@@ -27,4 +27,8 @@ public interface PeizhiMapper {
     //根据采购id查询
     public List<Peizhi> selectByPeiZhiId(Integer id);
 
+    List<Peizhi> addChaChong(String name,String type);
+
+    List<Peizhi> updChaChong(String name,String type,Integer id);
+
 }

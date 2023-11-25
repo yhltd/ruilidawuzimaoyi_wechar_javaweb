@@ -8,14 +8,14 @@
     <insert id="chuKuItemAdd" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO xiaoshou_chuku_item(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,
         xiaoshou_danjia,jiashui_xiaoji,beizhu,chuku_id)
-        VALUES (#{shangpin_bianma},#{name},#{guige},#{caizhi},#{jishu_biaozhun},#{zhibao_dengji},#{danwei},#{shuliang},
-        #{xiaoshou_danjia},#{jiashui_xiaoji},#{beizhu},#{chuku_id})
+        VALUES (#{shangpinBianma},#{name},#{guige},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{danwei},#{shuliang},
+        #{xiaoshouDanjia},#{jiashuiXiaoji},#{beizhu},#{chukuId})
     </insert>
 
     <update id="chuKuItemUpd">
-        UPDATE xiaoshou_chuku_item set shangpin_bianma = #{shangpin_bianma},name = #{name},guige = #{guige},caizhi = #{caizhi},
-        jishu_biaozhun = #{jishu_biaozhun},zhibao_dengji = #{zhibao_dengji},danwei = #{danwei},shuliang = #{shuliang},
-        xiaoshou_danjia = #{xiaoshou_danjia},jiashui_xiaoji = #{jiashui_xiaoji},beizhu = #{beizhu},chuku_id = #{chuku_id}
+        UPDATE xiaoshou_chuku_item set shangpin_bianma = #{shangpinBianma},name = #{name},guige = #{guige},caizhi = #{caizhi},
+        jishu_biaozhun = #{jishuBiaozhun},zhibao_dengji = #{zhibaoDengji},danwei = #{danwei},shuliang = #{shuliang},
+        xiaoshou_danjia = #{xiaoshouDanjia},jiashui_xiaoji = #{jiashuiXiaoji},beizhu = #{beizhu},chuku_id = #{chukuId}
         WHERE id = #{id}
     </update>
 

@@ -6,13 +6,13 @@
 <mapper namespace="com.myboot.mapper.XiaoShouChuKuMapper">
 
     <insert id="chuKuAdd" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO xiaoshou_chuku(String bianhao,String riqi,String kehu, String dianpu, String cangku,String beizhu,String xiaoshou_id)
-        VALUES (#{bianhao},#{riqi},#{kehu},#{dianpu},#{cangku},#{beizhu},#{xiaoshou_id})
+        INSERT INTO xiaoshou_chuku(bianhao,riqi,kehu, dianpu, cangku,beizhu,xiaoshou_id)
+        VALUES (#{bianhao},#{riqi},#{kehu},#{dianpu},#{cangku},#{beizhu},#{xiaoshouId})
     </insert>
 
     <update id="chuKuUpd">
         UPDATE xiaoshou_chuku set bianhao = #{bianhao},riqi = #{riqi},kehu = #{kehu}, dianpu = #{dianpu},
-        cangku = #{cangku},,beizhu = #{beizhu},xiaoshou_id = #{xiaoshou_id}
+        cangku = #{cangku},beizhu = #{beizhu},xiaoshou_id = #{xiaoshouId}
         WHERE id = #{id}
     </update>
     <delete id="deleteByChuKuId">

@@ -181,7 +181,7 @@
 
     <el-dialog title="" :visible.sync="addDialog" width="80%">
 
-      <el-form :model="gongYingShang" ref="addUsr" label-width="100px"
+      <el-form :model="gongYingShang" :rules="rules" ref="addUsr" label-width="100px"
                class="demo-info">
 
         <!--        供应商基本信息-->
@@ -265,7 +265,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
-              <el-select v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择业务员">
+              <el-select v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_YeWuYuan"
@@ -317,32 +317,32 @@
         </el-row>
         <el-row :gutter="15">
           <el-col :span="6">
-            <el-form-item label="单位名称" prop="userName" class="custom-form-item">
+            <el-form-item label="单位名称" prop="kaipiaoDanwei" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDanwei" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="纳税人识别号" prop="userName" class="custom-form-item">
+            <el-form-item label="纳税人识别号" prop="shibiehao" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.shibiehao" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开票地址" prop="userName" class="custom-form-item">
+            <el-form-item label="开票地址" prop="kaipiaoDizhi" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDizhi" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="电话" prop="userName" class="custom-form-item">
+            <el-form-item label="电话" prop="kaipiaoDianhua" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDianhua" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开户银行" prop="userName" class="custom-form-item">
+            <el-form-item label="开户银行" prop="kaipiaoYinhang" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoYinhang" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="银行账号" prop="userName" class="custom-form-item">
+            <el-form-item label="银行账号" prop="kaipiaoZhanghao" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
@@ -509,7 +509,6 @@ export default {
         }
       ],
       gongYingShang: {
-        id: 0,
         bianhao:'',
         name: '',
         type: '',
@@ -546,7 +545,25 @@ export default {
       addDialog: false,
       updDialog: false,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      rules: {
+        phone: [
+          {required: true, message: '请输入电话', trigger: 'blur'},
+          {min: 11, max: 11, message: '长度为11位', trigger: 'blur'}
+        ],
+        kaipiaoDianhua: [
+          {required: true, message: '请输入电话', trigger: 'blur'},
+          {min: 11, max: 11, message: '长度为11位', trigger: 'blur'}
+        ],
+        kaipiaoZhanghao: [
+          {required: true, message: '请输入银行账号', trigger: 'blur'},
+          {min: 16, max: 19, message: '长度在 16 到 19 个字符', trigger: 'blur'}
+        ],
+        shoujianPhone: [
+          {required: true, message: '请输入电话', trigger: 'blur'},
+          {min: 11, max: 11, message: '长度为11位', trigger: 'blur'}
+        ],
+      },
     }
   },
   created() {
@@ -585,7 +602,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/customer/selectMaxDanHao"
+      let url = "http://user-20200618gm:8102/customer/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -595,7 +612,6 @@ export default {
           this_danhao = "KH" + this_danhao
 
           this.gongYingShang = {
-            id: 0,
             bianhao:this_danhao,
             name: '',
             type: '',
@@ -659,7 +675,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/customer/selectById"
+      let url = "http://user-20200618gm:8102/customer/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -678,7 +694,7 @@ export default {
     },
 
     getXiaLa_Type(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"客户分类"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_Type = res.data.data;
@@ -695,7 +711,7 @@ export default {
     },
 
     getXiaLa_KeHuDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"客户等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHuDengJi = res.data.data;
@@ -712,7 +728,7 @@ export default {
     },
 
     getXiaLa_JiaGeDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"价格等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiaGeDengJi = res.data.data;
@@ -730,7 +746,7 @@ export default {
 
 
     getXiaLa_YeWuYuan(){
-      let url = "http://localhost:8102/user/fuzzyQuery"
+      let url = "http://user-20200618gm:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_YeWuYuan = res.data.data;
@@ -751,7 +767,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -764,7 +780,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -790,7 +806,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/customer/getAll"
+      let url = "http://user-20200618gm:8102/customer/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -823,7 +839,7 @@ export default {
         bianhao:this.bianhao,
         name:this.name
       }
-      let url = "http://localhost:8102/customer/queryList"
+      let url = "http://user-20200618gm:8102/customer/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -887,7 +903,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/customer/customerAdd"
+      let url = "http://user-20200618gm:8102/customer/customerAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -907,7 +923,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/customer/customerUpd"
+      let url = "http://user-20200618gm:8102/customer/customerUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -961,7 +977,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/customer/delCustomer";
+        let url = "http://user-20200618gm:8102/customer/delCustomer";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1018,7 +1034,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://user-20200618gm:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1034,7 +1050,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://user-20200618gm:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1051,7 +1067,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://user-20200618gm:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1069,7 +1085,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://user-20200618gm:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1110,7 +1126,7 @@ export default {
           "file": this_file,
           "type": "客户",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://user-20200618gm:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)

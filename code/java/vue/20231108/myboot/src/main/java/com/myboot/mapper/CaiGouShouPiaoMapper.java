@@ -16,7 +16,7 @@ public interface CaiGouShouPiaoMapper {
     public List<CaiGouShouPiao> getAllByShenHe(@Param("xinxi_tuisong") String xinxi_tuisong);
 
     //条件查询
-    public List<CaiGouShouPiao> queryList(@Param("start_date") String start_date,@Param("stop_date") String stop_date,@Param("kaipiao_danwei") String kaipiao_danwei,@Param("shoupiao_danwei") String shoupiao_danwei,@Param("shoupiao_zhuangtai") String shoupiao_zhuangtai);
+    public List<CaiGouShouPiao> queryList(@Param("start_date") String start_date,@Param("stop_date") String stop_date,@Param("shoupiao_danwei") String shoupiao_danwei,@Param("kaipiao_danwei") String kaipiao_danwei,@Param("shoupiao_zhuangtai") String shoupiao_zhuangtai);
 
     //增加
     public int caiGouShouPiaoAdd(CaiGouShouPiao caiGouShouPiao);
