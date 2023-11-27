@@ -13,7 +13,7 @@ public interface KuCunMapper {
     public List<KuCun> getKuCun();
 
     //查询指定仓库
-    public List<KuCun> getKuCunByCangKu(@Param("cangku") String cangku);
+    public List<KuCun> getKuCunByCangKu(@Param("cangku") String cangku,@Param("type") String type);
 
 
 }

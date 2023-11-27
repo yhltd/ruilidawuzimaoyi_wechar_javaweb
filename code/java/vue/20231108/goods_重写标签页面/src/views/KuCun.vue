@@ -14,6 +14,17 @@
             </el-option>
           </el-select>
         </el-col>
+        <el-col :span="3">
+          <el-select v-model="type" clearable filterable placeholder="商品分类">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_Type"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
         <el-col :span="1.5">
           <el-button size="small" round type="primary" @click="query()">查询</el-button>
         </el-col>
@@ -119,7 +130,9 @@ export default {
       pageSize: 10, // 每一页显示的条数
       total:20,
       cangku:'',
+      type:'',
       XiaLa_CangKu:[],
+      XiaLa_Type:[],
       addDialog: false,
       updDialog: false,
       tableData: [],
@@ -128,6 +141,7 @@ export default {
   },
   created() {
     this.getXiaLa_CangKu();
+    this.getXiaLa_Type();
     this.getUser();
   },
   methods: {
@@ -154,6 +168,23 @@ export default {
           this.XiaLa_CangKu = res.data.data;
           for(var i=0; i<this.XiaLa_CangKu.length; i++){
             this.XiaLa_CangKu[i].label = this.XiaLa_CangKu.name
+          }
+          console.log("下拉已获取");
+        } else {
+          console.log("下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_Type(){
+      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"商品分类"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_Type = res.data.data;
+          for(var i=0; i<this.XiaLa_Type.length; i++){
+            this.XiaLa_Type[i].label = this.XiaLa_Type.name
           }
           console.log("下拉已获取");
         } else {
@@ -237,25 +268,22 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      if(this.cangku != ''){
-        var date = {
-          cangku:this.cangku
-        }
-        let url = "http://user-20200618gm:8102/kuCun/getKuCunByCangKu"
-        this.axios.post(url, date).then(res => {
-          if(res.data.code == '00') {
-            this.tableData = res.data.data;
-            this.total = res.data.data.length;
-            MessageUtil.success("共查询到" + this.tableData.length + "条数据")
-          } else {
-            MessageUtil.error(res.data.msg);
-          }
-        }).catch(() => {
-          MessageUtil.error("网络异常");
-        })
-      }else{
-        this.getAll()
+      var date = {
+        cangku:this.cangku,
+        type:this.type
       }
+      let url = "http://user-20200618gm:8102/kuCun/getKuCunByCangKu"
+      this.axios.post(url, date).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
 
     },
 

@@ -10,7 +10,7 @@ public interface KuCunService {
     public List<KuCun> getKuCun();
 
     //查询指定仓库
-    public List<KuCun> getKuCunByCangKu(String cangku);
+    public List<KuCun> getKuCunByCangKu(String cangku,String type);
 
 
 }

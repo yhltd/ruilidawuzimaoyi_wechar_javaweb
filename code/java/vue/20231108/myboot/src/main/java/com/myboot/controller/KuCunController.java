@@ -29,10 +29,11 @@ public class KuCunController {
     @PostMapping("/getKuCunByCangKu")
     public String getKuCunByCangKu(@RequestBody @NonNull JSONObject data) {
         String cangku = data.getString("cangku");
+        String type = data.getString("type");
         if(cangku == null) {
             return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
         }
-        List<KuCun> kuCun = service.getKuCunByCangKu(cangku);
+        List<KuCun> kuCun = service.getKuCunByCangKu(cangku,type);
 
         return ResponseCommon.success(kuCun);
     }

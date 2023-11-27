@@ -21,8 +21,8 @@ public class KuCunImpl implements KuCunService {
     }
 
     @Override
-    public List<KuCun> getKuCunByCangKu(String cangku) {
-        List<KuCun> kuCun = mapper.getKuCunByCangKu(cangku);
+    public List<KuCun> getKuCunByCangKu(String cangku,String type) {
+        List<KuCun> kuCun = mapper.getKuCunByCangKu(cangku,type);
         return kuCun;
     }
 

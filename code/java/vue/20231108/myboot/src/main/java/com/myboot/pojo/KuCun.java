@@ -12,4 +12,5 @@ public class KuCun {
     private String zhibaoDengji;
     private String danwei;
     private String shuliang;
+    private String type;
 }

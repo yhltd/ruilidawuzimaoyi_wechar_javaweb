@@ -78,9 +78,19 @@
           </el-menu-item>
         </el-submenu>
 
+
+
         <el-menu-item style="float: right;margin-right: 5%" index="7" @click="quit()">
           <i class="el-icon-switch-button"></i>
           <span>退出登录</span>
+        </el-menu-item>
+
+        <el-menu-item style="float: right;" >
+          <span>权限:{{userInfo.power}}</span>
+        </el-menu-item>
+
+        <el-menu-item style="float: right;" >
+          <span>欢迎您:{{userInfo.name}}</span>
         </el-menu-item>
 
       </el-menu>
@@ -104,12 +114,16 @@
 
 <script>
 import RouterUtil from "../utils/RouterU.js"
+import MessageUtil from "@/utils/MessageUtil";
 
 export default {
   data() {
     return {
       PageTitle: ''
     }
+  },
+  created() {
+    this.getUser();
   },
   methods: {
     goRouter(url) {
@@ -133,7 +147,39 @@ export default {
       localStorage.removeItem("userInfo");
       localStorage.removeItem("userPower");
       RouterUtil.to("/");
-    }
+    },
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
+      this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userPower = res.data.data
+          window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
+          console.log("权限信息已获取");
+        } else {
+          console.log("权限信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
   },
   mounted() {
     this.getPageTitle();
