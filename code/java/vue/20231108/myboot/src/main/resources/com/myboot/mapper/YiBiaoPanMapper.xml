@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.YiBiaoPanMapper">
+
+
+    <!--    仪表盘 新增销售数据-->
+    <select id="xinZengXiaoShouDingDanNum" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select isnull(sum(convert(float,isnull(jiashui_heji,0))),0) as dingdan from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date};
+        ]]>
+    </select>
+
+    <select id="xinZengXiaoShouChuKuNum" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select isnull(sum(convert(float,isnull(jiashui_xiaoji,0))),0) as chuku from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id where riqi >= #{start_date} and riqi <= #{stop_date}
+        ]]>
+    </select>
+
+    <select id="xinZengXiaoShouShouKuanNum" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select isnull(sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))),0) as shoukuan from shouzhi_mingxi where (danju_leixing = '销售订单' or danju_leixing = '销售出库') and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date}
+        ]]>
+    </select>
+
+    <select id="xinZengXiaoShouMaoLiNum" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select isnull(sum(jiashui_xiaoji - shuliang * caigou_price),0) as maoli from(select riqi,kehu,yewuyuan,shangpin_bianma,convert(float,isnull(shuliang,0)) as shuliang,convert(float,isnull(jiashui_xiaoji,0)) as jiashui_xiaoji,convert(float,isnull(caigou_price,0)) as caigou_price from (select riqi,kehu,yewuyuan,shangpin_bianma,shuliang,jiashui_xiaoji from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as dingdan left join product_item on dingdan.shangpin_bianma = product_item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} order by sum(jiashui_xiaoji - shuliang * caigou_price);
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 客户欠款排行-->
+    <select id="keHuQianKuanPaiHang" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select * from (select kehu,sum(convert(float,isnull(qiankuan,0)) - convert(float,isnull(shoukuan,0))) as qiankuan from (select bianhao,kehu,sum(convert(float,isnull(money,0)) - convert(float,isnull(dingjin_use,0))) as qiankuan from xiaoshou_chuku as chuku left join (select sum(convert(float,isnull(jiashui_xiaoji,0))) as money,chuku_id from xiaoshou_chuku_item group by chuku_id) as item on chuku.id = item.chuku_id group by kehu,bianhao) as qiankuan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as shoukuan from shouzhi_mingxi where danju_leixing = '销售出库' group by danju_bianhao) as shoukuan on qiankuan.bianhao = shoukuan.danju_bianhao group by kehu) as kehu_qiankuan order by qiankuan
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 供应商欠款排行-->
+    <select id="gongYingShangQianKuanPaiHang" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select * from (select gongyingshang,sum(convert(float,isnull(qiankuan,0)) - convert(float,isnull(shoukuan,0))) as qiankuan from (select bianhao,gongyingshang,convert(float,isnull(qiankuan,0))-convert(float,isnull(dingjin_use,0)) as qiankuan from caigou_ruku as ruku left join (select ruku_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as qiankuan from caigou_ruku_item group by ruku_id) as item on ruku.id = item.ruku_id) as qiankuan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as shoukuan from shouzhi_mingxi where danju_leixing = '采购入库' group by danju_bianhao) as fukuan on qiankuan.bianhao = fukuan.danju_bianhao group by gongyingshang) as gongyingshang_qiankuan order by qiankuan
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 销售订单排行 按业务员-->
+    <select id="xiaoShouDingDanPaiHang_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select yewuyuan as name,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan order by money
+        ]]>
+    </select>
+
+    <!--    仪表盘 销售订单排行 按客户-->
+    <select id="xiaoShouDingDanPaiHang_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select kehu as name,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by kehu order by money
+        ]]>
+    </select>
+
+    <!--    仪表盘 销售订单排行 按商品-->
+    <select id="xiaoShouDingDanPaiHang_ShangPin" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select shangpin_mingcheng as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as money from xiaoshou_dingdan left join xiaoshou_dingdan_item on xiaoshou_dingdan.id = xiaoshou_dingdan_item.xiaoshou_id where riqi >= #{start_date} and riqi <= #{stop_date} group by shangpin_mingcheng order by money
+        ]]>
+    </select>
+
+
+
+
+    <!--    仪表盘 销售收款排行 按业务员-->
+    <select id="xiaoShouShouKuanPaiHang_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name,sum(money) as money from (select yewuyuan as name,convert(float,isnull(dingdan.money,0)) + convert(float,isnull(shoukuan.money,0)) as money from (select dingdan.bianhao,chuku.bianhao as chuku_bianhao,dingdan.kehu,dingdan.yewuyuan,money from (select * from xiaoshou_dingdan as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售订单' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.bianhao = shoukuan.danju_bianhao) as dingdan left join xiaoshou_chuku as chuku on dingdan.bianhao = chuku.xiaoshou_id) as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售出库' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.chuku_bianhao = shoukuan.danju_bianhao) as shoukuan where money > 0 group by name order by money
+        ]]>
+    </select>
+
+    <!--    仪表盘 销售收款排行 按业务员-->
+    <select id="xiaoShouShouKuanPaiHang_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name,sum(money) as money from (select kehu as name,convert(float,isnull(dingdan.money,0)) + convert(float,isnull(shoukuan.money,0)) as money from (select dingdan.bianhao,chuku.bianhao as chuku_bianhao,dingdan.kehu,dingdan.yewuyuan,money from (select * from xiaoshou_dingdan as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售订单' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.bianhao = shoukuan.danju_bianhao) as dingdan left join xiaoshou_chuku as chuku on dingdan.bianhao = chuku.xiaoshou_id) as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售出库' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.chuku_bianhao = shoukuan.danju_bianhao) as shoukuan where money > 0 group by name order by money
+        ]]>
+    </select>
+
+
+
+
+
+    <!--    仪表盘 销售毛利排行 按业务员-->
+    <select id="xiaoShouMaoLiPaiHang_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select yewuyuan as name,sum(jiashui_xiaoji) as jiashui_xiaoji,sum(shuliang * caigou_price) as chengben,sum(jiashui_xiaoji - shuliang * caigou_price) as money from(select riqi,kehu,yewuyuan,shangpin_bianma,convert(float,isnull(shuliang,0)) as shuliang,convert(float,isnull(jiashui_xiaoji,0)) as jiashui_xiaoji,convert(float,isnull(caigou_price,0)) as caigou_price from (select riqi,kehu,yewuyuan,shangpin_bianma,shuliang,jiashui_xiaoji from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as dingdan left join product_item on dingdan.shangpin_bianma = product_item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan order by sum(jiashui_xiaoji - shuliang * caigou_price)
+        ]]>
+    </select>
+
+    <!--    仪表盘 销售毛利排行 按客户-->
+    <select id="xiaoShouMaoLiPaiHang_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select kehu as name,sum(jiashui_xiaoji) as jiashui_xiaoji,sum(shuliang * caigou_price) as chengben,sum(jiashui_xiaoji - shuliang * caigou_price) as money from(select riqi,kehu,yewuyuan,shangpin_bianma,convert(float,isnull(shuliang,0)) as shuliang,convert(float,isnull(jiashui_xiaoji,0)) as jiashui_xiaoji,convert(float,isnull(caigou_price,0)) as caigou_price from (select riqi,kehu,yewuyuan,shangpin_bianma,shuliang,jiashui_xiaoji from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as dingdan left join product_item on dingdan.shangpin_bianma = product_item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by kehu order by sum(jiashui_xiaoji - shuliang * caigou_price)
+        ]]>
+    </select>
+
+    <!--    仪表盘 销售毛利排行 按商品-->
+    <select id="xiaoShouMaoLiPaiHang_ShangPin" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name,sum(jiashui_xiaoji) as jiashui_xiaoji,sum(shuliang * caigou_price) as chengben,sum(jiashui_xiaoji - shuliang * caigou_price) as money  from(select riqi,kehu,yewuyuan,shangpin_bianma,name,convert(float,isnull(shuliang,0)) as shuliang,convert(float,isnull(jiashui_xiaoji,0)) as jiashui_xiaoji,convert(float,isnull(caigou_price,0)) as caigou_price from (select riqi,kehu,yewuyuan,shangpin_bianma,name,shuliang,jiashui_xiaoji from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as dingdan left join product_item on dingdan.shangpin_bianma = product_item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by name order by sum(jiashui_xiaoji - shuliang * caigou_price)
+        ]]>
+    </select>
+
+
+
+
+    <!--    仪表盘 销售订单走势 按月-->
+    <select id="xiaoShouDingDanZouShi_AnYue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select substring(riqi,9,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,9,2)
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 销售订单走势 按年-->
+    <select id="xiaoShouDingDanZouShi_AnNian" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(riqi,6,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,6,2)
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 销售收款走势 按月-->
+    <select id="xiaoShouShouKuanZouShi_AnYue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,9,2)
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 销售收款走势 按年-->
+    <select id="xiaoShouShouKuanZouShi_AnNian" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,6,2)
+        ]]>
+    </select>
+
+
+
+    <!--    仪表盘 采购付款走势 按月-->
+    <select id="caiGouFuKuanZouShi_AnYue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,9,2)
+        ]]>
+    </select>
+
+
+    <!--    仪表盘 采购付款走势 按年-->
+    <select id="caiGouFuKuanZouShi_AnNian" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,6,2)
+        ]]>
+    </select>
+
+
+    <!--    销售毛利统计 按出货单-->
+    <select id="xiaoShouMaoLiTongJi_ChuHuoDan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select bianhao as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by bianhao
+        ]]>
+    </select>
+
+
+    <!--    销售毛利统计 按产品-->
+    <select id="xiaoShouMaoLiTongJi_ChanPin" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by name
+        ]]>
+    </select>
+
+
+    <!--    销售毛利统计 按客户-->
+    <select id="xiaoShouMaoLiTongJi_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select kehu as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by kehu
+        ]]>
+    </select>
+
+
+    <!--    销售毛利统计 按业务员-->
+    <select id="xiaoShouMaoLiTongJi_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select yewuyuan as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan
+        ]]>
+    </select>
+
+
+
+    <!--    销售订单统计 按产品-->
+    <select id="xiaoShouDingDanTongJi_ChanPin" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select shangpin_mingcheng as name,sum(convert(float,isnull(shuliang,0))) as num,sum(convert(float,isnull(jiashui_xiaoji,0))) as money from xiaoshou_dingdan as dingdan left join xiaoshou_dingdan_item as item on dingdan.id = item.xiaoshou_id where riqi >= #{start_date} and riqi <= #{stop_date} group by shangpin_mingcheng order by money desc,num desc
+        ]]>
+    </select>
+
+
+    <!--    销售订单统计 按客户-->
+    <select id="xiaoShouDingDanTongJi_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select kehu as name,count(yewuyuan) as num,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by kehu order by money desc,num desc
+        ]]>
+    </select>
+
+
+    <!--    销售订单统计 按业务员-->
+    <select id="xiaoShouDingDanTongJi_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select yewuyuan as name,count(yewuyuan) as num,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan order by money desc,num desc
+        ]]>
+    </select>
+
+
+
+    <!--    销售收款统计 按客户-->
+    <select id="xiaoShouShouKuanTongJi_KeHu" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name,sum(money) as money from (select kehu as name,convert(float,isnull(dingdan.money,0)) + convert(float,isnull(shoukuan.money,0)) as money from (select dingdan.bianhao,chuku.bianhao as chuku_bianhao,dingdan.kehu,dingdan.yewuyuan,money from (select * from xiaoshou_dingdan as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售订单' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.bianhao = shoukuan.danju_bianhao) as dingdan left join xiaoshou_chuku as chuku on dingdan.bianhao = chuku.xiaoshou_id) as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售出库' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.chuku_bianhao = shoukuan.danju_bianhao) as shoukuan where money > 0 group by name order by money desc
+        ]]>
+    </select>
+
+
+    <!--    销售收款统计 按业务员-->
+    <select id="xiaoShouShouKuanTongJi_YeWuYuan" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select name,sum(money) as money from (select yewuyuan as name,convert(float,isnull(dingdan.money,0)) + convert(float,isnull(shoukuan.money,0)) as money from (select dingdan.bianhao,chuku.bianhao as chuku_bianhao,dingdan.kehu,dingdan.yewuyuan,money from (select * from xiaoshou_dingdan as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售订单' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.bianhao = shoukuan.danju_bianhao) as dingdan left join xiaoshou_chuku as chuku on dingdan.bianhao = chuku.xiaoshou_id) as dingdan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where danju_leixing = '销售出库' and shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} group by danju_bianhao) as shoukuan on dingdan.chuku_bianhao = shoukuan.danju_bianhao) as shoukuan where money > 0 group by name order by money desc
+        ]]>
+    </select>
+
+
+    <!--    销售订单走势 按日-->
+    <select id="xiaoShouDingDanZouShi_Ri" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select riqi,yewuyuan,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >='" + #{riqi} + "' and riqi <='" + #{riqi} + "-31' group by riqi,yewuyuan;select yewuyuan from xiaoshou_dingdan  where riqi >='" + #{riqi} + "' and riqi <='" + #{riqi} + "-31' group by yewuyuan
+        ]]>
+    </select>
+
+
+    <!--    销售订单走势 按月-->
+    <select id="xiaoShouDingDanZouShi_Yue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(riqi,1,7) as riqi,yewuyuan,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where SUBSTRING(riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(riqi,1,7) <= '" + #{riqi} + "-12' group by SUBSTRING(riqi,1,7),yewuyuan;select yewuyuan from xiaoshou_dingdan where SUBSTRING(riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(riqi,1,7) <= '" + #{riqi} + "-12' group by yewuyuan
+        ]]>
+    </select>
+
+
+
+    <!--    销售收款走势 按日-->
+    <select id="xiaoShouShouKuanZouShi_Ri" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select shouzhi_riqi as riqi,jizhangren as yewuyuan,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where (danju_leixing = '销售订单' or danju_leixing = '销售出库') and shouzhi_riqi >='" + #{riqi} + "' and shouzhi_riqi <='" + #{riqi} + "-31' group by shouzhi_riqi,jizhangren;select jizhangren as yewuyuan from shouzhi_mingxi where (danju_leixing = '销售订单' or danju_leixing = '销售出库') and shouzhi_riqi >='" + #{riqi} + "' and shouzhi_riqi <='" + #{riqi} + "-31' group by jizhangren
+        ]]>
+    </select>
+
+
+    <!--    销售收款走势 按月-->
+    <select id="xiaoShouShouKuanZouShi_Yue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,1,7) as riqi,jizhangren as yewuyuan,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where (danju_leixing = '销售订单' or danju_leixing = '销售出库') and SUBSTRING(shouzhi_riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(shouzhi_riqi,1,7) <= '" + #{riqi} + "-12' group by shouzhi_riqi,jizhangren;select jizhangren as yewuyuan from shouzhi_mingxi where (danju_leixing = '销售订单' or danju_leixing = '销售出库') and SUBSTRING(shouzhi_riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(shouzhi_riqi,1,7) <= '" + #{riqi} + "-12' group by jizhangren
+        ]]>
+    </select>
+
+
+
+    <!--    采购付款走势 按日-->
+    <select id="caiGouFuKuanZouShi_Ri" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select shouzhi_riqi as riqi,jizhangren as yewuyuan,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where (danju_leixing = '采购订单' or danju_leixing = '采购入库') and shouzhi_riqi >='" + #{riqi} + "' and shouzhi_riqi <='" + #{riqi} + "-31' group by shouzhi_riqi,jizhangren;select jizhangren as yewuyuan from shouzhi_mingxi where (danju_leixing = '采购订单' or danju_leixing = '采购入库') and shouzhi_riqi >='" + #{riqi} + "' and shouzhi_riqi <='" + #{riqi} + "-31' group by jizhangren
+        ]]>
+    </select>
+
+
+    <!--    采购付款走势 按月-->
+    <select id="caiGouFuKuanZouShi_Yue" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select SUBSTRING(shouzhi_riqi,1,7) as riqi,jizhangren as yewuyuan,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where (danju_leixing = '采购订单' or danju_leixing = '采购入库') and SUBSTRING(shouzhi_riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(shouzhi_riqi,1,7) <= '" + #{riqi} + "-12' group by shouzhi_riqi,jizhangren;select jizhangren as yewuyuan from shouzhi_mingxi where (danju_leixing = '采购订单' or danju_leixing = '采购入库') and SUBSTRING(shouzhi_riqi,1,7) >= '" + #{riqi} + "-01' and SUBSTRING(shouzhi_riqi,1,7) <= '" + #{riqi} + "-12' group by jizhangren
+        ]]>
+    </select>
+
+
+    <!--    客户往来-->
+    <select id="keHuWangLai" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select * from (select kehu,sum(convert(float,isnull(qiankuan,0)) - convert(float,isnull(shoukuan,0))) as qiankuan from (select bianhao,kehu,sum(convert(float,isnull(money,0)) - convert(float,isnull(dingjin_use,0))) as qiankuan from xiaoshou_chuku as chuku left join (select sum(convert(float,isnull(jiashui_xiaoji,0))) as money,chuku_id from xiaoshou_chuku_item group by chuku_id) as item on chuku.id = item.chuku_id where riqi >= #{start_date} and riqi <= #{stop_date} group by kehu,bianhao) as qiankuan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as shoukuan from shouzhi_mingxi where danju_leixing = '销售出库' group by danju_bianhao) as shoukuan on qiankuan.bianhao = shoukuan.danju_bianhao group by kehu) as kehu_qiankuan order by qiankuan desc
+        ]]>
+    </select>
+
+
+    <!--    供应商往来-->
+    <select id="gongYingShangWangLai" resultType="com.myboot.pojo.YiBiaoPan">
+        <![CDATA[
+            select * from (select gongyingshang,sum(convert(float,isnull(qiankuan,0)) - convert(float,isnull(shoukuan,0))) as qiankuan from (select bianhao,gongyingshang,convert(float,isnull(qiankuan,0))-convert(float,isnull(dingjin_use,0)) as qiankuan from caigou_ruku as ruku left join (select ruku_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as qiankuan from caigou_ruku_item  group by ruku_id) as item on ruku.id = item.ruku_id where riqi >= #{start_date} and riqi <= #{stop_date}) as qiankuan left join (select danju_bianhao,sum(convert(float,isnull(jizhang_jine,0))) + sum(convert(float,isnull(kedi_shuie,0))) as shoukuan from shouzhi_mingxi where danju_leixing = '采购入库' group by danju_bianhao) as fukuan on qiankuan.bianhao = fukuan.danju_bianhao group by gongyingshang) as gongyingshang_qiankuan order by qiankuan
+        ]]>
+    </select>
+
+</mapper>

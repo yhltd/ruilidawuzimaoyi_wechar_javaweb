@@ -222,7 +222,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://user-20200618gm:8102/printMuBan/getMuBanById"
+      let url = "http://localhost:8102/printMuBan/getMuBanById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -244,7 +244,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -257,7 +257,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -274,7 +274,7 @@ export default {
     },
     //查询全部
     getAll(){
-      let url = "http://user-20200618gm:8102/printMuBan/getAll"
+      let url = "http://localhost:8102/printMuBan/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -302,7 +302,7 @@ export default {
       var date = {
         name:this.name,
       }
-      let url = "http://user-20200618gm:8102/printMuBan/queryList"
+      let url = "http://localhost:8102/printMuBan/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -318,7 +318,7 @@ export default {
     //保存
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://user-20200618gm:8102/printMuBan/muBanAdd"
+      let url = "http://localhost:8102/printMuBan/muBanAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -335,7 +335,7 @@ export default {
     //修改
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://user-20200618gm:8102/printMuBan/muBanUpd"
+      let url = "http://localhost:8102/printMuBan/muBanUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -381,7 +381,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://user-20200618gm:8102/printMuBan/delById";
+        let url = "http://localhost:8102/printMuBan/delById";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

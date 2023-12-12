@@ -858,7 +858,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://user-20200618gm:8102/xiaoShouBaoJia/selectMaxDanHao"
+      let url = "http://localhost:8102/xiaoShouBaoJia/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -942,7 +942,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/selectXiaoShouById"
+      let url = "http://localhost:8102/xiaoShouDingDan/selectXiaoShouById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data.shenheZhuangtai == '审核未通过'){
@@ -964,7 +964,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://user-20200618gm:8102/product/selectCaiGouProduct"
+      let url = "http://localhost:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -983,7 +983,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -996,7 +996,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1019,7 +1019,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://user-20200618gm:8102/gongYingShang/getAll"
+      let url = "http://localhost:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -1036,7 +1036,7 @@ export default {
     },
 
     getXiaLa_KeHu(){
-      let url = "http://user-20200618gm:8102/customer/getAll"
+      let url = "http://localhost:8102/customer/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHu = res.data.data;
@@ -1053,7 +1053,7 @@ export default {
     },
 
     getXiaLa_User(){
-      let url = "http://user-20200618gm:8102/user/getall"
+      let url = "http://localhost:8102/user/getall"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_User = res.data.data;
@@ -1070,7 +1070,7 @@ export default {
     },
 
     getXiaLa_ShenHe(){
-      let url = "http://user-20200618gm:8102/user/fuzzyQuery"
+      let url = "http://localhost:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShenHe = res.data.data;
@@ -1087,7 +1087,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1104,7 +1104,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://user-20200618gm:8102/printMuBan/getMuBanByType"
+      let url = "http://localhost:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"销售订单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1121,7 +1121,7 @@ export default {
     },
 
     getXiaLa_ZhiBaoDengJi(){
-      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"质保等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhiBaoDengJi = res.data.data;
@@ -1140,7 +1140,7 @@ export default {
     //查询全部
     getAll(){
       this.shenheButton = false
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/getAll"
+      let url = "http://localhost:8102/xiaoShouDingDan/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1157,7 +1157,7 @@ export default {
     //查询全部
     getAllByName(){
       this.shenheButton = false
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/getAllByName"
+      let url = "http://localhost:8102/xiaoShouDingDan/getAllByName"
       this.axios.post(url, {"yewuyuan":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1210,7 +1210,7 @@ export default {
         kehu:this.kehu,
         shenhe_zhuangtai:this.shenhe
       }
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/queryList"
+      let url = "http://localhost:8102/xiaoShouDingDan/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1240,7 +1240,7 @@ export default {
         shenhe_zhuangtai:this.shenhe,
         yewuyuan:this.userInfo.yewuyuan,
       }
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/queryListByName"
+      let url = "http://localhost:8102/xiaoShouDingDan/queryListByName"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1257,7 +1257,7 @@ export default {
     //条件查询
     myShenHe(){
       this.shenheButton = true
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/shenheList"
+      let url = "http://localhost:8102/xiaoShouDingDan/shenheList"
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1314,7 +1314,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/xiaoShouAdd"
+      let url = "http://localhost:8102/xiaoShouDingDan/xiaoShouAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1334,7 +1334,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/xiaoShouUpd"
+      let url = "http://localhost:8102/xiaoShouDingDan/xiaoShouUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1421,7 +1421,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://user-20200618gm:8102/xiaoShouDingDan/delXiaoShouBaoJia";
+        let url = "http://localhost:8102/xiaoShouDingDan/delXiaoShouBaoJia";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1456,7 +1456,7 @@ export default {
 
     shenheTrue(){
       console.log(this.p_list)
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/dingDanShenHe";
+      let url = "http://localhost:8102/xiaoShouDingDan/dingDanShenHe";
       axios.post(url, {"list": this.p_list,"type":"审核通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1468,7 +1468,7 @@ export default {
     },
     shenheFalse(){
       console.log(this.p_list)
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/dingDanShenHe";
+      let url = "http://localhost:8102/xiaoShouDingDan/dingDanShenHe";
       axios.post(url, {"list": this.p_list,"type":"审核未通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1493,7 +1493,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://user-20200618gm:8102/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"销售订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1509,7 +1509,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://user-20200618gm:8102/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"销售订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1526,7 +1526,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://user-20200618gm:8102/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1544,7 +1544,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://user-20200618gm:8102/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1587,7 +1587,7 @@ export default {
           "file": this_file,
           "type": "销售订单",
         };
-        let url = "http://user-20200618gm:8102/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -1637,7 +1637,7 @@ export default {
         return;
       }
 
-      let url = "http://user-20200618gm:8102/xiaoShouDingDan/selectXiaoShouById"
+      let url = "http://localhost:8102/xiaoShouDingDan/selectXiaoShouById"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

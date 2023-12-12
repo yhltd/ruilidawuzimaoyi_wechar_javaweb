@@ -713,7 +713,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://user-20200618gm:8102/caiGouDingDan/selectMaxDanHao"
+      let url = "http://localhost:8102/caiGouDingDan/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -790,7 +790,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://user-20200618gm:8102/caiGouDingDan/selectByCaiGouId"
+      let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data.shenheZhuangtai == '审核未通过'){
@@ -812,7 +812,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://user-20200618gm:8102/product/selectCaiGouProduct"
+      let url = "http://localhost:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -831,7 +831,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -844,7 +844,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -865,7 +865,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://user-20200618gm:8102/gongYingShang/getAll"
+      let url = "http://localhost:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -882,7 +882,7 @@ export default {
     },
 
     getXiaLa_ShenHe(){
-      let url = "http://user-20200618gm:8102/user/fuzzyQuery"
+      let url = "http://localhost:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShenHe = res.data.data;
@@ -899,7 +899,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://user-20200618gm:8102/peizhi/queryPeiZhi"
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -916,7 +916,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://user-20200618gm:8102/printMuBan/getMuBanByType"
+      let url = "http://localhost:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -939,7 +939,7 @@ export default {
         return;
       }
       this.shenheButton = false
-      let url = "http://user-20200618gm:8102/caiGouDingDan/getAll"
+      let url = "http://localhost:8102/caiGouDingDan/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -989,7 +989,7 @@ export default {
         gongyingshang:this.gongyingshang,
         shenhe_zhuangtai:this.shenhe
       }
-      let url = "http://user-20200618gm:8102/caiGouDingDan/queryList"
+      let url = "http://localhost:8102/caiGouDingDan/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1006,7 +1006,7 @@ export default {
     //条件查询
     myShenHe(){
       this.shenheButton = true
-      let url = "http://user-20200618gm:8102/caiGouDingDan/getShenHe"
+      let url = "http://localhost:8102/caiGouDingDan/getShenHe"
       this.axios.post(url, {"shenhe":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1074,7 +1074,7 @@ export default {
     },
 
     saveGongYingShang(){
-      let url = "http://user-20200618gm:8102/caiGouDingDan/caiGouDingDanAdd"
+      let url = "http://localhost:8102/caiGouDingDan/caiGouDingDanAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1094,7 +1094,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://user-20200618gm:8102/caiGouDingDan/caiGouDingDanUpd"
+      let url = "http://localhost:8102/caiGouDingDan/caiGouDingDanUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1175,7 +1175,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://user-20200618gm:8102/caiGouDingDan/delCaiGouDingDan";
+        let url = "http://localhost:8102/caiGouDingDan/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1209,7 +1209,7 @@ export default {
         list.push(this.multipleSelection[i].id)
       }
       console.log(list)
-      let url = "http://user-20200618gm:8102/caiGouDingDan/caiGouShenHe";
+      let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
       axios.post(url, {"list": list,"type":"审核通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1225,7 +1225,7 @@ export default {
         list.push(this.multipleSelection[i].id)
       }
       console.log(list)
-      let url = "http://user-20200618gm:8102/caiGouDingDan/caiGouShenHe";
+      let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
       axios.post(url, {"list": list,"type":"审核未通过"}).then(res => {
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
@@ -1250,7 +1250,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://user-20200618gm:8102/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1266,7 +1266,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://user-20200618gm:8102/fileTable/getAll"
+      let url = "http://localhost:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1283,7 +1283,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://user-20200618gm:8102/fileTable/getById"
+      let url = "http://localhost:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1301,7 +1301,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://user-20200618gm:8102/fileTable/deleteById"
+      let url = "http://localhost:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1344,7 +1344,7 @@ export default {
           "file": this_file,
           "type": "采购订单",
         };
-        let url = "http://user-20200618gm:8102/fileTable/fileAdd"
+        let url = "http://localhost:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -1394,7 +1394,7 @@ export default {
         return;
       }
 
-      let url = "http://user-20200618gm:8102/caiGouDingDan/selectByCaiGouId"
+      let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

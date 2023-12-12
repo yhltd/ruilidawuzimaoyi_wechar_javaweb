@@ -124,7 +124,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://user-20200618gm:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -137,7 +137,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://user-20200618gm:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -163,7 +163,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://user-20200618gm:8102/peiZhiShuiLv/getAll"
+      let url = "http://localhost:8102/peiZhiShuiLv/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.ZhuanZhang = res.data.data[0];
@@ -192,7 +192,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.ZhuanZhang
-      let url = "http://user-20200618gm:8102/peiZhiShuiLv/update"
+      let url = "http://localhost:8102/peiZhiShuiLv/update"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
