@@ -37,6 +37,14 @@
           <el-menu-item @click="goRouter('/ShouRuFenLei')"><p class="custom-menu-item">收入分类统计</p></el-menu-item>
           <el-menu-item @click="goRouter('/ZhiChuFenLei')"><p class="custom-menu-item">支出分类统计</p></el-menu-item>
           <el-menu-item @click="goRouter('/YueDuShouZhi')"><p class="custom-menu-item">月度收支统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoumaolitongji')"><p class="custom-menu-item">销售毛利统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoudingdantongji')"><p class="custom-menu-item">销售订单统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoushoukuantongji')"><p class="custom-menu-item">销售收款统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/kehuwanglai')"><p class="custom-menu-item">客户往来</p></el-menu-item>
+          <el-menu-item @click="goRouter('/gongyingshangwanglai')"><p class="custom-menu-item">供应商往来</p></el-menu-item>
+          <el-menu-item @click="goRouter('/dingdanzoushi')"><p class="custom-menu-item">销售订单走势</p></el-menu-item>
+          <el-menu-item @click="goRouter('/shoukuanzoushi')"><p class="custom-menu-item">销售收款走势</p></el-menu-item>
+          <el-menu-item @click="goRouter('/caigoufukuanzoushi')"><p class="custom-menu-item">采购付款走势</p></el-menu-item>
         </el-submenu>
         <el-submenu index="4">
           <template slot="title">基础资料</template>

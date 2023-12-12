@@ -215,7 +215,7 @@
         </el-row>
         <el-row :gutter="15">
           <el-col :span="6">
-            <el-form-item label="销售单号" prop="xiaoshouBianhao" class="custom-form-item">
+            <el-form-item label="出库单号" prop="xiaoshouBianhao" class="custom-form-item">
               <el-input ref="acc_inp" @click.native="selectProduct()" readonly="true" v-model="gongYingShang.xiaoshouBianhao" class="custom-login-inp" placeholder="点击选择销售单"></el-input>
             </el-form-item>
           </el-col>

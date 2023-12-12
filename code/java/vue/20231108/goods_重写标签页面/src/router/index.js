@@ -27,6 +27,14 @@ import fujiashuishezhi from '../views/FuJiaShuiSheZhi.vue'
 import print from '../views/Print.vue'
 import printlist from '../views/PrintList.vue'
 import main from '../views/main.vue'
+import xiaoshoumaolitongji from '../views/XiaoShouMaoLiTongJi.vue'
+import xiaoshoudingdantongji from '../views/XiaoShouDingDanTongJi.vue'
+import xiaoshoushoukuantongji from '../views/XiaoShouShouKuanTongJi.vue'
+import kehuwanglai from '../views/KeHuWangLai.vue'
+import gongyingshangwanglai from '../views/GongYingShangWangLai.vue'
+import dingdanzoushi from '../views/XiaoShouDingDanZouShi.vue'
+import shoukuanzoushi from '../views/XiaoShouShouKuanZouShi.vue'
+import caigoufukuanzoushi from '../views/CaiGouFuKuanZouShi.vue'
 
 Vue.use(VueRouter);
 
@@ -239,6 +247,78 @@ const routes = [
                 component: () => import("../views/YueDuShouZhi.vue"),
                 meta: {
                     title: '月度收支统计',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/xiaoshoumaolitongji',
+                name: 'xiaoshoumaolitongji',
+                component: () => import("../views/XiaoShouMaoLiTongJi.vue"),
+                meta: {
+                    title: '销售毛利统计',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/xiaoshoudingdantongji',
+                name: 'xiaoshoudingdantongji',
+                component: () => import("../views/XiaoShouDingDanTongJi.vue"),
+                meta: {
+                    title: '销售订单统计',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/xiaoshoushoukuantongji',
+                name: 'xiaoshoushoukuantongji',
+                component: () => import("../views/XiaoShouShouKuanTongJi.vue"),
+                meta: {
+                    title: '销售收款统计',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/kehuwanglai',
+                name: 'kehuwanglai',
+                component: () => import("../views/KeHuWangLai.vue"),
+                meta: {
+                    title: '客户往来',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/gongyingshangwanglai',
+                name: 'gongyingshangwanglai',
+                component: () => import("../views/GongYingShangWangLai.vue"),
+                meta: {
+                    title: '供应商往来',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/dingdanzoushi',
+                name: 'dingdanzoushi',
+                component: () => import("../views/XiaoShouDingDanZouShi.vue"),
+                meta: {
+                    title: '销售订单走势',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/shoukuanzoushi',
+                name: 'shoukuanzoushi',
+                component: () => import("../views/XiaoShouShouKuanZouShi.vue"),
+                meta: {
+                    title: '销售收款走势',
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/caigoufukuanzoushi',
+                name: 'caigoufukuanzoushi',
+                component: () => import("../views/CaiGouFuKuanZouShi.vue"),
+                meta: {
+                    title: '采购付款走势',
                     requireAuth: true
                 }
             },

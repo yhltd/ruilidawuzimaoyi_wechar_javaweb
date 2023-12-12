@@ -8,6 +8,10 @@ public class PeiZhiShuiLv {
     private String shuilv;
     private String zhuangtai;
     private String lingshou;
+    private String lingshouZhuangtai;
     private String pifa;
-    private String dakehu;
+    private String pifaZhuangtai;
+    private String dakehuZhuangtai;
+    private String kaipiaoEdu;
+
 }

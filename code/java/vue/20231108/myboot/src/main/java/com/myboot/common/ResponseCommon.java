@@ -2,6 +2,7 @@ package com.myboot.common;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.ValueFilter;
 import lombok.NonNull;
 
 /**
@@ -21,6 +22,7 @@ public class ResponseCommon {
     public static String success(Object data) {
         JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
         json.put("data", data);
+        String js = json.toJSONString();
         return json.toJSONString();
     }
 
