@@ -175,4 +175,36 @@ public class XiaoShouDingDanController {
     }
 
 
+    @PostMapping("/selectXiangQingById")
+    public String selectXiangQingById(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String bianhao = data.getString("bianhao");
+        List<XiaoShouDingDan> xiaoShouDingDan = service.selectXiaoShouById(id);
+        List<XiaoShouDingDanXiangQing> shangPin = service.xiangQingShangPin(id,bianhao);
+        List<XiaoShouDingDanXiangQing> chuKu = service.xiangQingChuKu(bianhao);
+        List<XiaoShouDingDanXiangQing> shoukuan = service.xiangQingShouKuan(bianhao);
+        List<XiaoShouDingDanXiangQing> kaipiao = service.xiangQingKaiPiao(bianhao);
+        List<XiaoShouDingDanXiangQing> caigou = service.xiangQingCaiGou(bianhao);
+
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("dingdan", xiaoShouDingDan);
+        json.put("shangpin", shangPin);
+        json.put("chuku", chuKu);
+        json.put("shoukuan", shoukuan);
+        json.put("kaipiao", kaipiao);
+        json.put("caigou", caigou);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
+    @PostMapping("/xiangQingXuKaiPiao")
+    public String xiangQingXuKaiPiao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        String bianhao = data.getString("bianhao");
+        List<XiaoShouDingDanXiangQing> xukaipiao = service.xiangQingXuKaiPiao(bianhao);
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("xukaipiao", xukaipiao);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
 }

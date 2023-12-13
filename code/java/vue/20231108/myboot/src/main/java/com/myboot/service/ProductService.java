@@ -29,6 +29,9 @@ public interface ProductService {
     //获取采购单可选择的产品
     public List<Product> selectCaiGouProduct();
 
+    //获取销售单可选择的产品
+    public List<Product> selectXiaoShouProduct();
+
     public List<Product> selectMaxDanHao();
 
 }

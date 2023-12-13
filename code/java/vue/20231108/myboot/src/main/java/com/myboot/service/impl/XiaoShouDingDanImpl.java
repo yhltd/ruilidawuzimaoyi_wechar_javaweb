@@ -2,10 +2,7 @@ package com.myboot.service.impl;
 
 import com.myboot.mapper.XiaoShouDingDanItemMapper;
 import com.myboot.mapper.XiaoShouDingDanMapper;
-import com.myboot.pojo.CaiGouDingDan;
-import com.myboot.pojo.XiaoShouBaoJia;
-import com.myboot.pojo.XiaoShouDingDan;
-import com.myboot.pojo.XiaoShouDingDanAdd;
+import com.myboot.pojo.*;
 import com.myboot.service.XiaoShouDingDanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +94,36 @@ public class XiaoShouDingDanImpl implements XiaoShouDingDanService {
     @Override
     public List<XiaoShouDingDan> shenHeList(String name){
         return mapper.shenHeList(name);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao) {
+        return mapper.xiangQingShangPin(id,bianhao);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingChuKu(String bianhao) {
+        return mapper.xiangQingChuKu(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingShouKuan(String bianhao) {
+        return mapper.xiangQingShouKuan(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingKaiPiao(String bianhao) {
+        return mapper.xiangQingKaiPiao(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingCaiGou(String bianhao) {
+        return mapper.xiangQingCaiGou(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouDingDanXiangQing> xiangQingXuKaiPiao(String bianhao) {
+        return mapper.xiangQingXuKaiPiao(bianhao);
     }
 
 

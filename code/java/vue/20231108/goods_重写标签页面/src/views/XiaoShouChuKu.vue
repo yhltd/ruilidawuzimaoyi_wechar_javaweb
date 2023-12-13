@@ -942,6 +942,64 @@ export default {
           }else{
             MessageUtil.error("无查询权限");
           }
+
+          var dingdan = this.$route.query.dingdan;
+          var shangpin = this.$route.query.shangpin;
+          if(dingdan != undefined){
+            dingdan = JSON.parse(dingdan)
+            shangpin = JSON.parse(shangpin)
+            console.log(dingdan)
+            console.log(shangpin)
+            let url = "http://localhost:8102/xiaoShouChuKu/selectMaxDanHao"
+            this.axios.post(url, {}).then(res => {
+              if(res.data.code == '00') {
+                var this_danhao = Math.trunc(res.data.data[0].bianhao)
+                console.log(this_danhao)
+                this_danhao = PrefixInteger(this_danhao,6)
+                console.log(this_danhao)
+                this_danhao = "CK" + this_danhao
+
+                this.gongYingShang = {
+                  bianhao:this_danhao,
+                  riqi: getNowDate(),
+                  kehu: dingdan.kehu,
+                  dianpu: dingdan.dianpu,
+                  cangku: '',
+                  beizhu: '',
+                  xiaoshouId: dingdan.bianhao,
+                  body:[
+                  ]
+                }
+
+                for(var i=0; i<shangpin.length; i++){
+                  this.gongYingShang.body.push(
+                      {
+                        shangpinBianma:shangpin[i].shangpinBianhao,
+                        name:shangpin[i].shangpinMingcheng,
+                        guige:shangpin[i].guige,
+                        caizhi:shangpin[i].caizhi,
+                        jishuBiaozhun:shangpin[i].jishuBiaozhun,
+                        zhibaoDengji:shangpin[i].zhibaoDengji,
+                        danwei:shangpin[i].danwei,
+                        shuliang:shangpin[i].weichuShuliang,
+                        xiaoshouDanjia:shangpin[i].baojiaDanjia,
+                        jiashuiXiaoji:shangpin[i].jiashuiXiaoji,
+                        beizhu:'',
+                      }
+                  )
+                }
+
+                console.log(res.data.data);
+                console.log("获取成功");
+                this.addDialog = true;
+              } else {
+                MessageUtil.error("获取失败");
+              }
+            }).catch(() => {
+              MessageUtil.error("网络异常");
+            })
+          }
+
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {

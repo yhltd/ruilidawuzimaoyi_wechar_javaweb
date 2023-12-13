@@ -1,9 +1,6 @@
 package com.myboot.service;
 
-import com.myboot.pojo.CaiGouDingDan;
-import com.myboot.pojo.XiaoShouBaoJia;
-import com.myboot.pojo.XiaoShouDingDan;
-import com.myboot.pojo.XiaoShouDingDanAdd;
+import com.myboot.pojo.*;
 
 import java.util.List;
 
@@ -43,5 +40,17 @@ public interface XiaoShouDingDanService {
     public List<XiaoShouDingDan> selectMaxDanHao();
 
     public List<XiaoShouDingDan> shenHeList(String name);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingShangPin(Integer id,String bianhao);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingChuKu(String bianhao);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingShouKuan(String bianhao);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingKaiPiao(String bianhao);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingCaiGou(String bianhao);
+
+    public List<XiaoShouDingDanXiangQing> xiangQingXuKaiPiao(String bianhao);
 
 }

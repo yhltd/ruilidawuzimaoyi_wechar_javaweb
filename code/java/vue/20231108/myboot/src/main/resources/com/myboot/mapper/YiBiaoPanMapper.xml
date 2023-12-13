@@ -136,7 +136,7 @@
     <!--    仪表盘 销售订单走势 按月-->
     <select id="xiaoShouDingDanZouShi_AnYue" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojisubstring(riqi,9,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,9,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,substring(riqi,9,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,9,2)
         ]]>
     </select>
 
@@ -144,7 +144,7 @@
     <!--    仪表盘 销售订单走势 按年-->
     <select id="xiaoShouDingDanZouShi_AnNian" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojiSUBSTRING(riqi,6,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,6,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,SUBSTRING(riqi,6,2) as riqi,sum(convert(float,isnull(jiashui_heji,0))) as money from xiaoshou_dingdan where riqi >= #{start_date} and riqi <= #{stop_date} group by SUBSTRING(riqi,6,2)
         ]]>
     </select>
 
@@ -152,7 +152,7 @@
     <!--    仪表盘 销售收款走势 按月-->
     <select id="xiaoShouShouKuanZouShi_AnYue" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojiSUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,9,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,SUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,9,2)
         ]]>
     </select>
 
@@ -160,7 +160,7 @@
     <!--    仪表盘 销售收款走势 按年-->
     <select id="xiaoShouShouKuanZouShi_AnNian" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojiSUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,6,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,SUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '销售订单' or danju_leixing = '销售出库') group by SUBSTRING(shouzhi_riqi,6,2)
         ]]>
     </select>
 
@@ -169,7 +169,7 @@
     <!--    仪表盘 采购付款走势 按月-->
     <select id="caiGouFuKuanZouShi_AnYue" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojiSUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,9,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,SUBSTRING(shouzhi_riqi,9,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,9,2)
         ]]>
     </select>
 
@@ -177,7 +177,7 @@
     <!--    仪表盘 采购付款走势 按年-->
     <select id="caiGouFuKuanZouShi_AnNian" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaojiSUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,6,2)
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,'' as name,0 as xiaoshou,0 as chengben,0 as maoli,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,SUBSTRING(shouzhi_riqi,6,2) as riqi,sum(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0))) as money from shouzhi_mingxi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and (danju_leixing = '采购订单' or danju_leixing = '采购入库') group by SUBSTRING(shouzhi_riqi,6,2)
         ]]>
     </select>
 

@@ -37,6 +37,11 @@ public class ProductController {
         return ResponseCommon.success(service.selectCaiGouProduct());
     }
 
+    @GetMapping("/selectXiaoShouProduct")
+    public String selectXiaoShouProduct() {
+        return ResponseCommon.success(service.selectXiaoShouProduct());
+    }
+
     @PostMapping("/queryList")
     public String queryList(@RequestBody @NonNull JSONObject data) {
         String name = data.getString("name");

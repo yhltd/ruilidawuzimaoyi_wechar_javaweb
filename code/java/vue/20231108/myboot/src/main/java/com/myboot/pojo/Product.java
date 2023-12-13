@@ -28,5 +28,7 @@ public class Product {
     private String enable;
     private Integer isselect;
     private String shangpinBianma;
+    private String shangpinBianhao;
     private String zuidijia;
+    private String zuigaojia;
 }

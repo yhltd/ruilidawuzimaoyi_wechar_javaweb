@@ -872,6 +872,56 @@ export default {
           }else{
             MessageUtil.error("无查询权限");
           }
+
+          var shoufu_type = this.$route.query.shoufu_type;
+          var yukuan = this.$route.query.yukuan;
+          var dingdan = this.$route.query.dingdan
+          if(dingdan != undefined){
+            dingdan = JSON.parse(dingdan)
+            let url = "http://localhost:8102/shouZhiMingXi/selectMaxDanHao"
+            this.axios.post(url, {}).then(res => {
+              if(res.data.code == '00') {
+                var this_danhao = Math.trunc(res.data.data[0].shouzhiBianhao)
+                console.log(this_danhao)
+                this_danhao = PrefixInteger(this_danhao,6)
+                console.log(this_danhao)
+                this_danhao = "SZ" + this_danhao
+                this.gongYingShang = {
+                  dianpu:dingdan.dianpu,
+                  danjuLeixing: '销售订单',
+                  danjuBianhao: dingdan.bianhao,
+                  shouzhiBianhao: this_danhao,
+                  shouzhiRiqi: getNowDate(),
+                  jizhangren: '',
+                  jizhangType:'',
+                  jizhangZhanghu:'',
+                  jizhangJine:'',
+                  kediShuie:'',
+                  zhaiyao:'',
+                  shoufuType:shoufu_type,
+                  shouzhi_type:'收入',
+                  body:[
+                    {
+                      mingxiType:'',
+                      yongtu:'',
+                      jizhangJine:'',
+                      kediShuie:'',
+                    }
+                  ]
+                }
+                console.log(res.data.data);
+                console.log("获取成功");
+                this.addDialog = true;
+              } else {
+                MessageUtil.error("获取失败");
+              }
+            }).catch(() => {
+              MessageUtil.error("网络异常");
+            })
+          }
+
+
+
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {

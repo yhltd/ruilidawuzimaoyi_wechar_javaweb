@@ -144,10 +144,12 @@
         <el-table-column
             fixed="right"
             label="操作"
-            width="200">
+            width="220"><!--修改了宽度-->
           <template slot-scope="scope">
-            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
-            <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+            <el-button @click="getfileList(scope.row)" type="text" size="small"><i class="el-icon-folder-opened"></i>查看文件</el-button>
+            <el-button @click="printShow(scope.row)" type="text" size="small"><i class="el-icon-printer"></i>打印</el-button>
+            <!--            增加查看详情按钮-->
+            <el-button @click="seeList(scope.row)" type="text" size="small"><i class="el-icon-tickets"></i>查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -418,7 +420,7 @@
           <el-button type="primary" @click="ProQuery()">查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="ProRefresh()">刷新</el-button>
+          <el-button type="primary" @click="Prorefresh()">刷新</el-button>
         </el-col>
       </el-row>
 
@@ -462,18 +464,8 @@
             width="180"
         ></el-table-column>
         <el-table-column
-            prop="lingshouPrice"
-            label="零售价格"
-            width="180"
-        ></el-table-column>
-        <el-table-column
-            prop="pifaPrice"
-            label="批发价格"
-            width="180"
-        ></el-table-column>
-        <el-table-column
-            prop="kakehuPrice"
-            label="大客户价格"
+            prop="caigouPrice"
+            label="采购价格"
             width="180"
         ></el-table-column>
         <el-table-column
@@ -482,8 +474,8 @@
             width="180"
         ></el-table-column>
         <el-table-column
-            prop="xiaoxiang"
-            label="销项税率"
+            prop="zuigaojia"
+            label="历史最高价"
             width="180"
         ></el-table-column>
       </el-table>
@@ -554,7 +546,164 @@
       </span>
     </el-dialog>
 
+    <!--查看详情窗口弹出-->
+    <el-drawer
+        title="" :visible.sync="drawer"  size="70%" :with-header="false" >
+      <el-form :model="gongYingShang" ref="addUsr" label-width="100px"
+               class="demo-info" size="medium">
+        <el-row :gutter="15">
+          <el-col :span="5">
+            <p class="dialog-title" style="margin-left: 30px">销售报价单信息</p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+          <el-col :span="10">
+            <el-form-item label="订单编号" prop="bianhao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.bianhao" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="订单日期" prop="riqi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.riqi" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="客户" prop="kehu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kehu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.jiageDengji" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.yewuyuan" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="销项税率" prop="xiaoxiangShuilv" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.xiaoxiangShuilv" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="备注" prop="beizhu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="审核人" prop="shenhe" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.shenhe" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <!--        增加销售单位-->
+          <el-col :span="10">
+            <el-form-item label="销售单位" prop="xiaoshoudanwei" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.xiaoshoudanwei" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div >
+        <!--        商品信息 -->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title" style="margin-left: 30px">商品信息</p>
+          </el-col>
+        </el-row>
+        <el-table
+            border
+            :header-cell-style="{background:'#F2F5F7'}"
+            :data="gongYingShang.body" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
+          <el-table-column
+              prop="shangpinBianhao"
+              label="商品编码"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="shangpinMingcheng"
+              label="名称"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="guige"
+              label="规格"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="caizhi"
+              label="材质"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jishuBiaozhun"
+              label="技术标准"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="zhibaoDengji"
+              label="质保等级"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="danwei"
+              label="单位"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="shuliang"
+              label="数量"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="lishiZuigao"
+              label="历史最高价"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="baojiaDanjia"
+              label="报价单价"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jiashuiXiaoji"
+              label="价税小计"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jianyiBaojia"
+              label="建议报价"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="xuyongRiqi"
+              label="需用日期"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="baojiaFudong"
+              label="报价浮动"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="beizhu"
+              label="备注"
+              width="180"
+          ></el-table-column>
+        </el-table>
+      </div>
+<!--      <div class="bottom" style="height: 300px"></div>-->
+    </el-drawer>
+
   </el-container>
+
+
 
 
 
@@ -573,6 +722,7 @@ export default {
       printDialog:false,
       fileDialog:false,
       downloadLoading:false,
+      drawer:false,//详情窗口隐藏
       FileList:[],
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
@@ -651,7 +801,7 @@ export default {
   created() {
     console.log(window.innerHeight)
     this.getUser();
-    this.getCaiGouProduct();
+    this.getXiaoShouProduct();
     this.getXiaLa_GongYingShang();
     this.getXiaLa_KeHu()
     this.getXiaLa_ShenHe();
@@ -680,6 +830,27 @@ export default {
         return "hidden-row";
       }
       return '';
+    },
+
+    // 查看详情页面弹出
+    seeList(row){
+      this.p_id=row.id
+      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
+      this.axios.post(url, {"id":row.id}).then(res => {
+        if(res.data.code == '00') {
+          var this_val = res.data.data
+          this_val.body = this_val.itemList
+          this.gongYingShang = this_val
+          console.log(res.data.data);
+          console.log("获取成功");
+          this.drawer = true;
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+
     },
 
     rowClick(row,column,event){
@@ -911,15 +1082,15 @@ export default {
 
     },
 
-    getCaiGouProduct(){
-      let url = "http://localhost:8102/product/selectCaiGouProduct"
+    getXiaoShouProduct(){
+      let url = "http://localhost:8102/product/selectXiaoShouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
           console.log(this.CaiGou_Product)
-          console.log("采购商品列表已获取");
+          console.log("销售商品列表已获取");
         } else {
-          console.log("采购商品列表获取失败");
+          console.log("销售商品列表获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");

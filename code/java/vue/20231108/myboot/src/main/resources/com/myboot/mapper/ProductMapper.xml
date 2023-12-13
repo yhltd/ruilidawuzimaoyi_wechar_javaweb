@@ -45,6 +45,12 @@
         ]]>
     </select>
 
+    <select id="selectXiaoShouProduct" resultType="com.myboot.pojo.Product">
+        <![CDATA[
+            select id,name,type,danwei,caizhi,jishu_biaozhun,zhibao_dengji,beizhu,item_id,product_id,guige,bianhao,caigou_price,jinxiang,enable,isselect,isnull(shangpin_bianhao,'') as shangpin_bianhao,isnull(zuigaojia,'') as zuigaojia from (select p.id,name,type,danwei,caizhi,jishu_biaozhun,zhibao_dengji,beizhu,item.id as item_id,product_id,guige,bianhao,lingshou_price,lingshou_bili,pifa_price,pifa_bili,dakehu_price,dakehu_bili,convert(float,caigou_price) as caigou_price,jinxiang,xiaoxiang,enable,1 as isselect from product as p left join product_item as item on p.id = item.product_id where enable = '是' ) as pro left join (select shangpin_bianhao,max(convert(float,baojia_danjia)) as zuigaojia from xiaoshou_dingdan_item group by shangpin_bianhao) as price on pro.bianhao = price.shangpin_bianhao
+        ]]>
+    </select>
+
     <select id="selectMaxDanHao" resultType="com.myboot.pojo.Product">
         <![CDATA[
             select convert(float,SUBSTRING(isnull(max(bianhao),'GYS000000'),4,9)) + 1 as bianhao from gongyingshang

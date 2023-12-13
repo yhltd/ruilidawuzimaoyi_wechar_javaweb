@@ -71,6 +71,11 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
+    public List<Product> selectXiaoShouProduct(){
+        return mapper.selectXiaoShouProduct();
+    }
+
+    @Override
     public List<Product> selectMaxDanHao(){
         return mapper.selectMaxDanHao();
     }
