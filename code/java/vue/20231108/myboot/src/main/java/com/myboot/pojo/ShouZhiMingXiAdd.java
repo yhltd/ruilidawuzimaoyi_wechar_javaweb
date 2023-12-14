@@ -20,4 +20,6 @@ public class ShouZhiMingXiAdd {
     private String zhaiyao;
     private String shouzhiType;
     private List<ShouZhiMingXiItem> shouzhiItem;
+
+    private String jizhangDanwei;
 }

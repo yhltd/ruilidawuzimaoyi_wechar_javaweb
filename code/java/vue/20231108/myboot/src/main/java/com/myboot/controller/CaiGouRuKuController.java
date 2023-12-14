@@ -132,4 +132,47 @@ public class CaiGouRuKuController {
     }
 
 
+    @PostMapping("/selectXiangQingById")
+    public String selectXiangQingById(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String bianhao = data.getString("bianhao");
+        List<CaiGouRuKu> xiaoShouChuKu = service.selectByRuKuId(id);
+        List<CaiGouRuKuXiangQing> shangPin = service.xiangQingShangPin(id);
+        List<CaiGouRuKuXiangQing> shoukuan = service.xiangQingShouKuan(bianhao);
+        List<CaiGouRuKuXiangQing> kaipiao = service.xiangQingKaiPiao(bianhao);
+        List<CaiGouRuKuXiangQing> dingjin = service.xiangQingDingJin(xiaoShouChuKu.get(0).getCaigouId());
+        List<CaiGouRuKuXiangQing> dingjinyiyong = service.xiangQingDingJinYiYong(xiaoShouChuKu.get(0).getCaigouId());
+
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("dingdan", xiaoShouChuKu);
+        json.put("shangpin", shangPin);
+        json.put("shoukuan", shoukuan);
+        json.put("kaipiao", kaipiao);
+        json.put("dingjin", dingjin);
+        json.put("dingjinyiyong", dingjinyiyong);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
+
+
+    @PostMapping("/chuKuDingJinUpd")
+    public String chuKuDingJinUpd(@RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String dingjin = data.getString("dingjin");
+        Integer this_id = service.chuKuDingJinUpd(id,dingjin);
+        return ResponseCommon.success(this_id);
+    }
+
+
+    @PostMapping("/xiangQingXuKaiPiao")
+    public String xiangQingXuKaiPiao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        String bianhao = data.getString("bianhao");
+        List<CaiGouRuKuXiangQing> xukaipiao = service.xiangQingXuKaiPiao(bianhao);
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("xukaipiao", xukaipiao);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
 }

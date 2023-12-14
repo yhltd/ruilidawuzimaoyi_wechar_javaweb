@@ -17,4 +17,9 @@ public class XiaoShouChuKu {
     private String yifu;
     private String weifu;
     private String isselect;
+
+    private String chukuDanwei;
+    private String yewuyuan;
+
+    private String dingjinUse;
 }

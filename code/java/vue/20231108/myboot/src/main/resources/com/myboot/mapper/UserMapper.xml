@@ -21,7 +21,7 @@
     </sql>
     <select id="login" parameterType="com.myboot.vo.UserVO" resultType="com.myboot.pojo.User">
         select
-        id,name,username,power,shenpi,cangku,dianpu,hesuan_danwei,changyong
+        id,name,username,power,shenpi,cangku,dianpu,hesuan_danwei,changyong,shoukuan_zhanghu as shoukuanZhanghu,zhibao_dengji as zhibaoDengji
         from userInfo
         where
         username = #{username}
@@ -115,6 +115,14 @@
 
     <update id="updHeSuanDanWei">
         update userInfo set hesuan_danwei = #{typeId} where id= #{id}
+    </update>
+
+    <update id="updShouKuanZhangHu">
+        update userInfo set shoukuan_zhanghu = #{typeId} where id= #{id}
+    </update>
+
+    <update id="updZhiBaoDengJi">
+        update userInfo set zhibao_dengji = #{typeId} where id= #{id}
     </update>
 
 </mapper>

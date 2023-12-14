@@ -3,6 +3,7 @@ package com.myboot.mapper;
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.CaiGouRuKuAdd;
+import com.myboot.pojo.CaiGouRuKuXiangQing;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,18 @@ public interface CaiGouRuKuMapper {
     int deleteUsrById(Integer id);
 
     public List<CaiGouRuKu> selectWeiFu();
+
+    public List<CaiGouRuKuXiangQing> xiangQingShangPin(Integer id);
+
+    public List<CaiGouRuKuXiangQing> xiangQingShouKuan(String bianhao);
+
+    public List<CaiGouRuKuXiangQing> xiangQingKaiPiao(String bianhao);
+
+    public List<CaiGouRuKuXiangQing> xiangQingDingJin(String bianhao);
+
+    public List<CaiGouRuKuXiangQing> xiangQingDingJinYiYong(String bianhao);
+
+    public int chuKuDingJinUpd(Integer id,String dingjin);
+
+    public List<CaiGouRuKuXiangQing> xiangQingXuKaiPiao(String bianhao);
 }

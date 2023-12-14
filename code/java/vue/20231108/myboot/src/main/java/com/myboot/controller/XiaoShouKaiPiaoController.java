@@ -1,5 +1,7 @@
 package com.myboot.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
@@ -100,6 +102,32 @@ public class XiaoShouKaiPiaoController {
     @PostMapping("/selectYingKai")
     public String selectYingKai(@RequestBody @NonNull JSONObject data) {
         List<XiaoShouKaiPiao> xiaoShouKaiPiao = service.selectYingKai();
+        return ResponseCommon.success(xiaoShouKaiPiao);
+    }
+
+
+    @PostMapping("/kaiPiaoListAdd")
+    public String kaiPiaoListAdd(@RequestBody JSONObject data) {
+        XiaoShouKaiPiao xiaoShouKaiPiao = data.getObject("head",XiaoShouKaiPiao.class);
+        JSONArray json = data.getJSONArray("body");
+        List<XiaoShouKaiPiao> xiaoShouKaiPiaos = JSONArray.parseArray(json.toString(),XiaoShouKaiPiao.class);
+        for(int i=0; i<xiaoShouKaiPiaos.size(); i++){
+            xiaoShouKaiPiaos.get(i).setShoupiaoDanwei(xiaoShouKaiPiao.getShoupiaoDanwei());
+            xiaoShouKaiPiaos.get(i).setShibiehao(xiaoShouKaiPiao.getShibiehao());
+            xiaoShouKaiPiaos.get(i).setKaipiaoDizhi(xiaoShouKaiPiao.getKaipiaoDizhi());
+            xiaoShouKaiPiaos.get(i).setKaipiaoDianhua(xiaoShouKaiPiao.getKaipiaoDianhua());
+            xiaoShouKaiPiaos.get(i).setKaipiaoYinhang(xiaoShouKaiPiao.getKaipiaoYinhang());
+            xiaoShouKaiPiaos.get(i).setKaipiaoZhanghao(xiaoShouKaiPiao.getKaipiaoZhanghao());
+            xiaoShouKaiPiaos.get(i).setKaipiaoZhuangtai(xiaoShouKaiPiao.getKaipiaoZhuangtai());
+            xiaoShouKaiPiaos.get(i).setKaipiaoRiqi(xiaoShouKaiPiao.getKaipiaoRiqi());
+            xiaoShouKaiPiaos.get(i).setKaipiaoShuie("");
+            xiaoShouKaiPiaos.get(i).setKaipiaoDanwei(xiaoShouKaiPiao.getKaipiaoDanwei());
+            xiaoShouKaiPiaos.get(i).setXinxiTuisong(xiaoShouKaiPiao.getXinxiTuisong());
+            xiaoShouKaiPiaos.get(i).setXiaoshouBianhao(xiaoShouKaiPiaos.get(i).getBianhao());
+            xiaoShouKaiPiaos.get(i).setKaipiaoJine(xiaoShouKaiPiaos.get(i).getThisKai());
+            xiaoShouKaiPiaos.get(i).setJiashuiHeji(xiaoShouKaiPiaos.get(i).getThisKai());
+            service.kaiPiaoAdd(xiaoShouKaiPiaos.get(i));
+        }
         return ResponseCommon.success(xiaoShouKaiPiao);
     }
 

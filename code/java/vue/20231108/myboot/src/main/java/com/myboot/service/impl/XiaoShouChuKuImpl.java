@@ -4,6 +4,8 @@ import com.myboot.mapper.XiaoShouChuKuItemMapper;
 import com.myboot.mapper.XiaoShouChuKuMapper;
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.XiaoShouChuKu;
+import com.myboot.pojo.XiaoShouChuKuXiangQing;
+import com.myboot.pojo.XiaoShouDingDanXiangQing;
 import com.myboot.service.XiaoShouChuKuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,9 +71,43 @@ public class XiaoShouChuKuImpl implements XiaoShouChuKuService {
         return mapper.selectMaxDanHao();
     }
 
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingShangPin(Integer id) {
+        return mapper.xiangQingShangPin(id);
+    }
+
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingShouKuan(String bianhao) {
+        return mapper.xiangQingShouKuan(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingKaiPiao(String bianhao) {
+        return mapper.xiangQingKaiPiao(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingDingJin(String bianhao) {
+        return mapper.xiangQingDingJin(bianhao);
+    }
+
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingDingJinYiYong(String bianhao) {
+        return mapper.xiangQingDingJinYiYong(bianhao);
+    }
+
+    @Override
+    public int chuKuDingJinUpd(Integer id, String dingjin) {
+        return mapper.chuKuDingJinUpd(id,dingjin);
+    }
+
     public List<XiaoShouChuKu> selectWeiFu(){
         return mapper.selectWeiFu();
     }
 
+    @Override
+    public List<XiaoShouChuKuXiangQing> xiangQingXuKaiPiao(String bianhao) {
+        return mapper.xiangQingXuKaiPiao(bianhao);
+    }
 
 }

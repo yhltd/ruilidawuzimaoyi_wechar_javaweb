@@ -2,6 +2,7 @@ package com.myboot.service;
 
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouDingDanAdd;
+import com.myboot.pojo.CaiGouDingDanXiangQing;
 
 import java.util.List;
 
@@ -36,5 +37,16 @@ public interface CaiGouDingDanService {
     public List<CaiGouDingDan> selectWeiFu();
 
     public int caiGouShenHe(List<Integer> list,String type);
+
+
+    public List<CaiGouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao);
+
+    public List<CaiGouDingDanXiangQing> xiangQingChuKu(String bianhao);
+
+    public List<CaiGouDingDanXiangQing> xiangQingShouKuan(String bianhao);
+
+    public List<CaiGouDingDanXiangQing> xiangQingKaiPiao(String bianhao);
+
+    public List<CaiGouDingDanXiangQing> xiangQingXuKaiPiao(String bianhao);
 
 }

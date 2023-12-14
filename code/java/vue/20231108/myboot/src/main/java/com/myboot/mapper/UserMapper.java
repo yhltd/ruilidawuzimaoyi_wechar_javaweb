@@ -39,4 +39,8 @@ public interface UserMapper  {
     boolean updDianPu(String typeId,Integer id);
 
     boolean updHeSuanDanWei(String typeId,Integer id);
+
+    boolean updShouKuanZhangHu(String typeId,Integer id);
+
+    boolean updZhiBaoDengJi(String typeId,Integer id);
 }

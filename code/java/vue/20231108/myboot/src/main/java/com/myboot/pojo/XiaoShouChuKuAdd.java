@@ -19,4 +19,7 @@ public class XiaoShouChuKuAdd {
     private String yifu;
     private String weifu;
     private String isselect;
+
+    private String chukuDanwei;
+    private String yewuyuan;
 }

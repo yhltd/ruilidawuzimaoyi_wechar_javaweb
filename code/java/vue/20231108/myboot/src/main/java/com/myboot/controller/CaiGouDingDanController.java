@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
-import com.myboot.pojo.CaiGouDingDan;
-import com.myboot.pojo.CaiGouDingDanAdd;
-import com.myboot.pojo.CaiGouDingDanItem;
-import com.myboot.pojo.CaiGouShouPiao;
+import com.myboot.pojo.*;
 import com.myboot.service.CaiGouDingDanItemService;
 import com.myboot.service.CaiGouDingDanService;
 import com.myboot.service.CaiGouShouPiaoService;
@@ -157,6 +154,38 @@ public class CaiGouDingDanController {
         StringBuffer sb = new StringBuffer();
         sb.append("成功审核了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条审核失败");
         return ResponseCommon.success(sb.toString());
+    }
+
+
+    @PostMapping("/selectXiangQingById")
+    public String selectXiangQingById(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String bianhao = data.getString("bianhao");
+        List<CaiGouDingDan> xiaoShouDingDan = service.selectByCaiGouId(id);
+        List<CaiGouDingDanXiangQing> shangPin = service.xiangQingShangPin(id,bianhao);
+        List<CaiGouDingDanXiangQing> chuKu = service.xiangQingChuKu(bianhao);
+        List<CaiGouDingDanXiangQing> shoukuan = service.xiangQingShouKuan(bianhao);
+        List<CaiGouDingDanXiangQing> kaipiao = service.xiangQingKaiPiao(bianhao);
+
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("dingdan", xiaoShouDingDan);
+        json.put("shangpin", shangPin);
+        json.put("chuku", chuKu);
+        json.put("shoukuan", shoukuan);
+        json.put("kaipiao", kaipiao);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
+
+    @PostMapping("/xiangQingXuKaiPiao")
+    public String xiangQingXuKaiPiao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        String bianhao = data.getString("bianhao");
+        List<CaiGouDingDanXiangQing> xukaipiao = service.xiangQingXuKaiPiao(bianhao);
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("xukaipiao", xukaipiao);
+        String js = json.toJSONString();
+        return json.toJSONString();
     }
 
 

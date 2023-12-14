@@ -1276,25 +1276,11 @@ export default {
         body:this.kaipiaoList,
       }
       let url="http://localhost:8102/kaiPiao/kaiPiaoListAdd"
-      this.axios.post(url,{'id':row.id,'bianhao':row.bianhao}).then(res => {
+      this.axios.post(url,date).then(res => {
         if(res.data.code=="00"){
-          console.log(res.data)
-          var this_val = res.data.dingdan[0]
-          this_val.body = res.data.shangpin
-          var shangpin_money = 0
-          for(var i=0; i<res.data.shangpin.length; i++){
-            shangpin_money = shangpin_money + Math.round(res.data.shangpin[i].jiashuiXiaoji * 100) / 100
-          }
-          console.log(shangpin_money)
-          this.shangpin_money = shangpin_money
-          this_val.chuku = res.data.chuku
-          this_val.shoukuan = res.data.shoukuan
-          this_val.kaipiao = res.data.kaipiao
-          this_val.caigou = res.data.caigou
-          this.gongYingShang=this_val
-          console.log(res.data.data);
-          console.log("获取成功");
-          this.drawer= true;
+          this.selKaiPiaoConfirm = false
+          this.drawer = false
+          MessageUtil.success("完成");
         }else{
           MessageUtil.error("获取失败");
         }

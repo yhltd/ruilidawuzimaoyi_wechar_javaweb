@@ -152,6 +152,14 @@
             width="200"
             show-overflow-tooltip>
         </el-table-column>
+
+        <el-table-column
+            prop="jizhangDanwei"
+            label="记账单位"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+
         <el-table-column
             prop="shouzhiType"
             label="收支类型"
@@ -231,6 +239,21 @@
               <el-input ref="acc_inp" @click.native="selectProduct()" readonly="true" v-model="gongYingShang.danjuBianhao" class="custom-login-inp" placeholder="点击选择单据"></el-input>
             </el-form-item>
           </el-col>
+
+          <el-col :span="6">
+            <el-form-item label="款项类型" prop="huokuanzhuangtai" class="custom-form-item">   <!-- clearable filterable placeholder="请选择货款状态" -->
+              <el-select disabled="true" v-model="gongYingShang.shoufuType" readonly>
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_huokuanzhuangtai"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="6">
             <el-form-item label="记账单号" prop="shouzhiBianhao" class="custom-form-item">
               <el-input ref="acc_inp" disabled="true" v-model="gongYingShang.shouzhiBianhao" class="custom-login-inp"></el-input>
@@ -304,6 +327,21 @@
               <el-input ref="acc_inp" v-model="gongYingShang.zhaiyao" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
+
+          <el-col :span="6">
+            <el-form-item label="记账单位" prop="jizhangDanwei" class="custom-form-item">
+              <el-select @change="selectDanType()" v-model="gongYingShang.jizhangDanwei" clearable filterable placeholder="请选择记账单位">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_jizhangDanwei"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
         </el-row>
 
 
@@ -423,12 +461,22 @@
         <el-col :span="1.5">
           <el-button type="primary" @click="Prorefresh()">刷新</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="queding" >确定</el-button>
+        </el-col>
       </el-row>
 
       <el-table
           border
           :header-cell-style="{background:'#F2F5F7'}"
-          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%"
+          @selection-change="shoudongSelectChange">
+
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+
         <el-table-column
             prop="bianhao"
             label="单据编号"
@@ -534,6 +582,7 @@ export default {
       XiaLa_KeHu:[],
       XiaLa_JiZhangMingXiLeiXing:[],
       XiaLa_JiZhangFenLei:[],
+      XiaLa_jizhangDanwei:[],
       XiaLa_DanJuLeiXing:[
         {
           name: '销售订单',
@@ -548,6 +597,17 @@ export default {
           label: '日常开支'
         },
       ],
+      XiaLa_huokuanzhuangtai:[
+        {
+          name: '收定金',
+          label: '收定金'
+        },
+        {
+          name: '收欠款',
+          label: '收欠款'
+        },
+
+      ],
       gongYingShang: {
         dianpu:'',
         danjuLeixing: '',
@@ -561,6 +621,8 @@ export default {
         kediShuie:'',
         zhaiyao:'',
         shouzhi_type:'收入',
+        huokuanzhuangtai:'',
+        jizhangDanwei:'',
         body:[
           {
             mingxiType:'',
@@ -573,7 +635,8 @@ export default {
       addDialog: false,
       selProduct: false,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+     shoudongSelection: []
     }
   },
   created() {
@@ -584,6 +647,7 @@ export default {
     this.getXiaLa_DianPu();
     this.getXiaLa_JiZhangFenLei();
     this.getXiaLa_JiZhangMingXiLeiXing();
+    this.getXiaLa_jizhangDanwei();
   },
   methods: {
     toggleSelection(rows) {
@@ -596,6 +660,12 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
+    shoudongSelectChange(val) {
+      this.shoudongSelection = val;
+      console.log(val)
+    },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val)
@@ -733,6 +803,8 @@ export default {
             kediShuie:'',
             zhaiyao:'',
             shouzhi_type:'收入',
+            huokuanzhuangtai:'',
+            jizhangDanwei: '',
             body:[
               {
                 mingxiType:'',
@@ -760,6 +832,8 @@ export default {
     selectDanType(){
       if(this.gongYingShang.danjuLeixing == '日常开支'){
         this.gongYingShang.danjuBianhao = ""
+        //12.8
+        this.gongYingShang.huokuanzhuangtai = "";
       }
     },
     //窗口table弹出
@@ -767,16 +841,17 @@ export default {
       this.Prostart = ""
       this.Prostop = ""
       this.Prokehu = ""
-      if(this.gongYingShang.danjuLeixing == '销售订单'){
-        this.getCaiGouProduct()
-      }else if(this.gongYingShang.danjuLeixing == '销售出库'){
-        this.getRuKuProduct()
+      if(this.gongYingShang.danjuLeixing == '销售出库'){
+        this.gongYingShang.huokuanzhuangtai = '收欠款',
+            this.getRuKuProduct();
+      }else if(this.gongYingShang.danjuLeixing == '销售订单') {
+        this.getCaiGouProduct(),
+            this.gongYingShang.huokuanzhuangtai = '收定金';
       }else if(this.gongYingShang.danjuLeixing == '日常开支'){
-        MessageUtil.error("日常开支无需选择单据");
+        MessageUtil.error("日常开支无需选择单据编号")
       }else if(this.gongYingShang.danjuLeixing == ''){
         MessageUtil.error("请先选择单据类型");
       }
-
     },
 
 
@@ -1025,6 +1100,23 @@ export default {
       })
     },
 
+    getXiaLa_jizhangDanwei(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"核算单位"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_jizhangDanwei = res.data.data;
+          for(var i=0; i<this.XiaLa_jizhangDanwei.length; i++){
+            this.XiaLa_jizhangDanwei[i].label = this.XiaLa_jizhangDanwei.name
+          }
+          console.log("记账单位下拉已获取");
+        } else {
+          console.log("记账单位下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     //查询全部
     getAll(){
       let url = "http://localhost:8102/shouZhiMingXi/getShouRu"
@@ -1209,11 +1301,22 @@ export default {
         return;
       }
 
+      if(this.gongYingShang.zhaiyao == ''){
+        MessageUtil.error("摘要不能为空");
+        return;
+      }
+
       for(var i=0; i<this.gongYingShang.body.length; i++){
         if(this.gongYingShang.body[i].mingxiType == ''){
           MessageUtil.error('第' + (i * 1+1) + '条明细未选择明细类型');
           return;
         }
+
+        if(this.gongYingShang.body[i].yongtu == ''){
+          MessageUtil.error('第' + (i * 1+1+1) + '条用途不能为空');
+          return;
+        }
+
         if(this.gongYingShang.body[i].jizhangJine == ''){
           MessageUtil.error('第' + (i * 1+1) + '条明细未填写记账金额');
           return;

@@ -6,15 +6,16 @@
 <mapper namespace="com.myboot.mapper.CaiGouDingDanMapper">
 
     <insert id="caiGouDingDanAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.CaiGouDingDan" useGeneratedKeys="true" >
-        INSERT INTO caigou_dingdan(bianhao,riqi,gongyingshang,dianpu,jinxiang_shuilv,beizhu,shenhe,shenhe_zhuangtai)
-        VALUES (#{bianhao},#{riqi},#{gongyingshang},#{dianpu},#{jinxiangShuilv},#{beizhu},#{shenhe},#{shenheZhuangtai})
+        INSERT INTO caigou_dingdan(bianhao,riqi,gongyingshang,dianpu,jinxiang_shuilv,beizhu,shenhe,shenhe_zhuangtai,caigou_danwei,yewuyuan)
+        VALUES (#{bianhao},#{riqi},#{gongyingshang},#{dianpu},#{jinxiangShuilv},#{beizhu},#{shenhe},#{shenheZhuangtai},#{caigouDanwei},#{yewuyuan})
     </insert>
-
+    <!--    12-->
     <update id="caiGouDingDanUpd">
         UPDATE caigou_dingdan set bianhao = #{bianhao},riqi = #{riqi},gongyingshang = #{gongyingshang},dianpu = #{dianpu},
-        jinxiang_shuilv = #{jinxiangShuilv},beizhu = #{beizhu},shenhe = #{shenhe},shenhe_zhuangtai = #{shenheZhuangtai}
+        jinxiang_shuilv = #{jinxiangShuilv},beizhu = #{beizhu},shenhe = #{shenhe},shenhe_zhuangtai = #{shenheZhuangtai},caigou_danwei = #{caigouDanwei},yewuyuan = #{yewuyuan}
         WHERE id = #{id}
     </update>
+
     <delete id="deleteByCaiGouId">
         DELETE from caigou_dingdan
         WHERE id = #{id}
@@ -63,4 +64,39 @@
         UPDATE caigou_dingdan set shenhe_zhuangtai = #{type}
         WHERE id = #{id}
     </update>
+
+    <!--    详情-商品-->
+    <select id="xiangQingShangPin" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
+        <![CDATA[
+            select dingdan.id,dingdan.shangpin_bianma,dingdan.name,dingdan.guige,dingdan.caizhi,dingdan.jishu_biaozhun,dingdan.zhibao_dengji,dingdan.danwei,dingdan.shuliang,isnull(ruku.shuliang,0) as ruku_shuliang,isnull(dingdan.shuliang,0)-isnull(ruku.shuliang,0) as weichu_shuliang,dingdan.caigou_danjia,dingdan.jiashui_xiaoji from(select * from caigou_dingdan_item where caigou_id = #{id}) as dingdan left join (select shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,sum(convert(float,isnull(shuliang,0))) as shuliang,caigou_danjia,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji from (select shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,caigou_danjia,jiashui_xiaoji from caigou_ruku left join caigou_ruku_item on caigou_ruku.id = caigou_ruku_item.ruku_id where caigou_id = #{bianhao}) as ruku group by shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,caigou_danjia) as ruku on dingdan.shangpin_bianma = ruku.shangpin_bianma;
+        ]]>
+    </select>
+
+    <!--    详情-入库-->
+    <select id="xiangQingChuKu" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
+        <![CDATA[
+            select id,bianhao,riqi,jiashui_xiaoji,beizhu from caigou_ruku as ruku left join (select ruku_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji from caigou_ruku_item group by ruku_id) as item on ruku.id = item.ruku_id where caigou_id = #{bianhao};
+        ]]>
+    </select>
+
+    <!--    详情-付款-->
+    <select id="xiangQingShouKuan" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
+        <![CDATA[
+            select id,shouzhi_bianhao,shouzhi_riqi,shoufu_type,convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)) as money from shouzhi_mingxi where danju_leixing = '采购订单' and danju_bianhao = #{bianhao} union select shouzhi_mingxi.id,shouzhi_bianhao,shouzhi_riqi,shoufu_type,convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)) as money from shouzhi_mingxi left join xiaoshou_chuku on shouzhi_mingxi.danju_bianhao = xiaoshou_chuku.bianhao where danju_leixing = '采购入库' and xiaoshou_id = #{bianhao} order by shouzhi_riqi;
+        ]]>
+    </select>
+
+    <!--    详情-收票-->
+    <select id="xiangQingKaiPiao" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
+        <![CDATA[
+            select caigou_shoupiao.id,caigou_bianhao,riqi,jiashui_heji,caigou_shoupiao.beizhu from caigou_ruku left join caigou_shoupiao on caigou_ruku.bianhao = caigou_shoupiao.caigou_bianhao where isnull(caigou_shoupiao.id,'') != '' and caigou_id = #{bianhao};
+        ]]>
+    </select>
+
+    <!--    详情-需收票查询-->
+    <select id="xiangQingXuKaiPiao" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
+        <![CDATA[
+            select id,bianhao,riqi,gongyingshang,dianpu,cangku,beizhu,caigou_id,ruku_danwei,yewuyuan,jiashui_xiaoji,ruku_id,isnull(caigou_bianhao,'') as xiaoshou_bianhao,isnull(jiashui_heji,0) as jiashui_heji,jiashui_xiaoji-isnull(jiashui_heji,0) as weikai,jiashui_xiaoji-isnull(jiashui_heji,0) as this_kai from (select * from caigou_ruku as ruku left join (select sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji,ruku_id from caigou_ruku_item group by ruku_id) as item on ruku.id = item.ruku_id) as ruku left join (select caigou_bianhao,sum(convert(float,isnull(jiashui_heji,0))) as jiashui_heji from caigou_shoupiao group by caigou_bianhao) as shoupiao on ruku.bianhao = shoupiao.caigou_bianhao where jiashui_xiaoji-isnull(jiashui_heji,0) > 0 and caigou_id = #{bianhao}
+        ]]>
+    </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.myboot.mapper.CaiGouDingDanItemMapper;
 import com.myboot.mapper.CaiGouDingDanMapper;
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouDingDanAdd;
+import com.myboot.pojo.CaiGouDingDanXiangQing;
 import com.myboot.service.CaiGouDingDanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,31 @@ public class CaiGouDingDanImpl implements CaiGouDingDanService {
             count += mapper.caiGouShenHe(id,type);
         }
         return count;
+    }
+
+    @Override
+    public List<CaiGouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao) {
+        return mapper.xiangQingShangPin(id,bianhao);
+    }
+
+    @Override
+    public List<CaiGouDingDanXiangQing> xiangQingChuKu(String bianhao) {
+        return mapper.xiangQingChuKu(bianhao);
+    }
+
+    @Override
+    public List<CaiGouDingDanXiangQing> xiangQingShouKuan(String bianhao) {
+        return mapper.xiangQingShouKuan(bianhao);
+    }
+
+    @Override
+    public List<CaiGouDingDanXiangQing> xiangQingKaiPiao(String bianhao) {
+        return mapper.xiangQingKaiPiao(bianhao);
+    }
+
+    @Override
+    public List<CaiGouDingDanXiangQing> xiangQingXuKaiPiao(String bianhao) {
+        return mapper.xiangQingXuKaiPiao(bianhao);
     }
 
 

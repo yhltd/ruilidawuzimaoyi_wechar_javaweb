@@ -113,7 +113,7 @@
     <!--    详情-开票-->
     <select id="xiangQingKaiPiao" resultType="com.myboot.pojo.XiaoShouDingDanXiangQing">
         <![CDATA[
-            select xiaoshou_kaipiao.id,xiaoshou_bianhao,kaipiao_riqi,jiashui_heji,xiaoshou_kaipiao.beizhu from xiaoshou_chuku left join xiaoshou_kaipiao on xiaoshou_chuku.bianhao = xiaoshou_kaipiao.xiaoshou_bianhao where isnull(xiaoshou_kaipiao.id,'') != null and xiaoshou_id = #{bianhao}
+            select xiaoshou_kaipiao.id,xiaoshou_bianhao,kaipiao_riqi,jiashui_heji,xiaoshou_kaipiao.beizhu from xiaoshou_chuku left join xiaoshou_kaipiao on xiaoshou_chuku.bianhao = xiaoshou_kaipiao.xiaoshou_bianhao where isnull(xiaoshou_kaipiao.id,'') != '' and xiaoshou_id = #{bianhao}
         ]]>
     </select>
 

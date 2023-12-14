@@ -21,15 +21,51 @@
         <!--          <el-input ref="acc_inp" v-model="ZhuanZhang.zhuanru" class="custom-login-inp" ></el-input>-->
       </el-form-item>
 
+      <!--      增加零售价格是否启用-->
+      <el-form-item label="零售价格是否启用" prop="lingshouZhuangtai" class="custom-form-item1">
+        <el-select v-model="ZhuanZhang.lingshouZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+          <el-option
+              v-for="item in XiaLa_ZhuangTai"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="零售上浮比例%" prop="lingshou" class="custom-form-item">
         <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px" type="number"></el-input>
+      </el-form-item>
+
+      <!--      增加批发价格是否启用-->
+      <el-form-item label="批发价格是否启用" prop="pifaZhuangtai" class="custom-form-item1">
+        <el-select v-model="ZhuanZhang.pifaZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+          <el-option
+              v-for="item in XiaLa_ZhuangTai"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name">
+          </el-option>
+        </el-select>
       </el-form-item>
 
       <el-form-item label="批发上浮比例%" prop="pifa" class="custom-form-item">
         <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 
-      <el-form-item label="大客户上浮比例%" prop="dakehu" class="custom-form-item">
+      <!--      增加大客户价格是否启用-->
+      <el-form-item label="大客户价格是否启用" prop="dakehuZhuangtai" class="custom-form-item1">
+        <el-select v-model="ZhuanZhang.dakehuZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+          <el-option
+              v-for="item in XiaLa_ZhuangTai"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="大客户上浮比例%" prop="dakehu" class="custom-form-item1">
         <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px" type="number"></el-input>
       </el-form-item>
 

@@ -27,4 +27,5 @@ public class XiaoShouKaiPiao {
     private String kaipiaJine;
     private String weikai;
     private String isselect;
+    private String thisKai;
 }

@@ -6,8 +6,8 @@
 <mapper namespace="com.myboot.mapper.PeiZhiShuiLvMapper">
 
     <update id="update">
-        UPDATE peizhi_shuilv set shuilv=#{shuilv},zhuangtai=#{zhuangtai},lingshou=#{lingshou}, pifa=#{pifa},
-        dakehu=#{dakehu}
+        UPDATE peizhi_shuilv set shuilv=#{shuilv},zhuangtai=#{zhuangtai},lingshou_zhuangtai=#{lingshouZhuangtai},lingshou=#{lingshou},pifa_zhuangtai=#{pifaZhuangtai}, pifa=#{pifa},dakehu_zhuangtai=#{dakehuZhuangtai},
+        dakehu=#{dakehu},kaipiao_edu=#{kaipiaoEdu}
         WHERE id = #{id}
     </update>
 

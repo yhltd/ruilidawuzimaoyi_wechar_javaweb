@@ -214,7 +214,16 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item">
-              <el-input ref="acc_inp" disabled="true" v-model="gongYingShang.jiageDengji" class="custom-login-inp"></el-input>
+              <el-select v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_jiageDengji"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+              <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -222,7 +231,7 @@
               <el-select v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
                 <!-- types 为后端查询 -->
                 <el-option
-                    v-for="item in XiaLa_ShenHe"
+                    v-for="item in XiaLa_User"
                     :key="item.name"
                     :label="item.name"
                     :value="item.name">
@@ -422,12 +431,22 @@
         <el-col :span="1.5">
           <el-button type="primary" @click="Prorefresh()">刷新</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="queding()">确定</el-button>
+        </el-col>
       </el-row>
 
       <el-table
           border
           :header-cell-style="{background:'#F2F5F7'}"
-          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%"
+          @selection-change="shoudongSelectChange">
+
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+
         <el-table-column
             prop="bianhao"
             label="编号"
@@ -747,6 +766,8 @@ export default {
       XiaLa_GongYingShang:[],
       XiaLa_ZhiBaoDengJi:[],
       XiaLa_ShenHe:[],
+      shoudongSelection: [],
+      XiaLa_jiageDengji:[],
       XiaLa_ShenHeZhuangTai:[
         {
           name:'审核中',
@@ -808,6 +829,8 @@ export default {
     this.getXiaLa_DianPu();
     this.getXiaLa_ZhiBaoDengJi();
     this.getXiaLa_MuBan();
+    this.getjianyiBaojia();
+    this.getXiaLa_jiageDengji();
   },
   methods: {
     toggleSelection(rows) {
@@ -820,9 +843,26 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
+    shoudongSelectChange(val) {
+      console.log("传1")
+      this.shoudongSelection = val;
+      console.log(val)
+    },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val)
+    },
+
+    queding() {
+      if(this.shoudongSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }
+      var this_id = this.shoudongSelection[0].id
+
+      console.log(this.shoudongSelection)
     },
 
     rowClassName: function ({ row }) {
@@ -852,6 +892,8 @@ export default {
       })
 
     },
+
+
 
     rowClick(row,column,event){
       console.log(row)
@@ -1250,6 +1292,51 @@ export default {
           console.log("打印模板下拉已获取");
         } else {
           console.log("打印模板下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getjianyiBaojia(){
+      let url = "http://localhost:8102/peiZhiShuiLv/getAll"
+      this.axios(url, this.form).then(res => {
+        if(res.data.code == '00') {
+          this.ShuiLv = res.data.data[0];
+          var fujia_shuilv = 1
+          if(this.ShuiLv.zhuangtai == '是'){
+            fujia_shuilv = fujia_shuilv + (this.ShuiLv.shuilv / 100)
+          }
+          for(var i=0; i<this.tableData.length; i++){
+            var jinxiang = this.tableData[i].jinxiang / 100
+            var xiaoxiang = this.tableData[i].xiaoxiang / 100
+            var pifa_bili = this.tableData[i].pifaBili / 100
+            var lingshou_bili = this.tableData[i].lingshouBili / 100
+            var dakehu_bili = this.tableData[i].dakehuBili / 100
+            var caigou_price = this.tableData[i].caigouPrice * 1
+            this.tableData[i].lingshouPrice = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * lingshou_bili)) * 100) / 100
+            this.tableData[i].pifaPrice = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
+            this.tableData[i].dakehuPrice = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
+          }
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_jiageDengji(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"价格等级"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_jiageDengji = res.data.data;
+          for(var i=0; i<this.XiaLa_jiageDengji.length; i++){
+            this.XiaLa_jiageDengji[i].label = this.XiaLa_jiageDengji.name
+          }
+          console.log("价格等级下拉已获取");
+        } else {
+          console.log("价格等级下拉获取失败");
         }
       }).catch(() => {
         MessageUtil.error("网络异常");

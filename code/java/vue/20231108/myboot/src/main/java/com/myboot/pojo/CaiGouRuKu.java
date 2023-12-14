@@ -17,4 +17,7 @@ public class CaiGouRuKu {
     private String yifu;
     private String weifu;
     private String isselect;
+
+    private String rukuDanwei;
+    private String yewuyuan;
 }

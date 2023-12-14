@@ -88,6 +88,10 @@ public class UserServiceImpl implements UserService {
             return mapper.updDianPu(typeId,id);
         }else if(type.equals("核算单位")){
             return mapper.updHeSuanDanWei(typeId,id);
+        }else if(type.equals("收款账户")){
+            return mapper.updShouKuanZhangHu(typeId,id);
+        }else if(type.equals("质保等级")){
+            return mapper.updZhiBaoDengJi(typeId,id);
         }
         return true;
     }

@@ -132,5 +132,46 @@ public class XiaoShouChuKuController {
         return ResponseCommon.success(sb.toString());
     }
 
+    @PostMapping("/selectXiangQingById")
+    public String selectXiangQingById(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String bianhao = data.getString("bianhao");
+        List<XiaoShouChuKu> xiaoShouChuKu = service.selectByChuKuId(id);
+        List<XiaoShouChuKuXiangQing> shangPin = service.xiangQingShangPin(id);
+        List<XiaoShouChuKuXiangQing> shoukuan = service.xiangQingShouKuan(bianhao);
+        List<XiaoShouChuKuXiangQing> kaipiao = service.xiangQingKaiPiao(bianhao);
+        List<XiaoShouChuKuXiangQing> dingjin = service.xiangQingDingJin(xiaoShouChuKu.get(0).getXiaoshouId());
+        List<XiaoShouChuKuXiangQing> dingjinyiyong = service.xiangQingDingJinYiYong(xiaoShouChuKu.get(0).getXiaoshouId());
 
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("dingdan", xiaoShouChuKu);
+        json.put("shangpin", shangPin);
+        json.put("shoukuan", shoukuan);
+        json.put("kaipiao", kaipiao);
+        json.put("dingjin", dingjin);
+        json.put("dingjinyiyong", dingjinyiyong);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
+
+
+
+    @PostMapping("/chuKuDingJinUpd")
+    public String chuKuDingJinUpd(@RequestBody @NonNull JSONObject data) {
+        Integer id = data.getInteger("id");
+        String dingjin = data.getString("dingjin");
+        Integer this_id = service.chuKuDingJinUpd(id,dingjin);
+        return ResponseCommon.success(this_id);
+    }
+
+
+    @PostMapping("/xiangQingXuKaiPiao")
+    public String xiangQingXuKaiPiao(HttpSession session, @RequestBody @NonNull JSONObject data) {
+        String bianhao = data.getString("bianhao");
+        List<XiaoShouChuKuXiangQing> xukaipiao = service.xiangQingXuKaiPiao(bianhao);
+        JSONObject json = ResponseErrorCode.SUCCESS.toJSONObject();
+        json.put("xukaipiao", xukaipiao);
+        String js = json.toJSONString();
+        return json.toJSONString();
+    }
 }

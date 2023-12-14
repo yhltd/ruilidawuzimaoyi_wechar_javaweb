@@ -15,4 +15,7 @@ public class CaiGouRuKuAdd {
     private String beizhu;
     private String caigou_id;
     private List<CaiGouRuKuItem> rukuItem;
+
+    private String rukuDanwei;
+    private String yewuyuan;
 }

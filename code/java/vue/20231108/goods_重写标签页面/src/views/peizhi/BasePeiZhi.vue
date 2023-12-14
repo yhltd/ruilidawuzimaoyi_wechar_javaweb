@@ -19,7 +19,7 @@
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button v-if="PAGE_TYPE == '仓库' || PAGE_TYPE == '店铺' || PAGE_TYPE == '核算单位' " @click="moRenConfig();" type="primary">设置默认</el-button>
+          <el-button v-if="PAGE_TYPE == '仓库' || PAGE_TYPE == '店铺' || PAGE_TYPE == '核算单位' || PAGE_TYPE == '收款账户' || PAGE_TYPE == '质保等级'" @click="moRenConfig();" type="primary">设置默认</el-button><!-- 收款账户、质保等级设置默认 -->
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
@@ -330,9 +330,9 @@ export default {
         }
         let url = "http://localhost:8102/user/updateMoRen";
         axios.post(url,
-      {"type": this.PAGE_TYPE,
-            "typeId": this.multipleSelection[0].id,
-            "id": this.userInfo.id,
+            {"type": this.PAGE_TYPE,
+              "typeId": this.multipleSelection[0].id,
+              "id": this.userInfo.id,
             }).then(res => {
           switch (res.data.code) {
             case "00": {
@@ -367,10 +367,12 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            console.log(res.data.data)
             this.total = res.data.data.length;
-            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位'){
+            // <!-- 收款账户、质保等级设置默认 -->
+            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位' || this.PAGE_TYPE == '收款账户' || this.PAGE_TYPE == '质保等级'){
               for(var i=0; i<this.tableData.length; i++){
-                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1){
+                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1 || this.tableData[i].id * 1 == this.userInfo.shoukuanZhanghu * 1 || this.tableData[i].id * 1 == this.userInfo.zhibaoDengji * 1){
                   this.tableData[i].moren = '默认'
                 }else{
                   this.tableData[i].moren = ""
@@ -402,9 +404,10 @@ export default {
           case '00':
             this.tableData = res.data.data;
             this.total = res.data.data.length;
-            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位'){
+            // <!-- 收款账户、质保等级设置默认 -->
+            if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位' || this.PAGE_TYPE == '收款账户' || this.PAGE_TYPE == '质保等级'){
               for(var i=0; i<this.tableData.length; i++){
-                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1){
+                if(this.tableData[i].id * 1 == this.userInfo.cangku * 1 || this.tableData[i].id * 1 == this.userInfo.dianpu * 1 || this.tableData[i].id * 1 == this.userInfo.hesuanDanwei * 1 || this.tableData[i].id * 1 == this.userInfo.shoukuanZhanghu * 1 || this.tableData[i].id * 1 == this.userInfo.zhibaoDengji * 1){
                   this.tableData[i].moren = '默认'
                 }else{
                   this.tableData[i].moren = ""
@@ -506,6 +509,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
 

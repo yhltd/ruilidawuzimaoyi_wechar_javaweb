@@ -14,4 +14,7 @@ public class User {
     private String dianpu;
     private String hesuanDanwei;
     private String changyong;
+
+    private String shoukuanZhanghu;
+    private String zhibaoDengji;
 }

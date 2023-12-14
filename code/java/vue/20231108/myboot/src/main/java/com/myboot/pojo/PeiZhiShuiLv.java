@@ -11,7 +11,7 @@ public class PeiZhiShuiLv {
     private String lingshouZhuangtai;
     private String pifa;
     private String pifaZhuangtai;
+    private String dakehu;
     private String dakehuZhuangtai;
     private String kaipiaoEdu;
-
 }

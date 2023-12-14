@@ -10,4 +10,6 @@ public class ShouZhiMingXiItem {
     private String jizhangJine;
     private String kediShuie;
     private String shouzhiId;
+
+    private String jizhangDanwei;
 }

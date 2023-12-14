@@ -19,4 +19,7 @@ public class CaiGouDingDanItem {
     private String jiaohuoRiqi;
     private String beizhu;
     private Integer caigouId;
+
+    private String caigouDanwei;
+    private String yewuyuan;
 }

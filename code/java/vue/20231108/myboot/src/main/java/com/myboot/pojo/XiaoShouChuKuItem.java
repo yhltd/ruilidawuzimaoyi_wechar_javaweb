@@ -17,4 +17,7 @@ public class XiaoShouChuKuItem {
     private String jiashuiXiaoji;
     private String beizhu;
     private Integer chukuId;
+
+    private String chukuDanwei;
+    private String yewuyuan;
 }

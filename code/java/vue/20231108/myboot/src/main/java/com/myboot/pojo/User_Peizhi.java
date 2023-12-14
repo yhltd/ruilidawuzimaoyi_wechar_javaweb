@@ -18,4 +18,7 @@ public class User_Peizhi {
     private Peizhi cangku;
     private Peizhi dianpu;
     private Peizhi hesuanDanwei;
+
+    private String shoukuanZhanghu;
+    private String zhibaoDengji;
 }

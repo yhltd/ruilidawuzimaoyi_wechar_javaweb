@@ -35,6 +35,7 @@ import gongyingshangwanglai from '../views/GongYingShangWangLai.vue'
 import dingdanzoushi from '../views/XiaoShouDingDanZouShi.vue'
 import shoukuanzoushi from '../views/XiaoShouShouKuanZouShi.vue'
 import caigoufukuanzoushi from '../views/CaiGouFuKuanZouShi.vue'
+import ShangPinGuiGe from "@/views/ShangPinGuiGe.vue";// 增加商品规格页面
 
 Vue.use(VueRouter);
 
@@ -187,6 +188,41 @@ const routes = [
                     requireAuth: true
                 }
             },
+
+            // 增加商品单位页面
+            {
+                path: '/shangPinDanWei',
+                name: 'shangPinDanWei',
+                component: () => import('../views/peizhi/ShangPinDanWei.vue'),
+                meta: {
+                    title: '商品单位',
+                    type: '商品单位',
+                    requireAuth: true
+                }
+            },
+            // 增加进项税率页面
+            {
+                path: '/jinXiangShuiLv',
+                name: 'jinXiangShuiLv',
+                component: () => import('../views/peizhi/JinXiangShuiLv.vue'),
+                meta: {
+                    title: '进项税率',
+                    type: '进项税率',
+                    requireAuth: true
+                }
+            },
+            // 增加销项税率页面
+            {
+                path: '/xiaoXiangShuiLv',
+                name: 'xiaoXiangShuiLv',
+                component: ()=> import('../views/peizhi/XiaoXiangShuiLv.vue'),
+                meta: {
+                    title: '销项税率',
+                    type: '销项税率',
+                    requireAuth: true
+                }
+            },
+
             {
                 path: '/supplier',
                 name: 'supplier',
@@ -484,6 +520,18 @@ const routes = [
                     requireAuth: true
                 }
             },
+
+
+            {
+                path: "/shangPinGuiGe",
+                name: "shangPinGuiGe",
+                component: ShangPinGuiGe,
+                meta:{
+                    title: '商品规格',
+                    requireAuth: true
+                }
+            },
+
             {
                 path: "/main",
                 name: "main",

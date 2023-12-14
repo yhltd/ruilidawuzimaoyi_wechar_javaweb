@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.PeiZhiGuiGeMapper">
+
+
+    <select id="getAll" resultType="com.myboot.pojo.PeiZhiGuiGe">
+        <![CDATA[
+            select * from peizhi_guige
+        ]]>
+    </select>
+
+    <select id="selectByProduct" resultType="com.myboot.pojo.PeiZhiGuiGe">
+        <![CDATA[
+            select * from peizhi_guige
+            where type like '%' + #{type} + '%' and guige like '%' + #{guige} + '%'
+        ]]>
+    </select>
+
+    <insert id="peiZhiGuiGeAdd" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.PeiZhiGuiGe" useGeneratedKeys="true" >
+        INSERT INTO peizhi_guige(type,guige)
+        VALUES (#{type},#{guige})
+    </insert>
+
+    <update id="peiZhiGuiGeUpd">
+        UPDATE peizhi_guige SET type=#{type},guige=#{guige}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delByPeiZhiGuiGeId">
+        DELETE FROM peizhi_guige
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

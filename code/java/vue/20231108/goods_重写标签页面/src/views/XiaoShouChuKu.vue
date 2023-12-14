@@ -94,6 +94,22 @@
             width="200"
             show-overflow-tooltip>
         </el-table-column>
+
+        <!-- 12.5 -->
+        <el-table-column
+            prop="chukuDanwei"
+            label="出库单位"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+
+        <el-table-column
+            prop="yewuyuan"
+            label="业务员"
+            width="200"
+            show-overflow-tooltip>
+        </el-table-column>
+
         <el-table-column
             prop="beizhu"
             label="备注"
@@ -103,9 +119,11 @@
         <el-table-column
             fixed="right"
             label="操作"
-            width="100">
+            width="200">
           <template slot-scope="scope">
             <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+            <!--            增加查看详情按钮-->
+            <el-button @click="seeList(scope.row)" type="text" size="small"><i class="el-icon-tickets"></i>查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -201,6 +219,30 @@
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.jinxiangShuilv" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
+
+          <!--          12.5-->
+          <el-col :span="6">
+            <el-form-item label="出库单位" prop="chukuDanwei" class="custom-form-item">
+              <el-select v-model="gongYingShang.chukuDanwei" clearable filterable placeholder="请选择仓库">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_chukuDanwei"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+              <!--              <el-input ref="acc_inp" v-model="gongYingShang.jinxiangShuilv" class="custom-login-inp"></el-input>-->
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :span="6">
+            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.yewuyuan" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="6">
             <el-form-item label="备注" prop="beizhu" class="custom-form-item">
               <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp"></el-input>
@@ -504,6 +546,382 @@
 
     </el-dialog>
 
+    <el-dialog title="" :visible.sync="selKaiPiao" width="80%">
+
+      <el-table
+          border
+          :header-cell-style="{background:'#F2F5F7'}"
+          :data="xukaiList" :row-class-name="rowClassName" style="width: 100%">
+        <el-table-column
+            prop="bianhao"
+            label="出库单号"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="riqi"
+            label="日期"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="kehu"
+            label="客户"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="jiashuiXiaoji"
+            label="总额"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="weikai"
+            label="未开票"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="thisKai"
+            label="本次开票"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="thisKai"
+            label="本次开票"
+            width="180"
+        >
+          <template slot-scope="scope">
+            <el-input @input="kaipiaoInput(scope.$index, scope.row)" v-model="scope.row.thisKai" placeholder="请输入内容" clearable></el-input>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button  type="primary" @click="kaipiaoNext()">确定</el-button>
+        <el-button  @click="selKaiPiao=false">取消</el-button>
+      </span>
+
+    </el-dialog>
+
+    <el-dialog title="" :visible.sync="selKaiPiaoConfirm" width="50%">
+
+      <el-form :model="kaipiaoBody" ref="addUser" label-width="100px"
+               class="demo-info" size="medium">
+        <el-row :gutter="15">
+          <el-col :span="10">
+            <el-form-item label="收票单位" prop="shoupiaoDanwei" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.shoupiaoDanwei" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="纳税人识别号" prop="shibiehao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.shibiehao" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="开票地址" prop="kaipiaoDizhi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.kaipiaoDizhi" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="开票电话" prop="kaipiaoDianhua" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.kaipiaoDianhua" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="开户银行" prop="kaipiaoYinhang" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.kaipiaoYinhang" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="银行账号" prop="kaipiaoZhanghao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.kaipiaoZhanghao" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="开票日期" prop="kaipiaoRiqi" class="custom-form-item">
+              <el-date-picker
+                  style="width:100%"
+                  v-model="kaipiaoBody.kaipiaoRiqi"
+                  type="date"
+                  format="yyyy-MM-dd"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="备注" prop="beizhu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="kaipiaoBody.beizhu" class="custom-login-inp1" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="开票单位" prop="kaipiaoDanwei" class="custom-form-item">
+              <el-select ref="acc_inp" v-model="kaipiaoBody.kaipiaoDanwei" class="custom-login-inp1" placeholder="请选择">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_HeSuanDanWei"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="信息推送" prop="xinxiTuisong" class="custom-form-item">
+              <el-select ref="acc_inp" v-model="kaipiaoBody.xinxiTuisong" class="custom-login-inp1" placeholder="请选择">
+                <!-- types 为后端查询 -->
+                <el-option
+                    v-for="item in XiaLa_ShenHe"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button  type="primary" @click="kaipiaoSure()">确定</el-button>
+        <el-button  @click="selKaiPiaoConfirm=false">取消</el-button>
+      </span>
+
+    </el-dialog>
+
+    <el-dialog
+        title=""
+        :visible.sync="dingjinUseVisible"
+        width="30%"
+        >
+      <el-row :gutter="15">
+        <el-col :span="24">
+          <el-form :model="dingjinUseAdd" ref="addUsr" label-width="100px" class="demo-info" size="medium">
+            <el-form-item label="抵减订金" prop="dingjinUseAdd" class="custom-form-item">
+              <el-input ref="acc_inp" @input="dingjinInput" v-model="dingjinUseAdd" class="custom-login-inp1"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dingjinUseVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dingjinUseSave()">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--    详情窗口弹出-->
+    <el-drawer
+        title="" :visible.sync="drawer" size="70%" :with-header="false">
+      <el-form :model="gongYingShang" ref="addUsr" label-width="100px"
+               class="demo-info" size="medium">
+        <el-row :gutter="15">
+          <el-col :span="5">
+            <p class="dialog-title" style="margin-left: 30px">出库单信息</p>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="20">
+            <p style="margin-left: 30px">本单欠款：{{qiankuan}}，抵减订金：{{dingjinUse}}，订单总额：{{shangpin_money}}，订金总额：{{dingjinSum}}，订金余额：{{dingjinYue}}</p>
+          </el-col>
+          <el-col :span="4">
+            <p class="dialog-title">
+              <el-button class="dialog-title" size="small" round type="primary" @click="dingjinUseClick()">订金抵欠款</el-button>
+            </p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+          <el-col :span="10">
+            <el-form-item label="订单编号" prop="bianhao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.bianhao" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="销售单号" prop="xiaoshouId" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.xiaoshouId" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="日期" prop="riqi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.riqi" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="客户" prop="kehu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.kehu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="仓库"prop="cangku" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.cangku" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="备注" prop="beizhu" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp1" readonly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div>
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title" style="margin-left: 30px">商品信息</p>
+          </el-col>
+          <el-col :span="6">
+            <p class="dialog-title" style="margin-left: 30px">金额合计：{{shangpin_money}}</p>
+          </el-col>
+        </el-row>
+        <el-table
+            border
+            :header-cell-style="{background:'#F2F5F7'}"
+            :data="gongYingShang.body" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
+          <el-table-column
+              prop="shangpinBianma"
+              label="商品编码"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="name"
+              label="名称"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="guige"
+              label="规格"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="caizhi"
+              label="材质"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jishuBiaozhun"
+              label="技术标准"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="zhibaoDengji"
+              label="质保等级"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="danwei"
+              label="单位"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="shuliang"
+              label="数量"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="xiaoshouDanjia"
+              label="销售单价"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jiashuiXiaoji"
+              label="价税小计"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="beizhu"
+              label="备注"
+              width="180"
+          ></el-table-column>
+        </el-table>
+      </div>
+
+      <div >
+        <!--        收款信息 v-for="(item, index) in gongYingShang.body {{index + 1}}"-->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title" style="margin-left: 30px">收款信息</p>
+          </el-col>
+          <el-col :span="6">
+            <p class="dialog-title">
+              <el-button class="dialog-title" size="small" round type="primary" @click="shoukuan_add()">添加收款</el-button>
+            </p>
+          </el-col>
+        </el-row>
+        <el-table
+            border
+            :header-cell-style="{background:'#F2F5F7'}"
+            :data="gongYingShang.shoukuan" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
+          <el-table-column
+              prop="shouzhiBianhao"
+              label="收款单号"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="shouzhiRiqi"
+              label="日期"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="shoufuType"
+              label="收款类别"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="money"
+              label="金额"
+              width="180"
+          ></el-table-column>
+        </el-table>
+      </div>
+
+      <div >
+        <!--        开票信息 v-for="(item, index) in gongYingShang.body {{index + 1}}"-->
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <p class="dialog-title" style="margin-left: 30px">开票信息</p>
+          </el-col>
+          <el-col :span="6">
+            <p class="dialog-title">
+              <el-button class="dialog-title" size="small" round type="primary" @click="kaipiao_add()">添加开票</el-button>
+            </p>
+          </el-col>
+        </el-row>
+        <el-table
+            border
+            :header-cell-style="{background:'#F2F5F7'}"
+            :data="gongYingShang.kaipiao" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
+          <el-table-column
+              prop="xiaoshouBianhao"
+              label="出库单号"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="kaipiaoRiqi"
+              label="开票日期"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="jiashuiHeji"
+              label="金额"
+              width="180"
+          ></el-table-column>
+          <el-table-column
+              prop="beizhu"
+              label="备注"
+              width="180"
+          ></el-table-column>
+        </el-table>
+      </div>
+
+
+      <div class="bottom" style="height: 50px"></div>
+    </el-drawer>
+
+
   </el-container>
 
 
@@ -514,6 +932,7 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+import RouterUtil from "@/utils/RouterU";
 export default {
   data() {
     return {
@@ -543,6 +962,17 @@ export default {
       XiaLa_GongYingShang:[],
       XiaLa_ShenHe:[],
       XiaLa_ZhiBaoDengJi:[],
+      XiaLa_chukuDanwei:[],
+      xukaiList:[],
+      kaipiaoBody:{},
+      dingjinUse:0,
+      dingjinUseAdd:0,
+      drawer:false,//详情窗口隐藏设置
+      dingjinUseVisible:false,
+      selKaiPiao: false,
+      selKaiPiaoConfirm: false,
+      chukuDanwei:'',
+      yewuyuan:'',
       XiaLa_ShenHeZhuangTai:[
         {
           name:'审核中',
@@ -565,6 +995,8 @@ export default {
         cangku: '',
         beizhu: '',
         xiaoshouId:'',
+        chukuDanwei:'',
+        yewuyuan:'',
         body:[
           {
             shangpinBianma:'',
@@ -599,6 +1031,9 @@ export default {
     this.getXiaLa_CangKu();
     this.getXiaLa_MuBan();
     this.getXiaLa_ZhiBaoDengJi();
+    this.getXiaLa_chukuDanwei();
+    this.getXiaLa_ShenHe();
+    this.getXiaLa_HeSuanDanWei();
   },
   methods: {
     toggleSelection(rows) {
@@ -628,6 +1063,186 @@ export default {
         return "hidden-row";
       }
       return '';
+    },
+
+    dingjinUseClick(){
+      this.dingjinUseAdd = this.dingjinUse
+      this.dingjinUseVisible = true;
+    },
+
+    dingjinUseSave(){
+      console.log(this.dingjinUseAdd)
+      if(this.dingjinUseAdd != "" && this.dingjinUseAdd != null){
+        let url="http://localhost:8102/xiaoShouChuKu/chuKuDingJinUpd"
+        this.axios.post(url,{'id':this.gongYingShang.id,'dingjin':this.dingjinUseAdd}).then(res=>{
+          if(res.data.code=='00'){
+            MessageUtil.success("完成");
+            this.drawer=false;
+            this.dingjinUseVisible=false;
+          }else {
+            MessageUtil.error("获取失败");
+          }
+        }).catch(()=>{
+          MessageUtil.error("网络异常");
+        })
+      }
+    },
+
+    shoukuan_add(){
+      if(this.qiankuan <= 0){
+        MessageUtil.error("此订单欠款已结清");
+        return;
+      }
+      var yukuan = this.qiankuan
+      var dingdan = this.gongYingShang
+      RouterUtil.to('/shourujilu?shoufu_type=收欠款&yukuan=' + yukuan + '&dingdan=' + JSON.stringify(dingdan));
+    },
+
+    dingjinInput(){
+      if(this.dingjinUseAdd * 1 > this.shangpin_money){
+        this.dingjinUseAdd = this.shangpin_money
+      }
+    },
+
+    kaipiao_add(){
+      var bianhao = this.gongYingShang.bianhao
+      let url = "http://localhost:8102/xiaoShouChuKu/xiangQingXuKaiPiao"
+      this.axios.post(url, {'bianhao':bianhao}).then(res => {
+        if(res.data.code == '00') {
+          var xukaipiao = res.data.xukaipiao
+          if(xukaipiao.length < 1){
+            MessageUtil.error("出库单已全部开票");
+            return;
+          }
+          this.xukaiList = xukaipiao
+          this.selKaiPiao = true
+          console.log(xukaipiao)
+        } else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    kaipiaoInput(index,row){
+      if(this.xukaiList[index].weikai * 1 < this.xukaiList[index].thisKai * 1){
+        this.xukaiList[index].thisKai = this.xukaiList[index].weikai * 1
+      }
+    },
+
+    kaipiaoNext(){
+      var xukaiList = this.xukaiList
+      var kaipiaoList = []
+      for(var i=0; i < xukaiList.length; i++){
+        if(xukaiList[i].thisKai != "" && xukaiList[i].thisKai != null && xukaiList[i].thisKai != undefined){
+          if(xukaiList[i].thisKai * 1 > 0){
+            kaipiaoList.push(xukaiList[i])
+          }
+        }
+      }
+      console.log(kaipiaoList)
+      if(xukaiList.length < 1){
+        MessageUtil.error("请填写本次开票金额");
+        return;
+      }
+      this.kaipiaoList = kaipiaoList
+      var customerList = this.XiaLa_KeHu
+      this.kaipiaoBody = ""
+      for(var i=0; i<customerList.length; i++){
+        if(customerList[i].name == this.gongYingShang.kehu){
+          this.kaipiaoBody={
+            shoupiaoDanwei : customerList[i].name,
+            shibiehao : customerList[i].shibiehao,
+            kaipiaoDizhi : customerList[i].kaipiaoDizhi,
+            kaipiaoDianhua : customerList[i].kaipiaoDianhua,
+            kaipiaoYinhang : customerList[i].kaipiaoYinhang,
+            kaipiaoZhanghao : customerList[i].kaipiaoZhanghao,
+            xiaoshouBianhao:'',
+            kaipiaoRiqi:'',
+            kaipiaoJine:'',
+            kaipiaoShuie:'',
+            jiashuiHeji:'',
+            beizhu:'',
+            kaipiaoDanwei:'',
+            xinxiTuisong:'',
+            kaipiaoZhuangtai:'待开票',
+          }
+        }
+      }
+      this.selKaiPiao = false
+      this.selKaiPiaoConfirm = true
+    },
+
+    kaipiaoSure(){
+      var kaipiaoBody = this.kaipiaoBody
+      console.log(kaipiaoBody)
+      console.log(this.kaipiaoList)
+      if(kaipiaoBody.kaipiaoRiqi == ""){
+        MessageUtil.error("未填写开票日期");
+        return;
+      }
+      if(kaipiaoBody.kaipiaoDanwei == ""){
+        MessageUtil.error("未填写开票单位");
+        return;
+      }
+      if(kaipiaoBody.xinxiTuisong == ""){
+        MessageUtil.error("未填写信息推送");
+        return;
+      }
+      var date = {
+        head:kaipiaoBody,
+        body:this.kaipiaoList,
+      }
+      let url="http://localhost:8102/kaiPiao/kaiPiaoListAdd"
+      this.axios.post(url,date).then(res => {
+        if(res.data.code=="00"){
+          this.selKaiPiaoConfirm = false
+          this.drawer = false
+          MessageUtil.success("完成");
+        }else{
+          MessageUtil.error("获取失败");
+        }
+      }).catch(()=>{
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    seeList(row){
+      this.p_id=row.id
+      let url="http://localhost:8102/xiaoShouChuKu/selectXiangQingById"
+      this.axios.post(url,{'id':row.id,'bianhao':row.bianhao}).then(res=>{
+        if(res.data.code=='00'){
+          console.log(res.data)
+          var this_val = res.data.dingdan[0]
+          this_val.body = res.data.shangpin
+          this.shangpin_money = 0
+          for(var i=0; i<res.data.shangpin.length; i++){
+            this.shangpin_money = this.shangpin_money + Math.round(res.data.shangpin[i].jiashuiXiaoji * 100) / 100
+          }
+          this_val.shoukuan = res.data.shoukuan
+          var shoukuan_money = 0
+          for(var i=0; i<res.data.shoukuan.length; i++){
+            shoukuan_money = shoukuan_money + Math.round(res.data.shoukuan[i].jiashuiXiaoji * 100) / 100
+          }
+          this_val.kaipiao = res.data.kaipiao
+          this_val.dingjin = res.data.dingjin
+          this_val.dingjinyiyong = res.data.dingjinyiyong
+          this.dingjinUse = res.data.dingdan[0].dingjinUse * 1
+          this.dingjinSum = res.data.dingjin[0].dingjin * 1
+          this.yiyong = res.data.dingjinyiyong[0].yiyong * 1
+          this.dingjinYue = this.dingjinSum - this.yiyong
+          this.qiankuan = this.shangpin_money - this.dingjinUse - shoukuan_money
+          this.gongYingShang = this_val
+          console.log(res.data.data);
+          console.log("获取成功");
+          this.drawer=true;
+        }else {
+          MessageUtil.error("获取失败");
+        }
+      }).catch(()=>{
+        MessageUtil.error("网络异常");
+      })
     },
 
     CaiGouDanClick(row,column,event){
@@ -797,6 +1412,8 @@ export default {
             cangku: '',
             beizhu: '',
             xiaoshouId: '',
+            chukuDanwei:'',
+            yewuyuan:'',
             body:[
               {
                 shangpinBianma:'',
@@ -1112,6 +1729,57 @@ export default {
       })
     },
 
+    getXiaLa_chukuDanwei(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"核算单位"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_chukuDanwei = res.data.data;
+          for(var i=0; i<this.XiaLa_chukuDanwei.length; i++){
+            this.XiaLa_chukuDanwei[i].label = this.XiaLa_chukuDanwei.name
+          }
+          console.log("质保等级下拉已获取");
+        } else {
+          console.log("质保等级下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_ShenHe(){
+      let url = "http://localhost:8102/user/fuzzyQuery"
+      this.axios.post(url,{"keyword":""}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_ShenHe = res.data.data;
+          for(var i=0; i<this.XiaLa_ShenHe.length; i++){
+            this.XiaLa_ShenHe[i].label = this.XiaLa_ShenHe.name
+          }
+          console.log("审核人下拉已获取");
+        } else {
+          console.log("审核人下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_HeSuanDanWei(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"核算单位"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_HeSuanDanWei = res.data.data;
+          for(var i=0; i<this.XiaLa_HeSuanDanWei.length; i++){
+            this.XiaLa_HeSuanDanWei[i].label = this.XiaLa_HeSuanDanWei.name
+          }
+          console.log("核算单位下拉已获取");
+        } else {
+          console.log("核算单位下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
     //查询全部
     getAll(){
       let url = "http://localhost:8102/xiaoShouChuKu/getAll"
@@ -1285,11 +1953,31 @@ export default {
         MessageUtil.error("请选择仓库");
         return;
       }
+
+      if(this.gongYingShang.chukuDanwei == ''){
+        MessageUtil.error("请填写出库单位");
+        return;
+      }
+      if(this.gongYingShang.yewuyuan == ''){
+        MessageUtil.error("请填写业务员");
+        return;
+      }
+      if(this.gongYingShang.xiaoshouId == ''){
+        MessageUtil.error("请选择销售单号");
+        return;
+      }
+
       for(var i=0; i<this.gongYingShang.body.length; i++){
         if(this.gongYingShang.body[i].shangpinBianma == ''){
           MessageUtil.error('第' + (i * 1+1) + '条商品未选择商品');
           return;
         }
+
+        if(this.gongYingShang.body[i].danwei == ''){
+          MessageUtil.error('第' + (i * 1+1) + '条商品未填写单位');
+          return;
+        }
+
         if(this.gongYingShang.body[i].shuliang == ''){
           MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
           return;

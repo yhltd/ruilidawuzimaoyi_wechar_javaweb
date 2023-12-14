@@ -55,6 +55,8 @@
           <el-menu-item @click="goRouter('/supplier')"><p class="custom-menu-item">供应商</p></el-menu-item>
           <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
           <el-menu-item @click="goRouter('/printlist')"><p class="custom-menu-item">打印</p></el-menu-item>
+          <!--          增加商品规格页面-->
+          <el-menu-item @click="goRouter('/shangPinGuiGe')"><p class="custom-menu-item">商品规格</p></el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">下拉配置</template>
@@ -72,17 +74,24 @@
           </el-menu-item>
           <el-menu-item @click="getRouterParam('/basePeizhi', '供应商等级')"><p class="custom-menu-item">供应商等级</p>
           </el-menu-item>
-          <el-menu-item @click="getRouterParam('/basePeizhi', '价格等级')"><p class="custom-menu-item">价格等级</p>
-          </el-menu-item>
+<!--          <el-menu-item @click="getRouterParam('/basePeizhi', '价格等级')"><p class="custom-menu-item">价格等级</p>-->
+<!--          </el-menu-item>-->
           <el-menu-item @click="getRouterParam('/basePeizhi', '客户分类')"><p class="custom-menu-item">客户分类</p>
           </el-menu-item>
           <el-menu-item @click="getRouterParam('/basePeizhi', '质保等级')"><p class="custom-menu-item">质保等级</p>
           </el-menu-item>
-          <el-menu-item @click="getRouterParam('/basePeizhi', '价格上浮率')"><p class="custom-menu-item">价格上浮率</p>
-          </el-menu-item>
+<!--          <el-menu-item @click="getRouterParam('/basePeizhi', '价格上浮率')"><p class="custom-menu-item">价格上浮率</p>-->
+<!--          </el-menu-item>-->
           <el-menu-item @click="getRouterParam('/basePeizhi', '记账分类')"><p class="custom-menu-item">记账分类</p>
           </el-menu-item>
           <el-menu-item @click="getRouterParam('/basePeizhi', '记账明细类型')"><p class="custom-menu-item">记账明细类型</p>
+          </el-menu-item>
+          <!--         index页面 增加商品单位、进项税率、销项税率-->
+          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','商品单位')"><p class="custom-menu-item">商品单位</p>
+          </el-menu-item>
+          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','进项税率')"><p class="custom-menu-item">进项税率</p>
+          </el-menu-item>
+          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','销项税率')"><p class="custom-menu-item">销项税率</p>
           </el-menu-item>
         </el-submenu>
 

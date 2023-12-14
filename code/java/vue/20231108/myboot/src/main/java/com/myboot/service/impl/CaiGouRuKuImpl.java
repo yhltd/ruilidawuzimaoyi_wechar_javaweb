@@ -5,6 +5,7 @@ import com.myboot.mapper.CaiGouRuKuMapper;
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.CaiGouRuKu;
 import com.myboot.pojo.CaiGouRuKuAdd;
+import com.myboot.pojo.CaiGouRuKuXiangQing;
 import com.myboot.service.CaiGouRuKuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,41 @@ public class CaiGouRuKuImpl implements CaiGouRuKuService {
 
     public List<CaiGouRuKu> selectWeiFu(){
         return mapper.selectWeiFu();
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingShangPin(Integer id) {
+        return mapper.xiangQingShangPin(id);
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingShouKuan(String bianhao) {
+        return mapper.xiangQingShouKuan(bianhao);
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingKaiPiao(String bianhao) {
+        return mapper.xiangQingKaiPiao(bianhao);
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingDingJin(String bianhao) {
+        return mapper.xiangQingDingJin(bianhao);
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingDingJinYiYong(String bianhao) {
+        return mapper.xiangQingDingJinYiYong(bianhao);
+    }
+
+    @Override
+    public int chuKuDingJinUpd(Integer id, String dingjin) {
+        return mapper.chuKuDingJinUpd(id,dingjin);
+    }
+
+    @Override
+    public List<CaiGouRuKuXiangQing> xiangQingXuKaiPiao(String bianhao) {
+        return mapper.xiangQingXuKaiPiao(bianhao);
     }
 
 }

@@ -2,6 +2,8 @@ package com.myboot.mapper;
 
 import com.myboot.pojo.CaiGouDingDan;
 import com.myboot.pojo.XiaoShouChuKu;
+import com.myboot.pojo.XiaoShouChuKuXiangQing;
+import com.myboot.pojo.XiaoShouDingDanXiangQing;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +37,18 @@ public interface XiaoShouChuKuMapper {
 
     public List<XiaoShouChuKu> selectWeiFu();
 
+    public List<XiaoShouChuKuXiangQing> xiangQingShangPin(Integer id);
 
+    public List<XiaoShouChuKuXiangQing> xiangQingShouKuan(String bianhao);
+
+    public List<XiaoShouChuKuXiangQing> xiangQingKaiPiao(String bianhao);
+
+    public List<XiaoShouChuKuXiangQing> xiangQingDingJin(String bianhao);
+
+    public List<XiaoShouChuKuXiangQing> xiangQingDingJinYiYong(String bianhao);
+
+    //修改使用订金金额
+    public int chuKuDingJinUpd(Integer id,String dingjin);
+
+    public List<XiaoShouChuKuXiangQing> xiangQingXuKaiPiao(String bianhao);
 }

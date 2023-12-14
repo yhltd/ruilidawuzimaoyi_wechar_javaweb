@@ -20,4 +20,7 @@ public class CaiGouDingDan {
     private String yifu;
     private String weifu;
     private String isselect;
+
+    private String caigouDanwei;
+    private String yewuyuan;
 }

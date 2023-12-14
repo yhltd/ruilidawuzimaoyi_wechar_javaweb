@@ -17,4 +17,7 @@ public class CaiGouRuKuItem {
     private String jiashuiXiaoji;
     private String beizhu;
     private Integer rukuId;
+
+    private String rukuDanwei;
+    private String yewuyuan;
 }

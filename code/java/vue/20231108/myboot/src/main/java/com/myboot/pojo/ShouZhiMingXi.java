@@ -17,4 +17,6 @@ public class ShouZhiMingXi {
     private String kediShuie;
     private String zhaiyao;
     private String shouzhiType;
+
+    private String jizhangDanwei;
 }
