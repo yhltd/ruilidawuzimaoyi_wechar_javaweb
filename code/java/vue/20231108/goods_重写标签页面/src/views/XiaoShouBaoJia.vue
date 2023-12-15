@@ -199,7 +199,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户" prop="kehu" class="custom-form-item">
+            <el-form-item label="客户" prop="kehu" class="custom-form-item" :rules="[{required:true,message:'客户不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.kehu" @change="changeKeHu()" clearable filterable placeholder="请选择客户">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -213,7 +213,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item">
+            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item" :rules="[{required:true,message:'价格等级不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -227,7 +227,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
+            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item" :rules="[{required:true,message:'业务员不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -240,8 +240,8 @@
               <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
+          <el-col :span="10"><!-- ztt 修改宽度-->
+            <el-form-item label="店铺" prop="dianpu" class="custom-form-item" :rules="[{required:true,message:'店铺不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -251,11 +251,16 @@
                     :value="item.name">
                 </el-option>
               </el-select>
-<!--              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp"></el-input>-->
+              <!--             ztt 快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '店铺')">添加</el-button>
+                <!--            ztt end-->
             </el-form-item>
+  <!--              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp"></el-input>-->
+
           </el-col>
           <el-col :span="6">
-            <el-form-item label="销项税率" prop="xiaoxiangShuilv" class="custom-form-item">
+            <el-form-item label="销项税率" prop="xiaoxiangShuilv" class="custom-form-item" :rules="[{required:true,message:'销项税率不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.xiaoxiangShuilv" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
@@ -264,21 +269,41 @@
               <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
+          <!--         ztt 审核人列表修改-->
           <el-col :span="6">
             <el-form-item label="审核人" prop="shenhe" class="custom-form-item">
-              <el-select v-model="gongYingShang.shenhe" clearable filterable placeholder="请选择审核人">
-                <!-- types 为后端查询 -->
+              <el-input ref="acc_inp" v-model="gongYingShang.shenhe" class="custom-login-inp" @click.native="seeShenHeRen"></el-input>
+            </el-form-item>
+          </el-col>
+          <!--            ztt end-->
+<!--          <el-col :span="6">-->
+<!--            <el-form-item label="审核人" prop="shenhe" class="custom-form-item">-->
+<!--              <el-select v-model="gongYingShang.shenhe" clearable filterable placeholder="请选择审核人">-->
+<!--                &lt;!&ndash; types 为后端查询 &ndash;&gt;-->
+<!--                <el-option-->
+<!--                    v-for="item in XiaLa_ShenHe"-->
+<!--                    :key="item.name"-->
+<!--                    :label="item.name"-->
+<!--                    :value="item.name">-->
+<!--                </el-option>-->
+<!--              </el-select>-->
+<!--              &lt;!&ndash;              <el-input ref="acc_inp" v-model="gongYingShang.caigouyuan" class="custom-login-inp"></el-input>&ndash;&gt;-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+          <!--       ztt   增加销售单位-->
+          <el-col :span="6">
+            <el-form-item label="销售单位" prop="xiaoshoudanwei" class="custom-form-item" :rules="[{required:true,message:'销售单位不能为空',trigger: 'blur'}]"><!-- 设置必填字段 -->
+              <el-select v-model="gongYingShang.xiaoshoudanwei" clearable filterable placeholder="请选择销售单位">
                 <el-option
-                    v-for="item in XiaLa_ShenHe"
+                    v-for="item in XiaLa_HeSuanDanWei"
                     :key="item.name"
                     :label="item.name"
                     :value="item.name">
                 </el-option>
               </el-select>
-              <!--              <el-input ref="acc_inp" v-model="gongYingShang.caigouyuan" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-
+          <!--            ztt end-->
         </el-row>
 
 
@@ -315,7 +340,7 @@
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].jishuBiaozhun" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="10"><!-- ztt 修改宽度-->
               <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
                 <el-select v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
                   <!-- types 为后端查询 -->
@@ -326,21 +351,25 @@
                       :value="item.name">
                   </el-option>
                 </el-select>
+                <!--             ztt 快速跳转到配置项页-->
+                <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                           @click="goToPeiZhi('/basePeizhi', '质保等级')">添加</el-button>
+                <!--            ztt end-->
 <!--                <el-input ref="acc_inp" v-model="gongYingShang.body[index].zhibaoDengji" class="custom-login-inp"></el-input>-->
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="单位" prop="danwei" class="custom-form-item">
+              <el-form-item label="单位" :prop="'body.' + index +'.danwei'" class="custom-form-item" :rules="[{required:true,message:'单位不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].danwei" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="数量" prop="shuliang" class="custom-form-item">
+              <el-form-item label="数量" :prop="'body.' + index +'.shuliang'" class="custom-form-item" :rules="[{required:true,message:'数量不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" @change="changeValue(index,'shuliang')" v-model="gongYingShang.body[index].shuliang" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="报价单价" prop="baojiaDanjia" class="custom-form-item">
+              <el-form-item label="报价单价" :prop="'body.' + index +'.baojiaDanjia'" class="custom-form-item" :rules="[{required:true,message:'报价单价不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" @change="changeValue(index,'baojia_danjia')" v-model="gongYingShang.body[index].baojiaDanjia" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
@@ -384,23 +413,30 @@
         </div>
 
         <el-row :gutter="15">
-          <el-col :span="4">
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
                          @click="addLianXiRen">添加商品
               </el-button>
             </div>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
                          @click="save">保存
               </el-button>
             </div>
           </el-col>
-          <el-col :span="4">
+          <!--         ztt 审核按钮修改-->
+          <el-col :span="5">
+            <div style="display: flex">
+              <el-button class="custom-login-button" type="primary"
+                         @click="saveAndShenHe" style="margin-left: 30px">保存并提交审核
+              </el-button>
+            </div>
+          </el-col>
+          <!--            ztt end-->
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button" type="primary"
                          @click="addClose">取消
@@ -719,6 +755,39 @@
       </div>
 <!--      <div class="bottom" style="height: 300px"></div>-->
     </el-drawer>
+    <!--ztt审核人信息-->
+    <el-dialog title="" :visible.sync="userList" width="90%">
+      <el-row :gutter="15">
+        <el-col :span="6">
+          <p class="dialog-title">审核人信息</p>
+        </el-col>
+      </el-row>
+      <el-table
+          border
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
+          style="width: 100%;;"
+          :height="tableHeight"
+          :data="users"
+          @selection-change="shenheSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="审核人"
+            width="auto">
+        </el-table-column>
+      </el-table>
+      <el-col :span="4">
+        <div style="display: flex;margin-top: 20px">
+          <el-button class="custom-login-button"  type="primary"
+                     @click="addUserNameList" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加
+          </el-button>
+        </div>
+      </el-col>
+    </el-dialog>
+    <!--            ztt end-->
 
   </el-container>
 
@@ -732,6 +801,9 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+//ztt end
 export default {
   data() {
     return {
@@ -759,6 +831,10 @@ export default {
       Protype:'',
       Proname:'',
       p_list:[],
+      users:[],//ztt审核人
+      userList:false,//ztt审核人
+      shenheMultipleSelection: [],//ztt审核人多选
+      XiaLa_HeSuanDanWei:[],//ztt销售单位
       XiaLa_KeHu:[],
       XiaLa_User:[],
       XiaLa_DianPu:[],
@@ -791,6 +867,7 @@ export default {
         xiaoxiangShuilv: '',
         beizhu:'',
         shenhe:'',
+        xiaoshoudanwei:'',//ztt销售单位
         jiageDengji:'',
         shenheZhuangtai:'审核中',
         body:[
@@ -831,8 +908,50 @@ export default {
     this.getXiaLa_MuBan();
     this.getjianyiBaojia();
     this.getXiaLa_jiageDengji();
+    this.getXiaLa_HeSuanDanWei();//ztt销售单位
   },
   methods: {
+    // ztt审核人修改
+    seeShenHeRen(){
+      if(this.userPower.xiaoshouBaojiaAdd != '是'){
+        MessageUtil.error("无添加权限");
+        return;
+      }
+      let url = "http://localhost:8102/user/queryAllUsers"
+      this.axios.post(url).then(res =>{
+        if(res.data.code == 0){
+          this.users = res.data.data
+          console.log("ss")
+          console.log(this.users)
+          this.userList = true
+        }
+      })
+    },
+    //ztt end
+    // ztt增加销售单位关联核算数据
+    getXiaLa_HeSuanDanWei(){
+      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      this.axios.post(url,{"type":"核算单位"}).then(res =>{
+        if(res.data.code == '00'){
+          this.XiaLa_HeSuanDanWei = res.data.data;
+          for (var i=0; i<this.XiaLa_HeSuanDanWei.length; i++){
+            this.XiaLa_HeSuanDanWei[i].label = this.XiaLa_HeSuanDanWei.name
+          }
+          console.log("核算单位下拉已获取");
+        } else {
+          console.log("核算单位下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常")
+      })
+    },
+    //ztt end
+
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+    //ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
@@ -1022,8 +1141,9 @@ export default {
             xiaoxiangShuilv: '',
             beizhu:'',
             shenhe:this.userInfo.shenpi,
+            xiaoshoudanwei:'',//ztt销售单位
             jiageDengji:'',
-            shenheZhuangtai:'审核中',
+            shenheZhuangtai:'未审核',//ztt修改审核
             body:[
               {
                 shangpinBianhao:'',
@@ -1162,13 +1282,21 @@ export default {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userPower = res.data.data
-          if(this.userPower.xiaoshouBaojiaSel == '查看全部'){
-            this.getAll();
-          }else if(this.userPower.xiaoshouBaojiaSel == '查看个人'){
-            this.getAllByName();
-          }else{
-            MessageUtil.error("无查询权限");
+              // <!--    ztt 导航栏快速跳转未审核-->
+          this.shuju = this.$route.query.baojiashenhegeshu
+          console.log('判断查询审核:' + this.$route.query.baojiashenhegeshu)
+          if( this.shuju != undefined ){
+            this.myShenHe();
+          }else {
+            if (this.userPower.xiaoshouBaojiaSel == '查看全部') {
+              this.getAll();
+            } else if (this.userPower.xiaoshouBaojiaSel == '查看个人') {
+              this.getAllByName();
+            } else {
+              MessageUtil.error("无查询权限");
+            }
           }
+          // ztt end
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {
@@ -1350,6 +1478,15 @@ export default {
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          //ztt 审核
+          for(var i=this.tableData.length -1 ; i >= 0; i--){
+            if(this.tableData[i].shenheZhuangtai == '未提交审核'){
+              if(this.tableData[i].yewuyuan != this.userInfo.name){
+                this.tableData.splice(i,1)
+              }
+            }
+          }
+          //ztt end
           this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -1425,6 +1562,15 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          //ztt 审核
+          for(var i=this.tableData.length -1 ; i >= 0; i--){
+            if(this.tableData[i].shenheZhuangtai == '未提交审核'){
+              if(this.tableData[i].yewuyuan != this.userInfo.name){
+                this.tableData.splice(i,1)
+              }
+            }
+          }
+          //ztt end
           this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -1474,7 +1620,53 @@ export default {
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          this.total = res.data.data.length;
+          //ztt 审核
+          var shenheName = []
+          var shenheList = []
+          for(var i=this.tableData.length - 1; i>= 0; i--) {
+            console.log("xunhuan")
+            console.log(this.tableData)
+            if (this.tableData[i].shenhe != undefined) {
+              var this_arr = this.tableData[i].shenhe.split(",")
+            }
+            console.log("a")
+            console.log(this_arr)
+            if (this.tableData[i].shenheList != undefined) {
+              var shenhe_arr = this.tableData[i].shenheList.split(",")
+            }
+            console.log("s")
+            console.log(shenhe_arr)
+            for (var j = 0; j < this_arr.length; j++) {
+              shenheName.push(this_arr[j])
+              console.log("z")
+            }
+
+            for (var j = 0; j < shenhe_arr.length; j++) {
+              shenheList.push(shenhe_arr[j])
+              console.log("x")
+            }
+            var panduan = false
+            var xiabiao = ""
+            for (var j = 0; j < this_arr.length; j++) {
+              if (this_arr[j] == this.userInfo.name) {
+                panduan = true
+                xiabiao = j
+                console.log("c")
+              }
+            }
+
+            if (panduan == false) {
+              this.tableData.splice(i, 1)
+              console.log("v")
+            } else if (xiabiao != "" || xiabiao >= 0) {
+              if (shenhe_arr[xiabiao] == "审核通过") {
+                this.tableData.splice(i, 1)
+                console.log("b")
+              }
+            }
+            //ztt end
+            this.total = res.data.data.length;
+          }
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
           MessageUtil.error(res.data.msg);
@@ -1483,7 +1675,13 @@ export default {
         MessageUtil.error("网络异常");
       })
     },
-
+// ztt审核按钮提交修改
+    saveAndShenHe(){
+      var this_list = this.gongYingShang
+      this_list.shenheZhuangtai = "审核中"
+      this.save();
+    },
+    //ztt end
     delLianXiRen(index){
       console.log(index)
       this.$confirm('是否删除此信息?', '提示', {
@@ -1660,15 +1858,61 @@ export default {
       }
       this.p_list = []
       for(var i=0; i<this.multipleSelection.length; i++){
-        this.p_list.push(this.multipleSelection[i].id)
+        this.p_list.push(this.multipleSelection[i])//ztt 审核
       }
       this.dialogVisible = true;
     },
 
     shenheTrue(){
       console.log(this.p_list)
+      //ztt 审核
+
+      var this_list = []
+      for(var i=0; i<this.p_list.length; i++){
+        var this_shenhe = this.p_list[i].shenhe.split(",")
+        var this_shenhe_list = this.p_list[i].shenheList.split(",")
+        var shenhe_str = ""
+        var shenheList_str = ""
+        for(var j=0; j<this_shenhe.length; j++){
+          if(this_shenhe[j] == this.userInfo.name){
+            if(shenheList_str == ""){
+              shenheList_str = "审核通过"
+            }else{
+              shenheList_str = shenheList_str + ",审核通过"
+            }
+          }else{
+            if(shenheList_str == ""){
+              shenheList_str = this_shenhe_list[j]
+            }else{
+              shenheList_str = shenheList_str + "," + this_shenhe_list[j]
+            }
+          }
+        }
+        var shenheZhuangtai = this.p_list[i].shenheZhuangtai
+        var shenhe_arr = shenheList_str.split(",")
+        var this_panduan = true
+        for(var j=0; j<shenhe_arr.length; j++){
+          if(shenhe_arr[j] != '审核通过'){
+            this_panduan = false
+          }
+        }
+        if(this_panduan == true && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核通过"
+        }
+        if(this_panduan == false && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核中"
+        }
+        this_list.push({
+          id:this.p_list[i].id,
+          shenheList:shenheList_str,
+          shenheZhuangtai:shenheZhuangtai
+        })
+      }
+      console.log(this_list)
+
       let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
-      axios.post(url, {"list": this.p_list,"type":"审核通过"}).then(res => {
+      axios.post(url, {"list": this_list}).then(res => {
+        //ztt end
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
         this.myShenHe()
@@ -1679,8 +1923,54 @@ export default {
     },
     shenheFalse(){
       console.log(this.p_list)
+      //ztt 审核
+      var this_list = []
+      for(var i=0; i<this.p_list.length; i++){
+        console.log(this.p_list[i])
+        var this_shenhe = this.p_list[i].shenhe.split(",")
+        var this_shenhe_list = this.p_list[i].shenheList.split(",")
+        var shenhe_str = ""
+        var shenheList_str = ""
+        for(var j=0; j<this_shenhe.length; j++){
+          if(this_shenhe[j] == this.userInfo.name){
+            if(shenheList_str == ""){
+              shenheList_str = "审核未通过"
+            }else{
+              shenheList_str = shenheList_str + ",审核未通过"
+            }
+          }else{
+            if(shenheList_str == ""){
+              shenheList_str = this_shenhe_list[j]
+            }else{
+              shenheList_str = shenheList_str + "," + this_shenhe_list[j]
+            }
+          }
+        }
+        var shenheZhuangtai = this.p_list[i].shenheZhuangtai
+        var shenhe_arr = shenheList_str.split(",")
+        var this_panduan = true
+        for(var j=0; j<shenhe_arr.length; j++){
+          if(shenhe_arr[j] != '审核未通过'){
+            this_panduan = false
+          }
+        }
+        if(this_panduan == true && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核通过"
+        }
+        if(this_panduan == false && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核中"
+        }
+        this_list.push({
+          id:this.p_list[i].id,
+          shenheList:shenheList_str,
+          shenheZhuangtai:shenheZhuangtai
+        })
+      }
+      console.log(this_list)
+
       let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
-      axios.post(url, {"list": this.p_list,"type":"审核未通过"}).then(res => {
+      axios.post(url, {"list": this_list}).then(res => {
+        // ztt end
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
         this.myShenHe()
@@ -1689,6 +1979,36 @@ export default {
         this.dialogVisible = false;
       })
     },
+    // ztt多选添加审核人按钮
+    addUserNameList(){
+      var this_list = this.gongYingShang
+      console.log("kaishi")
+      console.log(this_list)
+      var str = ""
+      var shenhe = ""
+      for (var i=0; i<this.shenheMultipleSelection.length;i++){
+
+        if(str == ""){
+          str = this.shenheMultipleSelection[i].name
+          shenhe = "审核中"
+        }else{
+          str = str + "," + this.shenheMultipleSelection[i].name
+          shenhe = shenhe + ',' + "审核中"
+        }
+        console.log("shuju")
+        console.log(this.shenheMultipleSelection[i].name)
+      }
+      this_list.shenhe = str
+      this_list.shenheList = shenhe
+      this.gongYingShang = this_list
+      this.userList = false
+    },
+    // 审核人信息多选
+    shenheSelectionChange(val){
+      this.shenheMultipleSelection = val;
+      console.log(val)
+    },
+    //ztt end
 
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);

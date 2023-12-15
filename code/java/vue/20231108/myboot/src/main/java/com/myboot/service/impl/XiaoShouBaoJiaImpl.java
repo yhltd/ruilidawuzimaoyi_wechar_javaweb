@@ -96,15 +96,17 @@ public class XiaoShouBaoJiaImpl implements XiaoShouBaoJiaService {
     }
 
 
+    //ztt 审核
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int baoJiaShenHe(List<Integer> list,String type) {
+    public int baoJiaShenHe(List<XiaoShouBaoJia> list) {
         int count = 0;
-        for(Integer id : list) {
-            count += mapper.baoJiaShenHe(id,type);
+        for(int i=0; i<list.size(); i++) {
+            count += mapper.baoJiaShenHe(list.get(i).getId(),list.get(i).getShenheList(),list.get(i).getShenheZhuangtai());
         }
         return count;
     }
+    //ztt end
 
 
 }

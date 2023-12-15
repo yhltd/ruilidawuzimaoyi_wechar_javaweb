@@ -196,7 +196,7 @@
               <el-input ref="acc_inp" @click.native="selectProduct()" readonly="true" v-model="gongYingShang.caigouBianhao" class="custom-login-inp" placeholder="点击选择采购单"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="收票单位" prop="shoupiaoDanwei" class="custom-form-item">
               <el-select v-model="gongYingShang.shoupiaoDanwei" clearable filterable placeholder="请选择供应商">
                 <!-- types 为后端查询 -->
@@ -207,6 +207,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--            ztt  快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '核算单位')">添加</el-button>
+              <!--            ztt end-->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -482,6 +486,9 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 export default {
   data() {
     return {
@@ -542,6 +549,11 @@ export default {
     this.getXiaLa_CangKu();
   },
   methods: {
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+//ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
@@ -743,11 +755,18 @@ export default {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userPower = res.data.data
-          if(this.userPower.caigouShoupiaoSel == '是'){
-            this.getAll();
-          }else{
-            MessageUtil.error("无查询权限");
+          // <!--    ztt 导航栏快速跳转未审核-->
+          this.shuju = this.$route.query.caigoushoupiaogeshu
+          if (this.shuju!=undefined){
+            this.myShouPiao();
+          }else {
+            if (this.userPower.caigouShoupiaoSel == '是') {
+              this.getAll();
+            } else {
+              MessageUtil.error("无查询权限");
+            }
           }
+          // ztt end
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {

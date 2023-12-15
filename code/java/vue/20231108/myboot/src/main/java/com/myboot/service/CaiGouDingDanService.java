@@ -35,8 +35,10 @@ public interface CaiGouDingDanService {
     int delUsers(List<Integer> list);
 
     public List<CaiGouDingDan> selectWeiFu();
-
-    public int caiGouShenHe(List<Integer> list,String type);
+    //ztt 审核
+    public int caiGouShenHe(List<CaiGouDingDan> list,String type);
+    public List<CaiGouDingDan> getAllYiShen();
+    //ztt end
 
 
     public List<CaiGouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao);

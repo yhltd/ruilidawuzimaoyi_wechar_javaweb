@@ -21,7 +21,7 @@
     </sql>
     <select id="login" parameterType="com.myboot.vo.UserVO" resultType="com.myboot.pojo.User">
         select
-        id,name,username,power,shenpi,cangku,dianpu,hesuan_danwei,changyong,shoukuan_zhanghu as shoukuanZhanghu,zhibao_dengji as zhibaoDengji
+        id,name,username,power,shenpi,cangku,dianpu,hesuan_danwei,changyong,shoukuan_zhanghu,zhibao_dengji
         from userInfo
         where
         username = #{username}
@@ -33,7 +33,8 @@
         select
         id,name as name,username as userName,power as power ,shenpi as shenpi,
         cangku as cangku,dianpu as dianpu,
-        hesuan_danwei as hesuanDanwei,changyong as changyong
+        hesuan_danwei as hesuanDanwei,changyong as changyong,
+        shoukuan_zhanghu,zhibao_dengji
         from
         userInfo
         where

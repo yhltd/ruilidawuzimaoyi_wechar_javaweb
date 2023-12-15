@@ -14,6 +14,9 @@
           <img src="../assets/menuLogo.png" style="height: 40px;width: 40px;margin-right: 10px">
           <span style="font-size: 15px">进销存系统</span>
         </el-menu-item>
+
+        <el-menu-item @click="goRouter('/main')">首页</el-menu-item>
+
         <el-submenu index="1" style="margin-left:5%" >
           <template slot="title">销售</template>
           <el-menu-item @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>

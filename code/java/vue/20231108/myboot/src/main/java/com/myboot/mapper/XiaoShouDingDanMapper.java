@@ -39,9 +39,10 @@ public interface XiaoShouDingDanMapper {
     public List<XiaoShouDingDan> selectMaxDanHao();
 
     public List<XiaoShouDingDan> shenHeList(String name);
-
-    public int dingDanShenHe(int id,String type);
-
+    //ztt 审核
+    public List<XiaoShouDingDan> getAllYiShen();
+    public int dingDanShenHe(int id,String shenheList,String shenheZhuangtai);
+    //ztt end
     public List<XiaoShouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao);
 
     public List<XiaoShouDingDanXiangQing> xiangQingChuKu(String bianhao);

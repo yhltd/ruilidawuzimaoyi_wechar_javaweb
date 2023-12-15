@@ -1,97 +1,99 @@
 <template>
-  <el-container direction="vertical">
+  <el-container style="height: 100%;" direction="vertical">
+    <el-main style="height: 60%;padding-bottom:30px">
+      <el-form :model="ZhuanZhang" ref="addUsr" label-width="150px"
+               class="demo-info" style="margin-left:10px;">
 
-    <el-form :model="ZhuanZhang" ref="addUsr" label-width="150px"
-             class="demo-info">
+        <el-form-item label="税率%" prop="shuilv" class="custom-form-item">
+          <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px" type="number"></el-input>
+        </el-form-item>
 
-      <el-form-item label="税率%" prop="shuilv" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px" type="number"></el-input>
-      </el-form-item>
+        <el-form-item label="是否启用" prop="zhuangtai" class="custom-form-item" >
+          <el-select v-model="ZhuanZhang.zhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_ZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+          <!--          <el-input ref="acc_inp" v-model="ZhuanZhang.zhuanru" class="custom-login-inp" ></el-input>-->
+        </el-form-item>
 
-      <el-form-item label="是否启用" prop="zhuangtai" class="custom-form-item" >
-        <el-select v-model="ZhuanZhang.zhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
-          <!-- types 为后端查询 -->
-          <el-option
-              v-for="item in XiaLa_ZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-        <!--          <el-input ref="acc_inp" v-model="ZhuanZhang.zhuanru" class="custom-login-inp" ></el-input>-->
-      </el-form-item>
+        <!--      增加零售价格是否启用-->
+        <el-form-item label="零售价格是否启用" prop="lingshouZhuangtai" class="custom-form-item1">
+          <el-select v-model="ZhuanZhang.lingshouZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+            <el-option
+                v-for="item in XiaLa_ZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <!--      增加零售价格是否启用-->
-      <el-form-item label="零售价格是否启用" prop="lingshouZhuangtai" class="custom-form-item1">
-        <el-select v-model="ZhuanZhang.lingshouZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
-          <el-option
-              v-for="item in XiaLa_ZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item label="零售上浮比例%" prop="lingshou" class="custom-form-item">
+          <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px" type="number"></el-input>
+        </el-form-item>
 
-      <el-form-item label="零售上浮比例%" prop="lingshou" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.lingshou" class="custom-login-inp" style="width: 300px" type="number"></el-input>
-      </el-form-item>
+        <!--      增加批发价格是否启用-->
+        <el-form-item label="批发价格是否启用" prop="pifaZhuangtai" class="custom-form-item1">
+          <el-select v-model="ZhuanZhang.pifaZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+            <el-option
+                v-for="item in XiaLa_ZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <!--      增加批发价格是否启用-->
-      <el-form-item label="批发价格是否启用" prop="pifaZhuangtai" class="custom-form-item1">
-        <el-select v-model="ZhuanZhang.pifaZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
-          <el-option
-              v-for="item in XiaLa_ZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item label="批发上浮比例%" prop="pifa" class="custom-form-item">
+          <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px" type="number"></el-input>
+        </el-form-item>
 
-      <el-form-item label="批发上浮比例%" prop="pifa" class="custom-form-item">
-        <el-input v-model="ZhuanZhang.pifa" class="custom-login-inp" style="width: 300px" type="number"></el-input>
-      </el-form-item>
+        <!--      增加大客户价格是否启用-->
+        <el-form-item label="大客户价格是否启用" prop="dakehuZhuangtai" class="custom-form-item1">
+          <el-select v-model="ZhuanZhang.dakehuZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
+            <el-option
+                v-for="item in XiaLa_ZhuangTai"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <!--      增加大客户价格是否启用-->
-      <el-form-item label="大客户价格是否启用" prop="dakehuZhuangtai" class="custom-form-item1">
-        <el-select v-model="ZhuanZhang.dakehuZhuangtai" clearable filterable placeholder="请选择" style="width: 300px">
-          <el-option
-              v-for="item in XiaLa_ZhuangTai"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name">
-          </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="大客户上浮比例%" prop="dakehu" class="custom-form-item1">
-        <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px" type="number"></el-input>
-      </el-form-item>
-
-
-      <el-row :gutter="15">
-        <el-col :span="4">
-        </el-col>
-        <el-col :span="4">
-          <div style="display: flex">
-            <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
-                       @click="save">保存
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="4">
-          <div style="display: flex">
-            <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
-                       @click="refresh()">刷新
-            </el-button>
-          </div>
-        </el-col>
-      </el-row>
+        <el-form-item label="大客户上浮比例%" prop="dakehu" class="custom-form-item1">
+          <el-input v-model="ZhuanZhang.dakehu" class="custom-login-inp" style="width: 300px" type="number"></el-input>
+        </el-form-item>
 
 
+        <el-row :gutter="15">
+          <el-col :span="4">
+          </el-col>
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
+                         @click="save">保存
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
+                         @click="refresh()">刷新
+              </el-button>
+            </div>
+          </el-col>
+        </el-row>
 
-    </el-form>
+
+
+      </el-form>
+    </el-main>
+
 
   </el-container>
 

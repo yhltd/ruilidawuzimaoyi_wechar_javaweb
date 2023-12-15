@@ -147,20 +147,26 @@ public class XiaoShouDingDanController {
         sb.append("成功删除了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条删除失败");
         return ResponseCommon.success(sb.toString());
     }
-
+    //ztt 审核
     @RequestMapping("/dingDanShenHe")
     public String dingDanShenHe(@RequestBody JSONObject data) {
         if(data == null || data.get("list") == null) {
             return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
         }
-        List<Integer> list = data.getObject("list", ArrayList.class);
+        JSONArray json = data.getJSONArray("list");
+//        List<Integer> list = data.getObject("list", ArrayList.class);
+        List<XiaoShouDingDan> list = JSONArray.parseArray(json.toJSONString(), XiaoShouDingDan.class);
         String type = data.getString("type");
-        int res = service.xiaoShouShenHe(list,type);
+        int res = service.xiaoShouShenHe(list ,type);
         StringBuffer sb = new StringBuffer();
         sb.append("成功审核了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条审核失败");
         return ResponseCommon.success(sb.toString());
     }
-
+    @GetMapping("/getAllYiShen")
+    public String getAllYiShen() {
+        return ResponseCommon.success(service.getAllYiShen());
+    }
+//ztt end
 
     @PostMapping("/selectWeiFu")
     public String selectWeiFu(HttpSession session, @RequestBody @NonNull JSONObject data) {

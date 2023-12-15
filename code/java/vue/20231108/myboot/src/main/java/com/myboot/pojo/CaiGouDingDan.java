@@ -23,4 +23,7 @@ public class CaiGouDingDan {
 
     private String caigouDanwei;
     private String yewuyuan;
+    //ztt 审核
+    private String shenheList;
+    //ztt end
 }

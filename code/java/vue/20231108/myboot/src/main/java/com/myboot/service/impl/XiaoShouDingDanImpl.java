@@ -126,15 +126,21 @@ public class XiaoShouDingDanImpl implements XiaoShouDingDanService {
         return mapper.xiangQingXuKaiPiao(bianhao);
     }
 
-
+    //ztt 审核
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int xiaoShouShenHe(List<Integer> list,String type) {
+    public int xiaoShouShenHe(List<XiaoShouDingDan> list,String type) {
         int count = 0;
-        for(Integer id : list) {
-            count += mapper.dingDanShenHe(id,type);
+        for(int i=0; i<list.size(); i++) {
+            count += mapper.dingDanShenHe(list.get(i).getId(),list.get(i).getShenheList(),list.get(i).getShenheZhuangtai());
         }
+
         return count;
     }
-
+    @Override
+    public List<XiaoShouDingDan> getAllYiShen() {
+        List<XiaoShouDingDan> xiaoShouDingDan = mapper.getAllYiShen();
+        return xiaoShouDingDan;
+    }
+//ztt end
 }

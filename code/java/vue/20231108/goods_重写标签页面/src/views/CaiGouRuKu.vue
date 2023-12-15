@@ -183,7 +183,7 @@
               <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
               <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
@@ -194,10 +194,14 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--              ztt快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '店铺')">添加</el-button>
+              <!--            ztt end-->
               <!--              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="仓库" prop="cangku" class="custom-form-item">
               <el-select v-model="gongYingShang.cangku" clearable filterable placeholder="请选择仓库">
                 <!-- types 为后端查询 -->
@@ -208,6 +212,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--              ztt快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '仓库')">添加</el-button>
+              <!--            ztt end-->
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.jinxiangShuilv" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
@@ -753,6 +761,9 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 export default {
   data() {
     return {
@@ -844,6 +855,11 @@ export default {
     this.getXiaLa_rukuDanwei();
   },
   methods: {
+//ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+    //ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
@@ -1187,7 +1203,7 @@ export default {
     },
 
     getCaiGouDan(){
-      let url = "http://localhost:8102/caiGouDingDan/getAll"
+      let url = "http://localhost:8102/caiGouDingDan/getAllYiShen"//ztt审核
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGouDan = res.data.data;

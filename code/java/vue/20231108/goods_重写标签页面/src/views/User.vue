@@ -197,12 +197,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="名称" prop="name" class="custom-form-item">
+            <el-form-item label="名称" prop="name" class="custom-form-item" :rules="[{required:true,message:'名称不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.name" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="客户分类" prop="type" class="custom-form-item">
+          <el-col :span="10"><!--  ztt修改宽度-->
+            <el-form-item label="客户分类" prop="type" class="custom-form-item" :rules="[{required:true,message:'客户分类不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.type" clearable filterable placeholder="请选择客户分类">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -212,14 +212,32 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--              ztt快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '客户分类')">添加</el-button>
+              <!--            ztt end-->
             </el-form-item>
           </el-col>
+         <!--ztt 上级单位下拉框，并模糊查询-->
           <el-col :span="6">
             <el-form-item label="上级单位" prop="shangjiDanwei" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="gongYingShang.shangjiDanwei" class="custom-login-inp"></el-input>
+              <el-select v-model="gongYingShang.shangjiDanwei" clearable filterable placeholder="请选择或输入上级单位">
+                <el-option
+                    v-for="item in XiaLa_ShangJiDanWei"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name"></el-option>
+              </el-select>
+              <!--              <el-input ref="acc_inp" v-model="gongYingShang.shangjiDanwei" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!--            ztt end-->
+<!--          <el-col :span="6">-->
+<!--            <el-form-item label="上级单位" prop="shangjiDanwei" class="custom-form-item">-->
+<!--              <el-input ref="acc_inp" v-model="gongYingShang.shangjiDanwei" class="custom-login-inp"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="客户等级" prop="kehuDengji" class="custom-form-item">
               <el-select v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择客户等级">
                 <!-- types 为后端查询 -->
@@ -230,10 +248,14 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--             ztt 快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '客户等级')">添加</el-button>
+              <!--            ztt end-->
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item">
+            <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item" :rules="[{required:true,message:'价格等级不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -264,7 +286,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item">
+            <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item" :rules="[{required:true,message:'业务员不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -317,12 +339,12 @@
         </el-row>
         <el-row :gutter="15">
           <el-col :span="6">
-            <el-form-item label="单位名称" prop="kaipiaoDanwei" class="custom-form-item">
+            <el-form-item label="单位名称" prop="kaipiaoDanwei" class="custom-form-item" :rules="[{required:true,message:'单位名称不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDanwei" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="纳税人识别号" prop="shibiehao" class="custom-form-item">
+            <el-form-item label="纳税人识别号" prop="shibiehao" class="custom-form-item" :rules="[{required:true,message:'纳税人识别号不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.shibiehao" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
@@ -346,6 +368,11 @@
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
+<!--          ztt 开票信息关联-->
+          <el-button class="custom-login-button"  type="primary"
+                     @click="addKaiPiaoXinXi" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>复制开票信息
+          </el-button>
+          <!--            ztt end-->
         </el-row>
 
         <div v-for="(item, index) in gongYingShang.body">
@@ -357,7 +384,7 @@
           </el-row>
           <el-row :gutter="15">
             <el-col :span="6">
-              <el-form-item label="姓名" prop="name" class="custom-form-item">
+              <el-form-item label="姓名" :prop="'body.' + index + '.name'" class="custom-form-item" :rules="[{required:true,message:'姓名不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].name" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
@@ -372,17 +399,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="电话" prop="phone" class="custom-form-item">
+              <el-form-item label="电话" :prop="'body.' + index + '.phone'" class="custom-form-item" :rules="[{required:true,message:'电话不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].phone" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="地址" prop="address" class="custom-form-item">
+              <el-form-item label="地址" prop="address" class="custom-form-item" >
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].address" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="类型" prop="type" class="custom-form-item">
+              <el-form-item label="类型" :prop="'body.' + index + '.type'" class="custom-form-item" :rules="[{required:true,message:'类型不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-select :index="index" @change="selectLeiXing(index,value)" v-model="gongYingShang.body[index].type" clearable filterable placeholder="请选择联系人类型">
                   <!-- types 为后端查询 -->
                   <el-option
@@ -473,6 +500,9 @@ import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
 import { provinceAndCityData,regionData,pcTextArr,pcaTextArr, codeToText} from 'element-china-area-data'
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 
 const optionsnative_place = pcaTextArr
 export default {
@@ -498,6 +528,7 @@ export default {
       XiaLa_Area:[],
       XiaLa_JiaGeDengJi:[],
       XiaLa_YeWuYuan:[],
+      XiaLa_ShangJiDanWei:[],//ztt上级单位下拉框
       XiaLa_LianXiRenLeiXing:[
         {
           name:'联系人',
@@ -572,8 +603,100 @@ export default {
     this.getXiaLa_JiaGeDengJi()
     this.getXiaLa_YeWuYuan()
     this.getUser();
+    this.getXiaLa_ShangJiDanWei();//ztt上级单位下拉框
   },
   methods: {
+    // ztt开票信息
+    addKaiPiaoXinXi(){
+      if(this.userPower.kehuAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
+      var this_list = this.gongYingShang
+      if(this_list.shangjiDanwei != ''){
+        let url = "http://localhost:8102/customer/getAll"
+        this.axios(url).then(res =>{
+          console.log("shuju")
+          console.log(res.data.data)
+
+          if(res.data.code == '00'){
+            var this_danhao = Math.trunc(res.data.data[0].bianhao)
+            console.log(this_danhao)
+            this_danhao = PrefixInteger(this_danhao,6)
+            console.log(this_danhao)
+            this_danhao = "KH" + this_danhao
+            this.kaipiaoxinxi = res.data.data
+            for (var i=0; i<this.kaipiaoxinxi.length; i++){
+              if(this_list.shangjiDanwei == this.kaipiaoxinxi[i].kaipiaoDanwei){
+                var info = this.kaipiaoxinxi[i]
+                console.log("kaipiao")
+                console.log(info)
+                this.gongYingShang={
+                  bianhao:this_danhao,
+                  name: '',
+                  type: '',
+                  shangjiDanwei: this_list.shangjiDanwei,
+                  kehuDengji: '',
+                  jiageDengji: '',
+                  suozaiDiqu:'',
+                  dizhi:'',
+                  beizhu:'',
+                  yewuyuan:this.userInfo.name,
+                  shoujianName:'',
+                  shoujianPhone:'',
+                  shoujianDizhi:'',
+                  kaipiaoDanwei:info.kaipiaoDanwei,
+                  shibiehao:info.shibiehao,
+                  kaipiaoDizhi:info.kaipiaoDizhi,
+                  kaipiaoDianhua:info.kaipiaoDianhua,
+                  kaipiaoYinhang:info.kaipiaoYinhang,
+                  kaipiaoZhanghao:info.kaipiaoZhanghao,
+                  body:[
+                    {
+                      id:0,
+                      name:'',
+                      department:'',
+                      zhiwu:'',
+                      phone:'',
+                      address:'',
+                      type:'',
+                      customerId:'',
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        })
+      }
+    },
+    //ztt end
+    //ztt 上级单位下拉框
+    getXiaLa_ShangJiDanWei(){
+      let url = "http://localhost:8102/customer/getAll"
+      this.axios(url,{"keyword":""}).then(res =>{
+        console.log(res.data.data)
+        if (res.data.code == '00') {
+          this.XiaLa_ShangJiDanWei = res.data.data;
+          console.log(res.data.data)
+          for (var i=0;i<this.XiaLa_ShangJiDanWei.length;i++){
+            this.XiaLa_ShangJiDanWei[i].label = this.XiaLa_ShangJiDanWei[i].shangjiDanwei
+            console.log(this.XiaLa_ShangJiDanWei[i].shangjiDanwei)
+          }
+          console.log("上级单位下拉已获取");
+        } else {
+          console.log("上级单位下拉获取失败")
+        }
+      }).catch(()=>{
+        MessageUtil.error("网络异常")
+      })
+    },
+    //ztt end
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+//ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {

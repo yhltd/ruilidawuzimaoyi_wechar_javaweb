@@ -143,19 +143,20 @@ public class XiaoShouBaoJiaController {
         return ResponseCommon.success(sb.toString());
     }
 
+    //  ztt  审核
     @RequestMapping("/baoJiaShenHe")
     public String baoJiaShenHe(@RequestBody JSONObject data) {
-        if(data == null || data.get("list") == null) {
+        if (data == null || data.get("list") == null) {
             return ResponseCommon.failed(ResponseErrorCode.PARAM_ERROR);
         }
-        List<Integer> list = data.getObject("list", ArrayList.class);
-        String type = data.getString("type");
-        int res = service.baoJiaShenHe(list,type);
+        JSONArray json = data.getJSONArray("list");
+        List<XiaoShouBaoJia> list = JSONArray.parseArray(json.toJSONString(), XiaoShouBaoJia.class);
+        int res = service.baoJiaShenHe(list);
         StringBuffer sb = new StringBuffer();
         sb.append("成功审核了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条审核失败");
         return ResponseCommon.success(sb.toString());
     }
-
+//ztt end
     @PostMapping("/selectMaxDanHao")
     public String selectMaxDanHao(HttpSession session, @RequestBody @NonNull JSONObject data) {
         List<XiaoShouBaoJia> xiaoShouBaoJia = service.selectMaxDanHao();

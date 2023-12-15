@@ -32,9 +32,11 @@ public interface XiaoShouDingDanService {
     public List<XiaoShouDingDan> selectXiaoShouById(Integer id);
 
     int delUsers(List<Integer> list);
-
-    public int xiaoShouShenHe(List<Integer> list,String type);
-
+    //ztt 审核
+    public int xiaoShouShenHe(List<XiaoShouDingDan> list,String type);
+    //查询已审核
+    public List<XiaoShouDingDan> getAllYiShen();
+    //ztt end
     public List<XiaoShouDingDan> selectWeiFu();
 
     public List<XiaoShouDingDan> selectMaxDanHao();

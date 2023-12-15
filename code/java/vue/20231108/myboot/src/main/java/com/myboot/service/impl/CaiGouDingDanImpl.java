@@ -75,17 +75,22 @@ public class CaiGouDingDanImpl implements CaiGouDingDanService {
         return mapper.selectWeiFu();
     }
 
-
+    //ztt 审核
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int caiGouShenHe(List<Integer> list,String type) {
+    public int caiGouShenHe(List<CaiGouDingDan> list,String type) {
         int count = 0;
-        for(Integer id : list) {
-            count += mapper.caiGouShenHe(id,type);
+        for(int i=0; i<list.size(); i++) {
+            count += mapper.caiGouShenHe(list.get(i).getId(),list.get(i).getShenheList(),list.get(i).getShenheZhuangtai());
         }
         return count;
     }
-
+    @Override
+    public List<CaiGouDingDan> getAllYiShen() {
+        List<CaiGouDingDan> caiGouDingDan = mapper.getAllYiShen();
+        return caiGouDingDan;
+    }
+    //ztt end
     @Override
     public List<CaiGouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao) {
         return mapper.xiangQingShangPin(id,bianhao);

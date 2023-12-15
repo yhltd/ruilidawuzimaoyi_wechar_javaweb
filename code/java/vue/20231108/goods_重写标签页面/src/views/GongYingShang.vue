@@ -137,12 +137,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="名称" prop="name" class="custom-form-item">
+            <el-form-item label="名称" prop="name" class="custom-form-item" :rules="[{required:true,message:'名称不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.name" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="等级" prop="gongyingshangDengji" class="custom-form-item">
+          <el-col :span="10"><!--  ztt修改宽度-->
+            <el-form-item label="等级" prop="gongyingshangDengji" class="custom-form-item" :rules="[{required:true,message:'等级不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.gongyingshangDengji" clearable filterable placeholder="请选择等级">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -152,6 +152,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--             ztt 快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '供应商等级')">添加</el-button>
+              <!--            ztt end-->
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
@@ -174,7 +178,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="采购员" prop="caigouyuan" class="custom-form-item">
+            <el-form-item label="采购员" prop="caigouyuan" class="custom-form-item" :rules="[{required:true,message:'采购员不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-select v-model="gongYingShang.caigouyuan" clearable filterable placeholder="请选择采购员">
                 <!-- types 为后端查询 -->
                 <el-option
@@ -247,12 +251,12 @@
         </el-row>
         <el-row :gutter="15">
           <el-col :span="6">
-            <el-form-item label="单位名称" prop="userName" class="custom-form-item">
+            <el-form-item label="单位名称" prop="userName" class="custom-form-item":rules="[{required:true,message:'单位名称不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoDanwei" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="纳税人识别号" prop="userName" class="custom-form-item">
+            <el-form-item label="纳税人识别号" prop="userName" class="custom-form-item" :rules="[{required:true,message:'纳税人识别号不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.shibiehao" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
@@ -267,12 +271,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开户银行" prop="userName" class="custom-form-item">
+            <el-form-item label="开户银行" prop="userName" class="custom-form-item" :rules="[{required:true,message:'开户银行不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoYinhang" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="银行账号" prop="userName" class="custom-form-item">
+            <el-form-item label="银行账号" prop="userName" class="custom-form-item"  :rules="[{required:true,message:'银行账号不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
               <el-input ref="acc_inp" v-model="gongYingShang.kaipiaoZhanghao" class="custom-login-inp" type="number"></el-input>
             </el-form-item>
           </el-col>
@@ -287,7 +291,7 @@
           </el-row>
           <el-row :gutter="15">
             <el-col :span="6">
-              <el-form-item label="姓名" prop="name" class="custom-form-item">
+              <el-form-item label="姓名" :prop="'body.' + index +'.name'" class="custom-form-item" :rules="[{required:true,message:'联系人不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].name" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
@@ -302,7 +306,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="电话" prop="phone" class="custom-form-item">
+              <el-form-item label="电话" :prop="'body.' + index +'.phone'" class="custom-form-item" :rules="[{required:true,message:'电话不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="gongYingShang.body[index].phone" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
@@ -312,7 +316,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="类型" prop="type" class="custom-form-item">
+              <el-form-item label="类型" :prop="'body.' + index +'.type'" class="custom-form-item" :rules="[{required:true,message:'类型不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
                 <el-select :index="index" @change="selectLeiXing(index,value)" v-model="gongYingShang.body[index].type" clearable filterable placeholder="请选择联系人类型">
                   <!-- types 为后端查询 -->
                   <el-option
@@ -405,6 +409,9 @@ import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
 import { provinceAndCityData,regionData,pcTextArr,pcaTextArr, codeToText} from 'element-china-area-data'
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 
 const optionsnative_place = pcaTextArr
 export default {
@@ -493,6 +500,11 @@ export default {
     this.getUser();
   },
   methods: {
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+//ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {

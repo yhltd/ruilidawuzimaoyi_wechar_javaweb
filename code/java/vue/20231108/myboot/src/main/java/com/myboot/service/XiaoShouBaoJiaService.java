@@ -36,8 +36,9 @@ public interface XiaoShouBaoJiaService {
 
     int delUsers(List<Integer> list);
 
-    //修改
-    public int baoJiaShenHe(List<Integer> list,String type);
+    //修改ztt审核
+    public int baoJiaShenHe(List<XiaoShouBaoJia> list);
+    //ztt end
 
     public List<XiaoShouBaoJia> selectMaxDanHao();
 

@@ -208,7 +208,7 @@
 <!--              <el-input ref="acc_inp" @click.native="selectProduct()" disabled="true" v-model="gongYingShang.caigouBianhao" class="custom-login-inp"></el-input>-->
 <!--            </el-form-item>-->
 <!--          </el-col>-->
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
               <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
@@ -219,6 +219,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--             ztt 快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '店铺')">添加</el-button>
+              <!--            ztt end-->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -285,7 +289,7 @@
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.jizhangren" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="记账分类" prop="jizhangType" class="custom-form-item">
               <el-select v-model="gongYingShang.jizhangType" clearable filterable placeholder="请选择记账分类">
                 <!-- types 为后端查询 -->
@@ -296,10 +300,14 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--              ztt快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '记账分类')">添加</el-button>
+              <!--            ztt end-->
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.jizhangType" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="记账账户" prop="jizhangZhanghu" class="custom-form-item">
               <el-select v-model="gongYingShang.jizhangZhanghu" clearable filterable placeholder="请选择记账账户">
                 <!-- types 为后端查询 -->
@@ -310,6 +318,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--              ztt快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '收款账户')">添加</el-button>
+              <!--            ztt end-->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -364,6 +376,10 @@
                       :value="item.name">
                   </el-option>
                 </el-select>
+                <!--              ztt快速跳转到配置项页-->
+                <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                           @click="goToPeiZhi('/basePeizhi', '记账明细类型')">添加</el-button>
+                <!--            ztt end-->
               </el-form-item>
             </el-col>
             <el-col :span="5.5">
@@ -557,6 +573,9 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 export default {
   data() {
     return {
@@ -650,6 +669,11 @@ export default {
     this.getXiaLa_jizhangDanwei();
   },
   methods: {
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+//ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
@@ -887,8 +911,8 @@ export default {
     },
     //查询窗口table中的内容列表
     getCaiGouProduct(){
-      let url = "http://localhost:8102/xiaoShouDingDan/selectWeiFu"
-      this.axios.post(url,{}).then(res => {
+      let url = "http://localhost:8102/xiaoShouDingDan/getAllYiShen"//ztt修改url
+      this.axios(url).then(res => {//ztt修改
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
           console.log(this.CaiGou_Product)

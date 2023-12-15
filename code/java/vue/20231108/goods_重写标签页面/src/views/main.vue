@@ -6,7 +6,42 @@
 <!--        欢迎使用进销存系统-->
 <!--      </div>-->
 <!--    </div>-->
-
+<!--    ztt 导航栏快速跳转未审核-->
+    <div>
+    <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" stretch>
+      <el-tab-pane name="first" label="销售报价" @click="getXiaoShouBaoJiaShenHe">
+        <div class="shenHeShuLiang" style="display: flex;justify-content: space-between">
+          <span @click="gotoXiaoShouBaoJia('/xiaoshoubaojia','baojiashenhegeshu')">需要我审核：{{ this.tableData.length }}个</span>
+          <span></span>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="销售订单" @click="getXiaoShouDingDanShenHe" >
+        <div class="shenHeShuLiang" style="display: flex;justify-content: space-between">
+          <span @click="gotoXiaoShouDingDan('/xiaoshoudingdan','xiaoshoudingdanshenhegeshu')">需要我审核：{{ this.tableData.length }}个</span>
+          <span></span>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="采购订单" @click="getCaiGouDingDanShenHe">
+        <div class="shenHeShuLiang" style="display: flex;justify-content: space-between">
+          <span @click="gotoCaiGouDingDan('/mingxi','caigoudingdangeshu')">需要我审核：{{ this.tableData.length }}个</span>
+          <span></span>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="销售开票" @click="getXiaoShouKaiPiaoShenHe">
+        <div class="shenHeShuLiang" style="display: flex;justify-content: space-between">
+          <span @click="gotoXiaoShouKaiPiao('/xiaoshoukaipiao','xiaoshoukaipiaogeshu')">需要我开票：{{ this.tableData.length }}个</span>
+          <span></span>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="采购收票" @click="getCaiGouShouPiaoShenHe">
+        <div class="shenHeShuLiang" style="display: flex;justify-content: space-between">
+          <span @click="gotoCaiGouShouPiao('/caigoushoupiao','caigoushoupiaogeshu')">需要我收票：{{ this.tableData.length }}个</span>
+          <span></span>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+    </div>
+    <!--            ztt end-->
     <el-main refs="main" style="height: 50%;">
       <div style="display: flex;margin-top:20px" >
         <el-card class="box-card" style="width:30%;height:250px;margin: auto">
@@ -172,7 +207,6 @@
 
 </template>
 
-
 <style>
 .dialog-title{
   font-weight:bold;
@@ -196,6 +230,10 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import * as  echarts from 'echarts';
+// ztt
+import RouterUtil from "../utils/RouterU.js"
+import xiaoShouBaoJia from "@/views/XiaoShouBaoJia.vue";
+// end
 export default {
   data() {
     return {
@@ -206,11 +244,19 @@ export default {
       xiaoshou_tiaojian:"按业务员",
       xiaoshou_shoukuan_tiaojian:"按业务员",
       xiaoshou_maoli_tiaojian:"按业务员",
+      // ztt
+      activeName: 'first',
+      tableData:'',
+      userinfo:'',
+      targetPagePath:'/xiaoshoubaojia',
+      // end
     }
   },
   created() {
-    this.XinZengXiaoShou_Day()
-
+    this.XinZengXiaoShou_Day();
+    // ztt
+    this.getUser();
+    this.getXiaoShouBaoJiaShenHe()
   },
   mounted(){
     this.KeHuQianKuan_refresh()
@@ -223,6 +269,128 @@ export default {
     this.caigou_fukuan_zoushi_Month()
   },
   methods: {
+    //ztt
+    handleClick(tab,event){
+      console.log(tab,event)
+      if (tab.index == "0"){
+        this.getXiaoShouBaoJiaShenHe();
+      } else if(tab.index == "1"){
+        this.getXiaoShouDingDanShenHe();
+      } else if(tab.index == "2"){
+        this.getCaiGouDingDanShenHe();
+      } else if(tab.index == "3"){
+        this.getXiaoShouKaiPiaoShenHe();
+      } else if(tab.index == "4"){
+
+      }
+    },
+    gotoXiaoShouBaoJia(url,shuliang){
+      var shuliang=this.tableData.length
+      RouterUtil.to(url + '?baojiashenhegeshu=' +shuliang)
+    },
+    gotoXiaoShouDingDan(url, shuliang){
+      var shuliang=this.tableData.length
+      RouterUtil.to(url + '?xiaoshoudingdanshenhegeshu=' + shuliang)
+    },
+    gotoCaiGouDingDan(url, shuliang){
+      var shuliang=this.tableData.length
+      RouterUtil.to(url + '?caigoudingdangeshu=' + shuliang)
+    },
+    gotoXiaoShouKaiPiao(url, shuliang){
+      var shuliang=this.tableData.length
+      RouterUtil.to(url + '?xiaoshoukaipiaogeshu=' + shuliang)
+    },
+    gotoCaiGouShouPiao(url, shuliang){
+      var shuliang=this.tableData.length
+      console.log("kaishi")
+      console.log(shuliang)
+      RouterUtil.to(url + '?caigoushoupiaogeshu=' + shuliang)
+    },
+    getXiaoShouBaoJiaShenHe(){
+      let url = "http://localhost:8102/xiaoShouBaoJia/shenheList"
+      this.axios.post(url, {"name":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    getXiaoShouDingDanShenHe(){
+      let url = "http://localhost:8102/xiaoShouDingDan/shenheList"
+      this.axios.post(url, {"name":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    getCaiGouDingDanShenHe(){
+      let url = "http://localhost:8102/caiGouDingDan/getShenHe"
+      this.axios.post(url, {"shenhe":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    getXiaoShouKaiPiaoShenHe(){
+      let url = "http://localhost:8102/kaiPiao/getKaiPiao"
+      this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    getCaiGouShouPiaoShenHe(){
+      let url = "http://localhost:8102/shouPiao/getShouPiao"
+      this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
+        if(res.data.code == '00') {
+          this.tableData = res.data.data;
+          this.total = res.data.data.length;
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    getUser(){
+      this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
+      console.log(this.userInfo)
+      console.log(this.userPower)
+      let url = "http://localhost:8102/user/queryUserInfoById"
+      this.axios.post(url,{"id":this.userInfo.id}).then(res => {
+        if(res.data.code == '00') {
+          console.log(res.data.data)
+          this.userInfo = res.data.data
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+          console.log("账号信息已获取");
+        } else {
+          console.log("账号信息获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+    //end
     XinZengXiaoShou_Day(){
       var firstDayOfMonth = new Date();
       var start_date = firstDayOfMonth.getFullYear() + '-' + (firstDayOfMonth.getMonth() + 1).toString().padStart(2, '0') + '-' + firstDayOfMonth.getDate().toString().padStart(2, '0');

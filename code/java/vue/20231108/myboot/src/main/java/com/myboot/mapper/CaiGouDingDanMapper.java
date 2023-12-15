@@ -39,9 +39,10 @@ public interface CaiGouDingDanMapper {
     int deleteUsrById(Integer id);
 
     public List<CaiGouDingDan> selectWeiFu();
-
-    public int caiGouShenHe(int id,String type);
-
+    //ztt 审核
+    public List<CaiGouDingDan> getAllYiShen();
+    public int caiGouShenHe(int id,String shenheList,String shenheZhuangtai);
+//ztt end
 
     public List<CaiGouDingDanXiangQing> xiangQingShangPin(Integer id, String bianhao);
 

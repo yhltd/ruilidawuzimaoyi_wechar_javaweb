@@ -15,4 +15,8 @@ public class XiaoShouBaoJia {
     private String shenhe;
     private String jiageDengji;
     private String shenheZhuangtai;
+    //ztt 审核
+    private String shenheList;
+    private String xiaoshouDanwei;
+    //ztt end
 }

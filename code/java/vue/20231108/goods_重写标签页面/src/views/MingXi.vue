@@ -231,7 +231,7 @@
               <!--              <el-input ref="acc_inp" v-model="gongYingShang.gongyingshangDengji" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
               <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
@@ -242,6 +242,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--             ztt 快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '店铺')">添加</el-button>
+              <!--            ztt end-->
 <!--              <el-input ref="acc_inp" v-model="gongYingShang.dianpu" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
@@ -255,21 +259,13 @@
               <el-input ref="acc_inp" v-model="gongYingShang.beizhu" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
+          <!--ztt 审核-->
           <el-col :span="6">
             <el-form-item label="审核人" prop="shenhe" class="custom-form-item">
-              <el-select v-model="gongYingShang.shenhe" clearable filterable placeholder="请选择审核人">
-                <!-- types 为后端查询 -->
-                <el-option
-                    v-for="item in XiaLa_ShenHe"
-                    :key="item.name"
-                    :label="item.name"
-                    :value="item.name">
-                </el-option>
-              </el-select>
-              <!--              <el-input ref="acc_inp" v-model="gongYingShang.caigouyuan" class="custom-login-inp"></el-input>-->
+              <el-input ref="acc_inp" v-model="gongYingShang.shenhe" class="custom-login-inp" @click.native="seeShenHeRen"></el-input>
             </el-form-item>
           </el-col>
-
+          <!--          ztt end-->
           <el-col :span="6">
             <el-form-item label="采购单位" prop="caigouDanwei" class="custom-form-item">
               <el-select v-model="gongYingShang.caigouDanwei" clearable filterable placeholder="请选择采购单位">
@@ -391,23 +387,30 @@
         </div>
 
         <el-row :gutter="15">
-          <el-col :span="4">
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
                          @click="addLianXiRen">添加商品
               </el-button>
             </div>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
                          @click="save">保存
               </el-button>
             </div>
           </el-col>
-          <el-col :span="4">
+          <!--ztt 审核-->
+          <el-col :span="5">
+            <div style="display: flex">
+              <el-button class="custom-login-button" type="primary"
+                         @click="saveAndShenHe" style="margin-left: 30px">保存并提交审核
+              </el-button>
+            </div>
+          </el-col>
+          <!--          ztt end-->
+          <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button" type="primary"
                          @click="addClose">取消
@@ -816,6 +819,39 @@
 
 
     </el-drawer>
+    <!--    ztt 审核-->
+    <el-dialog title="" :visible.sync="userList" width="90%">
+      <el-row :gutter="15">
+        <el-col :span="6">
+          <p class="dialog-title">审核人信息</p>
+        </el-col>
+      </el-row>
+      <el-table
+          border
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
+          style="width: 100%;;"
+          :height="tableHeight"
+          :data="users"
+          @selection-change="shenheSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="审核人"
+            width="auto">
+        </el-table-column>
+      </el-table>
+      <el-col :span="4">
+        <div style="display: flex;margin-top: 20px">
+          <el-button class="custom-login-button"  type="primary"
+                     @click="addUserNameList" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加
+          </el-button>
+        </div>
+      </el-col>
+    </el-dialog>
+    <!--    ztt end-->
 
 
   </el-container>
@@ -840,6 +876,9 @@ export default {
       downloadLoading:false,
       dialogVisible:false,
       FileList:[],
+      users:[],//ztt审核人
+      userList:false,//ztt审核人
+      shenheMultipleSelection: [],//ztt审核人多选
       currentPage: 1, // 当前页数，
       pageSize: 10, // 每一页显示的条数
       total:20,
@@ -918,6 +957,54 @@ export default {
     this.getXiaLa_caigouDanwei();
   },
   methods: {
+    //ztt审核
+    seeShenHeRen(){
+      if(this.userPower.caigouDingdanAdd != '是'){
+        MessageUtil.error("无添加权限");
+        return;
+      }
+      let url = "http://localhost:8102/user/queryAllUsers"
+      this.axios.post(url).then(res =>{
+        if(res.data.code == 0){
+          this.users = res.data.data
+          console.log("ss")
+          console.log(this.users)
+          this.userList = true
+        }
+      })
+    },
+    addUserNameList(){
+      var this_list = this.gongYingShang
+      console.log("kaishi")
+      console.log(this_list)
+      var str = ""
+      var shenhe = ""
+      for (var i=0; i<this.shenheMultipleSelection.length;i++){
+
+        if(str == ""){
+          str = this.shenheMultipleSelection[i].name
+          shenhe = "审核中"
+        }else{
+          str = str + "," + this.shenheMultipleSelection[i].name
+          shenhe = shenhe + ',' + "审核中"
+        }
+        console.log("shuju")
+        console.log(this.shenheMultipleSelection[i].name)
+      }
+      this_list.shenhe = str
+      this_list.shenheList = shenhe
+      this.gongYingShang = this_list
+      this.userList = false
+    },
+    shenheSelectionChange(val){
+      this.shenheMultipleSelection = val;
+      console.log(val)
+    },
+    //ztt end
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
@@ -1095,7 +1182,7 @@ export default {
             jinxiangShuilv: '',
             beizhu: '',
             shenhe:this.userInfo.shenpi,
-            shenheZhuangtai:'审核中',
+            shenheZhuangtai:'未审核',//ztt 审核
             caigouDanwei:'',
             yewuyuan:'',
             body:[
@@ -1217,11 +1304,18 @@ export default {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userPower = res.data.data
-          if(this.userPower.caigouDingdanSel == '是'){
-            this.getAll();
-          }else{
-            MessageUtil.error("无查询权限");
+          // <!--    ztt 导航栏快速跳转未审核-->
+          this.shuliang = this.$route.query.caigoudingdangeshu
+          if (this.shuliang!=undefined){
+            this.myShenHe();
+          }else {
+            if (this.userPower.caigouDingdanSel == '是') {
+              this.getAll();
+            } else {
+              MessageUtil.error("无查询权限");
+            }
           }
+          // ztt end
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {
@@ -1328,6 +1422,15 @@ export default {
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          //ztt 审核
+          for(var i=this.tableData.length -1 ; i >= 0; i--){
+            if(this.tableData[i].shenheZhuangtai == '未提交审核'){
+              if(this.tableData[i].yewuyuan != this.userInfo.name){
+                this.tableData.splice(i,1)
+              }
+            }
+          }
+          //ztt end
           this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -1378,6 +1481,15 @@ export default {
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          //ztt 审核
+          for(var i=this.tableData.length -1 ; i >= 0; i--){
+            if(this.tableData[i].shenheZhuangtai == '未提交审核'){
+              if(this.tableData[i].yewuyuan != this.userInfo.name){
+                this.tableData.splice(i,1)
+              }
+            }
+          }
+          //ztt end
           this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -1395,6 +1507,53 @@ export default {
       this.axios.post(url, {"shenhe":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
+          //ztt 审核
+          var shenheName = []
+          var shenheList = []
+          for(var i=this.tableData.length - 1; i>= 0; i--) {
+            console.log("xunhuan")
+            console.log(this.tableData)
+            if (this.tableData[i].shenhe != undefined){
+              var this_arr = this.tableData[i].shenhe.split(",")
+            }
+
+            console.log("a")
+            console.log(this_arr)
+            if (this.tableData[i].shenheList != undefined){
+              var shenhe_arr = this.tableData[i].shenheList.split(",")
+            }
+            console.log("s")
+            console.log(shenhe_arr)
+            for (var j = 0; j < this_arr.length; j++) {
+              shenheName.push(this_arr[j])
+              console.log("z")
+            }
+
+            for (var j = 0; j < shenhe_arr.length; j++) {
+              shenheList.push(shenhe_arr[j])
+              console.log("x")
+            }
+            var panduan = false
+            var xiabiao = ""
+            for (var j = 0; j < this_arr.length; j++) {
+              if (this_arr[j] == this.userInfo.name) {
+                panduan = true
+                xiabiao = j
+                console.log("c")
+              }
+            }
+
+            if (panduan == false) {
+              this.tableData.splice(i, 1)
+              console.log("v")
+            } else if (xiabiao != "" || xiabiao >= 0) {
+              if (shenhe_arr[xiabiao] == "审核通过") {
+                this.tableData.splice(i, 1)
+                console.log("b")
+              }
+            }
+          }
+          //ztt end
           this.total = res.data.data.length;
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
         } else {
@@ -1404,7 +1563,13 @@ export default {
         MessageUtil.error("网络异常");
       })
     },
-
+// ztt审核按钮提交修改
+    saveAndShenHe(){
+      var this_list = this.gongYingShang
+      this_list.shenheZhuangtai = "审核中"
+      this.save();
+    },
+    //ztt end
     delLianXiRen(index){
       console.log(index)
       this.$confirm('是否删除此信息?', '提示', {
@@ -1604,17 +1769,69 @@ export default {
         MessageUtil.error("未选中信息");
         return;
       }
+      //ztt 审核
+      this.p_list = []
+      for(var i=0; i<this.multipleSelection.length; i++){
+        this.p_list.push(this.multipleSelection[i])
+        console.log("sju")
+        console.log(this.multipleSelection[i])
+      }
+      //ztt end
       this.dialogVisible = true;
     },
 
     shenheTrue(){
-      var list = []
-      for(var i=0; i<this.multipleSelection.length; i++){
-        list.push(this.multipleSelection[i].id)
+      //ztt 审核
+      console.log(this.p_list)
+      var this_list = []
+      for(var i=0; i<this.p_list.length; i++){
+        // console.log(this.p_list[i])
+        console.log("p_list")
+        console.log(this.p_list[i])
+        console.log(this.p_list[i].shenhe)
+        var this_shenhe = this.p_list[i].shenhe.split(",")
+        var this_shenhe_list = this.p_list[i].shenheList.split(",")
+        var shenhe_str = ""
+        var shenheList_str = ""
+        for(var j=0; j<this_shenhe.length; j++){
+          if(this_shenhe[j] == this.userInfo.name){
+            if(shenheList_str == ""){
+              shenheList_str = "审核通过"
+            }else{
+              shenheList_str = shenheList_str + ",审核通过"
+            }
+          }else{
+            if(shenheList_str == ""){
+              shenheList_str = this_shenhe_list[j]
+            }else{
+              shenheList_str = shenheList_str + "," + this_shenhe_list[j]
+            }
+          }
+        }
+        var shenheZhuangtai = this.p_list[i].shenheZhuangtai
+        var shenhe_arr = shenheList_str.split(",")
+        var this_panduan = true
+        for(var j=0; j<shenhe_arr.length; j++){
+          if(shenhe_arr[j] != '审核通过'){
+            this_panduan = false
+          }
+        }
+        if(this_panduan == true && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核通过"
+        }
+        if(this_panduan == false && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核中"
+        }
+        this_list.push({
+          id:this.p_list[i].id,
+          shenheList:shenheList_str,
+          shenheZhuangtai:shenheZhuangtai
+        })
       }
-      console.log(list)
+      console.log(this_list)
       let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
-      axios.post(url, {"list": list,"type":"审核通过"}).then(res => {
+      axios.post(url, {"list": this_list}).then(res => {
+        //ztt end
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
         this.myShenHe()
@@ -1624,13 +1841,54 @@ export default {
       })
     },
     shenheFalse(){
-      var list = []
-      for(var i=0; i<this.multipleSelection.length; i++){
-        list.push(this.multipleSelection[i].id)
+      //ztt 审核
+      console.log(this.p_list)
+      var this_list = []
+      for(var i=0; i<this.p_list.length; i++){
+        console.log(this.p_list[i])
+        var this_shenhe = this.p_list[i].shenhe.split(",")
+        var this_shenhe_list = this.p_list[i].shenheList.split(",")
+        var shenhe_str = ""
+        var shenheList_str = ""
+        for(var j=0; j<this_shenhe.length; j++){
+          if(this_shenhe[j] == this.userInfo.name){
+            if(shenheList_str == ""){
+              shenheList_str = "审核未通过"
+            }else{
+              shenheList_str = shenheList_str + ",审核未通过"
+            }
+          }else{
+            if(shenheList_str == ""){
+              shenheList_str = this_shenhe_list[j]
+            }else{
+              shenheList_str = shenheList_str + "," + this_shenhe_list[j]
+            }
+          }
+        }
+        var shenheZhuangtai = this.p_list[i].shenheZhuangtai
+        var shenhe_arr = shenheList_str.split(",")
+        var this_panduan = true
+        for(var j=0; j<shenhe_arr.length; j++){
+          if(shenhe_arr[j] != '审核未通过'){
+            this_panduan = false
+          }
+        }
+        if(this_panduan == true && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核通过"
+        }
+        if(this_panduan == false && this.p_list[i].shenheZhuangtai != "未提交审核"){
+          shenheZhuangtai = "审核中"
+        }
+        this_list.push({
+          id:this.p_list[i].id,
+          shenheList:shenheList_str,
+          shenheZhuangtai:shenheZhuangtai
+        })
       }
-      console.log(list)
+      console.log(this_list)
       let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
-      axios.post(url, {"list": list,"type":"审核未通过"}).then(res => {
+      axios.post(url, {"list": this_list}).then(res => {
+        //ztt end
         MessageUtil.success(res.data.msg);
         this.dialogVisible = false;
         this.myShenHe()

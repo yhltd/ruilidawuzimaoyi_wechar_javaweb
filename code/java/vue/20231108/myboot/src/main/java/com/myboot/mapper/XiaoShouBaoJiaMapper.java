@@ -44,6 +44,8 @@ public interface XiaoShouBaoJiaMapper {
     public List<XiaoShouBaoJia> shenheList(String name);
 
     public int baoJiaShenHe(int id,String type);
-
+    //  ztt  审核
+    public int baoJiaShenHe(int id,String shenheList,String shenheZhuangtai);
+//    ztt end
 
 }

@@ -95,42 +95,44 @@
             width="200"
             show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-            prop="lingshouPrice"
-            label="零售价格"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="lingshouBili"
-            label="零售上浮比例"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="pifaPrice"
-            label="批发价格"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="pifaBili"
-            label="批发上浮比例"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="dakehuPrice"
-            label="大客户价格"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-            prop="dakehuBili"
-            label="大客户上浮比例"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
+        <!-- ztt删除列“销项税率、零售价格、零售上浮比例、批发价格、批发上浮比例、大客户价格、大客户上浮比例” -->
+<!--        <el-table-column-->
+<!--            prop="lingshouPrice"-->
+<!--            label="零售价格"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--            prop="lingshouBili"-->
+<!--            label="零售上浮比例"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--            prop="pifaPrice"-->
+<!--            label="批发价格"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--            prop="pifaBili"-->
+<!--            label="批发上浮比例"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--            prop="dakehuPrice"-->
+<!--            label="大客户价格"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--            prop="dakehuBili"-->
+<!--            label="大客户上浮比例"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+        <!--            ztt end-->
         <el-table-column
             prop="caigouPrice"
             label="采购价格"
@@ -143,12 +145,14 @@
             width="200"
             show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-            prop="xiaoxiang"
-            label="销项税率"
-            width="200"
-            show-overflow-tooltip>
-        </el-table-column>
+        <!-- ztt删除列“销项税率、零售价格、零售上浮比例、批发价格、批发上浮比例、大客户价格、大客户上浮比例” -->
+<!--        <el-table-column-->
+<!--            prop="xiaoxiang"-->
+<!--            label="销项税率"-->
+<!--            width="200"-->
+<!--            show-overflow-tooltip>-->
+<!--        </el-table-column>-->
+        <!--            ztt end-->
         <el-table-column
             prop="enable"
             label="是否启用"
@@ -206,7 +210,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="单位" prop="danwei" class="custom-form-item">
+            <el-form-item label="单位" prop="danwei" class="custom-form-item" :rules="[{required:true,message:'单位不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules="[{required:true,message:'单位不能为空',trigger: 'blur'}]" -->
               <el-input ref="acc_inp" v-model="Product.danwei" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
@@ -220,7 +224,7 @@
               <el-input ref="acc_inp" v-model="Product.jishuBiaozhun" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
               <el-select v-model="Product.zhibaoDengji" clearable filterable placeholder="请选择质保等级">
                 <!-- types 为后端查询 -->
@@ -231,6 +235,10 @@
                     :value="item.name">
                 </el-option>
               </el-select>
+              <!--            ztt  快速跳转到配置项页-->
+              <el-button style="width: 40px;height: 40px;padding-left:5px;background-color: #57a8f5;color:#ffffff"
+                         @click="goToPeiZhi('/basePeizhi', '质保等级')">添加</el-button>
+              <!--            ztt end-->
               <!--              <el-input ref="acc_inp" v-model="gongYingShang.caigouyuan" class="custom-login-inp"></el-input>-->
             </el-form-item>
           </el-col>
@@ -283,54 +291,54 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="编号" prop="bianhao" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].bianhao" class="custom-login-inp" disabled="true"></el-input>
+                <el-input ref="acc_inp" v-model="Product.body[index].bianhao" class="custom-login-inp" ></el-input><!--ztt 删除disabled="true" -->
               </el-form-item>
             </el-col>
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="零售价格" prop="lingshouPrice" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].lingshouPrice" class="custom-login-inp" type="number"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="零售上浮比例%" prop="lingshouBili" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].lingshouBili" class="custom-login-inp" type="number"><template slot="append">%</template></el-input>&lt;!&ndash; ztt输入框右侧百分比图标 &ndash;&gt;-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="批发价格" prop="pifaPrice" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].pifaPrice" class="custom-login-inp" type="number"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="批发上浮比例%" prop="pifaBili" class="custom-form-item">-->
+<!--                  <el-input ref="acc_inp" v-model="Product.body[index].pifaBili" class="custom-login-inp" type="number"><template slot="append">%</template></el-input>&lt;!&ndash; ztt输入框右侧百分比图标 &ndash;&gt;-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="大客户价格" prop="dakehuPrice" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].dakehuPrice" class="custom-login-inp" type="number"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="大客户上浮比例%" prop="dakehuBili" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].dakehuBili" class="custom-login-inp" type="number"><template slot="append">%</template></el-input>&lt;!&ndash; ztt输入框右侧百分比图标 &ndash;&gt;-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
             <el-col :span="6">
-              <el-form-item label="零售价格" prop="lingshouPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].lingshouPrice" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="零售上浮比例%" prop="lingshouBili" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].lingshouBili" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="批发价格" prop="pifaPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].pifaPrice" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="批发上浮比例%" prop="pifaBili" class="custom-form-item">
-                  <el-input ref="acc_inp" v-model="Product.body[index].pifaBili" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="大客户价格" prop="dakehuPrice" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].dakehuPrice" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="大客户上浮比例%" prop="dakehuBili" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].dakehuBili" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="采购价格" prop="caigouPrice" class="custom-form-item">
+              <el-form-item label="采购价格" :prop="'body.' + index + '.caigouPrice'" class="custom-form-item" :rules="{required:true,message:'采购价格不能为空',trigger: 'blur'}"><!--ztt 设置必填字段:rules -->
                 <el-input ref="acc_inp" v-model="Product.body[index].caigouPrice" class="custom-login-inp" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="进项税率%" prop="jinxiang" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].jinxiang" class="custom-login-inp" type="number"></el-input>
+              <el-form-item label="进项税率%" :prop="'body.' + index + '.jinxiang'" :rules="[{required:true,message:'进项税率不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
+                <el-input ref="acc_inp" v-model="Product.body[index].jinxiang" class="custom-login-inp" type="number"><template slot="append">%</template></el-input><!-- ztt输入框右侧百分比图标 -->
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item label="销项税率%" prop="xiaoxiang" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="Product.body[index].xiaoxiang" class="custom-login-inp" type="number"></el-input>
-              </el-form-item>
-            </el-col>
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="销项税率%" prop="xiaoxiang" class="custom-form-item">-->
+<!--                <el-input ref="acc_inp" v-model="Product.body[index].xiaoxiang" class="custom-login-inp" type="number"><template slot="append">%</template></el-input>&lt;!&ndash; ztt输入框右侧百分比图标 &ndash;&gt;-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
             <el-col :span="6">
               <el-form-item label="是否启用" prop="enable" class="custom-form-item">
                 <el-select v-model="Product.body[index].enable" clearable filterable placeholder="请选择是否启用">
@@ -374,13 +382,61 @@
               </el-button>
             </div>
           </el-col>
+          <!--         ztt 新增批量添加商品规格按钮-->
+          <el-col :span="4">
+            <div style="display: flex">
+              <el-button class="custom-login-button"  type="primary"
+                         @click="addProductList" style="margin-left: 30px">批量添加
+              </el-button>
+            </div>
+          </el-col>
+          <!--            ztt end-->
         </el-row>
 
 
 
       </el-form>
     </el-dialog>
+    <!--         ztt 批量添加商品规格-->
+    <el-dialog title="" :visible.sync="addShangPinGuiGe" width="90%">
+      <el-row :gutter="15">
+        <el-col :span="6">
+          <p class="dialog-title">商品规格</p>
+        </el-col>
+      </el-row>
+      <el-table
+          border
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
+          style="width: 100%;"
+          :height="tableHeight"
+          :data="ShangPinGuiGe"
+          @selection-change="typeSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="type"
+            label="商品分类"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="guige"
+            label="规格名称"
+            width="auto">
+        </el-table-column>
+      </el-table>
+      <el-col :span="4">
+        <div style="display: flex;margin-top: 20px">
+          <el-button class="custom-login-button"  type="primary"
+                     @click="addShangPinGuiGeList" style="margin-left: 30px">添加
+          </el-button>
+        </div>
+      </el-col>
+      <div style="height:50px"></div>
 
+    </el-dialog>
+    <!--            ztt end-->
 
   </el-container>
 
@@ -392,6 +448,9 @@
 import axios from "axios";
 import MessageUtil from "@/utils/MessageUtil";
 import parseArea from "@/utils/ParseDataArea";
+//ztt 导入跳转配置项的RouterUtil
+import RouterUtil from "../utils/RouterU.js"
+// ztt end
 export default {
   data() {
     return {
@@ -443,7 +502,15 @@ export default {
       addDialog: false,
       updDialog: false,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      //ztt商品规格
+      ShangPinGuiGe:{
+        type:'',
+        guige:''
+      },
+      addShangPinGuiGe:false,
+      typeMultipleSelection:[]
+      //ztt end
     }
   },
   created() {
@@ -452,6 +519,96 @@ export default {
     this.getUser();
   },
   methods: {
+    //ztt 批量添加商品规格
+    addProductList(){
+      if(this.userPower.shangpinAdd != '是'){
+        MessageUtil.error("无新增权限");
+        return;
+      }
+      let url = "http://localhost:8102/peiZhiGuiGe/getAll"
+      this.axios(url).then(res=>{
+        if (res.data.code == '00'){
+          console.log(res.data.data)
+          this.ShangPinGuiGe=res.data.data
+          console.log("商品规格已获取")
+          this.addShangPinGuiGe=true
+        } else {
+          MessageUtil.error(res.data.msg);
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+  typeSelectionChange(val) {
+    this.typeMultipleSelection = val;
+    console.log(val)
+  },
+    addShangPinGuiGeList(){
+      var this_list = this.Product.body
+      console.log("kaishi")
+      console.log(this_list)
+      for(var i=0; i<this.typeMultipleSelection.length; i++){
+        if(this_list[0].guige == ''){
+          this_list[0].guige = this.typeMultipleSelection[i].guige
+        }
+        else if (this_list.length>1){
+          var this_bianhao = this.Product.body[this_list.length -1].bianhao
+          var this_head = this_bianhao.substr(0,6)
+          var this_foot = this_bianhao.substr(6,3)
+          this_foot = parseInt(this_foot) + 1
+          this_bianhao = this_head + PrefixInteger(this_foot,2)
+          console.log(this_head)
+          console.log(this_foot)
+          console.log(this_bianhao)
+          this_list.push({
+            productId:'',
+            image:'',
+            guige:this.typeMultipleSelection[i].guige,
+            bianhao:this_bianhao,
+            lingshouPrice:'',
+            lingshouBili:'',
+            pifaPrice:'',
+            pifaBili:'',
+            dakehuPrice:'',
+            dakehuBili:'',
+            caigouPrice:'',
+            jinxiang:'',
+            xiaoxiang:'',
+            enable:'是',
+          })
+          console.log("批量添加成功")
+        }else{
+          this_list.push({
+            productId:'',
+            image:'',
+            guige:this.typeMultipleSelection[i].guige,
+            bianhao:this_list[0].bianhao + "-01",
+            lingshouPrice:'',
+            lingshouBili:'',
+            pifaPrice:'',
+            pifaBili:'',
+            dakehuPrice:'',
+            dakehuBili:'',
+            caigouPrice:'',
+            jinxiang:'',
+            xiaoxiang:'',
+            enable:'是',
+          })
+        }
+
+      }
+      this.addShangPinGuiGe=false
+      console.log("yu")
+      this.Product.body = this_list
+      console.log(this.Product.body)
+
+    },
+//ztt end
+    //ztt 跳转到相应配置项页
+    goToPeiZhi(url,pageType){
+      RouterUtil.to(url + '?type=' + pageType);
+    },
+//ztt end
     toggleSelection(rows) {
       console.log(rows)
       if (rows) {
