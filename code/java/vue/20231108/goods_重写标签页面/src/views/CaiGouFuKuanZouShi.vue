@@ -135,7 +135,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -148,7 +148,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -174,10 +174,10 @@ export default {
       console.log(this.type)
       if(this.type == '按日'){
         riqi = riqi.split("-")[0] + "-" + riqi.split("-")[1]
-        url = "http://localhost:8102/yiBiaoPan/caiGouFuKuanZouShi_Ri"
+        url = "http://yhocn.cn:8102/yiBiaoPan/caiGouFuKuanZouShi_Ri"
       }else{
         riqi = riqi.split("-")[0]
-        url = "http://localhost:8102/yiBiaoPan/caiGouFuKuanZouShi_Yue"
+        url = "http://yhocn.cn:8102/yiBiaoPan/caiGouFuKuanZouShi_Yue"
       }
       var date = {
         riqi:riqi,

@@ -1,19 +1,16 @@
 package com.myboot.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
 import com.myboot.pojo.User;
 import com.myboot.pojo.UserPower;
-import com.myboot.pojo.User_Peizhi;
 import com.myboot.pojo.User_UserPower;
 import com.myboot.service.UserPowerService;
 import com.myboot.service.UserService;
 import com.myboot.util.GsonUtil;
 import com.myboot.util.SessionUtil;
 import lombok.NonNull;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

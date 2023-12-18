@@ -171,7 +171,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="供应商" prop="gongyingshang" class="custom-form-item">
-              <el-select v-model="gongYingShang.gongyingshang" clearable filterable placeholder="请选择供应商">
+              <el-select style="z-index:999;" v-model="gongYingShang.gongyingshang" clearable filterable placeholder="请选择供应商">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_GongYingShang"
@@ -185,7 +185,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
-              <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
+              <el-select style="z-index:999;" v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_DianPu"
@@ -203,7 +203,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="仓库" prop="cangku" class="custom-form-item">
-              <el-select v-model="gongYingShang.cangku" clearable filterable placeholder="请选择仓库">
+              <el-select style="z-index:999;" v-model="gongYingShang.cangku" clearable filterable placeholder="请选择仓库">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_CangKu"
@@ -222,7 +222,7 @@
 
           <el-col :span="6">
             <el-form-item label="入库单位" prop="rukuDanwei" class="custom-form-item">
-              <el-select v-model="gongYingShang.rukuDanwei" clearable filterable placeholder="请选择入库单位">
+              <el-select style="z-index:999;" v-model="gongYingShang.rukuDanwei" clearable filterable placeholder="请选择入库单位">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_rukuDanwei"
@@ -283,7 +283,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
-                <el-select v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
+                <el-select style="z-index:999;" v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
                   <!-- types 为后端查询 -->
                   <el-option
                       v-for="item in XiaLa_ZhiBaoDengJi"
@@ -532,7 +532,7 @@
 
       <el-form label-width="100px" class="demo-info">
         <el-form-item label="打印模板" prop="printName" class="custom-form-item">
-          <el-select v-model="printName" clearable filterable placeholder="请选择模板">
+          <el-select style="z-index:999;" v-model="printName" clearable filterable placeholder="请选择模板">
             <!-- types 为后端查询 -->
             <el-option
                 v-for="item in XiaLa_MuBan"
@@ -675,11 +675,11 @@
           <el-col :span="6">
             <p class="dialog-title" style="margin-left: 30px">收款信息</p>
           </el-col>
-          <el-col :span="6">
-            <p class="dialog-title">
-              <el-button class="dialog-title" size="small" round type="primary" @click="shoukuan_add()">添加收款</el-button>
-            </p>
-          </el-col>
+<!--          <el-col :span="6">-->
+<!--            <p class="dialog-title">-->
+<!--              <el-button class="dialog-title" size="small" round type="primary" @click="shoukuan_add()">添加收款</el-button>-->
+<!--            </p>-->
+<!--          </el-col>-->
         </el-row>
         <el-table
             border
@@ -714,11 +714,11 @@
           <el-col :span="6">
             <p class="dialog-title" style="margin-left: 30px">开票信息</p>
           </el-col>
-          <el-col :span="6">
-            <p class="dialog-title">
-              <el-button class="dialog-title" size="small" round type="primary" @click="kaipiao_add()">添加开票</el-button>
-            </p>
-          </el-col>
+<!--          <el-col :span="6">-->
+<!--            <p class="dialog-title">-->
+<!--              <el-button class="dialog-title" size="small" round type="primary" @click="kaipiao_add()">添加开票</el-button>-->
+<!--            </p>-->
+<!--          </el-col>-->
         </el-row>
         <el-table
             border
@@ -891,7 +891,7 @@ export default {
 
     seeList(row){
       this.p_id = row.id
-      let url = "http://localhost:8102/caiGouRuKu/selectXiangQingById"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/selectXiangQingById"
       this.axios.post(url,{'id':row.id,'bianhao':row.bianhao}).then(res =>{
         if (res.data.code == '00'){
           console.log(res.data)
@@ -939,7 +939,7 @@ export default {
         this.gongYingShang.caigouId = row.bianhao
 
         var id = row.id
-        let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
+        let url = "http://yhocn.cn:8102/caiGouDingDan/selectByCaiGouId"
         this.axios.post(url, {"id":id}).then(res => {
           if(res.data.code == '00') {
             var this_val = res.data.data
@@ -1082,7 +1082,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/caiGouRuKu/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -1169,7 +1169,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1188,7 +1188,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://localhost:8102/product/selectCaiGouProduct"
+      let url = "http://yhocn.cn:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -1203,7 +1203,7 @@ export default {
     },
 
     getCaiGouDan(){
-      let url = "http://localhost:8102/caiGouDingDan/getAllYiShen"//ztt审核
+      let url = "http://yhocn.cn:8102/caiGouDingDan/getAllYiShen"//ztt审核
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGouDan = res.data.data;
@@ -1222,7 +1222,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1235,7 +1235,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1256,7 +1256,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://yhocn.cn:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -1273,7 +1273,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1290,7 +1290,7 @@ export default {
     },
 
     getXiaLa_CangKu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"仓库"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CangKu = res.data.data;
@@ -1308,7 +1308,7 @@ export default {
 
     //查询全部
     getAll(){
-      let url = "http://localhost:8102/caiGouRuKu/getAll"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1323,7 +1323,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8102/printMuBan/getMuBanByType"
+      let url = "http://yhocn.cn:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"采购入库单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1340,7 +1340,7 @@ export default {
     },
 
     getXiaLa_ZhiBaoDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"质保等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhiBaoDengJi = res.data.data;
@@ -1357,7 +1357,7 @@ export default {
     },
 
     getXiaLa_rukuDanwei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"核算单位"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_rukuDanwei = res.data.data;
@@ -1406,7 +1406,7 @@ export default {
         stop_date:stop_date,
         gongyingshang:this.gongyingshang,
       }
-      let url = "http://localhost:8102/caiGouRuKu/queryList"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1472,7 +1472,7 @@ export default {
     },
 
     saveGongYingShang(){
-      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuAdd"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/caiGouRuKuAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1492,7 +1492,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/caiGouRuKu/caiGouRuKuUpd"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/caiGouRuKuUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1599,7 +1599,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/caiGouRuKu/delCaiGouDingDan";
+        let url = "http://yhocn.cn:8102/caiGouRuKu/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1662,7 +1662,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/caiGouRuKu/selectByRuKuId"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/selectByRuKuId"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

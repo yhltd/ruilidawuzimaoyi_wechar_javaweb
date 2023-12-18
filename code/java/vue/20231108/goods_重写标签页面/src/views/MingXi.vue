@@ -219,7 +219,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="供应商" prop="gongyingshang" class="custom-form-item">
-              <el-select v-model="gongYingShang.gongyingshang" clearable filterable placeholder="请选择供应商">
+              <el-select style="z-index:999;" v-model="gongYingShang.gongyingshang" clearable filterable placeholder="请选择供应商">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_GongYingShang"
@@ -233,7 +233,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
-              <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
+              <el-select style="z-index:999;" v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_DianPu"
@@ -268,7 +268,7 @@
           <!--          ztt end-->
           <el-col :span="6">
             <el-form-item label="采购单位" prop="caigouDanwei" class="custom-form-item">
-              <el-select v-model="gongYingShang.caigouDanwei" clearable filterable placeholder="请选择采购单位">
+              <el-select style="z-index:999;" v-model="gongYingShang.caigouDanwei" clearable filterable placeholder="请选择采购单位">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_caigouDanwei"
@@ -325,7 +325,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
-                <el-select v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
+                <el-select style="z-index:999;" v-model="gongYingShang.body[index].zhibaoDengji" clearable filterable placeholder="请选择质保等级">
                   <!-- types 为后端查询 -->
                   <el-option
                       v-for="item in XiaLa_ZhiBaoDengJi"
@@ -439,11 +439,11 @@
           <el-button type="primary" @click="ProQuery()">查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="ProRefresh()">刷新</el-button>
+          <el-button type="primary" @click="Prorefresh()">刷新</el-button>
         </el-col>
-        <el-col :span="1.5">
-          <el-button type="primary" @click="queding()">确定</el-button>
-        </el-col>
+<!--        <el-col :span="1.5">-->
+<!--          <el-button type="primary" @click="queding()">确定</el-button>-->
+<!--        </el-col>-->
       </el-row>
 
       <el-table :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
@@ -510,7 +510,7 @@
 
       <el-form label-width="100px" class="demo-info">
         <el-form-item label="打印模板" prop="printName" class="custom-form-item">
-          <el-select v-model="printName" clearable filterable placeholder="请选择模板">
+          <el-select style="z-index:999;" v-model="printName" clearable filterable placeholder="请选择模板">
             <!-- types 为后端查询 -->
             <el-option
                 v-for="item in XiaLa_MuBan"
@@ -702,11 +702,11 @@
           <el-col :span="6">
             <p class="dialog-title" style="margin-left: 30px">入库信息</p>
           </el-col>
-          <el-col :span="6">
-            <p class="dialog-title">
-              <el-button class="dialog-title" size="small" round type="primary" @click="chuku_add()">添加入库</el-button>
-            </p>
-          </el-col>
+<!--          <el-col :span="6">-->
+<!--            <p class="dialog-title">-->
+<!--              <el-button class="dialog-title" size="small" round type="primary" @click="chuku_add()">添加入库</el-button>-->
+<!--            </p>-->
+<!--          </el-col>-->
         </el-row>
         <el-table
             border
@@ -742,11 +742,11 @@
           <el-col :span="6">
             <p class="dialog-title" style="margin-left: 30px">付款信息</p>
           </el-col>
-          <el-col :span="6">
-            <p class="dialog-title">
-              <el-button class="dialog-title" size="small" round type="primary" @click="shoukuan_add()">添加付款</el-button>
-            </p>
-          </el-col>
+<!--          <el-col :span="6">-->
+<!--            <p class="dialog-title">-->
+<!--              <el-button class="dialog-title" size="small" round type="primary" @click="shoukuan_add()">添加付款</el-button>-->
+<!--            </p>-->
+<!--          </el-col>-->
         </el-row>
         <el-table
             border
@@ -782,11 +782,11 @@
           <el-col :span="6">
             <p class="dialog-title" style="margin-left: 30px">收票信息</p>
           </el-col>
-          <el-col :span="6">
-            <p class="dialog-title">
-              <el-button class="dialog-title" size="small" round type="primary" @click="kaipiao_add()">添加收票</el-button>
-            </p>
-          </el-col>
+<!--          <el-col :span="6">-->
+<!--            <p class="dialog-title">-->
+<!--              <el-button class="dialog-title" size="small" round type="primary" @click="kaipiao_add()">添加收票</el-button>-->
+<!--            </p>-->
+<!--          </el-col>-->
         </el-row>
         <el-table
             border
@@ -963,7 +963,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/user/queryAllUsers"
+      let url = "http://yhocn.cn:8102/user/queryAllUsers"
       this.axios.post(url).then(res =>{
         if(res.data.code == 0){
           this.users = res.data.data
@@ -1065,7 +1065,7 @@ export default {
 
     seeList(row){
       this.p_id = row.id
-      let url = "http://localhost:8102/caiGouDingDan/selectXiangQingById"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/selectXiangQingById"
       this.axios.post(url,{'id':row.id,'bianhao':row.bianhao}).then(res => {
         if (res.data.code == '00'){
           console.log(res.data)
@@ -1166,7 +1166,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/caiGouDingDan/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -1245,7 +1245,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/selectByCaiGouId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data.shenheZhuangtai == '审核未通过'){
@@ -1267,7 +1267,7 @@ export default {
     },
 
     getCaiGouProduct(){
-      let url = "http://localhost:8102/product/selectCaiGouProduct"
+      let url = "http://yhocn.cn:8102/product/selectCaiGouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -1286,7 +1286,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1299,7 +1299,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1327,7 +1327,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://yhocn.cn:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -1344,7 +1344,7 @@ export default {
     },
 
     getXiaLa_ShenHe(){
-      let url = "http://localhost:8102/user/fuzzyQuery"
+      let url = "http://yhocn.cn:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShenHe = res.data.data;
@@ -1361,7 +1361,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1378,7 +1378,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8102/printMuBan/getMuBanByType"
+      let url = "http://yhocn.cn:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1395,7 +1395,7 @@ export default {
     },
 
     getXiaLa_caigouDanwei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"核算单位"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_caigouDanwei = res.data.data;
@@ -1418,7 +1418,7 @@ export default {
         return;
       }
       this.shenheButton = false
-      let url = "http://localhost:8102/caiGouDingDan/getAll"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1477,7 +1477,7 @@ export default {
         gongyingshang:this.gongyingshang,
         shenhe_zhuangtai:this.shenhe
       }
-      let url = "http://localhost:8102/caiGouDingDan/queryList"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1503,7 +1503,7 @@ export default {
     //条件查询
     myShenHe(){
       this.shenheButton = true
-      let url = "http://localhost:8102/caiGouDingDan/getShenHe"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/getShenHe"
       this.axios.post(url, {"shenhe":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1624,7 +1624,7 @@ export default {
     },
 
     saveGongYingShang(){
-      let url = "http://localhost:8102/caiGouDingDan/caiGouDingDanAdd"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/caiGouDingDanAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1644,7 +1644,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/caiGouDingDan/caiGouDingDanUpd"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/caiGouDingDanUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1744,7 +1744,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/caiGouDingDan/delCaiGouDingDan";
+        let url = "http://yhocn.cn:8102/caiGouDingDan/delCaiGouDingDan";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1829,7 +1829,7 @@ export default {
         })
       }
       console.log(this_list)
-      let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
+      let url = "http://yhocn.cn:8102/caiGouDingDan/caiGouShenHe";
       axios.post(url, {"list": this_list}).then(res => {
         //ztt end
         MessageUtil.success(res.data.msg);
@@ -1886,7 +1886,7 @@ export default {
         })
       }
       console.log(this_list)
-      let url = "http://localhost:8102/caiGouDingDan/caiGouShenHe";
+      let url = "http://yhocn.cn:8102/caiGouDingDan/caiGouShenHe";
       axios.post(url, {"list": this_list}).then(res => {
         //ztt end
         MessageUtil.success(res.data.msg);
@@ -1912,7 +1912,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1928,7 +1928,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"采购订单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1945,7 +1945,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://yhocn.cn:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1963,7 +1963,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://yhocn.cn:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -2006,7 +2006,7 @@ export default {
           "file": this_file,
           "type": "采购订单",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://yhocn.cn:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -2056,7 +2056,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/caiGouDingDan/selectByCaiGouId"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/selectByCaiGouId"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

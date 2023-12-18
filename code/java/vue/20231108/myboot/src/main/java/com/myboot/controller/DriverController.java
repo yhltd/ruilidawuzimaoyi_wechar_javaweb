@@ -33,7 +33,7 @@ public class DriverController {
         //获取原始名称
         String fileName = file.getOriginalFilename();
         //文件保存路径
-        String filePath = "D:/profile/ruilida/";
+        String filePath = "C:/iis_jxc/sharepic_path/ruilida/";
         //文件重命名,防止重复
         filePath = filePath + fileName;
         //文件对象

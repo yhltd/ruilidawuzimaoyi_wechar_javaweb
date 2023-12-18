@@ -89,7 +89,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="zhanghaoguanliAdd" class="custom-form-item">
-              <el-select v-model="Power.zhanghaoguanliAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhanghaoguanliAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -102,7 +102,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="zhanghaoguanliDel" class="custom-form-item">
-              <el-select v-model="Power.zhanghaoguanliDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhanghaoguanliDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -115,7 +115,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="zhanghaoguanliUpd" class="custom-form-item">
-              <el-select v-model="Power.zhanghaoguanliUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhanghaoguanliUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -128,7 +128,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="zhanghaoguanliSel" class="custom-form-item">
-              <el-select v-model="Power.zhanghaoguanliSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhanghaoguanliSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -150,7 +150,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="quanxianAdd" class="custom-form-item">
-              <el-select v-model="Power.quanxianAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.quanxianAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -163,7 +163,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="quanxianDel" class="custom-form-item">
-              <el-select v-model="Power.quanxianDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.quanxianDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -176,7 +176,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="quanxianUpd" class="custom-form-item">
-              <el-select v-model="Power.quanxianUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.quanxianUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -189,7 +189,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="quanxianSel" class="custom-form-item">
-              <el-select v-model="Power.quanxianSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.quanxianSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -211,7 +211,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="kehuAdd" class="custom-form-item">
-              <el-select v-model="Power.kehuAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.kehuAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -224,7 +224,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="kehuDel" class="custom-form-item">
-              <el-select v-model="Power.kehuDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.kehuDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -237,7 +237,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="kehuUpd" class="custom-form-item">
-              <el-select v-model="Power.kehuUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.kehuUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -250,7 +250,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="kehuSel" class="custom-form-item">
-              <el-select v-model="Power.kehuSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.kehuSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -272,7 +272,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="gongyingshangAdd" class="custom-form-item">
-              <el-select v-model="Power.gongyingshangAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.gongyingshangAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -285,7 +285,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="gongyingshangDel" class="custom-form-item">
-              <el-select v-model="Power.gongyingshangDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.gongyingshangDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -298,7 +298,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="gongyingshangUpd" class="custom-form-item">
-              <el-select v-model="Power.gongyingshangUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.gongyingshangUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -311,7 +311,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="gongyingshangSel" class="custom-form-item">
-              <el-select v-model="Power.gongyingshangSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.gongyingshangSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -333,7 +333,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="shangpinAdd" class="custom-form-item">
-              <el-select v-model="Power.shangpinAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shangpinAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -346,7 +346,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="shangpinDel" class="custom-form-item">
-              <el-select v-model="Power.shangpinDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shangpinDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -359,7 +359,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="shangpinUpd" class="custom-form-item">
-              <el-select v-model="Power.shangpinUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shangpinUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -372,7 +372,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="shangpinSel" class="custom-form-item">
-              <el-select v-model="Power.shangpinSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shangpinSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -394,7 +394,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="修改" prop="fujiashuiUpd" class="custom-form-item">
-              <el-select v-model="Power.fujiashuiUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.fujiashuiUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -407,7 +407,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="fujiashuiSel" class="custom-form-item">
-              <el-select v-model="Power.fujiashuiSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.fujiashuiSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -429,7 +429,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="peizhiAdd" class="custom-form-item">
-              <el-select v-model="Power.peizhiAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.peizhiAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -442,7 +442,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="peizhiDel" class="custom-form-item">
-              <el-select v-model="Power.peizhiDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.peizhiDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -455,7 +455,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="peizhiUpd" class="custom-form-item">
-              <el-select v-model="Power.peizhiUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.peizhiUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -468,7 +468,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="peizhiSel" class="custom-form-item">
-              <el-select v-model="Power.peizhiSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.peizhiSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -490,7 +490,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="xiaoshouBaojiaAdd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouBaojiaAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouBaojiaAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -503,7 +503,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="xiaoshouBaojiaDel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouBaojiaDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouBaojiaDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -516,7 +516,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="xiaoshouBaojiaUpd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouBaojiaUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouBaojiaUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -529,7 +529,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="xiaoshouBaojiaSel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouBaojiaSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouBaojiaSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian3"
@@ -551,7 +551,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="xiaoshouDingdanAdd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouDingdanAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouDingdanAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -564,7 +564,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="xiaoshouDingdanDel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouDingdanDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouDingdanDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -577,7 +577,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="xiaoshouDingdanUpd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouDingdanUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouDingdanUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -590,7 +590,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="xiaoshouDingdanSel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouDingdanSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouDingdanSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian3"
@@ -612,7 +612,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="xiaoshouChukuAdd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouChukuAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouChukuAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -625,7 +625,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="xiaoshouChukuDel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouChukuDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouChukuDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -638,7 +638,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="xiaoshouChukuUpd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouChukuUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouChukuUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -651,7 +651,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="xiaoshouChukuSel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouChukuSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouChukuSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -673,7 +673,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="xiaoshouKaipiaoAdd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouKaipiaoAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouKaipiaoAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -686,7 +686,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="xiaoshouKaipiaoDel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouKaipiaoDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouKaipiaoDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -699,7 +699,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="xiaoshouKaipiaoUpd" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouKaipiaoUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouKaipiaoUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -712,7 +712,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="xiaoshouKaipiaoSel" class="custom-form-item">
-              <el-select v-model="Power.xiaoshouKaipiaoSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.xiaoshouKaipiaoSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -734,7 +734,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="shouruAdd" class="custom-form-item">
-              <el-select v-model="Power.shouruAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shouruAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -747,7 +747,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="shouruDel" class="custom-form-item">
-              <el-select v-model="Power.shouruDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shouruDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -760,7 +760,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="shouruUpd" class="custom-form-item">
-              <el-select v-model="Power.shouruUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shouruUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -773,7 +773,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="shouruSel" class="custom-form-item">
-              <el-select v-model="Power.shouruSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shouruSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian3"
@@ -795,7 +795,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="caigouDingdanAdd" class="custom-form-item">
-              <el-select v-model="Power.caigouDingdanAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouDingdanAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -808,7 +808,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="caigouDingdanDel" class="custom-form-item">
-              <el-select v-model="Power.caigouDingdanDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouDingdanDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -821,7 +821,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="caigouDingdanUpd" class="custom-form-item">
-              <el-select v-model="Power.caigouDingdanUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouDingdanUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -834,7 +834,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="caigouDingdanSel" class="custom-form-item">
-              <el-select v-model="Power.caigouDingdanSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouDingdanSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -856,7 +856,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="caigouRukuAdd" class="custom-form-item">
-              <el-select v-model="Power.caigouRukuAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouRukuAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -869,7 +869,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="caigouRukuDel" class="custom-form-item">
-              <el-select v-model="Power.caigouRukuDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouRukuDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -882,7 +882,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="caigouRukuUpd" class="custom-form-item">
-              <el-select v-model="Power.caigouRukuUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouRukuUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -895,7 +895,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="caigouRukuSel" class="custom-form-item">
-              <el-select v-model="Power.caigouRukuSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouRukuSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -917,7 +917,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="caigouShoupiaoAdd" class="custom-form-item">
-              <el-select v-model="Power.caigouShoupiaoAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouShoupiaoAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -930,7 +930,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="caigouShoupiaoDel" class="custom-form-item">
-              <el-select v-model="Power.caigouShoupiaoDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouShoupiaoDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -943,7 +943,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="caigouShoupiaoUpd" class="custom-form-item">
-              <el-select v-model="Power.caigouShoupiaoUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouShoupiaoUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -956,7 +956,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="caigouShoupiaoSel" class="custom-form-item">
-              <el-select v-model="Power.caigouShoupiaoSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.caigouShoupiaoSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -978,7 +978,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="zhichuAdd" class="custom-form-item">
-              <el-select v-model="Power.zhichuAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhichuAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian3"
@@ -991,7 +991,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="zhichuDel" class="custom-form-item">
-              <el-select v-model="Power.zhichuDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhichuDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1004,7 +1004,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="zhichuUpd" class="custom-form-item">
-              <el-select v-model="Power.zhichuUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhichuUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1017,7 +1017,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="zhichuSel" class="custom-form-item">
-              <el-select v-model="Power.zhichuSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhichuSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1039,7 +1039,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="新增" prop="zhuanzhangAdd" class="custom-form-item">
-              <el-select v-model="Power.zhuanzhangAdd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhuanzhangAdd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1052,7 +1052,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="删除" prop="zhuanzhangDel" class="custom-form-item">
-              <el-select v-model="Power.zhuanzhangDel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhuanzhangDel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1065,7 +1065,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="修改" prop="zhuanzhangUpd" class="custom-form-item">
-              <el-select v-model="Power.zhuanzhangUpd" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhuanzhangUpd" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1078,7 +1078,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="查看" prop="zhuanzhangSel" class="custom-form-item">
-              <el-select v-model="Power.zhuanzhangSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhuanzhangSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1100,7 +1100,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="查看" prop="kucunSel" class="custom-form-item">
-              <el-select v-model="Power.kucunSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.kucunSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1122,7 +1122,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="查看" prop="zhanghuYueSel" class="custom-form-item">
-              <el-select v-model="Power.zhanghuYueSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhanghuYueSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1144,7 +1144,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="查看" prop="shouruTongjiSel" class="custom-form-item">
-              <el-select v-model="Power.shouruTongjiSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.shouruTongjiSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1166,7 +1166,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="查看" prop="zhichuTongjiSel" class="custom-form-item">
-              <el-select v-model="Power.zhichuTongjiSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.zhichuTongjiSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1188,7 +1188,7 @@
         <el-row :gutter="15">
           <el-col :span="6">
             <el-form-item label="查看" prop="yueduTongjiSel" class="custom-form-item">
-              <el-select v-model="Power.yueduTongjiSel" filterable placeholder="请选择">
+              <el-select style="z-index:999;" v-model="Power.yueduTongjiSel" filterable placeholder="请选择">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_QuanXian2"
@@ -1400,7 +1400,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/userpower/queryUserPowerById"
+      let url = "http://yhocn.cn:8102/userpower/queryUserPowerById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1424,7 +1424,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/userpower/queryPower"
+      let url = "http://yhocn.cn:8102/userpower/queryPower"
       this.axios.post(url, {"name":""}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1443,7 +1443,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1456,7 +1456,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1494,7 +1494,7 @@ export default {
       var date = {
         name:this.name
       }
-      let url = "http://localhost:8102/userpower/queryPower"
+      let url = "http://yhocn.cn:8102/userpower/queryPower"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1510,7 +1510,7 @@ export default {
 
     savePower(){
       var save_list = this.Power
-      let url = "http://localhost:8102/userpower/powerAdd"
+      let url = "http://yhocn.cn:8102/userpower/powerAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1531,7 +1531,7 @@ export default {
         return;
       }
       var save_list = this.Power
-      let url = "http://localhost:8102/userpower/powerUpd"
+      let url = "http://yhocn.cn:8102/userpower/powerUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1574,7 +1574,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/userpower/delPower";
+        let url = "http://yhocn.cn:8102/userpower/delPower";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;

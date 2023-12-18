@@ -198,7 +198,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="收票单位" prop="shoupiaoDanwei" class="custom-form-item">
-              <el-select v-model="gongYingShang.shoupiaoDanwei" clearable filterable placeholder="请选择供应商">
+              <el-select style="z-index:999;" v-model="gongYingShang.shoupiaoDanwei" clearable filterable placeholder="请选择供应商">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_HeSuanDanWei"
@@ -215,7 +215,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="开票单位" prop="kaipiaoDanwei" class="custom-form-item">
-              <el-select v-model="gongYingShang.kaipiaoDanwei" clearable filterable placeholder="请选择供应商">
+              <el-select style="z-index:999;" v-model="gongYingShang.kaipiaoDanwei" clearable filterable placeholder="请选择供应商">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_GongYingShang"
@@ -260,7 +260,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="信息推送" prop="xinxiTuisong" class="custom-form-item">
-              <el-select v-model="gongYingShang.xinxiTuisong" clearable filterable placeholder="请选择信息推送">
+              <el-select style="z-index:999;" v-model="gongYingShang.xinxiTuisong" clearable filterable placeholder="请选择信息推送">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_User"
@@ -322,7 +322,7 @@
           </el-date-picker>
         </el-col>
         <el-col :span="5">
-          <el-select v-model="Progongyingshang" clearable filterable placeholder="请选择供应商">
+          <el-select style="z-index:999;" v-model="Progongyingshang" clearable filterable placeholder="请选择供应商">
             <!-- types 为后端查询 -->
             <el-option
                 v-for="item in XiaLa_GongYingShang"
@@ -635,7 +635,7 @@ export default {
     // 查看详情窗口弹出
     seeList(row){
       this.p_id = row.id
-      let url = "http://localhost:8102/shouPiao/selectByCaiGouId"
+      let url = "http://yhocn.cn:8102/shouPiao/selectByCaiGouId"
       this.axios.post(url,{"id":row.id}).then(res => {
         if (res.data.code == '00'){
           var this_val = res.data.data
@@ -699,7 +699,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/shouPiao/selectByCaiGouId"
+      let url = "http://yhocn.cn:8102/shouPiao/selectByCaiGouId"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -717,7 +717,7 @@ export default {
     },
     //查询窗口table中的内容列表
     getCaiGouProduct(){
-      let url = "http://localhost:8102/shouPiao/selectYingShou"
+      let url = "http://yhocn.cn:8102/shouPiao/selectYingShou"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -737,7 +737,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -750,7 +750,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -778,7 +778,7 @@ export default {
     },
     //读取下拉列表
     getXiaLa_User(){
-      let url = "http://localhost:8102/user/getall"
+      let url = "http://yhocn.cn:8102/user/getall"
       this.axios(url).then(res => {
         this.XiaLa_User = res.data;
         for(var i=0; i<this.XiaLa_User.length; i++){
@@ -790,7 +790,7 @@ export default {
       })
     },
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://yhocn.cn:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -806,7 +806,7 @@ export default {
       })
     },
     getXiaLa_HeSuanDanWei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"核算单位"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_HeSuanDanWei = res.data.data;
@@ -822,7 +822,7 @@ export default {
       })
     },
     getXiaLa_CangKu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"仓库"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CangKu = res.data.data;
@@ -844,7 +844,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/shouPiao/getAll"
+      let url = "http://yhocn.cn:8102/shouPiao/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -890,7 +890,7 @@ export default {
         kaipiao_danwei:this.kaipiao_danwei,
         shoupiao_zhuangtai:this.shoupiao_zhuangtai,
       }
-      let url = "http://localhost:8102/shouPiao/queryList"
+      let url = "http://yhocn.cn:8102/shouPiao/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -905,7 +905,7 @@ export default {
     },
     //保存
     saveGongYingShang(){
-      let url = "http://localhost:8102/shouPiao/shouPiaoAdd"
+      let url = "http://yhocn.cn:8102/shouPiao/shouPiaoAdd"
       var save_list = this.gongYingShang
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
@@ -923,7 +923,7 @@ export default {
     //修改
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/shouPiao/shouPiaoUpd"
+      let url = "http://yhocn.cn:8102/shouPiao/shouPiaoUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -995,7 +995,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/shouPiao/delShouPiao";
+        let url = "http://yhocn.cn:8102/shouPiao/delShouPiao";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1018,7 +1018,7 @@ export default {
     //条件查询
     myShouPiao(){
       this.shenheButton = true
-      let url = "http://localhost:8102/shouPiao/getShouPiao"
+      let url = "http://yhocn.cn:8102/shouPiao/getShouPiao"
       this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1048,7 +1048,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/shouPiao/shouPiao";
+        let url = "http://yhocn.cn:8102/shouPiao/shouPiao";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.query()
@@ -1078,7 +1078,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"采购收票"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1094,7 +1094,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"采购收票"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1111,7 +1111,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://yhocn.cn:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1129,7 +1129,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://yhocn.cn:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1172,7 +1172,7 @@ export default {
           "file": this_file,
           "type": "采购收票",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://yhocn.cn:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)

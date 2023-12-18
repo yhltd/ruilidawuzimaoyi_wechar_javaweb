@@ -203,7 +203,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="客户分类" prop="type" class="custom-form-item" :rules="[{required:true,message:'客户分类不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
-              <el-select v-model="gongYingShang.type" clearable filterable placeholder="请选择客户分类">
+              <el-select style="z-index:999;" v-model="gongYingShang.type" clearable filterable placeholder="请选择客户分类">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_Type"
@@ -221,7 +221,7 @@
          <!--ztt 上级单位下拉框，并模糊查询-->
           <el-col :span="6">
             <el-form-item label="上级单位" prop="shangjiDanwei" class="custom-form-item">
-              <el-select v-model="gongYingShang.shangjiDanwei" clearable filterable placeholder="请选择或输入上级单位">
+              <el-select style="z-index:999;" v-model="gongYingShang.shangjiDanwei" clearable filterable placeholder="请选择或输入上级单位">
                 <el-option
                     v-for="item in XiaLa_ShangJiDanWei"
                     :key="item.name"
@@ -239,7 +239,7 @@
 <!--          </el-col>-->
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="客户等级" prop="kehuDengji" class="custom-form-item">
-              <el-select v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择客户等级">
+              <el-select style="z-index:999;" v-model="gongYingShang.kehuDengji" clearable filterable placeholder="请选择客户等级">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_KeHuDengJi"
@@ -256,7 +256,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="价格等级" prop="jiageDengji" class="custom-form-item" :rules="[{required:true,message:'价格等级不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
-              <el-select v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
+              <el-select style="z-index:999;" v-model="gongYingShang.jiageDengji" clearable filterable placeholder="请选择价格等级">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_JiaGeDengJi"
@@ -287,7 +287,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="业务员" prop="yewuyuan" class="custom-form-item" :rules="[{required:true,message:'业务员不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
-              <el-select v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
+              <el-select style="z-index:999;" v-model="gongYingShang.yewuyuan" clearable filterable placeholder="请选择业务员">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_YeWuYuan"
@@ -410,7 +410,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="类型" :prop="'body.' + index + '.type'" class="custom-form-item" :rules="[{required:true,message:'类型不能为空',trigger: 'blur'}]"><!--ztt 设置必填字段:rules -->
-                <el-select :index="index" @change="selectLeiXing(index,value)" v-model="gongYingShang.body[index].type" clearable filterable placeholder="请选择联系人类型">
+                <el-select style="z-index:999;" :index="index" @change="selectLeiXing(index,value)" v-model="gongYingShang.body[index].type" clearable filterable placeholder="请选择联系人类型">
                   <!-- types 为后端查询 -->
                   <el-option
                       v-for="item in XiaLa_LianXiRenLeiXing"
@@ -614,7 +614,7 @@ export default {
       }
       var this_list = this.gongYingShang
       if(this_list.shangjiDanwei != ''){
-        let url = "http://localhost:8102/customer/getAll"
+        let url = "http://yhocn.cn:8102/customer/getAll"
         this.axios(url).then(res =>{
           console.log("shuju")
           console.log(res.data.data)
@@ -673,7 +673,7 @@ export default {
     //ztt end
     //ztt 上级单位下拉框
     getXiaLa_ShangJiDanWei(){
-      let url = "http://localhost:8102/customer/getAll"
+      let url = "http://yhocn.cn:8102/customer/getAll"
       this.axios(url,{"keyword":""}).then(res =>{
         console.log(res.data.data)
         if (res.data.code == '00') {
@@ -725,7 +725,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/customer/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/customer/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -798,7 +798,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/customer/selectById"
+      let url = "http://yhocn.cn:8102/customer/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -817,7 +817,7 @@ export default {
     },
 
     getXiaLa_Type(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"客户分类"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_Type = res.data.data;
@@ -834,7 +834,7 @@ export default {
     },
 
     getXiaLa_KeHuDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"客户等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHuDengJi = res.data.data;
@@ -851,7 +851,7 @@ export default {
     },
 
     getXiaLa_JiaGeDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"价格等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiaGeDengJi = res.data.data;
@@ -869,7 +869,7 @@ export default {
 
 
     getXiaLa_YeWuYuan(){
-      let url = "http://localhost:8102/user/fuzzyQuery"
+      let url = "http://yhocn.cn:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_YeWuYuan = res.data.data;
@@ -890,7 +890,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -903,7 +903,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -929,7 +929,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/customer/getAll"
+      let url = "http://yhocn.cn:8102/customer/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -962,7 +962,7 @@ export default {
         bianhao:this.bianhao,
         name:this.name
       }
-      let url = "http://localhost:8102/customer/queryList"
+      let url = "http://yhocn.cn:8102/customer/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1026,7 +1026,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/customer/customerAdd"
+      let url = "http://yhocn.cn:8102/customer/customerAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1046,7 +1046,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/customer/customerUpd"
+      let url = "http://yhocn.cn:8102/customer/customerUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1100,7 +1100,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/customer/delCustomer";
+        let url = "http://yhocn.cn:8102/customer/delCustomer";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1157,7 +1157,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1173,7 +1173,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"客户"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1190,7 +1190,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://yhocn.cn:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1208,7 +1208,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://yhocn.cn:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1249,7 +1249,7 @@ export default {
           "file": this_file,
           "type": "客户",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://yhocn.cn:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)

@@ -81,7 +81,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("ok")
-          let URL = "http://localhost:8102/V0/login";
+          let URL = "http://yhocn.cn:8102/V0/login";
           axios.post(
               URL, this.ruleForm, false
           ).then(res => {

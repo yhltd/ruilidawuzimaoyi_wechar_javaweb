@@ -219,7 +219,7 @@
 <!--          </el-col>-->
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="店铺" prop="dianpu" class="custom-form-item">
-              <el-select v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
+              <el-select style="z-index:999;" v-model="gongYingShang.dianpu" clearable filterable placeholder="请选择店铺">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_DianPu"
@@ -237,7 +237,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="单据类型" prop="danjuLeixing" class="custom-form-item">
-              <el-select @change="selectDanType()" v-model="gongYingShang.danjuLeixing" clearable filterable placeholder="请选择单据类型">
+              <el-select style="z-index:999;" @change="selectDanType()" v-model="gongYingShang.danjuLeixing" clearable filterable placeholder="请选择单据类型">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_DanJuLeiXing"
@@ -256,7 +256,7 @@
 
           <el-col :span="6">
             <el-form-item label="货款状态" prop="huokuanzhuangtai" class="custom-form-item">  <!-- clearable filterable placeholder="请选择货款状态" -->
-              <el-select @change="selecthuo()" disabled="true" @click.native="selectProduct()" v-model="gongYingShang.huokuanzhuangtai">
+              <el-select style="z-index:999;" @change="selecthuo()" disabled="true" @click.native="selectProduct()" v-model="gongYingShang.huokuanzhuangtai">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_huokuanzhuangtai"
@@ -287,7 +287,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="记账人" prop="jizhangren" class="custom-form-item">
-              <el-select v-model="gongYingShang.jizhangren" clearable filterable placeholder="请选择记账人">
+              <el-select style="z-index:999;" v-model="gongYingShang.jizhangren" clearable filterable placeholder="请选择记账人">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_User"
@@ -301,7 +301,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="记账分类" prop="jizhangType" class="custom-form-item">
-              <el-select v-model="gongYingShang.jizhangType" clearable filterable placeholder="请选择记账分类">
+              <el-select style="z-index:999;" v-model="gongYingShang.jizhangType" clearable filterable placeholder="请选择记账分类">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_JiZhangFenLei"
@@ -319,7 +319,7 @@
           </el-col>
           <el-col :span="10"><!--  ztt修改宽度-->
             <el-form-item label="记账账户" prop="jizhangZhanghu" class="custom-form-item">
-              <el-select v-model="gongYingShang.jizhangZhanghu" clearable filterable placeholder="请选择记账账户">
+              <el-select style="z-index:999;" v-model="gongYingShang.jizhangZhanghu" clearable filterable placeholder="请选择记账账户">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_ShouKuanZhangHu"
@@ -353,7 +353,7 @@
 
           <el-col :span="6">
             <el-form-item label="记账单位" prop="jizhangDanwei" class="custom-form-item">
-              <el-select @change="selectDanType()" v-model="gongYingShang.jizhangDanwei" clearable filterable placeholder="请选择单据类型">
+              <el-select style="z-index:999;" @change="selectDanType()" v-model="gongYingShang.jizhangDanwei" clearable filterable placeholder="请选择单据类型">
                 <!-- types 为后端查询 -->
                 <el-option
                     v-for="item in XiaLa_jizhangDanwei"
@@ -378,7 +378,7 @@
           <el-row :gutter="15">
             <el-col :span="5.5">
               <el-form-item label="明细类型" prop="mingxiType" class="custom-form-item" >
-                <el-select v-model="gongYingShang.body[index].mingxiType" clearable filterable placeholder="请选择明细类型">
+                <el-select style="z-index:999;" v-model="gongYingShang.body[index].mingxiType" clearable filterable placeholder="请选择明细类型">
                   <!-- types 为后端查询 -->
                   <el-option
                       v-for="item in XiaLa_JiZhangMingXiLeiXing"
@@ -473,7 +473,7 @@
           </el-date-picker>
         </el-col>
         <el-col :span="5">
-          <el-select v-model="Progongyingshang" clearable filterable placeholder="请选择供应商">
+          <el-select style="z-index:999;" v-model="Progongyingshang" clearable filterable placeholder="请选择供应商">
             <!-- types 为后端查询 -->
             <el-option
                 v-for="item in XiaLa_GongYingShang"
@@ -820,7 +820,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/shouZhiMingXi/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].shouzhiBianhao)
@@ -907,7 +907,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/shouZhiMingXi/selectById"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -926,7 +926,7 @@ export default {
     },
     //查询窗口table中的内容列表
     getCaiGouProduct(){
-      let url = "http://localhost:8102/caiGouDingDan/getAllYiShen"//ztt审核
+      let url = "http://yhocn.cn:8102/caiGouDingDan/getAllYiShen"//ztt审核
       this.axios(url).then(res => {//ztt审核
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -941,7 +941,7 @@ export default {
       })
     },
     getRuKuProduct(){
-      let url = "http://localhost:8102/caiGouRuKu/selectWeiFu"
+      let url = "http://yhocn.cn:8102/caiGouRuKu/selectWeiFu"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
@@ -961,7 +961,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -974,7 +974,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -997,7 +997,7 @@ export default {
     },
     //读取下拉列表
     getXiaLa_User(){
-      let url = "http://localhost:8102/user/getall"
+      let url = "http://yhocn.cn:8102/user/getall"
       this.axios(url).then(res => {
         this.XiaLa_User = res.data;
         for(var i=0; i<this.XiaLa_User.length; i++){
@@ -1009,7 +1009,7 @@ export default {
       })
     },
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://yhocn.cn:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -1025,7 +1025,7 @@ export default {
       })
     },
     getXiaLa_ShouKuanZhangHu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"收款账户"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShouKuanZhangHu = res.data.data;
@@ -1041,7 +1041,7 @@ export default {
       })
     },
     getXiaLa_DianPu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1057,7 +1057,7 @@ export default {
       })
     },
     getXiaLa_JiZhangFenLei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"记账分类"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiZhangFenLei = res.data.data;
@@ -1073,7 +1073,7 @@ export default {
       })
     },
     getXiaLa_JiZhangMingXiLeiXing(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"记账明细类型"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_JiZhangMingXiLeiXing = res.data.data;
@@ -1090,7 +1090,7 @@ export default {
     },
 
     getXiaLa_jizhangDanwei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"核算单位"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_jizhangDanwei = res.data.data;
@@ -1108,7 +1108,7 @@ export default {
 
     //查询全部
     getAll(){
-      let url = "http://localhost:8102/shouZhiMingXi/getZhiChu"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/getZhiChu"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1124,7 +1124,7 @@ export default {
 
     //查询全部
     getAllByName(){
-      let url = "http://localhost:8102/shouZhiMingXi/getZhiChuByName"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/getZhiChuByName"
       this.axios.post(url, {"yuangong_name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1177,7 +1177,7 @@ export default {
         jizhangren:this.jizhangren,
         jizhang_zhanghu:this.jizhang_zhanghu,
       }
-      let url = "http://localhost:8102/shouZhiMingXi/queryZhiChuList"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/queryZhiChuList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1208,7 +1208,7 @@ export default {
         jizhang_zhanghu:this.jizhang_zhanghu,
         yuangong_name:this.userInfo.name
       }
-      let url = "http://localhost:8102/shouZhiMingXi/queryZhiChuListByName"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/queryZhiChuListByName"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1225,7 +1225,7 @@ export default {
     //保存
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/shouZhiMingXi/shouzhiAdd"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/shouzhiAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1245,7 +1245,7 @@ export default {
     //修改
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/shouZhiMingXi/shouzhiUpd"
+      let url = "http://yhocn.cn:8102/shouZhiMingXi/shouzhiUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1341,7 +1341,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/shouZhiMingXi/delShouZhi";
+        let url = "http://yhocn.cn:8102/shouZhiMingXi/delShouZhi";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1375,7 +1375,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"收支记录"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1391,7 +1391,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"收支记录"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -1408,7 +1408,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://yhocn.cn:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -1426,7 +1426,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://yhocn.cn:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1469,7 +1469,7 @@ export default {
           "file": this_file,
           "type": "收支记录",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://yhocn.cn:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
