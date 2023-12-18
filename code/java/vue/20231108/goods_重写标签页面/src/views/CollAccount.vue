@@ -5,7 +5,7 @@
       <br />
       <div>
         <el-button size="medium" @click="showDialog"><i class="el-icon-plus"></i>新增</el-button>
-        <el-button size="medium">排序</el-button>
+        <el-button size="medium"><i class="el-icon-s-marketing"></i>排序</el-button>
       </div>
       <br />
       <el-main>
@@ -23,7 +23,7 @@
                 size="small"
                 >编辑</el-button
               >
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small"><i class="el-icon-delete"></i>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -54,8 +54,8 @@
           </el-form>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="SubmitEvent">确 定</el-button>
+        <el-button @click="closeDialog"><i class="el-icon-circle-close"></i>取 消</el-button>
+        <el-button type="primary" @click="SubmitEvent"><i class="el-icon-check"></i>确 定</el-button>
       </span>
     </el-dialog>
 

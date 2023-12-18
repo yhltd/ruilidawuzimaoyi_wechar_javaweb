@@ -2,7 +2,7 @@
   <el-container style="height: 100%;" direction="vertical">
     <el-main style="height: 60%;padding-bottom:30px">
       <el-form :model="ZhuanZhang" ref="addUsr" label-width="150px"
-               class="demo-info" style="margin-left:10px;">
+               class="demo-info1" style="margin-left:10px;">
 
         <el-form-item label="税率%" prop="shuilv" class="custom-form-item">
           <el-input v-model="ZhuanZhang.shuilv" class="custom-login-inp" style="width: 300px" type="number"></el-input>
@@ -76,14 +76,14 @@
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
-                         @click="save">保存
+                         @click="save" style="margin-left: 460px"><i class="el-icon-finished"></i>保存
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
-                         @click="refresh()">刷新
+                         @click="refresh()" style="margin-left: 460px"><i class="el-icon-refresh"></i>刷新
               </el-button>
             </div>
           </el-col>
@@ -259,5 +259,12 @@ export default {
 .dialog-title{
   font-weight:bold;
   font-size: larger;
+}
+.demo-info1{
+  /*background-color: #f4f5f6;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

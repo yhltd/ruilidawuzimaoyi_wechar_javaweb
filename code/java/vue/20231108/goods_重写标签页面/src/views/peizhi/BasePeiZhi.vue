@@ -8,14 +8,14 @@
     <el-header style="background-color: transparent;">
       <el-row :gutter="20">
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button size="small" round @click="addConfig();" type="primary">添加</el-button>
+          <el-button size="small" round @click="addConfig();" type="primary"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button size="small" round @click="updConfig();" type="primary">修改</el-button>
+          <el-button size="small" round @click="updConfig();" type="primary"><i class="el-icon-edit"></i>修改</el-button>
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
-          <el-button size="small" round type="danger" @click="delConfig();">删除</el-button>
+          <el-button size="small" round type="danger" @click="delConfig();"><i class="el-icon-delete"></i>删除</el-button>
           <!--      <el-button @click="" type="danger">删除</el-button>-->
         </el-col>
         <el-col :xs="8" :sm="6" :md="5" :lg="3" :xl="2">
@@ -30,10 +30,10 @@
           >
             <p>确定要删除选中的账号吗？</p>
             <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="del_popover_visible = false">取消</el-button>
-              <el-button type="danger" size="mini" @click="delConfig()">确定</el-button>
+              <el-button size="mini" type="text" @click="del_popover_visible = false"><i class="el-icon-circe-close"></i>取消</el-button>
+              <el-button type="danger" size="mini" @click="delConfig()"><i class="el-icon-check"></i>确定</el-button>
             </div>
-            <el-button @click="del_popover_visible=true">删除</el-button>
+            <el-button @click="del_popover_visible=true"><i class="el-icon-delete"></i>删除</el-button>
           </el-popover>
         </el-col>
       </el-row>
@@ -97,7 +97,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="custom-login-button" type="primary"
-                     @click="addFormSub('addConfig')">添加
+                     @click="addFormSub('addConfig')"><i class="el-icon-circle-plus-outline"></i>添加
           </el-button>
         </el-form-item>
       </el-form>
@@ -111,7 +111,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="custom-login-button" type="primary"
-                     @click="updFormSub('updConfig')">修改
+                     @click="updFormSub('updConfig')"><i class="el-icon-edit"></i>修改
           </el-button>
         </el-form-item>
       </el-form>

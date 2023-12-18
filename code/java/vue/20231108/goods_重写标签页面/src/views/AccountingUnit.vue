@@ -7,7 +7,7 @@ template>
         <el-button size="medium" @click="showDialog"
           ><i class="el-icon-plus"></i>新增</el-button
         >
-        <el-button size="medium">排序</el-button>
+        <el-button size="medium"><i class="el-icon-s-marketing"></i>排序</el-button>
       </div>
       <br />
       <el-main>
@@ -25,7 +25,7 @@ template>
                 size="small"
                 >编辑</el-button
               >
-              <el-button type="text" size="small" @click="del(scope.row)">删除</el-button
+              <el-button type="text" size="small" @click="del(scope.row)"><i class="el-icon-delete"></i>删除</el-button
               >
             </template>
           </el-table-column>
@@ -51,8 +51,8 @@ template>
         </el-form>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="SubmitEvent">确 定</el-button>
+        <el-button @click="closeDialog"><i class="el-icon-circe-close"></i>取 消</el-button>
+        <el-button type="primary" @click="SubmitEvent"><i class="el-icon-check"></i>确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -73,8 +73,8 @@ template>
         </el-form>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="edit">确 定</el-button>
+        <el-button @click="closeDialog"><i class="el-icon-circe-close"></i>取 消</el-button>
+        <el-button type="primary" @click="edit"><i class="el-icon-check"></i>确 定</el-button>
       </span>
     </el-dialog>
   </div>

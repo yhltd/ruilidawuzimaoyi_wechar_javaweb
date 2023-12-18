@@ -221,7 +221,7 @@
   no-repeat:背景图片不平铺
   repeat:背景图片平铺
    */
-  background: url("../assets/backgroundImage.jpg") center fixed;
+  /*background: url("../assets/backgroundImage.jpg") center fixed;*/
   background-size: cover;
 }
 </style>

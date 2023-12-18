@@ -33,7 +33,7 @@
           </el-select>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -41,7 +41,7 @@
     <el-main refs="main" style="height: 50%;">
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           ref="multipleTable"
           :data="type_list"
           tooltip-effect="dark"
@@ -52,7 +52,7 @@
             v-for="column in title"
             :prop="column.columnName+ ''"
             :label="column.name"
-            :width="column.width">
+            :width="auto">
         </el-table-column>
       </el-table>
     </el-main>

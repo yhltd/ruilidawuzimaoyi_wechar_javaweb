@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%;" direction="vertical">
-    <el-header class="el-header">
+    <el-header class="el-header" style="background-color:transparent">
       <el-row :gutter="15">
         <el-col :span="3">
           <el-input placeholder="商品分类" v-model="type" class="input-with-select"></el-input>

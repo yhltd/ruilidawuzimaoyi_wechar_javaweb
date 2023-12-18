@@ -1,6 +1,7 @@
 <!-- 登录页面 -->
 <template>
   <el-container class="custom-bg">
+    <img src="../assets/menuLogo.png">
     <div class="custom-box">
       <div class="custom-header">
         <!-- 企业logo -->
@@ -173,28 +174,42 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../assets/login-bg.png") no-repeat;
+  background: url("../assets/bgc3.jpg") no-repeat;/* ui */
   background-size: 100% 100%;
   overflow: hidden;
 }
 
 .custom-box {
-  width: 400px;
+  width: 600px;/* ui */
   /*height: 450px;*/
   height: fit-content;
-  background-color: rgba(256, 256, 256, 1);
+  background-color: rgba(256, 256, 256, 0.7);/* ui */
   border-radius: 10px;
   overflow: hidden;
 }
 
+/*.custom-header {*/
+/*  height: 60px;*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  border-bottom: 1px solid #000;*/
+/*}*/
+
+/* ui */
 .custom-header {
-  height: 60px;
+  height: 90px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #000;
+  font-size: 40px;
+  font-weight: bold;
+  color: #13478a;
+  border-bottom: 1px solid #13478a;
 }
+/* ui end */
 
 .logo {
   width: fit-content;
@@ -205,23 +220,36 @@ body {
   height: 200px;
   display: flex;
   justify-content: center;
-  padding-top: 30px;
+  padding-top: 20px;/* ui */
 }
 
 .custom-tab-pane {
-  width: 300px;
+  width: 350px;/* ui */
   min-height: 200px;
   height: fit-content;
   margin: 0 auto;
 }
 
-.custom-form-item {
-  border-bottom: 2px solid #99CCFF;
-}
+/* ui */
+/*.custom-form-item {*/
+/*  border-bottom: 2px solid #99CCFF;*/
+/*}*/
 
 .custom-login-button {
   position: absolute;
-  width: 150px;
-  left: 20px;
+  /* ui */
+  width: 200px;
+  left: 30px;
+  font-size: 20px;
+  height: 40px;
+  line-height: 10px;
+}
+/* ui */
+img{
+  width: 70px;
+  height: 70px;
+  position: relative;
+  right: 200px;
+  top: -250px;
 }
 </style>

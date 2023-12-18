@@ -2,7 +2,7 @@
   <el-container style="height: 100%;" direction="vertical">
 
     <el-header style="background-color: transparent;">
-      <el-row :gutter="15">
+      <el-row :gutter="8">
         <el-col :span="3">
           <el-date-picker
               style="width:100%"
@@ -57,16 +57,16 @@
           </el-select>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="refresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button  v-if="!shenheButton"size="small" round type="primary" @click="addUser()">添加</el-button>
+          <el-button  v-if="!shenheButton"size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()">编辑</el-button>
+          <el-button v-if="!shenheButton" size="small" round type="primary" @click="updUser()"><i class="el-icon-edit"></i>编辑</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button size="small" round type="primary" @click="myShouPiao()">需要我收票</el-button>
@@ -75,15 +75,15 @@
           <el-button v-if="shenheButton" size="small" round type="primary" @click="shouPiaoClick()">收票</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button v-if="!shenheButton" size="small" round type="danger" @click="deleteClick()">删除</el-button>
+          <el-button v-if="!shenheButton" size="small" round type="danger" @click="deleteClick()"><i class="el-icon-delete"></i>删除</el-button>
         </el-col>
       </el-row>
     </el-header>
 
-    <el-main refs="main" style="height: 50%;">
+    <el-main refs="main" style="height: 50%;margin-top: 20px">
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           ref="multipleTable"
           :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           tooltip-effect="dark"
@@ -157,7 +157,7 @@
             label="操作"
             width="200">
           <template slot-scope="scope">
-            <el-button @click="getfileList(scope.row)" type="text" size="small">查看文件</el-button>
+            <el-button @click="getfileList(scope.row)" type="text" size="small"><i class="el-icon-folder-opened"></i>查看文件</el-button>
             <!--            采购收票增加查看详情按钮-->
             <el-button @click="seeList(scope.row)" type="text" size="small"><i class="el-icon-tickets"></i>查看详情</el-button>
           </template>
@@ -280,14 +280,14 @@
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
-                         @click="save">保存
+                         @click="save" style="margin-left: 30px"><i class="el-icon-finished"></i>保存
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button" type="primary"
-                         @click="addClose">取消
+                         @click="addClose" style="margin-left: 30px"><i class="el-icon-circle-close"></i>取消
               </el-button>
             </div>
           </el-col>
@@ -333,16 +333,16 @@
           </el-select>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="ProQuery()">查询</el-button>
+          <el-button type="primary" @click="ProQuery()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="Prorefresh()">刷新</el-button>
+          <el-button type="primary" @click="Prorefresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
       </el-row>
 
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="CaiGou_Product"
           :row-class-name="rowClassName"
           @row-click="rowClick"
@@ -386,13 +386,13 @@
       <input ref="up_file" type="file" id="up_file" @change="uploadSelect()" style="display: none">
       <el-row :gutter="15">
         <el-col :span="3">
-          <el-button type="primary" :loading="downloadLoading" @click="upload()">文件上传</el-button>
+          <el-button type="primary" :loading="downloadLoading" @click="upload()"><i class="el-icon-document-add"></i>文件上传</el-button>
         </el-col>
       </el-row>
 
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="FileList"
           style="width: 100%">
         <el-table-column
@@ -405,8 +405,8 @@
             label="操作"
             width="200">
           <template slot-scope="scope">
-            <el-button :loading="downloadLoading" @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
-            <el-button :loading="downloadLoading" @click="deleteFile(scope.row)" type="text" size="small">删除</el-button>
+            <el-button :loading="downloadLoading" @click="downloadFile(scope.row)" type="text" size="small"><i class="el-icon-download"></i>下载</el-button>
+            <el-button :loading="downloadLoading" @click="deleteFile(scope.row)" type="text" size="small"><i class="el-icon-delete"></i>删除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -35,19 +35,19 @@
           </el-select>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="refresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
+          <el-button size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
+          <el-button size="small" round type="primary" @click="updUser()"><i class="el-icon-edit"></i>编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()"><i class="el-icon-delete"></i>删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -55,7 +55,7 @@
     <el-main refs="main" style="height: 50%;">
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           ref="multipleTable"
           :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           tooltip-effect="dark"
@@ -121,7 +121,7 @@
             label="操作"
             width="200">
           <template slot-scope="scope">
-            <el-button @click="printShow(scope.row)" type="text" size="small">打印</el-button>
+            <el-button @click="printShow(scope.row)" type="text" size="small"><i class="el-icon-printer"></i>打印</el-button>
             <!--            增加查看详情按钮-->
             <el-button @click="seeList(scope.row)" type="text" size="small"><i class="el-icon-tickets"></i>查看详情</el-button>
           </template>
@@ -338,7 +338,7 @@
               </el-form-item>
             </el-col>
             <el-button v-if="index > 0" class="custom-login-button"  type="primary"
-                       @click="delLianXiRen(index)">删除
+                       @click="delLianXiRen(index)"><i class="el-icon-delete"></i>删除
             </el-button>
           </el-row>
         </div>
@@ -349,21 +349,21 @@
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
-                         @click="addLianXiRen">添加商品
+                         @click="addLianXiRen" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加商品
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
-                         @click="save">保存
+                         @click="save" style="margin-left: 30px"><i class="el-icon-finished"></i>保存
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button" type="primary"
-                         @click="addClose">取消
+                         @click="addClose" style="margin-left: 30px"><i class="el-icon-circle-close"></i>取消
               </el-button>
             </div>
           </el-col>
@@ -386,16 +386,16 @@
           </el-input>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="ProQuery()">查询</el-button>
+          <el-button type="primary" @click="ProQuery()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="Prorefresh()">刷新</el-button>
+          <el-button type="primary" @click="Prorefresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
       </el-row>
 
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
         <el-table-column
             prop="bianhao"
@@ -472,8 +472,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button  type="primary" @click="printStart()">打印预览</el-button>
-          <el-button  @click="printBack()">取消</el-button>
+          <el-button  type="primary" @click="printStart()"><i class="el-icon-printer"></i>打印预览</el-button>
+          <el-button  @click="printBack()"><i class="el-icon-circle-close"></i>取消</el-button>
         </span>
     </el-dialog>
 
@@ -505,16 +505,16 @@
           </el-input>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="CaiGouQuery()">查询</el-button>
+          <el-button type="primary" @click="CaiGouQuery()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" @click="CaiGourefresh()">刷新</el-button>
+          <el-button type="primary" @click="CaiGourefresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
       </el-row>
 
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="CaiGouDan" :row-class-name="rowClassName2" @row-click="CaiGouDanClick" style="width: 100%">
         <el-table-column
             prop="bianhao"
@@ -564,7 +564,7 @@
 
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="xukaiList" :row-class-name="rowClassName" style="width: 100%">
         <el-table-column
             prop="bianhao"
@@ -608,8 +608,8 @@
       </el-table>
 
       <span slot="footer" class="dialog-footer">
-        <el-button  type="primary" @click="kaipiaoNext()">确定</el-button>
-        <el-button  @click="selKaiPiao=false">取消</el-button>
+        <el-button  type="primary" @click="kaipiaoNext()"><i class="el-icon-check"></i>确定</el-button>
+        <el-button  @click="selKaiPiao=false"><i class="el-icon-close"></i>取消</el-button>
       </span>
 
     </el-dialog>
@@ -697,8 +697,8 @@
       </el-form>
 
       <span slot="footer" class="dialog-footer">
-        <el-button  type="primary" @click="kaipiaoSure()">确定</el-button>
-        <el-button  @click="selKaiPiaoConfirm=false">取消</el-button>
+        <el-button  type="primary" @click="kaipiaoSure()"><i class="el-icon-check"></i>确定</el-button>
+        <el-button  @click="selKaiPiaoConfirm=false"><i class="el-icon-close"></i>取消</el-button>
       </span>
 
     </el-dialog>
@@ -718,8 +718,8 @@
         </el-col>
       </el-row>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dingjinUseVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dingjinUseSave()">确 定</el-button>
+        <el-button @click="dingjinUseVisible = false"><i class="el-icon-close"></i>取 消</el-button>
+        <el-button type="primary" @click="dingjinUseSave()"><i class="el-icon-check"></i>确 定</el-button>
       </span>
     </el-dialog>
 
@@ -793,7 +793,7 @@
         </el-row>
         <el-table
             border
-            :header-cell-style="{background:'#F2F5F7'}"
+            :header-cell-style="{background:'#d6e5ef',color:'#000'}"
             :data="gongYingShang.body" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
           <el-table-column
               prop="shangpinBianma"
@@ -867,27 +867,27 @@
         </el-row>
         <el-table
             border
-            :header-cell-style="{background:'#F2F5F7'}"
+            :header-cell-style="{background:'#d6e5ef',color:'#000'}"
             :data="gongYingShang.shoukuan" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
           <el-table-column
               prop="shouzhiBianhao"
               label="收款单号"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="shouzhiRiqi"
               label="日期"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="shoufuType"
               label="收款类别"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="money"
               label="金额"
-              width="180"
+              width="auto"
           ></el-table-column>
         </el-table>
       </div>
@@ -906,27 +906,27 @@
         </el-row>
         <el-table
             border
-            :header-cell-style="{background:'#F2F5F7'}"
+            :header-cell-style="{background:'#d6e5ef',color:'#000'}"
             :data="gongYingShang.kaipiao" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
           <el-table-column
               prop="xiaoshouBianhao"
               label="出库单号"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="kaipiaoRiqi"
               label="开票日期"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="jiashuiHeji"
               label="金额"
-              width="180"
+              width="auto"
           ></el-table-column>
           <el-table-column
               prop="beizhu"
               label="备注"
-              width="180"
+              width="auto"
           ></el-table-column>
         </el-table>
       </div>

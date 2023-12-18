@@ -5,19 +5,19 @@
       <el-menu
           class="el-menu-demo"
           mode="horizontal"
-          background-color="#3A3A3A"
+          background-color="#2b62b5"
           text-color="#fff"
           active-text-color="#ffd04b"
           router
-      >
+      ><!-- ui-->
         <el-menu-item  style="margin-left:3%">
-          <img src="../assets/menuLogo.png" style="height: 40px;width: 40px;margin-right: 10px">
-          <span style="font-size: 15px">进销存系统</span>
+          <img src="../assets/menuLogo.png" style="height: 50px;width: 50px;margin-right: 10px"><!-- ui-->
+          <span style="font-size: 30px">进销存系统</span>
         </el-menu-item>
 
         <el-menu-item @click="goRouter('/main')">首页</el-menu-item>
 
-        <el-submenu index="1" style="margin-left:5%" >
+        <el-submenu index="1" style="margin-left:1%" class="el-submenu-item"><!-- ui-->
           <template slot="title">销售</template>
           <el-menu-item @click="goRouter('/xiaoshoubaojia')"><p class="custom-menu-item">销售报价</p></el-menu-item>
           <el-menu-item @click="goRouter('/xiaoshoudingdan')"><p class="custom-menu-item">销售订单</p></el-menu-item>
@@ -100,13 +100,14 @@
 
 
 
-        <el-menu-item style="float: right;margin-right: 5%" index="7" @click="quit()">
+        <el-menu-item style="float: right;margin-right: 1%" index="7" @click="quit()">
           <i class="el-icon-switch-button"></i>
           <span>退出登录</span>
         </el-menu-item>
 
         <el-menu-item style="float: right;" >
           <span>权限:{{userInfo.power}}</span>
+          <i class="el-icon-s-custom"></i><!-- ui-->
         </el-menu-item>
 
         <el-menu-item style="float: right;" >
@@ -209,7 +210,8 @@ export default {
 
 <style>
 :root {
-  --frame-bgcolor: #3A3A3A;
+  /* ui */
+  --frame-bgcolor: #fff;
 
 }
 
@@ -224,15 +226,20 @@ body {
 </style>
 
 <style scoped>
+/* ui */
 .custom-menu-item {
-  height: 25px;
-  line-height: 25px;
-  margin: 0px;
-  padding: 0;
+  height: 35px;
+  line-height: 35px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  font-size: 15px;
 }
-
+/* ui */
 .custom-menu-item:hover {
-  color: #ffd04b;
+  color: #2b62b5;
+  background-color: #fff;
 }
 
 /* 以上为代码测试区 */
@@ -267,6 +274,8 @@ body {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   overflow: hidden;
+  /* ui */
+  border-bottom: 1px solid #57a8f5;
 }
 
 .inner-header {
@@ -274,14 +283,22 @@ body {
   line-height: 40px;
   font-weight: 600;
   background-color: #F2F5F7;
-  border-bottom: 1px solid lightgray;
+  /*border-bottom: 1px solid lightgray;*/
+  /* ui */
+  background-image: linear-gradient(to left,#2b62b5, #4dc6f1);
+  color: #fff;
+  margin-top: 10px;
 }
 
 .view-box {
-  background: none;
+  /*background: none;*/
   /*width: 95%;*/
   /*margin: 20px auto 10px;*/
   height: calc(100% - 20px);
+  /* ui */
+  background-color: #f4f5f6;
+  border-left: 1px solid #57a8f5;
+  border-right: 1px solid #57a8f5;
 }
 
 .el-menu {
@@ -293,8 +310,35 @@ body {
   no-repeat:背景图片不平铺
   repeat:背景图片平铺
    */
-  background: url("../assets/backgroundImage.jpg") center fixed;
+  /* ui */
+  background: url("../assets/shouye1.png") center fixed;
   background-size: cover;
 }
-
+/* ui */
+.el-icon-switch-button,.el-icon-s-custom{
+  color: #fff;
+}
+/deep/.el-table--border{
+  border:1px solid #b9b9b9
+}
+/deep/.has-gutter{
+  color:#000!important;
+}
+/deep/.has-gutter tr th{
+  background:#d6e5ef!important;
+  border-right: 1px solid #fff;
+}
+/deep/.el-table__body tbody tr td{
+  border-right: 1px solid #d4d5d5;
+  border-bottom: 1px solid #d4d5d5;
+}
+/deep/.el-submenu__title i{
+  color: #ffffff;
+}
+/deep/.el-menu--horizontal.el-menu--popup{
+  width: 100px!important;
+}
+/deep/th.el-table_2_column_23 is-hidden is-leaf el-table__cell{
+  background:#d6e5ef!important;
+}
 </style>

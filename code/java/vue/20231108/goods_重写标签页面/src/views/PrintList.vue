@@ -8,19 +8,19 @@
           </el-input>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()">查询</el-button>
+          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="refresh()">刷新</el-button>
+          <el-button size="small" round type="primary" @click="refresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button  size="small" round type="primary" @click="addUser()">添加</el-button>
+          <el-button  size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="updUser()">编辑</el-button>
+          <el-button size="small" round type="primary" @click="updUser()"><i class="el-icon-edit"></i>编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="danger" @click="deleteClick()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteClick()"><i class="el-icon-delete"></i>删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -28,7 +28,7 @@
     <el-main refs="main" style="height: 50%;">
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           ref="multipleTable"
           :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           tooltip-effect="dark"
@@ -54,7 +54,7 @@
             label="操作"
             width="auto">
           <template slot-scope="scope">
-            <el-button @click="diyMuBan(scope.row)" type="text" size="small">编辑模板</el-button>
+            <el-button @click="diyMuBan(scope.row)" type="text" size="small"><i class="el-icon-edit"></i>编辑模板</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -103,14 +103,14 @@
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
-                         @click="save">保存
+                         @click="save" style="margin-left: 30px"><i class="el-icon-finished"></i>保存
               </el-button>
             </div>
           </el-col>
           <el-col :span="4">
             <div style="display: flex">
               <el-button class="custom-login-button" type="primary"
-                         @click="addClose">取消
+                         @click="addClose" style="margin-left: 70px"><i class="el-icon-circle-close"></i>取消
               </el-button>
             </div>
           </el-col>
@@ -464,5 +464,7 @@ function getNowDate() {
 .el-table .hidden-row {
   display: none;
 }
-
+.demo-info{
+  background-color: transparent;
+}
 </style>

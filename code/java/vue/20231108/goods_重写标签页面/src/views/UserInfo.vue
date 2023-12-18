@@ -13,13 +13,13 @@
         </el-col>
 
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="addUser()">添加</el-button>
+          <el-button size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="updateBtnClick()">编辑</el-button>
+          <el-button size="small" round type="primary" @click="updateBtnClick()"><i class="el-icon-edit"></i>编辑</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="danger" @click="deleteUsers()">删除</el-button>
+          <el-button size="small" round type="danger" @click="deleteUsers()"><i class="el-icon-delete"></i>删除</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -27,7 +27,7 @@
     <el-main refs="main" style="height: 50%;">
       <el-table
           border
-          :header-cell-style="{background:'#F2F5F7'}"
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
           border
           style="width: 100%; "
@@ -126,10 +126,10 @@
         <el-form-item>
           <!-- 添加loading组件防止重复点击 -->
           <el-button v-show="show_upd_btn" class="custom-login-button" :loading="login_btn_loading" type="primary"
-                     @click="submitForm('usrInfo')">提交修改
+                     @click="submitForm('usrInfo')"><i class="el-icon-check"></i>提交修改
           </el-button>
-          <el-button v-show="!show_upd_btn" @click="changeBtnHid(); queryAllSelectInfo()">修改</el-button>
-          <el-button v-show="show_upd_btn" @click="changeBtnHid();dialogFormVisible=false">取消</el-button>
+          <el-button v-show="!show_upd_btn" @click="changeBtnHid(); queryAllSelectInfo()" style="background-color: #57a8f5;color: #fff"><i class="el-icon-edit"></i>修改</el-button>
+          <el-button v-show="show_upd_btn" @click="changeBtnHid();dialogFormVisible=false"><i class="el-icon-circle-close"></i>取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -174,7 +174,7 @@
         <el-form-item>
           <!-- 添加loading组件防止重复点击 -->
           <el-button class="custom-login-button" :loading="login_btn_loading" type="primary"
-                     @click="addFormSub('addUsr')">添加
+                     @click="addFormSub('addUsr')"><i class="el-icon-circle-plus-outline"></i>添加
           </el-button>
         </el-form-item>
       </el-form>
