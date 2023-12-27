@@ -7,16 +7,16 @@
 
     <insert id="baoJiaItemAdd" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO xiaoshou_baojia_item(shangpin_bianhao,shangpin_mingcheng,guige,caizhi,jishu_biaozhun,zhibao_dengji,
-        danwei,shuliang,baojia_danjia,jiashui_xiaoji,jianyi_baojia,xuyong_riqi,baojia_fudong,beizhu,baojia_id)
+        danwei,shuliang,baojia_danjia,jiashui_xiaoji,jianyi_baojia,xuyong_riqi,baojia_fudong,beizhu,baojia_id,zuigaojia)
         VALUES (#{shangpinBianhao},#{shangpinMingcheng},#{guige},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{danwei},
-        #{shuliang},#{baojiaDanjia},#{jiashuiXiaoji},#{jianyiBaojia},#{xuyongRiqi},#{baojiaFudong},#{beizhu},#{baojiaId})
+        #{shuliang},#{baojiaDanjia},#{jiashuiXiaoji},#{jianyiBaojia},#{xuyongRiqi},#{baojiaFudong},#{beizhu},#{baojiaId},#{zuigaojia})
     </insert>
 
     <update id="baoJiaItemUpd">
         UPDATE xiaoshou_baojia_item shangpin_bianhao=#{shangpinBianhao},shangpin_mingcheng=#{shangpinMingcheng},guige=#{guige},
         caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji=#{zhibaoDengji}, danwei=#{danwei},
         shuliang=#{shuliang},baojia_danjia=#{baojiaDanjia},jiashui_xiaoji=#{jiashuiXiaoji},jianyi_baojia=#{jianyiBaojia},
-        xuyong_riqi=#{xuyongRiqi},baojia_fudong=#{baojiaFudong},beizhu=#{beizhu},baojia_id=#{baojiaId}
+        xuyong_riqi=#{xuyongRiqi},baojia_fudong=#{baojiaFudong},beizhu=#{beizhu},baojia_id=#{baojiaId},zuigaojia=#{zuigaojia}
         WHERE id = #{id}
     </update>
     <delete id="deleteByBaoJiaId">

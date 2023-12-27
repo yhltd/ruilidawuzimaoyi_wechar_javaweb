@@ -119,6 +119,8 @@ public class CaiGouDingDanController {
         caiGouDingDanAdd.setRukuZhuangtai(caiGouDingDan.get(0).getRukuZhuangtai());
         caiGouDingDanAdd.setShoupiaoZhuangtai(caiGouDingDan.get(0).getShoupiaoZhuangtai());
         caiGouDingDanAdd.setFukuanZhuangtai(caiGouDingDan.get(0).getFukuanZhuangtai());
+        caiGouDingDanAdd.setCaigouDanwei(caiGouDingDan.get(0).getCaigouDanwei());
+        caiGouDingDanAdd.setShenheList(caiGouDingDan.get(0).getShenheList());
         caiGouDingDanAdd.setProductList(itemService.selectByCaiGouId(data.getInteger("id")));
 
         if (caiGouDingDan == null) {

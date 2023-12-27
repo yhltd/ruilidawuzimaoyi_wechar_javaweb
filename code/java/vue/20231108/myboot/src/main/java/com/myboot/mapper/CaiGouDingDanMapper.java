@@ -53,4 +53,6 @@ public interface CaiGouDingDanMapper {
     public List<CaiGouDingDanXiangQing> xiangQingKaiPiao(String bianhao);
 
     public List<CaiGouDingDanXiangQing> xiangQingXuKaiPiao(String bianhao);
+
+    public List<CaiGouDingDan> shouzhiCaiGou();
 }

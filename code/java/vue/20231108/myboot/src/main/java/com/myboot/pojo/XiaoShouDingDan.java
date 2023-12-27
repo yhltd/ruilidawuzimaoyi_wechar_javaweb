@@ -19,6 +19,7 @@ public class XiaoShouDingDan {
     private String jiashuiHeji;
     private String jiageDengji;
     private String shenheZhuangtai;
+    private String xiaoshouDanwei;
 
     private String chukuZhuangtai;
     private String kaipiaoZhuangtai;

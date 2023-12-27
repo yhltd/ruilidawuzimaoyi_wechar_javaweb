@@ -18,6 +18,7 @@ public class CaiGouDingDanAdd {
     private String rukuZhuangtai;
     private String shoupiaoZhuangtai;
     private String fukuanZhuangtai;
+    private String shenheList;
     private List<CaiGouDingDanItem> productList;
 
     private String caigouDanwei;

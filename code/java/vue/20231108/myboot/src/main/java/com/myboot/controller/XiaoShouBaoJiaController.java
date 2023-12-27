@@ -123,6 +123,8 @@ public class XiaoShouBaoJiaController {
         xiaoShouBaoJiaAdd.setShenhe(xiaoShouBaoJia.get(0).getShenhe());
         xiaoShouBaoJiaAdd.setJiageDengji(xiaoShouBaoJia.get(0).getJiageDengji());
         xiaoShouBaoJiaAdd.setShenheZhuangtai(xiaoShouBaoJia.get(0).getShenheZhuangtai());
+        xiaoShouBaoJiaAdd.setShenheList(xiaoShouBaoJia.get(0).getShenheList());
+        xiaoShouBaoJiaAdd.setXiaoshouDanwei(xiaoShouBaoJia.get(0).getXiaoshouDanwei());
         xiaoShouBaoJiaAdd.setItemList(itemService.selectByBaoJiaId(data.getInteger("id")));
 
         if (xiaoShouBaoJia == null) {

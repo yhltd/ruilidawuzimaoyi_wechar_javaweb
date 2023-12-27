@@ -102,6 +102,8 @@ public class XiaoShouChuKuController {
         xiaoShouChuKuAdd.setCangku(xiaoShouChuKu.get(0).getCangku());
         xiaoShouChuKuAdd.setBeizhu(xiaoShouChuKu.get(0).getBeizhu());
         xiaoShouChuKuAdd.setXiaoshouId(xiaoShouChuKu.get(0).getXiaoshouId());
+        xiaoShouChuKuAdd.setChukuDanwei(xiaoShouChuKu.get(0).getChukuDanwei());
+        xiaoShouChuKuAdd.setYewuyuan(xiaoShouChuKu.get(0).getYewuyuan());
         xiaoShouChuKuAdd.setChuKuItem(itemService.selectByChuKuItemId(data.getInteger("id")));
 
         if (xiaoShouChuKuAdd == null) {

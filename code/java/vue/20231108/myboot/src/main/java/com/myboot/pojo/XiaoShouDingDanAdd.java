@@ -21,5 +21,7 @@ public class XiaoShouDingDanAdd {
     private String jiashuiHeji;
     private String jiageDengji;
     private String shenheZhuangtai;
+    private String xiaoshouDanwei;
+    private String shenheList;
     private List<XiaoShouDingDanItem> itemList;
 }

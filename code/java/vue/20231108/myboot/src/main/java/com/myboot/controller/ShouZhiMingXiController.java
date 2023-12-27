@@ -159,6 +159,8 @@ public class ShouZhiMingXiController {
         shouZhiMingXiAdd.setKediShuie(shouZhiMingXi.get(0).getKediShuie());
         shouZhiMingXiAdd.setZhaiyao(shouZhiMingXi.get(0).getZhaiyao());
         shouZhiMingXiAdd.setShouzhiType(shouZhiMingXi.get(0).getShouzhiType());
+        shouZhiMingXiAdd.setJizhangDanwei(shouZhiMingXi.get(0).getJizhangDanwei());
+        shouZhiMingXiAdd.setShoufuType(shouZhiMingXi.get(0).getShoufuType());
         shouZhiMingXiAdd.setShouzhiItem(itemService.selectByShouZhiId(data.getInteger("id")));
 
         if (shouZhiMingXi == null) {

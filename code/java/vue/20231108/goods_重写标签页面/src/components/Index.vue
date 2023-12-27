@@ -85,16 +85,20 @@
           </el-menu-item>
 <!--          <el-menu-item @click="getRouterParam('/basePeizhi', '价格上浮率')"><p class="custom-menu-item">价格上浮率</p>-->
 <!--          </el-menu-item>-->
-          <el-menu-item @click="getRouterParam('/basePeizhi', '记账分类')"><p class="custom-menu-item">记账分类</p>
-          </el-menu-item>
-          <el-menu-item @click="getRouterParam('/basePeizhi', '记账明细类型')"><p class="custom-menu-item">记账明细类型</p>
+<!--          <el-menu-item @click="getRouterParam('/basePeizhi', '记账分类')"><p class="custom-menu-item">记账分类</p>-->
+<!--          </el-menu-item>-->
+<!--          <el-menu-item @click="getRouterParam('/basePeizhi', '记账明细类型')"><p class="custom-menu-item">记账明细类型</p>-->
+<!--          </el-menu-item>-->
+          <el-menu-item @click="goRouter('/jiZhangMingXi')"><p class="custom-menu-item">记账明细</p>
           </el-menu-item>
           <!--         index页面 增加商品单位、进项税率、销项税率-->
           <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','商品单位')"><p class="custom-menu-item">商品单位</p>
           </el-menu-item>
-          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','进项税率')"><p class="custom-menu-item">进项税率</p>
-          </el-menu-item>
-          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','销项税率')"><p class="custom-menu-item">销项税率</p>
+<!--          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','进项税率')"><p class="custom-menu-item">进项税率</p>-->
+<!--          </el-menu-item>-->
+<!--          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','销项税率')"><p class="custom-menu-item">销项税率</p>-->
+<!--          </el-menu-item>-->
+          <el-menu-item class="menuItemYiDong" @click="getRouterParam('/basePeizhi','增值税率')"><p class="custom-menu-item">增值税率</p>
           </el-menu-item>
         </el-submenu>
 
@@ -174,7 +178,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -187,7 +191,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

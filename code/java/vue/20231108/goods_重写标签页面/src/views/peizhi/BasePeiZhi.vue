@@ -367,6 +367,11 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            if(this.PAGE_TYPE == '增值税率'){
+              for(var i=0; i<this.tableData.length; i++){
+                this.tableData[i].name = this.tableData[i].name + "%"
+              }
+            }
             console.log(res.data.data)
             this.total = res.data.data.length;
             // <!-- 收款账户、质保等级设置默认 -->
@@ -403,6 +408,11 @@ export default {
         switch (res.data.code) {
           case '00':
             this.tableData = res.data.data;
+            if(this.PAGE_TYPE == '增值税率'){
+              for(var i=0; i<this.tableData.length; i++){
+                this.tableData[i].name = this.tableData[i].name + "%"
+              }
+            }
             this.total = res.data.data.length;
             // <!-- 收款账户、质保等级设置默认 -->
             if(this.PAGE_TYPE == '仓库' || this.PAGE_TYPE == '店铺' || this.PAGE_TYPE == '核算单位' || this.PAGE_TYPE == '收款账户' || this.PAGE_TYPE == '质保等级'){

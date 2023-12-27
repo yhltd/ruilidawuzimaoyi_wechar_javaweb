@@ -71,15 +71,15 @@
 
     <insert id="shouzhiAdd" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO shouzhi_mingxi(dianpu,danju_leixing,danju_bianhao,shouzhi_bianhao,shouzhi_riqi,jizhangren,jizhang_type,
-        jizhang_zhanghu,jizhang_jine,kedi_shuie,zhaiyao,shouzhi_type,jizhang_danwei)
+        jizhang_zhanghu,jizhang_jine,kedi_shuie,zhaiyao,shouzhi_type,jizhang_danwei,shoufu_type)
         VALUES (#{dianpu},#{danjuLeixing},#{danjuBianhao},#{shouzhiBianhao},#{shouzhiRiqi},#{jizhangren},#{jizhangType},
-        #{jizhangZhanghu},#{jizhangJine},#{kediShuie},#{zhaiyao},#{shouzhiType},#{jizhangDanwei})
+        #{jizhangZhanghu},#{jizhangJine},#{kediShuie},#{zhaiyao},#{shouzhiType},#{jizhangDanwei},#{shoufuType})
     </insert>
 
     <update id="shouzhiUpd">
         UPDATE shouzhi_mingxi set dianpu=#{dianpu},danju_leixing=#{danjuLeixing},danju_bianhao=#{danjuBianhao},shouzhi_bianhao=#{shouzhiBianhao},
         shouzhi_riqi=#{shouzhiRiqi},jizhangren=#{jizhangren},jizhang_type=#{jizhangType},jizhang_zhanghu=#{jizhangZhanghu},
-        jizhang_jine=#{jizhangJine},kedi_shuie=#{kediShuie},zhaiyao=#{zhaiyao},jazhangDanwei = #{jizhangDanwei},shouzhi_type = #{shouzhiType}
+        jizhang_jine=#{jizhangJine},kedi_shuie=#{kediShuie},zhaiyao=#{zhaiyao},jazhangDanwei = #{jizhangDanwei},shouzhi_type = #{shouzhiType},shoufu_type = #{shoufuType}
         WHERE id = #{id}
     </update>
 

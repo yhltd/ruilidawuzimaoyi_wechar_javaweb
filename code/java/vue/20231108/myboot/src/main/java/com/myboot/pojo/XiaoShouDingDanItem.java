@@ -20,4 +20,5 @@ public class XiaoShouDingDanItem {
     private String baojiaFudong;
     private String beizhu;
     private String xiaoshouId;
+    private String zuigaojia;
 }

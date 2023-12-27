@@ -17,5 +17,7 @@ public class XiaoShouBaoJiaAdd {
     private String shenhe;
     private String jiageDengji;
     private String shenheZhuangtai;
+    private String xiaoshouDanwei;
+    private String shenheList;
     private List<XiaoShouBaoJiaItem> itemList;
 }

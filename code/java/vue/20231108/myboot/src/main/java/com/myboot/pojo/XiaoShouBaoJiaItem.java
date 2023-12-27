@@ -19,6 +19,7 @@ public class XiaoShouBaoJiaItem {
     private String xuyongRiqi;
     private String baojiaFudong;
     private String beizhu;
+    private String zuigaojia;
     private Integer baojiaId;
 
 }

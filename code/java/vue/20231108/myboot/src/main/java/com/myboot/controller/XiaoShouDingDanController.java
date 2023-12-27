@@ -128,6 +128,8 @@ public class XiaoShouDingDanController {
         xiaoShouDingDanAdd.setBeizhu(xiaoShouDingDan.get(0).getBeizhu());
         xiaoShouDingDanAdd.setJiashuiHeji(xiaoShouDingDan.get(0).getJiashuiHeji());
         xiaoShouDingDanAdd.setJiageDengji(xiaoShouDingDan.get(0).getJiageDengji());
+        xiaoShouDingDanAdd.setShenheList(xiaoShouDingDan.get(0).getShenheList());
+        xiaoShouDingDanAdd.setXiaoshouDanwei(xiaoShouDingDan.get(0).getXiaoshouDanwei());
         xiaoShouDingDanAdd.setItemList(itemService.selectByXiaoShouId(data.getInteger("id")));
 
         if (xiaoShouDingDan == null) {

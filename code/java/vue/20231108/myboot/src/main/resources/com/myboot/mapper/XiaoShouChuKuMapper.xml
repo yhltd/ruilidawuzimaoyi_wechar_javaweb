@@ -12,7 +12,7 @@
 
     <update id="chuKuUpd">
         UPDATE xiaoshou_chuku set bianhao = #{bianhao},riqi = #{riqi},kehu = #{kehu}, dianpu = #{dianpu},
-        cangku = #{cangku},beizhu = #{beizhu},xiaoshou_id = #{xiaoshouId},chukuDanwei = #{chukuDanwei},yewuyuan = #{yewuyuan}
+        cangku = #{cangku},beizhu = #{beizhu},xiaoshou_id = #{xiaoshouId},chuku_danwei = #{chukuDanwei},yewuyuan = #{yewuyuan}
         WHERE id = #{id}
     </update>
 

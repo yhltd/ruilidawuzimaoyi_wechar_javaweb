@@ -22,4 +22,5 @@ public class ShouZhiMingXiAdd {
     private List<ShouZhiMingXiItem> shouzhiItem;
 
     private String jizhangDanwei;
+    private String shoufuType;
 }

@@ -36,6 +36,7 @@ import dingdanzoushi from '../views/XiaoShouDingDanZouShi.vue'
 import shoukuanzoushi from '../views/XiaoShouShouKuanZouShi.vue'
 import caigoufukuanzoushi from '../views/CaiGouFuKuanZouShi.vue'
 import ShangPinGuiGe from "@/views/ShangPinGuiGe.vue";// 增加商品规格页面
+import jiZhangMingXi from "@/views/JiZhangMingXi.vue";
 
 Vue.use(VueRouter);
 
@@ -134,6 +135,15 @@ const routes = [
                     requireAuth: true
                 }
             }, {
+                path: '/jiZhangMingXi',
+                name: 'jiZhangMingXi',
+                component: () => import('../views/JiZhangMingXi.vue'),
+                meta: {
+                    title: '记账明细',
+                    type: '记账明细',
+                    requireAuth: true
+                }
+            }, {
                 path: '/jizhangType',
                 name: 'jizhangType',
                 component: () => import('../views/peizhi/JiZhangType.vue'),
@@ -200,25 +210,37 @@ const routes = [
                     requireAuth: true
                 }
             },
-            // 增加进项税率页面
+            // // 增加进项税率页面
+            // {
+            //     path: '/jinXiangShuiLv',
+            //     name: 'jinXiangShuiLv',
+            //     component: () => import('../views/peizhi/JinXiangShuiLv.vue'),
+            //     meta: {
+            //         title: '进项税率',
+            //         type: '进项税率',
+            //         requireAuth: true
+            //     }
+            // },
+            // // 增加销项税率页面
+            // {
+            //     path: '/xiaoXiangShuiLv',
+            //     name: 'xiaoXiangShuiLv',
+            //     component: ()=> import('../views/peizhi/XiaoXiangShuiLv.vue'),
+            //     meta: {
+            //         title: '销项税率',
+            //         type: '销项税率',
+            //         requireAuth: true
+            //     }
+            // },
+
+            // 增加增值税率页面
             {
-                path: '/jinXiangShuiLv',
-                name: 'jinXiangShuiLv',
-                component: () => import('../views/peizhi/JinXiangShuiLv.vue'),
+                path: '/ZengZhiShuiLv',
+                name: 'ZengZhiShuiLv',
+                component: () => import('../views/peizhi/ZengZhiShuiLv.vue'),
                 meta: {
-                    title: '进项税率',
-                    type: '进项税率',
-                    requireAuth: true
-                }
-            },
-            // 增加销项税率页面
-            {
-                path: '/xiaoXiangShuiLv',
-                name: 'xiaoXiangShuiLv',
-                component: ()=> import('../views/peizhi/XiaoXiangShuiLv.vue'),
-                meta: {
-                    title: '销项税率',
-                    type: '销项税率',
+                    title: '增值税率',
+                    type: '增值税率',
                     requireAuth: true
                 }
             },
