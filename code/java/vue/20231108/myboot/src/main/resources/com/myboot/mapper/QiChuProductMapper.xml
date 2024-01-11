@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.QiChuProductMapper">
+
+
+    <select id="getAll" resultType="com.myboot.pojo.QiChuProduct">
+        <![CDATA[
+            select * from product_qichu
+        ]]>
+    </select>
+
+    <insert id="add" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.QiChuProduct" useGeneratedKeys="true" >
+        INSERT INTO product_qichu(shangpin_bianma,name,guige,caizhi,jishu_biaozhun,zhibao_dengji,danwei,shuliang,danjia,jiashui_xiaoji)
+        VALUES (#{shangpinBianma},#{name},#{guige},#{caizhi},#{jishuBiaozhun},#{zhibaoDengji},#{danwei},#{shuliang},#{danjia},#{jiashuiXiaoji})
+    </insert>
+
+    <update id="upd">
+        UPDATE product_qichu SET shangpin_bianma=#{shangpinBianma},name=#{name},guige=#{guige},caizhi=#{caizhi},jishu_biaozhun=#{jishuBiaozhun},zhibao_dengji=#{zhibaoDengji},danwei=#{danwei},shuliang=#{shuliang},danjia=#{danjia},jiashui_xiaoji=#{jiashuiXiaoji}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="del">
+        DELETE FROM product_qichu
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

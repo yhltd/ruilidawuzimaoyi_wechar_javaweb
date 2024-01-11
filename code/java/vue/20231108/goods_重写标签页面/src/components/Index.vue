@@ -56,7 +56,7 @@
           <el-menu-item @click="goRouter('/user')"><p class="custom-menu-item">客户</p></el-menu-item>
           <el-menu-item @click="goRouter('/goods')"><p class="custom-menu-item">商品</p></el-menu-item>
           <el-menu-item @click="goRouter('/supplier')"><p class="custom-menu-item">供应商</p></el-menu-item>
-          <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">附加税设置</p></el-menu-item>
+          <el-menu-item @click="goRouter('/fujiashuishezhi')"><p class="custom-menu-item">价格管理</p></el-menu-item>
           <el-menu-item @click="goRouter('/printlist')"><p class="custom-menu-item">打印</p></el-menu-item>
           <!--          增加商品规格页面-->
           <el-menu-item @click="goRouter('/shangPinGuiGe')"><p class="custom-menu-item">商品规格</p></el-menu-item>
@@ -102,7 +102,9 @@
           </el-menu-item>
         </el-submenu>
 
-
+        <el-menu-item style="float: right;" >
+          <span>1.0.0</span>
+        </el-menu-item>
 
         <el-menu-item style="float: right;margin-right: 1%" index="7" @click="quit()">
           <i class="el-icon-switch-button"></i>
@@ -178,7 +180,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -191,7 +193,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

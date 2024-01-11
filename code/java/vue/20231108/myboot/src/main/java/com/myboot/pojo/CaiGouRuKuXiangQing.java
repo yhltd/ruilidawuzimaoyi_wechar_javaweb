@@ -48,4 +48,5 @@ public class CaiGouRuKuXiangQing {
     private String weikai;
     private String thisKai;
 
+    private String shoufuType;
 }

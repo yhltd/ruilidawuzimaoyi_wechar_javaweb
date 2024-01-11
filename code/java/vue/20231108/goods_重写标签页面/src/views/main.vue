@@ -256,7 +256,7 @@ export default {
     this.XinZengXiaoShou_Day();
     // ztt
     this.getUser();
-    this.getXiaoShouBaoJiaShenHe()
+
   },
   mounted(){
     this.KeHuQianKuan_refresh()
@@ -307,11 +307,30 @@ export default {
       RouterUtil.to(url + '?caigoushoupiaogeshu=' + shuliang)
     },
     getXiaoShouBaoJiaShenHe(){
-      let url = "http://localhost:8102/xiaoShouBaoJia/shenheList"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/shenheList"
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          this.total = res.data.data.length;
+          for(var i=this.tableData.length-1; i>=0; i--){
+            console.log(this.tableData[i])
+            var shenhe_arr = this.tableData[i].shenhe.split(",")
+            var shenheList_arr = this.tableData[i].shenheList.split(",")
+            var panduan = true;
+            for(var j=0; j<shenhe_arr.length; j++){
+              if(shenhe_arr[j] == this.userInfo.name){
+                if(shenheList_arr[j] == '审核中'){
+                  panduan = true;
+                }else{
+                  panduan = false;
+                }
+                break;
+              }
+            }
+            if(panduan == false){
+              this.tableData.splice(i,1)
+            }
+          }
+          this.total = this.tableData.length;
         } else {
           MessageUtil.error(res.data.msg);
         }
@@ -320,11 +339,30 @@ export default {
       })
     },
     getXiaoShouDingDanShenHe(){
-      let url = "http://localhost:8102/xiaoShouDingDan/shenheList"
+      let url = "http://yhocn.cn:8102/xiaoShouDingDan/shenheList"
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          this.total = res.data.data.length;
+          for(var i=this.tableData.length-1; i>=0; i--){
+            console.log(this.tableData[i])
+            var shenhe_arr = this.tableData[i].shenhe.split(",")
+            var shenheList_arr = this.tableData[i].shenheList.split(",")
+            var panduan = true;
+            for(var j=0; j<shenhe_arr.length; j++){
+              if(shenhe_arr[j] == this.userInfo.name){
+                if(shenheList_arr[j] == '审核中'){
+                  panduan = true;
+                }else{
+                  panduan = false;
+                }
+                break;
+              }
+            }
+            if(panduan == false){
+              this.tableData.splice(i,1)
+            }
+          }
+          this.total = this.tableData.length;
         } else {
           MessageUtil.error(res.data.msg);
         }
@@ -333,11 +371,30 @@ export default {
       })
     },
     getCaiGouDingDanShenHe(){
-      let url = "http://localhost:8102/caiGouDingDan/getShenHe"
+      let url = "http://yhocn.cn:8102/caiGouDingDan/getShenHe"
       this.axios.post(url, {"shenhe":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          this.total = res.data.data.length;
+          for(var i=this.tableData.length-1; i>=0; i--){
+            console.log(this.tableData[i])
+            var shenhe_arr = this.tableData[i].shenhe.split(",")
+            var shenheList_arr = this.tableData[i].shenheList.split(",")
+            var panduan = true;
+            for(var j=0; j<shenhe_arr.length; j++){
+              if(shenhe_arr[j] == this.userInfo.name){
+                if(shenheList_arr[j] == '审核中'){
+                  panduan = true;
+                }else{
+                  panduan = false;
+                }
+                break;
+              }
+            }
+            if(panduan == false){
+              this.tableData.splice(i,1)
+            }
+          }
+          this.total = this.tableData.length;
         } else {
           MessageUtil.error(res.data.msg);
         }
@@ -346,7 +403,7 @@ export default {
       })
     },
     getXiaoShouKaiPiaoShenHe(){
-      let url = "http://localhost:8102/kaiPiao/getKaiPiao"
+      let url = "http://yhocn.cn:8102/kaiPiao/getKaiPiao"
       this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -359,7 +416,7 @@ export default {
       })
     },
     getCaiGouShouPiaoShenHe(){
-      let url = "http://localhost:8102/shouPiao/getShouPiao"
+      let url = "http://yhocn.cn:8102/shouPiao/getShouPiao"
       this.axios.post(url, {"xinxi_tuisong":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -376,13 +433,14 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userInfo = res.data.data
           window.localStorage.setItem('userInfo',JSON.stringify(res.data.data))
           console.log("账号信息已获取");
+          this.getXiaoShouBaoJiaShenHe()
         } else {
           console.log("账号信息获取失败");
         }
@@ -399,7 +457,7 @@ export default {
         start_date:start_date,
         stop_date:stop_date
       }
-      let url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -412,7 +470,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -425,7 +483,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -439,7 +497,7 @@ export default {
       })
 
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -468,7 +526,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -481,7 +539,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -494,7 +552,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -508,7 +566,7 @@ export default {
       })
 
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -532,7 +590,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouDingDanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -545,7 +603,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouChuKuNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -558,7 +616,7 @@ export default {
         MessageUtil.error("网络异常");
       })
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouShouKuanNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -572,7 +630,7 @@ export default {
       })
 
 
-      url = "http://localhost:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
+      url = "http://yhocn.cn:8102/yiBiaoPan/xinZengXiaoShouMaoLiNum"
       this.axios.post(url,date).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -588,7 +646,7 @@ export default {
 
     KeHuQianKuan_refresh(){
       let getchart = echarts.init(document.getElementById('kehu_qiankuan'));
-      let url = "http://localhost:8102/yiBiaoPan/keHuQianKuanPaiHang"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/keHuQianKuanPaiHang"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -652,7 +710,7 @@ export default {
 
     GongYingShangQianKuan_refresh(){
       let getchart = echarts.init(document.getElementById('gongyingshang_qiankuan'));
-      let url = "http://localhost:8102/yiBiaoPan/gongYingShangQianKuanPaiHang"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/gongYingShangQianKuanPaiHang"
       this.axios.post(url,{}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -748,11 +806,11 @@ export default {
       var type = this.xiaoshou_tiaojian
       var url = ""
       if(type == '按业务员'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouDingDanPaiHang_YeWuYuan"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouDingDanPaiHang_YeWuYuan"
       }else if(type == '按客户'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouDingDanPaiHang_KeHu"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouDingDanPaiHang_KeHu"
       }else if(type == '按商品'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouDingDanPaiHang_ShangPin"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouDingDanPaiHang_ShangPin"
       }
       var date = {
         start_date:start_date,
@@ -851,9 +909,9 @@ export default {
       var type = this.xiaoshou_shoukuan_tiaojian
       var url = ""
       if(type == '按业务员'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouShouKuanPaiHang_YeWuYuan"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouShouKuanPaiHang_YeWuYuan"
       }else if(type == '按客户'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouShouKuanPaiHang_KeHu"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouShouKuanPaiHang_KeHu"
       }
       var date = {
         start_date:start_date,
@@ -954,11 +1012,11 @@ export default {
       var type = this.xiaoshou_maoli_tiaojian
       var url = ""
       if(type == '按业务员'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_YeWuYuan"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_YeWuYuan"
       }else if(type == '按客户'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_KeHu"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_KeHu"
       }else if(type == '按商品'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_ShangPin"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiPaiHang_ShangPin"
       }
       var date = {
         start_date:start_date,
@@ -1034,7 +1092,7 @@ export default {
       var lastDayOfMonth = new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth() + 1, 0);
       var stop_date = lastDayOfMonth.getFullYear() + '-' + (lastDayOfMonth.getMonth() + 1).toString().padStart(2, '0') + '-' + lastDayOfMonth.getDate().toString().padStart(2, '0');
       console.log(stop_date)
-      var url = "http://localhost:8102/yiBiaoPan/xiaoShouDingDanZouShi_AnYue"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouDingDanZouShi_AnYue"
       var x_list = []
       var y_list = []
       var stop_day = stop_date.split("-")[2] * 1
@@ -1049,7 +1107,7 @@ export default {
       var firstDayOfMonth = new Date();
       var start_date = firstDayOfMonth.getFullYear() + '-01-01'
       var stop_date = firstDayOfMonth.getFullYear() + '-12-31'
-      var url = "http://localhost:8102/yiBiaoPan/xiaoShouDingDanZouShi_AnNian"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouDingDanZouShi_AnNian"
       var stop_day = stop_date.split("-")[2] * 1
       var x_list = []
       var y_list = []
@@ -1123,7 +1181,7 @@ export default {
       var lastDayOfMonth = new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth() + 1, 0);
       var stop_date = lastDayOfMonth.getFullYear() + '-' + (lastDayOfMonth.getMonth() + 1).toString().padStart(2, '0') + '-' + lastDayOfMonth.getDate().toString().padStart(2, '0');
       console.log(stop_date)
-      var url = "http://localhost:8102/yiBiaoPan/xiaoShouShouKuanZouShi_AnYue"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouShouKuanZouShi_AnYue"
       var x_list = []
       var y_list = []
       var stop_day = stop_date.split("-")[2] * 1
@@ -1138,7 +1196,7 @@ export default {
       var firstDayOfMonth = new Date();
       var start_date = firstDayOfMonth.getFullYear() + '-01-01'
       var stop_date = firstDayOfMonth.getFullYear() + '-12-31'
-      var url = "http://localhost:8102/yiBiaoPan/xiaoShouShouKuanZouShi_AnNian"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouShouKuanZouShi_AnNian"
       var stop_day = stop_date.split("-")[2] * 1
       var x_list = []
       var y_list = []
@@ -1212,7 +1270,7 @@ export default {
       var lastDayOfMonth = new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth() + 1, 0);
       var stop_date = lastDayOfMonth.getFullYear() + '-' + (lastDayOfMonth.getMonth() + 1).toString().padStart(2, '0') + '-' + lastDayOfMonth.getDate().toString().padStart(2, '0');
       console.log(stop_date)
-      var url = "http://localhost:8102/yiBiaoPan/caiGouFuKuanZouShi_AnYue"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/caiGouFuKuanZouShi_AnYue"
       var x_list = []
       var y_list = []
       var stop_day = stop_date.split("-")[2] * 1
@@ -1227,7 +1285,7 @@ export default {
       var firstDayOfMonth = new Date();
       var start_date = firstDayOfMonth.getFullYear() + '-01-01'
       var stop_date = firstDayOfMonth.getFullYear() + '-12-31'
-      var url = "http://localhost:8102/yiBiaoPan/caiGouFuKuanZouShi_AnNian"
+      var url = "http://yhocn.cn:8102/yiBiaoPan/caiGouFuKuanZouShi_AnNian"
       var stop_day = stop_date.split("-")[2] * 1
       var x_list = []
       var y_list = []

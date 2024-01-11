@@ -333,7 +333,7 @@
           <el-row :gutter="15">
             <el-col :span="6">
               <el-form-item label="商品编码" prop="shangpinBianhao" class="custom-form-item" >
-                <el-input ref="acc_inp" readonly="true" @click.native="selectProduct(index)" v-model="gongYingShang.body[index].shangpinBianhao" class="custom-login-inp" placeholder="点击选择商品"></el-input>
+                <el-input ref="acc_inp" readonly="true" v-model="gongYingShang.body[index].shangpinBianhao" class="custom-login-inp" ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -391,7 +391,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="价税小计" prop="jiashuiXiaoji" class="custom-form-item">
-                <el-input ref="acc_inp" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp"></el-input>
+                <el-input ref="acc_inp" @change="changeValue(index,'jiashui_xiaoji')" v-model="gongYingShang.body[index].jiashuiXiaoji" class="custom-login-inp"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -439,7 +439,7 @@
           <el-col :span="5">
             <div style="display: flex">
               <el-button class="custom-login-button"  type="primary"
-                         @click="addLianXiRen" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加商品
+                         @click="selectProduct" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加商品
               </el-button>
             </div>
           </el-col>
@@ -475,7 +475,7 @@
 
     <el-dialog title="" :visible.sync="selProduct" width="80%">
 
-      <el-row :gutter="15">
+      <el-row :gutter="15" style="margin-bottom: 10px">
         <el-col :span="5">
           <el-input placeholder="商品分类" v-model="Protype" class="input-with-select">
           </el-input>
@@ -490,17 +490,41 @@
         <el-col :span="1.5">
           <el-button type="primary" @click="Prorefresh()"><i class="el-icon-refresh"></i>刷新</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="ProSure()"><i class="el-icon-refresh"></i>确定</el-button>
+        </el-col>
       </el-row>
 
       <el-table
+          ref="multipleTable"
           border
           :header-cell-style="{background:'#F2F5F7'}"
-          :data="CaiGou_Product" :row-class-name="rowClassName" @row-click="rowClick" style="width: 100%">
+          :data="CaiGou_Product" :row-class-name="rowClassName" style="width: 100%"
+          @selection-change="handleSelectionChange2"
+          @select="itemHandleSelectionChange">
 
-<!--        <el-table-column-->
-<!--            type="selection"-->
-<!--            width="55">-->
-<!--        </el-table-column>-->
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+
+        <el-table-column
+            prop="zengpin"
+            label="赠品"
+            width="55">
+          <template slot-scope="scope">
+            <el-checkbox v-model="scope.row.zengpin"></el-checkbox>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+            prop="num"
+            label="数量"
+            width="150">
+          <template slot-scope="scope">
+            <el-input placeholder="数量" type="number" v-model="scope.row.num" class="input-with-select"></el-input>
+          </template>
+        </el-table-column>
 
         <el-table-column
             prop="bianhao"
@@ -695,7 +719,7 @@
         <el-table
             border
             :header-cell-style="{background:'#d6e5ef',color:'#000'}"
-            :data="gongYingShang.body" :row-class-name="rowClassName" @row-click="rowClick" style="width: 94%;margin-left: 30px">
+            :data="gongYingShang.body" :row-class-name="rowClassName"  style="width: 94%;margin-left: 30px">
           <el-table-column
               prop="shangpinBianhao"
               label="商品编码"
@@ -786,7 +810,6 @@
           border
           :header-cell-style="{background:'#d6e5ef',color:'#000'}"
           style="width: 100%;;"
-          :height="tableHeight"
           :data="users"
           @selection-change="shenheSelectionChange">
         <el-table-column
@@ -799,13 +822,13 @@
             width="auto">
         </el-table-column>
       </el-table>
-      <el-col :span="4">
-        <div style="display: flex;margin-top: 20px">
+      <el-row :gutter="15" style="margin-top:10px">
+        <el-col :span="4">
           <el-button class="custom-login-button"  type="primary"
                      @click="addUserNameList" style="margin-left: 30px"><i class="el-icon-circle-plus-outline"></i>添加
           </el-button>
-        </div>
-      </el-col>
+        </el-col>
+      </el-row>
     </el-dialog>
     <!--            ztt end-->
 
@@ -941,7 +964,7 @@ export default {
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/user/queryAllUsers"
+      let url = "http://yhocn.cn:8102/user/queryAllUsers"
       this.axios.post(url).then(res =>{
         if(res.data.code == 0){
           this.users = res.data.data
@@ -954,7 +977,7 @@ export default {
     //ztt end
     // ztt增加销售单位关联核算数据
     getXiaLa_HeSuanDanWei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url,{"type":"核算单位"}).then(res =>{
         if(res.data.code == '00'){
           this.XiaLa_HeSuanDanWei = res.data.data;
@@ -998,15 +1021,34 @@ export default {
       console.log(val)
     },
 
-    queding() {
-      if(this.shoudongSelection.length == 0){
-        MessageUtil.error("未选中信息");
-        return;
-      }
-      var this_id = this.shoudongSelection[0].id
-
-      console.log(this.shoudongSelection)
+    handleSelectionChange2(val) {
+      this.multipleSelection = val;
+      // for(var i=this.multipleSelection.length-1; i>=0; i--){
+      //   for(var j=0; j< this.gongYingShang.body.length; j++){
+      //     if(this.gongYingShang.body[j].shangpinBianhao == this.multipleSelection[i].bianhao){
+      //       this.multipleSelection.splice(i,1)
+      //       MessageUtil.error("已选择相同产品，不允许重复选择！");
+      //     }
+      //   }
+      // }
+      console.log(val)
     },
+
+    itemHandleSelectionChange(selection, row) {
+      console.log(selection);//获取所有已选中的数据
+      console.log(row);//获取 选中/取消 的这一条数据,
+      let selected = selection.length && selection.indexOf(row) !== -1
+      console.log(selected)// true就是选中，0或者false是取消选中
+      if(selected){
+        for(var j=0; j< this.gongYingShang.body.length; j++){
+          if(this.gongYingShang.body[j].shangpinBianhao == row.bianhao){
+            MessageUtil.error("已选择相同产品，不允许重复选择！");
+            this.$refs.multipleTable.toggleRowSelection(row);
+          }
+        }
+      }
+    },
+
 
     rowClassName: function ({ row }) {
       if (row.isselect == 0) {
@@ -1018,7 +1060,7 @@ export default {
     // 查看详情页面弹出
     seeList(row){
       this.p_id=row.id
-      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/selectBaoJiaById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1098,12 +1140,16 @@ export default {
     changeValue(index,column){
       console.log(index,column)
       if(column == 'baojia_fudong'){
-        this.gongYingShang.body[this.p_index].baojiaDanjia = Math.round(this.gongYingShang.body[this.p_index].jianyiBaojia * this.gongYingShang.body[this.p_index].baojiaFudong / 100 * 100) / 100
+        this.gongYingShang.body[index].baojiaDanjia = Math.round(this.gongYingShang.body[index].jianyiBaojia * this.gongYingShang.body[index].baojiaFudong / 100 * 100) / 100
       }
       if(column == 'baojia_danjia'){
-        this.gongYingShang.body[this.p_index].baojiaFudong = Math.round(this.gongYingShang.body[this.p_index].baojiaDanjia / this.gongYingShang.body[this.p_index].jianyiBaojia * 100 * 100) / 100
+        this.gongYingShang.body[index].baojiaFudong = Math.round(this.gongYingShang.body[index].baojiaDanjia / this.gongYingShang.body[index].jianyiBaojia * 100 * 100) / 100
       }
-      this.gongYingShang.body[this.p_index].jiashuiXiaoji = Math.round(this.gongYingShang.body[this.p_index].shuliang * this.gongYingShang.body[this.p_index].baojiaDanjia * 100) / 100
+      if(column == 'jiashui_xiaoji'){
+        this.gongYingShang.body[index].baojiaDanjia = Math.round(this.gongYingShang.body[index].jiashuiXiaoji / this.gongYingShang.body[index].shuliang * 100) / 100
+      }else{
+        this.gongYingShang.body[index].jiashuiXiaoji = Math.round(this.gongYingShang.body[index].shuliang * this.gongYingShang.body[index].baojiaDanjia * 100) / 100
+      }
     },
 
     changeKeHu(){
@@ -1144,16 +1190,144 @@ export default {
       }
     },
 
+    ProSure(){
+      console.log(this.multipleSelection)
+      console.log(this.ShuiLv)
+      for(var j=0; j<this.gongYingShang.body.length; j++){
+        for(var i=0; i<this.multipleSelection.length; i++){
+          if(this.gongYingShang.body[i].shangpinBianhao == ''){
+            this.gongYingShang.body[j].shangpinBianhao = this.multipleSelection[i].bianhao
+            this.gongYingShang.body[j].shangpinMingcheng = this.multipleSelection[i].name
+            this.gongYingShang.body[j].guige = this.multipleSelection[i].guige
+            this.gongYingShang.body[j].caizhi = this.multipleSelection[i].caizhi
+            this.gongYingShang.body[j].jishuBiaozhun = this.multipleSelection[i].jishuBiaozhun
+            this.gongYingShang.body[j].zhibaoDengji = this.multipleSelection[i].zhibaoDengji
+            this.gongYingShang.body[j].danwei = this.multipleSelection[i].danwei
+            this.gongYingShang.body[j].zuigaojia = this.multipleSelection[i].zuigaojia
+            this.gongYingShang.body[j].shuliang = this.multipleSelection[i].num
+
+            this.gongYingShang.body[j].caigouDanjia = this.multipleSelection[i].caigouPrice
+
+            var fujia_shuilv = 1
+            if(this.ShuiLv.zhuangtai == '是'){
+              fujia_shuilv = fujia_shuilv + (this.ShuiLv.shuilv / 100)
+            }
+
+            var jinxiang = this.multipleSelection[i].jinxiang / 100
+            var xiaoxiang = this.gongYingShang.xiaoxiangShuilv / 100
+            var pifa_bili = this.ShuiLv.pifa / 100
+            var lingshou_bili = this.ShuiLv.lingshou / 100
+            var dakehu_bili = this.ShuiLv.dakehu / 100
+            var caigou_price = this.multipleSelection[i].caigouPrice * 1
+
+            if(this.gongYingShang.jiageDengji == '零售价格'){
+              this.gongYingShang.body[j].jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * lingshou_bili)) * 100) / 100
+              this.gongYingShang.body[j].baojiaFudong = 100
+              this.gongYingShang.body[j].baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * lingshou_bili)) * 100) / 100
+            }else if(this.gongYingShang.jiageDengji == '批发价格'){
+              this.gongYingShang.body[j].jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
+              this.gongYingShang.body[j].baojiaFudong = 100
+              this.gongYingShang.body[j].baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
+            }else if(this.gongYingShang.jiageDengji == '大客户价格'){
+              this.gongYingShang.body[j].jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
+              this.gongYingShang.body[j].baojiaFudong = 100
+              this.gongYingShang.body[j].baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
+            }
+            if(this.multipleSelection[i].zengpin == true){
+              this.gongYingShang.body[j].baojiaDanjia = 0
+            }
+            if(this.gongYingShang.body[j].baojiaDanjia !== '' && this.gongYingShang.body[j].shuliang !== ''){
+              this.gongYingShang.body[j].jiashuiXiaoji = Math.round(this.gongYingShang.body[j].baojiaDanjia * this.gongYingShang.body[j].shuliang * 100) / 100
+            }
+            this.multipleSelection.splice(i,1)
+            break;
+          }
+        }
+      }
+      if(this.multipleSelection.length > 0){
+        for(var i=0; i<this.multipleSelection.length; i++){
+          var proItem = {
+            shangpinBianhao:'',
+            shangpinMingcheng:'',
+            guige:'',
+            caizhi:'',
+            jishuBiaozhun:'',
+            zhibaoDengji:'',
+            danwei:'',
+            shuliang:'',
+            baojiaDanjia:'',
+            jiashuiXiaoji:'',
+            jianyiBaojia:'',
+            xuyongRiqi:'',
+            baojiaFudong:'',
+            beizhu:'',
+            zuigaojia:'',
+          }
+          proItem.shangpinBianhao = this.multipleSelection[i].bianhao
+          proItem.shangpinMingcheng = this.multipleSelection[i].name
+          proItem.guige = this.multipleSelection[i].guige
+          proItem.caizhi = this.multipleSelection[i].caizhi
+          proItem.jishuBiaozhun = this.multipleSelection[i].jishuBiaozhun
+          proItem.zhibaoDengji = this.multipleSelection[i].zhibaoDengji
+          proItem.danwei = this.multipleSelection[i].danwei
+          proItem.zuigaojia = this.multipleSelection[i].zuigaojia
+          proItem.shuliang = this.multipleSelection[i].num
+          proItem.caigouDanjia = this.multipleSelection[i].caigouPrice
+
+          var fujia_shuilv = 1
+          if(this.ShuiLv.zhuangtai == '是'){
+            fujia_shuilv = fujia_shuilv + (this.ShuiLv.shuilv / 100)
+          }
+
+          var jinxiang = this.multipleSelection[i].jinxiang / 100
+          var xiaoxiang = this.gongYingShang.xiaoxiangShuilv / 100
+          var pifa_bili = this.ShuiLv.pifa / 100
+          var lingshou_bili = this.ShuiLv.lingshou / 100
+          var dakehu_bili = this.ShuiLv.dakehu / 100
+          var caigou_price = this.multipleSelection[i].caigouPrice * 1
+
+          if(this.gongYingShang.jiageDengji == '零售价格'){
+            proItem.jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * lingshou_bili)) * 100) / 100
+            proItem.baojiaFudong = 100
+            proItem.baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * lingshou_bili)) * 100) / 100
+          }else if(this.gongYingShang.jiageDengji == '批发价格'){
+            proItem.jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
+            proItem.baojiaFudong = 100
+            proItem.baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
+          }else if(this.gongYingShang.jiageDengji == '大客户价格'){
+            proItem.jianyiBaojia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
+            proItem.baojiaFudong = 100
+            proItem.baojiaDanjia = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
+          }
+          if(this.multipleSelection[i].zengpin == true){
+            proItem.baojiaDanjia = 0
+          }
+          if(proItem.baojiaDanjia !== '' && proItem.shuliang !== ''){
+            proItem.jiashuiXiaoji = Math.round(proItem.baojiaDanjia * proItem.shuliang * 100) / 100
+          }
+        }
+        this.gongYingShang.body.push(proItem)
+      }
+      this.multipleSelection = []
+      this.selProduct = false;
+    },
+
     //新增窗口弹出
     addUser() {
       if(this.userPower.xiaoshouBaojiaAdd != '是'){
         MessageUtil.error("无添加权限");
         return;
       }
-      let url = "http://localhost:8102/xiaoShouBaoJia/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
+          var xiaoshouDanwei = ""
+          for(var i=0; i<this.XiaLa_HeSuanDanWei.length; i++){
+            if(this.XiaLa_HeSuanDanWei[i].id == this.userInfo.hesuanDanwei){
+              xiaoshouDanwei = this.XiaLa_HeSuanDanWei[i].name
+            }
+          }
           console.log(this_danhao)
           this_danhao = PrefixInteger(this_danhao,6)
           console.log(this_danhao)
@@ -1171,6 +1345,7 @@ export default {
             jiageDengji:'',
             shenheZhuangtai:'未提交审核',//ztt修改审核
             shenheList:'审核中',
+            xiaoshouDanwei:xiaoshouDanwei,
             body:[
               {
                 shangpinBianhao:'',
@@ -1192,7 +1367,7 @@ export default {
             ]
           }
 
-          let url = "http://localhost:8102/peizhi/selectByPeiZhiId"
+          let url = "http://yhocn.cn:8102/peizhi/selectByPeiZhiId"
           this.axios.post(url,{"id":this.userInfo.dianpu}).then(res => {
             if(res.data.code == '00') {
               console.log(res.data.data[0].name)
@@ -1223,18 +1398,19 @@ export default {
       this.addDialog = false;
     },
 
-    selectProduct(index){
+    selectProduct(){
       if(this.gongYingShang.jiageDengji == '' || this.gongYingShang.jiageDengji == null || this.gongYingShang.jiageDengji == undefined){
         MessageUtil.error("未读取到客户价格等级，请选择客户后再试");
         return;
       }
-      console.log(index)
-      this.p_index = index
       this.Proname = ""
       this.Protype = ""
       for(var i=0; i<this.CaiGou_Product.length; i++){
         this.CaiGou_Product[i].isselect = 1
+        this.CaiGou_Product[i].num = 0
+        this.CaiGou_Product[i].zengpin = false
       }
+      this.$refs.multipleTable.clearSelection();
       this.selProduct = true;
     },
 
@@ -1251,7 +1427,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/selectBaoJiaById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1273,10 +1449,14 @@ export default {
     },
 
     getXiaoShouProduct(){
-      let url = "http://localhost:8102/product/selectXiaoShouProduct"
+      let url = "http://yhocn.cn:8102/product/selectXiaoShouProduct"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.CaiGou_Product = res.data.data;
+          for(var i=0; i<this.CaiGou_Product.length; i++){
+            this.CaiGou_Product[i].zengpin = false
+            this.CaiGou_Product[i].num = 0
+          }
           console.log(this.CaiGou_Product)
           console.log("销售商品列表已获取");
         } else {
@@ -1292,7 +1472,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1305,7 +1485,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1336,7 +1516,7 @@ export default {
     },
 
     getXiaLa_GongYingShang(){
-      let url = "http://localhost:8102/gongYingShang/getAll"
+      let url = "http://yhocn.cn:8102/gongYingShang/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_GongYingShang = res.data.data;
@@ -1353,7 +1533,7 @@ export default {
     },
 
     getXiaLa_KeHu(){
-      let url = "http://localhost:8102/customer/getAll"
+      let url = "http://yhocn.cn:8102/customer/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_KeHu = res.data.data;
@@ -1370,7 +1550,7 @@ export default {
     },
 
     getXiaLa_User(){
-      let url = "http://localhost:8102/user/getall"
+      let url = "http://yhocn.cn:8102/user/getall"
       this.axios(url).then(res => {
           this.XiaLa_User = res.data
           for(var i=0; i<this.XiaLa_User.length; i++){
@@ -1383,7 +1563,7 @@ export default {
     },
 
     getXiaLa_ShenHe(){
-      let url = "http://localhost:8102/user/fuzzyQuery"
+      let url = "http://yhocn.cn:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShenHe = res.data.data;
@@ -1400,7 +1580,7 @@ export default {
     },
 
     getXiaLa_DianPu(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"店铺"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_DianPu = res.data.data;
@@ -1417,7 +1597,7 @@ export default {
     },
 
     getXiaLa_ShuiLv(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"增值税率"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShuiLv = res.data.data;
@@ -1434,7 +1614,7 @@ export default {
     },
 
     getXiaLa_ZhiBaoDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"质保等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhiBaoDengJi = res.data.data;
@@ -1451,7 +1631,7 @@ export default {
     },
 
     getXiaLa_MuBan(){
-      let url = "http://localhost:8102/printMuBan/getMuBanByType"
+      let url = "http://yhocn.cn:8102/printMuBan/getMuBanByType"
       this.axios.post(url, {"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_MuBan = res.data.data;
@@ -1468,7 +1648,7 @@ export default {
     },
 
     getjianyiBaojia(){
-      let url = "http://localhost:8102/peiZhiShuiLv/getAll"
+      let url = "http://yhocn.cn:8102/peiZhiShuiLv/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.ShuiLv = res.data.data[0];
@@ -1496,7 +1676,7 @@ export default {
     },
 
     getXiaLa_jiageDengji(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"价格等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_jiageDengji = res.data.data;
@@ -1515,7 +1695,7 @@ export default {
     //查询全部
     getAll(){
       this.shenheButton = false
-      let url = "http://localhost:8102/xiaoShouBaoJia/getAll"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1541,7 +1721,7 @@ export default {
     //查询全部
     getAllByName(){
       this.shenheButton = false
-      let url = "http://localhost:8102/xiaoShouBaoJia/getAllByName"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/getAllByName"
       this.axios.post(url, {"yewuyuan":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1599,7 +1779,7 @@ export default {
         kehu:this.kehu,
         shenhe_zhuangtai:this.shenhe
       }
-      let url = "http://localhost:8102/xiaoShouBaoJia/queryList"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1640,7 +1820,7 @@ export default {
         shenhe_zhuangtai:this.shenhe,
         yewuyuan:this.userInfo.name,
       }
-      let url = "http://localhost:8102/xiaoShouBaoJia/queryListByName"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/queryListByName"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1657,7 +1837,7 @@ export default {
     //条件查询
     myShenHe(){
       this.shenheButton = true
-      let url = "http://localhost:8102/xiaoShouBaoJia/shenheList"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/shenheList"
       this.axios.post(url, {"name":this.userInfo.name}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1766,7 +1946,7 @@ export default {
 
     saveGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaAdd"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/baoJiaAdd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1786,7 +1966,7 @@ export default {
 
     updGongYingShang(){
       var save_list = this.gongYingShang
-      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaUpd"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/baoJiaUpd"
       this.axios.post(url, {
         "head":this.gongYingShang,
         "body":this.gongYingShang.body
@@ -1839,7 +2019,7 @@ export default {
           MessageUtil.error('第' + (i * 1+1) + '条商品未填写数量');
           return;
         }
-        if(this.gongYingShang.body[i].baojiaDanjia == ''){
+        if(this.gongYingShang.body[i].baojiaDanjia === ''){
           MessageUtil.error('第' + (i * 1+1) + '条商品未填写报价单价');
           return;
         }
@@ -1872,7 +2052,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/xiaoShouBaoJia/delXiaoShouBaoJia";
+        let url = "http://yhocn.cn:8102/xiaoShouBaoJia/delXiaoShouBaoJia";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1951,7 +2131,7 @@ export default {
       }
       console.log(this_list)
 
-      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/baoJiaShenHe";
       axios.post(url, {"list": this_list}).then(res => {
         //ztt end
         MessageUtil.success(res.data.msg);
@@ -2009,7 +2189,7 @@ export default {
       }
       console.log(this_list)
 
-      let url = "http://localhost:8102/xiaoShouBaoJia/baoJiaShenHe";
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/baoJiaShenHe";
       axios.post(url, {"list": this_list}).then(res => {
         // ztt end
         MessageUtil.success(res.data.msg);
@@ -2065,7 +2245,7 @@ export default {
     getfileList(row){
       console.log(row)
       this.p_id = row.id
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":row.id,"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -2081,7 +2261,7 @@ export default {
     },
 
     refreshfileList(){
-      let url = "http://localhost:8102/fileTable/getAll"
+      let url = "http://yhocn.cn:8102/fileTable/getAll"
       this.axios.post(url, {"id":this.p_id,"type":"销售报价单"}).then(res => {
         if(res.data.code == '00') {
           this.FileList = res.data.data;
@@ -2098,7 +2278,7 @@ export default {
 
     downloadFile(row){
       console.log(row)
-      let url = "http://localhost:8102/fileTable/getById"
+      let url = "http://yhocn.cn:8102/fileTable/getById"
       this.axios.post(url, {"id":row.id}).then(res => {
         if(res.data.code == '00') {
           if(res.data.data[0].fileName != '' && res.data.data[0].fileName != null){
@@ -2116,7 +2296,7 @@ export default {
     deleteFile(row){
       console.log(row)
       this.downloadLoading = true
-      let url = "http://localhost:8102/fileTable/deleteById"
+      let url = "http://yhocn.cn:8102/fileTable/deleteById"
       this.axios.post(url, {"list":[row.id]}).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -2159,7 +2339,7 @@ export default {
           "file": this_file,
           "type": "销售报价单",
         };
-        let url = "http://localhost:8102/fileTable/fileAdd"
+        let url = "http://yhocn.cn:8102/fileTable/fileAdd"
         this.axios.post(url, obj).then(res => {
           if(res.data.code == '00') {
             console.log(res)
@@ -2210,7 +2390,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/xiaoShouBaoJia/selectBaoJiaById"
+      let url = "http://yhocn.cn:8102/xiaoShouBaoJia/selectBaoJiaById"
       this.axios.post(url, {"id":this.p_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data

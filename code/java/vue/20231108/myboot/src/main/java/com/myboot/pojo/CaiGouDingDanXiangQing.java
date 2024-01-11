@@ -32,7 +32,7 @@ public class CaiGouDingDanXiangQing {
     private String money;
 
     //采购订单-开票
-    private String xiaoshouBianhao;
+    private String caigouBianhao;
     private String kaipiaoRiqi;
     private String jiashuiHeji;
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.QiChuGongYingShangMapper">
+
+    <select id="getAll" resultType="com.myboot.pojo.QiChuGongYingShang">
+        <![CDATA[
+            select * from gongyingshang_qichu
+        ]]>
+    </select>
+
+    <insert id="add" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.QiChuGongYingShang" useGeneratedKeys="true" >
+        INSERT INTO gongyingshang_qichu(bianhao,name,qiankuan,dingjin)
+        VALUES (#{bianhao},#{name},#{qiankuan},#{dingjin})
+    </insert>
+
+    <update id="upd">
+        UPDATE gongyingshang_qichu SET bianhao=#{bianhao},name=#{name},qiankuan=#{qiankuan},dingjin=#{dingjin}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="del">
+        DELETE FROM gongyingshang_qichu
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

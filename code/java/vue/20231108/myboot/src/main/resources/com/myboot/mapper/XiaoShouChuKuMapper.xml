@@ -61,7 +61,7 @@
     <!--    详情-收款-->
     <select id="xiangQingShouKuan" resultType="com.myboot.pojo.XiaoShouChuKuXiangQing">
         <![CDATA[
-            select id,shouzhi_bianhao,shouzhi_riqi,convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)) as money from shouzhi_mingxi where danju_leixing = '销售出库' and danju_bianhao = #{bianhao};
+            select id,shouzhi_bianhao,shouzhi_riqi,convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)) as money,shoufu_type from shouzhi_mingxi where danju_leixing = '销售出库' and danju_bianhao = #{bianhao};
         ]]>
     </select>
 

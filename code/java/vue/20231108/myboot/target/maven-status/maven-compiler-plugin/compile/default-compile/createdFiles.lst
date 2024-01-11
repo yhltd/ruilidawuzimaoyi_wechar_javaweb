@@ -38,8 +38,10 @@ com\myboot\mapper\PrintMuBanMapper.class
 com\myboot\controller\CaiGouDingDanController.class
 com\myboot\pojo\XiaoShouBaoJiaAdd.class
 com\myboot\pojo\FileTable.class
+com\myboot\mapper\JiZhangMingXiMapper.class
 com\myboot\service\impl\XiaoShouChuKuItemImpl.class
 com\myboot\service\impl\ProductImpl.class
+com\myboot\service\impl\JiZhangMingXiImpl.class
 com\myboot\pojo\PeizhiTypeEnum.class
 com\myboot\controller\CaiGouRuKuController.class
 com\myboot\service\impl\GongYingShangItemImpl.class
@@ -67,9 +69,11 @@ com\myboot\service\impl\ShouZhiMingXiImpl.class
 com\myboot\mapper\CaiGouRuKuMapper.class
 com\myboot\service\XiaoShouDingDanItemService.class
 com\myboot\pojo\ShouZhiTongJi.class
+com\myboot\pojo\JiZhangMingXi.class
 com\myboot\service\GongYingShangService.class
 com\myboot\pojo\CaiGouDingDanItem.class
 com\myboot\util\FloatToStringTypeHandler.class
+com\myboot\pojo\QiChuGongYingShang.class
 com\myboot\service\impl\XiaoShouDingDanImpl.class
 com\myboot\service\PeiZhiGuiGeService.class
 com\myboot\service\impl\YiBiaoPanImpl.class
@@ -83,6 +87,7 @@ com\myboot\controller\PeiZhiGuiGeController.class
 com\myboot\pojo\CaiGouShouPiao.class
 com\myboot\service\CaiGouDingDanItemService.class
 com\myboot\mapper\FileTableMapper.class
+com\myboot\pojo\QiChuProduct.class
 com\myboot\controller\UserController.class
 com\myboot\service\impl\PeiZhiGuiGeImpl.class
 com\myboot\common\ResponseCommon.class
@@ -95,6 +100,7 @@ com\myboot\service\impl\XiaoShouBaoJiaItemImpl.class
 com\myboot\pojo\User.class
 com\myboot\mapper\CaiGouRuKuItemMapper.class
 com\myboot\service\impl\UserPowerServiceImpl.class
+com\myboot\controller\JiZhangMingXiController.class
 com\myboot\service\XiaoShouDingDanService.class
 com\myboot\mapper\PeiZhiGuiGeMapper.class
 com\myboot\pojo\CaiGouRuKuAdd.class
@@ -148,6 +154,7 @@ com\myboot\pojo\ProductItem.class
 com\myboot\pojo\ShouZhiMingXi.class
 com\myboot\mapper\KuCunMapper.class
 com\myboot\mapper\XiaoShouDingDanMapper.class
+com\myboot\pojo\QiChuKeHu.class
 com\myboot\mapper\PeizhiMapper.class
 com\myboot\service\CustomerItemService.class
 com\myboot\controller\PeiZhiShuiLvController.class
@@ -159,6 +166,7 @@ com\myboot\service\impl\CaiGouDingDanImpl.class
 com\myboot\controller\XiaoShouChuKuController.class
 com\myboot\service\ProductItemService.class
 com\myboot\service\impl\ProductItemImpl.class
+com\myboot\service\JiZhangMingXiService.class
 com\myboot\pojo\CaiGouDingDan.class
 com\myboot\util\GsonUtil$3.class
 com\myboot\pojo\XiaoShouChuKuXiangQing.class

@@ -31,4 +31,7 @@ public class Product {
     private String shangpinBianhao;
     private String zuidijia;
     private String zuigaojia;
+    private String zengpin;
+    private String num;
+    private String image;
 }

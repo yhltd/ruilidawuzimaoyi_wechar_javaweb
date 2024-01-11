@@ -1,5 +1,6 @@
 package com.myboot.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
@@ -100,6 +101,26 @@ public class CaiGouShouPiaoController {
         StringBuffer sb = new StringBuffer();
         sb.append("成功收票了 ").append(res).append(" 条数据，").append(list.size() - res).append(" 条收票失败");
         return ResponseCommon.success(sb.toString());
+    }
+
+    @PostMapping("/shouPiaoListAdd")
+    public String shouPiaoListAdd(@RequestBody JSONObject data) {
+        CaiGouShouPiao caiGouShouPiao = data.getObject("head",CaiGouShouPiao.class);
+        JSONArray json = data.getJSONArray("body");
+        List<CaiGouShouPiao> caiGouShouPiaos = JSONArray.parseArray(json.toString(),CaiGouShouPiao.class);
+        for(int i=0; i<caiGouShouPiaos.size(); i++){
+            caiGouShouPiaos.get(i).setShoupiaoDanwei(caiGouShouPiao.getShoupiaoDanwei());
+            caiGouShouPiaos.get(i).setShoupiaoZhuangtai(caiGouShouPiao.getShoupiaoZhuangtai());
+            caiGouShouPiaos.get(i).setKaipiaoRiqi(caiGouShouPiao.getKaipiaoRiqi());
+            caiGouShouPiaos.get(i).setKaipiaoShuie("");
+            caiGouShouPiaos.get(i).setKaipiaoDanwei(caiGouShouPiao.getKaipiaoDanwei());
+            caiGouShouPiaos.get(i).setXinxiTuisong(caiGouShouPiao.getXinxiTuisong());
+            caiGouShouPiaos.get(i).setCaigouBianhao(caiGouShouPiaos.get(i).getBianhao());
+            caiGouShouPiaos.get(i).setKaipiaoJine(caiGouShouPiaos.get(i).getThisKai());
+            caiGouShouPiaos.get(i).setJiashuiHeji(caiGouShouPiaos.get(i).getThisKai());
+            service.caiGouShouPiaoAdd(caiGouShouPiaos.get(i));
+        }
+        return ResponseCommon.success(caiGouShouPiao);
     }
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.QiChuKeHuMapper">
+
+
+    <select id="getAll" resultType="com.myboot.pojo.QiChuKeHu">
+        <![CDATA[
+            select * from kehu_qichu
+        ]]>
+    </select>
+
+    <insert id="add" keyColumn="id" keyProperty="id" parameterType="com.myboot.pojo.QiChuKeHu" useGeneratedKeys="true" >
+        INSERT INTO kehu_qichu(bianhao,name,qiankuan,dingjin)
+        VALUES (#{bianhao},#{name},#{qiankuan},#{dingjin})
+    </insert>
+
+    <update id="upd">
+        UPDATE kehu_qichu SET bianhao=#{bianhao},name=#{name},qiankuan=#{qiankuan},dingjin=#{dingjin}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="del">
+        DELETE FROM kehu_qichu
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

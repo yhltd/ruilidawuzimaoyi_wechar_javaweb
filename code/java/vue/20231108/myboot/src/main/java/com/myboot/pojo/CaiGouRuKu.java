@@ -20,4 +20,6 @@ public class CaiGouRuKu {
 
     private String rukuDanwei;
     private String yewuyuan;
+
+    private String dingjinUse;
 }

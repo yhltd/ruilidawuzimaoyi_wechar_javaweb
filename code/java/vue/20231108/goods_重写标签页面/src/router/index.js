@@ -520,7 +520,7 @@ const routes = [
                 name: "fujiashuishezhi",
                 component: fujiashuishezhi,
                 meta: {
-                    title: '附加税设置',
+                    title: '价格管理',
                     requireAuth: true
                 }
             },

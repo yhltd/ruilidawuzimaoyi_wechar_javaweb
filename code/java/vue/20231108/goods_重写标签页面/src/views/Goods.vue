@@ -26,6 +26,9 @@
         <el-col :span="1.5">
           <el-button size="small" round type="danger" @click="deleteClick()"><i class="el-icon-delete"></i>删除</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button size="small" round type="primary" @click="barCodePut()"><i class="el-icon-edit"></i>生成条码</el-button>
+        </el-col>
       </el-row>
     </el-header>
 
@@ -42,6 +45,14 @@
         <el-table-column
             type="selection"
             width="55">
+        </el-table-column>
+        <el-table-column
+            prop="image"
+            label="图片"
+            width="55">
+          <template slot-scope="scope">
+            <img class="product" :src="scope.row.image" @error.once="moveErrorImg"></img>
+          </template>
         </el-table-column>
         <el-table-column
             prop="name"
@@ -515,7 +526,7 @@ export default {
         MessageUtil.error("无新增权限");
         return;
       }
-      let url = "http://localhost:8102/peiZhiGuiGe/getAll"
+      let url = "http://yhocn.cn:8102/peiZhiGuiGe/getAll"
       this.axios(url).then(res=>{
         if (res.data.code == '00'){
           console.log(res.data.data)
@@ -631,7 +642,7 @@ export default {
         return;
       }
 
-      let url = "http://localhost:8102/product/selectMaxDanHao"
+      let url = "http://yhocn.cn:8102/product/selectMaxDanHao"
       this.axios.post(url, {}).then(res => {
         if(res.data.code == '00') {
           var this_danhao = Math.trunc(res.data.data[0].bianhao)
@@ -697,7 +708,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://localhost:8102/product/selectById"
+      let url = "http://yhocn.cn:8102/product/selectById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -747,12 +758,86 @@ export default {
 
     },
 
+    //修改窗口弹出
+    barCodePut() {
+      if(this.multipleSelection.length == 0){
+        MessageUtil.error("未选中信息");
+        return;
+      }
+      var height = 0
+      var print = {
+        "title": "123",
+        "type": 1,
+        "width": 235,
+        "height": this.multipleSelection.length * 150,
+        "pageWidth": 60,
+        "pageHeight": this.multipleSelection.length * 150,
+        "tempItems": []
+      }
+      for(var i=0; i<this.multipleSelection.length; i++){
+        print.tempItems.push({
+              "type": "bar-code",
+              "isEdit": 1,
+              "dragable": true,
+              "resizable": true,
+              "width": 175,
+              "height": 85,
+              "left": 31,
+              "top": height + 35,
+              "title": this.multipleSelection[i].bianhao,
+              "value": this.multipleSelection[i].bianhao,
+              "defaultValue": this.multipleSelection[i].bianhao,
+              "name": "stockoutCode",
+              "style": {
+                "zIndex": 0,
+                "FontSize": 9,
+                "ShowBarText": true,
+                "codeType": "128Auto",
+                "ItemType": 0
+              },
+              "lodopStyle": {
+                "QRCodeVersion": "1",
+                "QRCodeErrorLevel": "L"
+              },
+              "uuid": "333e5166e4"
+            },
+            {
+              "type": "braid-txt",
+              "isEdit": 1,
+              "dragable": true,
+              "resizable": true,
+              "width": 234,
+              "height": 20,
+              "left": 0,
+              "top": height + 15,
+              "title": this.multipleSelection[i].name,
+              "value": this.multipleSelection[i].name,
+              "defaultValue": this.multipleSelection[i].name,
+              "name": "",
+              "style": {
+                "zIndex": 0,
+                "FontSize": 9,
+                "FontColor": "#000000",
+                "Bold": false,
+                "Italic": false,
+                "Underline": false,
+                "Alignment": "center",
+                "ItemType": 0
+              },
+              "uuid": "8f066da266"
+            })
+        height = height + 150
+      }
+      console.log(print)
+      this.$lodop.preview(print, []);
+    },
+
     getUser(){
       this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -765,7 +850,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -786,7 +871,7 @@ export default {
     },
 
     getXiaLa_ShangPinFenLei(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"商品分类"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ShangPinFenLei = res.data.data;
@@ -803,7 +888,7 @@ export default {
     },
 
     getXiaLa_ZhiBaoDengJi(){
-      let url = "http://localhost:8102/peizhi/queryPeiZhi"
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
       this.axios.post(url, {"type":"质保等级"}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_ZhiBaoDengJi = res.data.data;
@@ -820,7 +905,7 @@ export default {
     },
 
     getXiaLa_CaiGouYuan(){
-      let url = "http://localhost:8102/user/fuzzyQuery"
+      let url = "http://yhocn.cn:8102/user/fuzzyQuery"
       this.axios.post(url,{"keyword":""}).then(res => {
         if(res.data.code == '00') {
           this.XiaLa_CaiGouYuan = res.data.data;
@@ -842,13 +927,13 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/product/getAll"
+      let url = "http://yhocn.cn:8102/product/getAll"
       this.axios(url, this.form).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
           this.total = res.data.data.length;
 
-          let url = "http://localhost:8102/peiZhiShuiLv/getAll"
+          let url = "http://yhocn.cn:8102/peiZhiShuiLv/getAll"
           this.axios(url, this.form).then(res => {
             if(res.data.code == '00') {
               this.ShuiLv = res.data.data[0];
@@ -904,13 +989,13 @@ export default {
         type:this.type,
         enable:'',
       }
-      let url = "http://localhost:8102/product/queryList"
+      let url = "http://yhocn.cn:8102/product/queryList"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
           this.total = res.data.data.length;
 
-          let url = "http://localhost:8102/peiZhiShuiLv/getAll"
+          let url = "http://yhocn.cn:8102/peiZhiShuiLv/getAll"
           this.axios(url, this.form).then(res => {
             if(res.data.code == '00') {
               this.ShuiLv = res.data.data[0];
@@ -929,6 +1014,7 @@ export default {
                 this.tableData[i].pifaPrice = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * pifa_bili)) * 100 ) / 100
                 this.tableData[i].dakehuPrice = Math.round((caigou_price * (1 + xiaoxiang * fujia_shuilv)) / ((1+jinxiang) * (1-(1+xiaoxiang*fujia_shuilv) * dakehu_bili)) * 100) / 100
               }
+              console.log(this.tableData)
             } else {
               MessageUtil.error(res.data.msg);
             }
@@ -1022,10 +1108,10 @@ export default {
 
       for(var i=0; i<save_list.body.length; i++){
         if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
-          save_list.body[i].image = "http://localhost:9088/ruilida/" + save_list.body[i].imgFileName
+          save_list.body[i].image = "http://yhocn.cn:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
-          let url = "http://localhost:8102/file/upload"
+          let url = "http://yhocn.cn:8102/file/upload"
           this.axios.post(url,formData).then(res => {
             console.log(res.msg)
           }).catch(() => {
@@ -1035,7 +1121,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8102/product/productAdd"
+      let url = "http://yhocn.cn:8102/product/productAdd"
       this.axios.post(url, {
         "head":this.Product,
         "body":this.Product.body
@@ -1057,10 +1143,10 @@ export default {
       var save_list = this.Product
       for(var i=0; i<save_list.body.length; i++){
         if(save_list.body[i].imgFileName != undefined && save_list.body[i].imgFileName != null && save_list.body[i].imgFileName != ""){
-          save_list.body[i].image = "http://localhost:9088/ruilida/" + save_list.body[i].imgFileName
+          save_list.body[i].image = "http://yhocn.cn:9088/ruilida/" + save_list.body[i].imgFileName
           var formData = new FormData();
           formData.append("file",save_list.body[i].imgFile)
-          let url = "http://localhost:8102/file/upload"
+          let url = "http://yhocn.cn:8102/file/upload"
           this.axios.post(url,formData).then(res => {
             console.log(res.msg)
           }).catch(() => {
@@ -1070,7 +1156,7 @@ export default {
       }
 
 
-      let url = "http://localhost:8102/product/productUpd"
+      let url = "http://yhocn.cn:8102/product/productUpd"
       this.axios.post(url, {
         "head":this.Product,
         "body":this.Product.body
@@ -1120,7 +1206,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/product/delProduct";
+        let url = "http://yhocn.cn:8102/product/delProduct";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
@@ -1183,12 +1269,17 @@ export default {
       console.log(`每页 ${val} 条`);
     },
 
+    moveErrorImg(event) {
+      event.currentTarget.src = "";
+      return true;
+    },
   }
 }
 
 function PrefixInteger(num, n) {
   return (Array(n).join(0) + num).slice(-n);
 }
+
 
 </script>
 <style>
@@ -1199,5 +1290,9 @@ function PrefixInteger(num, n) {
 .product{
   width: 100%; height: 100%;
   object-fit: contain;
+}
+img[src=''],
+img:not([src]) {
+  opacity: 0;
 }
 </style>

@@ -10,6 +10,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\XiaoShouBaoJiaImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\CaiGouRuKuMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\ShouZhiMingXiItemMapper.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\QiChuGongYingShang.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\CaiGouRuKuController.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\XiaoShouBaoJiaItemService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\XiaoShouBaoJiaController.java
@@ -35,6 +36,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\CaiGouDingDanItemService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\XiaoShouBaoJiaMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\XiaoShouKaiPiaoMapper.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\JiZhangMingXiMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\PeiZhiShuiLvImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\ShouZhiMingXiItemImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\YiBiaoPan.java
@@ -44,6 +46,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\common\ResponseErrorCode.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\ProductController.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\DriverController.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\JiZhangMingXiImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\ZhangHuYuEService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\GongYingShangMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\XiaoShouDingDanItemImpl.java
@@ -77,6 +80,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\YiBiaoPanService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\PrintMuBanService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\CaiGouDingDanItemMapper.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\QiChuProduct.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\PeizhiTypeEnum.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\KuCunImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\GongYingShangController.java
@@ -93,6 +97,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\GongYingShangService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\GongYingShangImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\UserServiceImpl.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\JiZhangMingXiController.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\GongYingShangItemMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\PrintMuBan.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\XiaoShouDingDanImpl.java
@@ -130,6 +135,7 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\FileTableImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\UserPower.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\XiaoShouChuKuItem.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\JiZhangMingXiService.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\FileTable.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\service\impl\ZhuanZhangImpl.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\util\ResultInfo.java
@@ -165,8 +171,10 @@ D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\s
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\ShouZhiMingXiAdd.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\ZhangHuYuEController.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\Product.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\QiChuKeHu.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\CaiGouRuKu.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\User_Peizhi.java
+D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\pojo\JiZhangMingXi.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\controller\ZhuanZhangController.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\CustomerMapper.java
 D:\yho135\工作\ruilidawuzimaoyi_wechar_javaweb\code\java\vue\20231108\myboot\src\main\java\com\myboot\mapper\ShouZhiTongJiMapper.java
