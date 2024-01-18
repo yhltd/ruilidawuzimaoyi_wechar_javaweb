@@ -147,7 +147,7 @@ export default {
     updFormSub(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = "http://yhocn.cn:8102/jiZhangMingXi/updateById";
+          let url = "http://localhost:8102/jiZhangMingXi/updateById";
           this.axios.post(url, {'head':this.addForm}).then(res => {
             if (res.data.code == '00') {
               MessageUtil.success("修改成功");
@@ -196,7 +196,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://yhocn.cn:8102/jiZhangMingXi/getAll';
+      let url = 'http://localhost:8102/jiZhangMingXi/getAll';
       this.axios(url).then(res => {
         console.log(res)
         switch (res.data.code) {
@@ -221,7 +221,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -234,7 +234,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)

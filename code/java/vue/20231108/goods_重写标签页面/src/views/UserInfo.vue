@@ -273,7 +273,7 @@ export default {
         return;
       }
       this.fuzzy_query_loading = true;
-      let url = 'http://yhocn.cn:8102/user/fuzzyQuery';
+      let url = 'http://localhost:8102/user/fuzzyQuery';
       axios.post(url, {'keyword': this.keyword}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -324,7 +324,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -337,7 +337,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -376,7 +376,7 @@ export default {
       this.login_btn_loading = true;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let URL = "http://yhocn.cn:8102/user/useradd";
+          let URL = "http://localhost:8102/user/useradd";
           axios.post(
               URL, this.userInfo, true
           ).then(res => {
@@ -426,7 +426,7 @@ export default {
         for (let i of list) {
           tmp.push(i.id);
         }
-        let url = "http://yhocn.cn:8102/user/delUsers";
+        let url = "http://localhost:8102/user/delUsers";
         axios.post(url, {"list": tmp}).then(res => {
           switch (res.data.code) {
             case "00": {
@@ -479,7 +479,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           info.password = info.updPassword;
-          let URL = "http://yhocn.cn:8102/user/updUsrInfo";
+          let URL = "http://localhost:8102/user/updUsrInfo";
           axios.post(
               URL, info, true
           ).then(res => {
@@ -519,7 +519,7 @@ export default {
     },
     queryPowers() {
       this.Power_Loading = true;
-      let url = "http://yhocn.cn:8102/userpower/queryPower";
+      let url = "http://localhost:8102/userpower/queryPower";
       axios.post(url, {"name": ""}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -538,7 +538,7 @@ export default {
     },
     queryShenPis() {
       this.SP_Loading = true
-      let url = "http://yhocn.cn:8102/user/queryShenpis";
+      let url = "http://localhost:8102/user/queryShenpis";
       axios.post(url).then(res => {
         switch (res.data.code) {
           case '00':
@@ -565,7 +565,7 @@ export default {
       this.show_upd_btn = !this.show_upd_btn;
     },
     resetForm() {
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById";
+      let url = "http://localhost:8102/user/queryUserInfoById";
       axios.post(url, {'id': this.userInfo.id}).then(res => {
         switch (res.data.code) {
           case '00':
@@ -580,7 +580,7 @@ export default {
       })
     },
     queryUsersInfo() {
-      let url = "http://yhocn.cn:8102/user/queryAllUsers";
+      let url = "http://localhost:8102/user/queryAllUsers";
       axios.post(url).then(res => {
         switch (res.data.code) {
           case '00':

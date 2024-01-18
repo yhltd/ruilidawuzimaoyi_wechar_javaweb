@@ -189,7 +189,7 @@ created() {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -202,7 +202,7 @@ created() {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -228,7 +228,7 @@ created() {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://yhocn.cn:8102/peiZhiGuiGe/getAll"
+      let url = "http://localhost:8102/peiZhiGuiGe/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -270,7 +270,7 @@ created() {
         type:this.type,
         guige:this.guige
       }
-      let url = "http://yhocn.cn:8102/peiZhiGuiGe/queryProduct"
+      let url = "http://localhost:8102/peiZhiGuiGe/queryProduct"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -322,7 +322,7 @@ created() {
       }
     },
     saveShangPinGuiGe(){
-      let url = "http://yhocn.cn:8102/peiZhiGuiGe/peiZhiGuiGeAdd";
+      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeAdd";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -336,7 +336,7 @@ created() {
       })
     },
     updShangPinGuiGe(){
-      let url = "http://yhocn.cn:8102/peiZhiGuiGe/peiZhiGuiGeUpd";
+      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeUpd";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -371,7 +371,7 @@ created() {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://yhocn.cn:8102/peiZhiGuiGe/delPeiZhiGuiGe";
+        let url = "http://localhost:8102/peiZhiGuiGe/delPeiZhiGuiGe";
         axios.post(url, {"list": list}).then(res => {
           switch (res.data.code) {
             case "00": {

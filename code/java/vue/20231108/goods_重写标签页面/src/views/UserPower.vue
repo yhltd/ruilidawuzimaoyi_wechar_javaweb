@@ -1400,7 +1400,7 @@ export default {
 
       console.log(this.multipleSelection)
 
-      let url = "http://yhocn.cn:8102/userpower/queryUserPowerById"
+      let url = "http://localhost:8102/userpower/queryUserPowerById"
       this.axios.post(url, {"id":this_id}).then(res => {
         if(res.data.code == '00') {
           var this_val = res.data.data
@@ -1424,7 +1424,7 @@ export default {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://yhocn.cn:8102/userpower/queryPower"
+      let url = "http://localhost:8102/userpower/queryPower"
       this.axios.post(url, {"name":""}).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1443,7 +1443,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
+      let url = "http://localhost:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1456,7 +1456,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -1494,7 +1494,7 @@ export default {
       var date = {
         name:this.name
       }
-      let url = "http://yhocn.cn:8102/userpower/queryPower"
+      let url = "http://localhost:8102/userpower/queryPower"
       this.axios.post(url, date).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
@@ -1510,7 +1510,7 @@ export default {
 
     savePower(){
       var save_list = this.Power
-      let url = "http://yhocn.cn:8102/userpower/powerAdd"
+      let url = "http://localhost:8102/userpower/powerAdd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1531,7 +1531,7 @@ export default {
         return;
       }
       var save_list = this.Power
-      let url = "http://yhocn.cn:8102/userpower/powerUpd"
+      let url = "http://localhost:8102/userpower/powerUpd"
       this.axios.post(url, save_list).then(res => {
         if(res.data.code == '00') {
           console.log(res)
@@ -1574,7 +1574,7 @@ export default {
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://yhocn.cn:8102/userpower/delPower";
+        let url = "http://localhost:8102/userpower/delPower";
         axios.post(url, {"list": list}).then(res => {
           MessageUtil.success(res.data.msg);
           this.del_popover_visible = false;
