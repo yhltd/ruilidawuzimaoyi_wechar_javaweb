@@ -70,4 +70,9 @@ public class CustomerImpl implements CustomerService {
         return mapper.selectMaxDanHao();
     }
 
+    @Override
+    public List<Customer> getChongFu(String this_where) {
+        List<Customer> customers = mapper.getChongFu(this_where);
+        return customers;
+    }
 }

@@ -31,5 +31,6 @@ public interface CustomerMapper {
 
     public List<Customer> selectMaxDanHao();
 
-
+    //查询重复
+    public List<Customer> getChongFu(String this_where);
 }

@@ -48,4 +48,10 @@ public class PeiZhiGuiGeImpl implements PeiZhiGuiGeService {
         }
         return count;
     }
+
+    @Override
+    public List<PeiZhiGuiGe> getChongFu(String this_where) {
+        List<PeiZhiGuiGe> peiZhiGuiGe = mapper.getChongFu(this_where);
+        return peiZhiGuiGe;
+    }
 }

@@ -31,5 +31,6 @@ public interface GongYingShangMapper {
 
     public List<GongYingShang> selectMaxDanHao();
 
-
+    //查询重复
+    public List<GongYingShang> getChongFu(String this_where);
 }

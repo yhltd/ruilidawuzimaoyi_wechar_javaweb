@@ -138,6 +138,21 @@ public class YiBiaoPanImpl implements YiBiaoPanService {
     }
 
     @Override
+    public List<YiBiaoPan> xiaoShouMaoLiTongJi_DianPu(String start_date, String stop_date) {
+        return mapper.xiaoShouMaoLiTongJi_DianPu(start_date,stop_date);
+    }
+
+    @Override
+    public List<YiBiaoPan> xiaoShouMaoLiTongJi_HeSuanDanWei(String start_date, String stop_date) {
+        return mapper.xiaoShouMaoLiTongJi_HeSuanDanWei(start_date,stop_date);
+    }
+
+    @Override
+    public List<YiBiaoPan> xiaoShouMaoLiTongJi_XiaoShouDingDan(String start_date, String stop_date) {
+        return mapper.xiaoShouMaoLiTongJi_XiaoShouDingDan(start_date,stop_date);
+    }
+
+    @Override
     public List<YiBiaoPan> xiaoShouDingDanTongJi_ChanPin(String start_date, String stop_date) {
         return mapper.xiaoShouDingDanTongJi_ChanPin(start_date,stop_date);
     }

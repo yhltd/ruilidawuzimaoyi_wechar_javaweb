@@ -1,6 +1,7 @@
 package com.myboot.service.impl;
 
 import com.myboot.mapper.CaiGouShouPiaoMapper;
+import com.myboot.pojo.CaiGouDingDanXiangQing;
 import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.service.CaiGouShouPiaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class CaiGouShouPiaoImpl implements CaiGouShouPiaoService {
     }
 
     @Override
-    public List<CaiGouShouPiao> selectYingShou() {
+    public List<CaiGouDingDanXiangQing> selectYingShou() {
         return mapper.selectYingShou();
     }
 

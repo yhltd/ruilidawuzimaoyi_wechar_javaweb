@@ -49,4 +49,5 @@ public class XiaoShouChuKuXiangQing {
     private String thisKai;
 
     private String shoufuType;
+    private String isselect;
 }

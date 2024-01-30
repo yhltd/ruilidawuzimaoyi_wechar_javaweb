@@ -54,5 +54,17 @@ public class PeiZhiGuiGeController {
         return ResponseCommon.success(sb.toString());
     }
 
-
+    @PostMapping("/getChongFu")
+    public String getChongFu(@RequestBody @NonNull JSONObject data){
+        String type = data.getString("type");
+        Integer id = data.getInteger("id");
+        String this_where = "";
+        if(id == 0){
+            this_where = " where type = '" + type + "'";
+        }else{
+            this_where = " where type = '" + type + "' and id != " + id;
+        }
+        List<PeiZhiGuiGe> peiZhiGuiGe = service.getChongFu(this_where);
+        return ResponseCommon.success(peiZhiGuiGe);
+    }
 }

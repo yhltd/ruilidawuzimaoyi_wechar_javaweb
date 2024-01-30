@@ -75,19 +75,31 @@ export default {
       type_list:[],
       start_date:"",
       stop_date:"",
-      type:'按出货单',
+      type:'按销售订单',
       XiaLa_Type:[
         {
-          name:'按出货单',
-          label:'按出货单',
+          name:'按销售订单',
+          label:'按销售订单',
+        },
+        {
+          name:'按核算单位',
+          label:'按核算单位',
+        },
+        {
+          name:'按店铺',
+          label:'按店铺',
+        },
+        {
+          name:'按客户',
+          label:'按客户',
         },
         {
           name:'按产品',
           label:'按产品',
         },
         {
-          name:'按客户',
-          label:'按客户',
+          name:'按出货单',
+          label:'按出货单',
         },
         {
           name:'按业务员',
@@ -130,7 +142,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -143,7 +155,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -184,13 +196,19 @@ export default {
       }
       let url = ""
       if(type == '按出货单'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiTongJi_ChuHuoDan"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_ChuHuoDan"
       }else if(type == '按产品'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiTongJi_ChanPin"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_ChanPin"
       }else if(type == '按客户'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiTongJi_KeHu"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_KeHu"
       }else if(type == '按业务员'){
-        url = "http://localhost:8102/yiBiaoPan/xiaoShouMaoLiTongJi_YeWuYuan"
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_YeWuYuan"
+      }else if(type == '按店铺'){
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_DianPu"
+      }else if(type == '按核算单位'){
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_HeSuanDanWei"
+      }else if(type == '按销售订单'){
+        url = "http://yhocn.cn:8102/yiBiaoPan/xiaoShouMaoLiTongJi_XiaoShouDingDan"
       }
 
       await this.axios.post(url, date).then(res => {

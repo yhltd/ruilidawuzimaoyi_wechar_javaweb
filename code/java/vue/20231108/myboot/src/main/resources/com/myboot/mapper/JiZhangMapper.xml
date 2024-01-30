@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.JiZhangMapper">
+
+    <select id="getJiZhang" resultType="com.myboot.pojo.JiZhang">
+        <![CDATA[
+            select *,case when jizhang_type = '日常开支' then '常' when jizhang_type = '采购支出' then '采' when jizhang_type = '销售收入' then '销' when jizhang_type = '内部转账' then '转' end as type,0 as yue,case when shouzhi_type = '收入' then jizhang_jine else '' end as shouru,case when shouzhi_type = '支出' then jizhang_jine else '' end as zhichu from(select shouzhi_riqi,dianpu,jizhang_danwei,jizhang_zhanghu,jizhang_jine,jizhang_type,shoufu_type,shouzhi_type from shouzhi_mingxi union select riqi as shouzhi_riqi,'' as dianpu,'' as jizhang_danwei,zhuanru as jizhang_zhanghu,money as jizhang_jine,'内部转账' as jizhang_type,'转账' as shoufu_type,'收入' as shouzhi_type from zhuanzhang union select riqi as shouzhi_riqi,'' as dianpu,'' as jizhang_danwei,zhuanchu as jizhang_zhanghu,money as jizhang_jine,'内部转账' as jizhang_type,'转账' as shoufu_type,'支出' as shouzhi_type from zhuanzhang) as shouzhi where shouzhi_riqi >= #{start_date} and shouzhi_riqi <= #{stop_date} and dianpu like '%' + #{dianpu} + '%' and jizhang_danwei like '%' + #{jizhang_danwei} + '%' and jizhang_zhanghu like '%' + #{jizhang_zhanghu} + '%' order by shouzhi_riqi desc,shoufu_type,shouzhi_type;
+        ]]>
+    </select>
+
+</mapper>

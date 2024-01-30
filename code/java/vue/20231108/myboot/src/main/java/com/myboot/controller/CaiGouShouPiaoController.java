@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
+import com.myboot.pojo.CaiGouDingDanXiangQing;
 import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.pojo.XiaoShouKaiPiao;
 import com.myboot.service.CaiGouShouPiaoService;
@@ -52,7 +53,7 @@ public class CaiGouShouPiaoController {
 
     @PostMapping("/selectYingShou")
     public String selectYingShou(@RequestBody @NonNull JSONObject data) {
-        List<CaiGouShouPiao> caiGouShouPiao = service.selectYingShou();
+        List<CaiGouDingDanXiangQing> caiGouShouPiao = service.selectYingShou();
         return ResponseCommon.success(caiGouShouPiao);
     }
 

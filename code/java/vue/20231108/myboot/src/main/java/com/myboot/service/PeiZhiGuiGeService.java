@@ -22,4 +22,7 @@ public interface PeiZhiGuiGeService {
 
 //    删除
     int delPeiZhiGuiGe(List<Integer> list);
+
+    //    查询重复
+    public List<PeiZhiGuiGe> getChongFu(String this_where);
 }

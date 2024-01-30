@@ -43,9 +43,9 @@
         ]]>
     </select>
 
-    <select id="selectYingShou" resultType="com.myboot.pojo.CaiGouShouPiao">
+    <select id="selectYingShou" resultType="com.myboot.pojo.CaiGouDingDanXiangQing">
         <![CDATA[
-            select id,riqi,bianhao,gongyingshang,jiashui_heji,isnull(shoupiao_jine,0) as shoupiao_jine,isnull(jiashui_heji,0)-isnull(shoupiao_jine,0) as weikai,1 as isselect from (select id,riqi,bianhao,gongyingshang,jiashui_heji from caigou_dingdan as caigou left join (select caigou_id,sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_heji from caigou_dingdan_item group by caigou_id) as money on caigou.id = money.caigou_id) as caigoudan left join (select caigou_bianhao,sum(convert(float,isnull(jiashui_heji,0))) as shoupiao_jine from caigou_shoupiao GROUP BY caigou_bianhao) as shoupiao on caigoudan.bianhao = shoupiao.caigou_bianhao where isnull(jiashui_heji,0)-isnull(shoupiao_jine,0) > 0
+            select id,bianhao,riqi,gongyingshang,dianpu,cangku,beizhu,caigou_id,ruku_danwei,yewuyuan,jiashui_xiaoji,ruku_id,isnull(caigou_bianhao,'') as xiaoshou_bianhao,isnull(jiashui_heji,0) as jiashui_heji,jiashui_xiaoji-isnull(jiashui_heji,0) as weikai,jiashui_xiaoji-isnull(jiashui_heji,0) as this_kai,1 as isselect from (select * from caigou_ruku as ruku left join (select sum(convert(float,isnull(jiashui_xiaoji,0))) as jiashui_xiaoji,ruku_id from caigou_ruku_item group by ruku_id) as item on ruku.id = item.ruku_id) as ruku left join (select caigou_bianhao,sum(convert(float,isnull(jiashui_heji,0))) as jiashui_heji from caigou_shoupiao group by caigou_bianhao) as shoupiao on ruku.bianhao = shoupiao.caigou_bianhao where jiashui_xiaoji-isnull(jiashui_heji,0) > 0
         ]]>
     </select>
 

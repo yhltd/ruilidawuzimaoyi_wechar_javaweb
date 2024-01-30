@@ -21,4 +21,7 @@ public interface PeiZhiGuiGeMapper {
 
     //根据商品规格id删除
     public int delByPeiZhiGuiGeId(Integer id);
+
+    //查询重复
+    public List<PeiZhiGuiGe> getChongFu(String this_where);
 }

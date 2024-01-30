@@ -37,6 +37,12 @@ import shoukuanzoushi from '../views/XiaoShouShouKuanZouShi.vue'
 import caigoufukuanzoushi from '../views/CaiGouFuKuanZouShi.vue'
 import ShangPinGuiGe from "@/views/ShangPinGuiGe.vue";// 增加商品规格页面
 import jiZhangMingXi from "@/views/JiZhangMingXi.vue";
+import JiZhang from "@/views/JiZhang.vue";
+import XiaoShouKaiPiaoTongJi from "@/views/XiaoShouKaiPiaoTongJi.vue";
+import QiChuKeHu from "@/views/QiChuKeHu.vue";
+import QiChuGongYingShang from "@/views/QiChuGongYingShang.vue";
+import QiChuShangPin from "@/views/QiChuShangPin.vue";
+
 
 Vue.use(VueRouter);
 
@@ -550,6 +556,56 @@ const routes = [
                 component: ShangPinGuiGe,
                 meta:{
                     title: '商品规格',
+                    requireAuth: true
+                }
+            },
+
+            {
+                path: "/jiZhang",
+                name: "jiZhang",
+                component: JiZhang,
+                meta:{
+                    title: '记账',
+                    requireAuth: true
+                }
+            },
+
+            {
+                path: "/xiaoShouKaiPiaoTongJi",
+                name: "xiaoShouKaiPiaoTongJi",
+                component: XiaoShouKaiPiaoTongJi,
+                meta:{
+                    title: '销售开票统计',
+                    requireAuth: true
+                }
+            },
+
+            {
+                path: "/qiChuKeHu",
+                name: "qiChuKeHu",
+                component: QiChuKeHu,
+                meta:{
+                    title: '期初-客户',
+                    requireAuth: true
+                }
+            },
+
+            {
+                path: "/qiChuGongYingShang",
+                name: "qiChuGongYingShang",
+                component: QiChuGongYingShang,
+                meta:{
+                    title: '期初-供应商',
+                    requireAuth: true
+                }
+            },
+
+            {
+                path: "/qiChuShangPin",
+                name: "qiChuShangPin",
+                component: QiChuShangPin,
+                meta:{
+                    title: '期初-库存',
                     requireAuth: true
                 }
             },

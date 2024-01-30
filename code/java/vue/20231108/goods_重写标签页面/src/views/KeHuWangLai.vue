@@ -9,7 +9,7 @@
               v-model="start_date"
               type="date"
               format="yyyy-MM-dd"
-              placeholder="选择起始日期">
+              placeholder="起始日期">
           </el-date-picker>
         </el-col>
         <el-col :span="4">
@@ -18,7 +18,7 @@
               v-model="stop_date"
               type="date"
               format="yyyy-MM-dd"
-              placeholder="选择截止日期">
+              placeholder="截止日期">
           </el-date-picker>
         </el-col>
         <el-col :span="1.5">
@@ -115,7 +115,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -128,7 +128,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -162,7 +162,7 @@ export default {
         start_date:start_date,
         stop_date:stop_date,
       }
-      let url = "http://localhost:8102/yiBiaoPan/keHuWangLai"
+      let url = "http://yhocn.cn:8102/yiBiaoPan/keHuWangLai"
       this.axios.post(url, date).then(res => {
 
         if(res.data.code == '00') {

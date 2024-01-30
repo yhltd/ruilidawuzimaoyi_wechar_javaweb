@@ -26,7 +26,8 @@ public interface GongYingShangService {
     //根据id查询
     public List<GongYingShang> selectById(Integer id);
 
-
     public List<GongYingShang> selectMaxDanHao();
 
+    //查询重复
+    public List<GongYingShang> getChongFu(String this_where);
 }

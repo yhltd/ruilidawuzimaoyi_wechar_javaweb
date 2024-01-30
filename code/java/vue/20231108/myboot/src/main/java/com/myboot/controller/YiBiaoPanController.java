@@ -242,6 +242,33 @@ public class YiBiaoPanController {
         return ResponseCommon.success(yiBiaoPans);
     }
 
+    //销售毛利统计 按店铺
+    @PostMapping("/xiaoShouMaoLiTongJi_DianPu")
+    public String xiaoShouMaoLiTongJi_DianPu(@RequestBody JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        List<YiBiaoPan> yiBiaoPans = service.xiaoShouMaoLiTongJi_DianPu(start_date,stop_date);
+        return ResponseCommon.success(yiBiaoPans);
+    }
+
+    //销售毛利统计 按核算单位
+    @PostMapping("/xiaoShouMaoLiTongJi_HeSuanDanWei")
+    public String xiaoShouMaoLiTongJi_HeSuanDanWei(@RequestBody JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        List<YiBiaoPan> yiBiaoPans = service.xiaoShouMaoLiTongJi_HeSuanDanWei(start_date,stop_date);
+        return ResponseCommon.success(yiBiaoPans);
+    }
+
+    //销售毛利统计 按销售订单
+    @PostMapping("/xiaoShouMaoLiTongJi_XiaoShouDingDan")
+    public String xiaoShouMaoLiTongJi_XiaoShouDingDan(@RequestBody JSONObject data) {
+        String start_date = data.getString("start_date");
+        String stop_date = data.getString("stop_date");
+        List<YiBiaoPan> yiBiaoPans = service.xiaoShouMaoLiTongJi_XiaoShouDingDan(start_date,stop_date);
+        return ResponseCommon.success(yiBiaoPans);
+    }
+
 
     //销售订单统计 按产品
     @PostMapping("/xiaoShouDingDanTongJi_ChanPin")

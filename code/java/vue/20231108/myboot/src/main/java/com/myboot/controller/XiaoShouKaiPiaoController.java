@@ -7,6 +7,7 @@ import com.myboot.common.ResponseCommon;
 import com.myboot.common.ResponseErrorCode;
 import com.myboot.pojo.CaiGouShouPiao;
 import com.myboot.pojo.User;
+import com.myboot.pojo.XiaoShouChuKuXiangQing;
 import com.myboot.pojo.XiaoShouKaiPiao;
 import com.myboot.service.UserService;
 import com.myboot.service.XiaoShouKaiPiaoService;
@@ -101,7 +102,7 @@ public class XiaoShouKaiPiaoController {
 
     @PostMapping("/selectYingKai")
     public String selectYingKai(@RequestBody @NonNull JSONObject data) {
-        List<XiaoShouKaiPiao> xiaoShouKaiPiao = service.selectYingKai();
+        List<XiaoShouChuKuXiangQing> xiaoShouKaiPiao = service.selectYingKai();
         return ResponseCommon.success(xiaoShouKaiPiao);
     }
 

@@ -3,6 +3,28 @@
     <el-header style="background-color: transparent;">
       <el-row :gutter="15">
         <el-col :span="4">
+          <el-select v-model="jizhangDanwei" filterable placeholder="选择记账单位">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_JiZhangDanWei"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="jizhangZhanghu" filterable placeholder="选择记账账户">
+            <!-- types 为后端查询 -->
+            <el-option
+                v-for="item in XiaLa_JiZhangZhangHu"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
           <el-select v-model="type" filterable placeholder="选择统计类型">
             <!-- types 为后端查询 -->
             <el-option
@@ -82,6 +104,8 @@ export default {
       title:[],
       type_list:[],
       riqi:getNowDate(),
+      jizhangDanwei:'',
+      jizhangZhanghu:'',
       type:'按月',
       shouzhi_type:'收入',
       XiaLa_Type:[
@@ -97,12 +121,16 @@ export default {
       addDialog: false,
       updDialog: false,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      XiaLa_JiZhangDanWei:[],
+      XiaLa_JiZhangZhangHu:[],
     }
   },
   created() {
     this.getUser();
-    this.riqi=getNowDate()
+    this.riqi=getNowDate();
+    this.getXiaLa_HeSuanDanWei();
+    this.getXiaLa_JiZhangZhangHu();
   },
   methods: {
     toggleSelection(rows) {
@@ -120,6 +148,40 @@ export default {
       console.log(val)
     },
 
+    getXiaLa_HeSuanDanWei(){
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"核算单位"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_JiZhangDanWei = res.data.data;
+          for(var i=0; i<this.XiaLa_JiZhangDanWei.length; i++){
+            this.XiaLa_JiZhangDanWei[i].label = this.XiaLa_JiZhangDanWei.name
+          }
+          console.log("核算单位下拉已获取");
+        } else {
+          console.log("核算单位下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    getXiaLa_JiZhangZhangHu(){
+      let url = "http://yhocn.cn:8102/peizhi/queryPeiZhi"
+      this.axios.post(url, {"type":"收款账户"}).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_JiZhangZhangHu = res.data.data;
+          for(var i=0; i<this.XiaLa_JiZhangZhangHu.length; i++){
+            this.XiaLa_JiZhangZhangHu[i].label = this.XiaLa_JiZhangZhangHu.name
+          }
+          console.log("核算单位下拉已获取");
+        } else {
+          console.log("核算单位下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
 
     //刷新
     refresh(){
@@ -135,7 +197,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -148,7 +210,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -187,8 +249,10 @@ export default {
         riqi:riqi,
         type:this.type,
         shouzhi_type:this.shouzhi_type,
+        jizhang_danwei:this.jizhangDanwei,
+        jizhang_zhanghu:this.jizhangZhanghu
       }
-      let url = "http://localhost:8102/shouZhiTongJI/getShouZhi"
+      let url = "http://yhocn.cn:8102/shouZhiTongJI/getShouZhi"
       this.axios.post(url, date).then(res => {
         console.log(res)
         this.tableData = res.data.data;
@@ -299,6 +363,21 @@ export default {
             }
           }
         }
+        var heji_row = {jizhangType:'合计'}
+        for(var i=0; i<title.length; i++){
+          if(title[i].columnName != 'jizhangType'){
+            for(var j=0; j<type_list.length; j++){
+              if(type_list[j][title[i].columnName] != undefined){
+                if(heji_row[title[i].columnName] != undefined){
+                  heji_row[title[i].columnName] = Math.round((heji_row[title[i].columnName] * 1 + type_list[j][title[i].columnName] * 1) * 100) / 100
+                }else{
+                  heji_row[title[i].columnName] = Math.round(type_list[j][title[i].columnName] * 1 * 100) / 100
+                }
+              }
+            }
+          }
+        }
+        type_list.push(heji_row)
         console.log(title)
         console.log(type_list)
         this.title = title

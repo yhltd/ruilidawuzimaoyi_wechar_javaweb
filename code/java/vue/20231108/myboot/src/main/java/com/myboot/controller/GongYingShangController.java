@@ -136,5 +136,17 @@ public class GongYingShangController {
         return ResponseCommon.success(gongYingShang);
     }
 
-
+    @PostMapping("/getChongFu")
+    public String getChongFu(@RequestBody @NonNull JSONObject data) {
+        String name = data.getString("name");
+        Integer id = data.getInteger("id");
+        String this_where = "";
+        if(id == 0){
+            this_where = " where name = '" + name + "'";
+        }else{
+            this_where = " where name = '" + name + "' and id != " + id;
+        }
+        List<GongYingShang> gongYingShang = service.getChongFu(this_where);
+        return ResponseCommon.success(gongYingShang);
+    }
 }

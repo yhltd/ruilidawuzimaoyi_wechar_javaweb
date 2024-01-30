@@ -103,6 +103,15 @@ public interface YiBiaoPanService {
     //销售毛利统计 按业务员
     List<YiBiaoPan> xiaoShouMaoLiTongJi_YeWuYuan(String start_date,String stop_date);
 
+    //销售毛利统计 按店铺
+    List<YiBiaoPan> xiaoShouMaoLiTongJi_DianPu(String start_date,String stop_date);
+
+    //销售毛利统计 按核算单位
+    List<YiBiaoPan> xiaoShouMaoLiTongJi_HeSuanDanWei(String start_date,String stop_date);
+
+    //销售毛利统计 按销售订单
+    List<YiBiaoPan> xiaoShouMaoLiTongJi_XiaoShouDingDan(String start_date,String stop_date);
+
 
 
     //销售订单统计 按产品

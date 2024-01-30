@@ -2,14 +2,8 @@
   <el-container style="height: 100%;" direction="vertical">
     <el-header class="el-header" style="background-color:transparent">
       <el-row :gutter="15">
-        <el-col :span="3">
-          <el-input placeholder="商品分类" v-model="type" class="input-with-select"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-input placeholder="规格名称" v-model="guige" class="input-with-select"></el-input>
-        </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
+          <el-button size="small" round type="primary" @click="refresh()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
@@ -22,32 +16,70 @@
         </el-col>
       </el-row>
     </el-header>
-      <el-main refs="main" class="el-main1">
-        <el-table
-            border
-            :header-cell-style="{background:'#d6e5ef',color:'#000'}"
-            :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
-            style="width: 100%;"
-            :height="tableHeight"
-            @selection-change="handleSelectionChange">
-          <el-table-column
-              type="selection"
-              width="55">
-          </el-table-column>
-          <el-table-column
-              prop="type"
-              label="商品分类"
-              width="auto">
-          </el-table-column>
-          <el-table-column
-              label="规格名称"
-              width="auto">
-            <template slot-scope="scope">
-              <div v-html="scope.row.guige2"></div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-main>
+    <el-main refs="main" class="el-main1">
+      <el-table
+          border
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
+          :data="tableData.slice((currentPage -1) * pageSize, pageSize * currentPage)"
+          style="width: 100%;"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55">
+        </el-table-column>
+        <el-table-column
+            prop="shangpinBianma"
+            label="编号"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="名称"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="guige"
+            label="规格"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="caizhi"
+            label="材质"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="jishuBiaozhun"
+            label="技术标准"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="zhibaoDengji"
+            label="质保等级"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="danwei"
+            label="单位"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="shuliang"
+            label="数量"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="danjia"
+            label="单价"
+            width="auto">
+        </el-table-column>
+        <el-table-column
+            prop="jiashuiXiaoji"
+            label="价税小计"
+            width="auto">
+        </el-table-column>
+      </el-table>
+    </el-main>
 
     <el-footer style="height: 10%;margin-bottom: 5%">
       <el-pagination
@@ -68,26 +100,77 @@
       <el-form :model="addForm" ref="addUsr" label-width="100px"
                class="demo-info">
 
-        <input ref="file" type="file" id="pic_file" @change="fileSelect()" style="display: none">
         <!--        商品基本信息-->
         <el-row :gutter="15">
           <el-col :span="6">
-            <p class="dialog-title">商品规格</p>
+            <p class="dialog-title">期初-库存</p>
           </el-col>
         </el-row>
         <el-row :gutter="15">
           <el-col :span="8">
-            <el-form-item label="商品分类" prop="type" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="addForm.type" class="custom-login-inp"></el-input>
+            <el-form-item label="编号" prop="shangpinBianma" class="custom-form-item">
+              <el-input ref="acc_inp" @click.native="selectProduct()" v-model="addForm.shangpinBianma" placeholder="点击选择产品" class="custom-login-inp" readonly="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="规格名称" prop="guige" class="custom-form-item">
-              <el-input ref="acc_inp" type="textarea" autosize="true" v-model="addForm.guige" class="custom-login-inp"></el-input>
+            <el-form-item label="名称" prop="name" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.name" class="custom-login-inp" ></el-input>
             </el-form-item>
           </el-col>
-
         </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="8">
+            <el-form-item label="规格" prop="guige" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.guige" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="材质" prop="caizhi" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.caizhi" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="8">
+            <el-form-item label="技术标准" prop="jishuBiaozhun" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.jishuBiaozhun" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="质保等级" prop="zhibaoDengji" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.zhibaoDengji" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="8">
+            <el-form-item label="单位" prop="danwei" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.danwei" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="数量" prop="shuliang" class="custom-form-item">
+              <el-input ref="acc_inp" @change="changeValue('shuliang')" v-model="addForm.shuliang" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="8">
+            <el-form-item label="单价" prop="danjia" class="custom-form-item">
+              <el-input ref="acc_inp" @change="changeValue('danjia')" v-model="addForm.danjia" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="金额" prop="jiashuiXiaoji" class="custom-form-item">
+              <el-input ref="acc_inp" @change="changeValue('jiashuiXiaoji')" v-model="addForm.jiashuiXiaoji" class="custom-login-inp" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <el-row :gutter="15">
           <el-col :span="4">
             <div style="display: flex">
@@ -106,6 +189,92 @@
         </el-row>
       </el-form>
     </el-dialog>
+
+    <el-dialog title="" :visible.sync="selProduct" width="80%">
+
+      <el-row :gutter="15" style="margin-bottom: 10px">
+        <el-col :span="5">
+          <el-input placeholder="商品分类" v-model="Protype" class="input-with-select">
+          </el-input>
+        </el-col>
+        <el-col :span="5">
+          <el-input placeholder="商品名称" v-model="Proname" class="input-with-select">
+          </el-input>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="ProQuery()"><i class="el-icon-search"></i>查询</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" @click="Prorefresh()"><i class="el-icon-refresh"></i>刷新</el-button>
+        </el-col>
+      </el-row>
+
+      <el-table
+          border
+          :header-cell-style="{background:'#d6e5ef',color:'#000'}"
+          :data="CaiGou_Product"
+          :row-class-name="rowClassName"
+          @row-click="rowClick"
+          style="width: 100%">
+        <el-table-column
+            prop="bianhao"
+            label="编号"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="name"
+            label="名称"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="type"
+            label="类别"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="danwei"
+            label="单位"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="caizhi"
+            label="材质"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="jishuBiaozhun"
+            label="技术标准"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="zhibaoDengji"
+            label="质保等级"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="caigouPrice"
+            label="采购价格"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="zuidijia"
+            label="历史最低"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="jinxiang"
+            label="进项税率"
+            width="180"
+        ></el-table-column>
+        <el-table-column
+            prop="xiaoxiang"
+            label="销项税率"
+            width="180"
+        ></el-table-column>
+      </el-table>
+
+    </el-dialog>
+
   </el-container>
 </template>
 
@@ -125,18 +294,29 @@ export default {
       type:'',
       guige:'',
       addForm:{
-        type:'',
-        guige:''
+        shangpinBianma:'',
+        name:'',
+        guige:'',
+        caizhi:'',
+        jishuBiaozhun:'',
+        zhibaoDengji:'',
+        danwei:'',
+        danjia:'',
+        shuliang:'',
+        jiashuiXiaoji:'',
       },
       addDialog: false,
+      selProduct:false,
       tableData: [],
-      multipleSelection: []
-
+      multipleSelection: [],
+      XiaLa_KeHu:[],
+      CaiGou_Product:[],
     }
   },
-created() {
-  this.getUser();
-},
+  created() {
+    this.getUser();
+    this.getCaiGouProduct();
+  },
   methods:{
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -150,8 +330,16 @@ created() {
         return;
       }
       this.addForm = {
-        type:'',
-        guige:''
+        shangpinBianma:'',
+        name:'',
+        guige:'',
+        caizhi:'',
+        jishuBiaozhun:'',
+        zhibaoDengji:'',
+        danwei:'',
+        danjia:'',
+        shuliang:'',
+        jiashuiXiaoji:'',
       };
       this.addDialog = true;
       return true;
@@ -175,13 +363,19 @@ created() {
       console.log(this.multipleSelection)
       this.addForm = {
         id:list[0].id,
-        type:list[0].type,
-        guige:list[0].guige
+        shangpinBianma:list[0].shangpinBianma,
+        name:list[0].name,
+        guige:list[0].guige,
+        caizhi:list[0].caizhi,
+        jishuBiaozhun:list[0].jishuBiaozhun,
+        zhibaoDengji:list[0].zhibaoDengji,
+        danwei:list[0].danwei,
+        danjia:list[0].danjia,
+        shuliang:list[0].shuliang,
+        jiashuiXiaoji:list[0].jiashuiXiaoji,
       };
       this.addDialog = true;
       return true;
-
-
     },
 
     getUser(){
@@ -189,7 +383,7 @@ created() {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -202,16 +396,12 @@ created() {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userPower = res.data.data
-          if(this.userPower.shangpinSel == '是'){
-            this.getAll();
-          }else{
-            MessageUtil.error("无查询权限");
-          }
+          this.getAll();
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {
@@ -228,22 +418,15 @@ created() {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/peiZhiGuiGe/getAll"
+      let url = "http://yhocn.cn:8102/qiChuProduct/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          console.log('data')
-          console.log(this.tableData)
-          for(var i=0; i<this.tableData.length; i++){
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\r\n/g, '<br/>');
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\n/g, '<br/>');
-          }
-          console.log(this.tableData)
           this.total = res.data.data.length;
           console.log("数据")
           console.log(res.data.data)
           MessageUtil.success("共查询到" + this.tableData.length + "条数据")
-            } else {
+        } else {
           MessageUtil.error(res.data.msg);
         }
       }).catch(() => {
@@ -260,69 +443,24 @@ created() {
       this.getAll()
     },
 
-    //条件查询
-    query(){
-      if(this.userPower.shangpinSel != '是'){
-        MessageUtil.error("无查询权限");
+    save(){
+      if(this.addForm.name == ''){
+        MessageUtil.error("未选择产品")
         return;
       }
-      var date = {
-        type:this.type,
-        guige:this.guige
+      if(this.addForm.qiankuan == '' && this.addForm.dingjin == ''){
+        MessageUtil.error("欠款或订金至少填写一个")
+        return;
       }
-      let url = "http://localhost:8102/peiZhiGuiGe/queryProduct"
-      this.axios.post(url, date).then(res => {
-        if(res.data.code == '00') {
-          this.tableData = res.data.data;
-          for(var i=0; i<this.tableData.length; i++){
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\r\n/g, '<br/>');
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\n/g, '<br/>');
-          }
-          this.total = res.data.data.length;
-          console.log("数据")
-          console.log(res.data.data)
-          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
-        } else {
-          MessageUtil.error(res.data.msg);
-        }
-      }).catch(() => {
-        MessageUtil.error("网络异常");
-      })
-    },
-
-    delLianXiRen(index){
-      console.log(index)
-      this.$confirm('是否删除此商品?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.Product.body.splice(index, 1)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
-
-    save(){
       if(this.addForm.id != undefined && this.addForm.id != null){
-        if(this.userPower.shangpinSel != '是'){
-          MessageUtil.error("无修改权限");
-          return;
-        }
         this.updShangPinGuiGe()
       }else{
         this.saveShangPinGuiGe()
       }
     },
+
     saveShangPinGuiGe(){
-      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeAdd";
+      let url = "http://yhocn.cn:8102/qiChuProduct/add";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -335,8 +473,9 @@ created() {
         MessageUtil.error("网络异常")
       })
     },
+
     updShangPinGuiGe(){
-      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeUpd";
+      let url = "http://yhocn.cn:8102/qiChuProduct/upd";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -352,10 +491,6 @@ created() {
     },
 
     deleteClick(){
-      if(this.userPower.shangpinDel != '是'){
-        MessageUtil.error("无删除权限");
-        return;
-      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
@@ -365,19 +500,18 @@ created() {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-
         var list = []
         for(var i=0; i<this.multipleSelection.length; i++){
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/peiZhiGuiGe/delPeiZhiGuiGe";
+        let url = "http://yhocn.cn:8102/qiChuProduct/del";
         axios.post(url, {"list": list}).then(res => {
           switch (res.data.code) {
             case "00": {
               MessageUtil.success("删除成功");
               list.length = 0;
-              this.query();
+              this.getAll();
               break;
             }
             default: {
@@ -395,21 +529,6 @@ created() {
       });
     },
 
-    fileSelect(){
-      var file = document.getElementById("pic_file").files;
-      var this_file = file[0];
-      var fileName = file[0].name;
-      console.log(fileName)
-      console.log(this_file)
-      let URL = window.URL || window.webkitURL;
-      // 通过 file 生成目标 url
-      let imgURL = URL.createObjectURL(this_file);
-      console.log(imgURL)
-      this.Product.body[this.p_index].image = imgURL
-      this.Product.body[this.p_index].imgFile = file[0]
-      this.Product.body[this.p_index].imgFileName = file[0].name
-      console.log(this.Product.body[this.p_index])
-    },
 
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
@@ -422,6 +541,92 @@ created() {
       console.log(`每页 ${val} 条`);
     },
 
+    getCaiGouProduct(){
+      let url = "http://yhocn.cn:8102/product/selectCaiGouProduct"
+      this.axios(url).then(res => {
+        if(res.data.code == '00') {
+          this.CaiGou_Product = res.data.data;
+          console.log(this.CaiGou_Product)
+          console.log("入库商品列表已获取");
+        } else {
+          console.log("入库商品列表获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    selectProduct(index){
+      this.Proname = ""
+      this.Protype = ""
+      for(var i=0; i<this.CaiGou_Product.length; i++){
+        this.CaiGou_Product[i].isselect = 1
+      }
+      this.selProduct = true;
+    },
+
+
+    ProQuery(){
+      for(var i=0; i<this.CaiGou_Product.length;i++){
+        var panduan = true
+        console.log(i)
+        if(this.Protype != ''){
+          if(this.CaiGou_Product[i].type.indexOf(this.Protype) == -1){
+            panduan = false
+          }
+        }
+        if(this.Proname != ''){
+          if(this.CaiGou_Product[i].name.indexOf(this.Proname) == -1){
+            panduan = false
+          }
+        }
+        if(panduan){
+          this.CaiGou_Product[i].isselect = 1
+        }else{
+          this.CaiGou_Product[i].isselect = 0
+        }
+      }
+    },
+
+    Prorefresh(){
+      for(var i=0; i<this.CaiGou_Product.length;i++){
+        this.CaiGou_Product[i].isselect = 1
+      }
+    },
+
+    rowClick(row,column,event){
+      console.log(row)
+      this.$confirm('是否选择此商品?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.addForm.shangpinBianma = row.bianhao
+        this.addForm.name = row.name
+        this.addForm.guige = row.guige
+        this.addForm.caizhi = row.caizhi
+        this.addForm.jishuBiaozhun = row.jishuBiaozhun
+        this.addForm.zhibaoDengji = row.zhibaoDengji
+        this.addForm.danwei = row.danwei
+        this.addForm.danjia = row.caigouPrice
+        this.selProduct = false;
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
+    },
+
+    changeValue(name){
+      console.log(name)
+      if(name == 'shuliang' || name == 'danjia'){
+        this.addForm.jiashuiXiaoji = Math.round(this.addForm.danjia * this.addForm.shuliang * 100) / 100
+      }else if(name == 'jiashuiXiaoji'){
+        this.addForm.danjia = Math.round(this.addForm.jiashuiXiaoji / this.addForm.shuliang * 100) / 100
+      }
+    },
+
 
   }
 }
@@ -430,5 +635,8 @@ created() {
 <style scoped>
 .el-table .cells{
   white-space: pre-line !important;
+}
+.el-select-dropdown__list{
+  z-index:3000 !important;
 }
 </style>

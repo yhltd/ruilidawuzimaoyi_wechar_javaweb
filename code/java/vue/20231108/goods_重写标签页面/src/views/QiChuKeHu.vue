@@ -2,14 +2,8 @@
   <el-container style="height: 100%;" direction="vertical">
     <el-header class="el-header" style="background-color:transparent">
       <el-row :gutter="15">
-        <el-col :span="3">
-          <el-input placeholder="商品分类" v-model="type" class="input-with-select"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-input placeholder="规格名称" v-model="guige" class="input-with-select"></el-input>
-        </el-col>
         <el-col :span="1.5">
-          <el-button size="small" round type="primary" @click="query()"><i class="el-icon-search"></i>查询</el-button>
+          <el-button size="small" round type="primary" @click="refresh()"><i class="el-icon-search"></i>查询</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button size="small" round type="primary" @click="addUser()"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
@@ -35,16 +29,24 @@
               width="55">
           </el-table-column>
           <el-table-column
-              prop="type"
-              label="商品分类"
+              prop="bianhao"
+              label="编号"
               width="auto">
           </el-table-column>
           <el-table-column
-              label="规格名称"
+              prop="name"
+              label="客户名称"
               width="auto">
-            <template slot-scope="scope">
-              <div v-html="scope.row.guige2"></div>
-            </template>
+          </el-table-column>
+          <el-table-column
+              prop="qiankuan"
+              label="欠款"
+              width="auto">
+          </el-table-column>
+          <el-table-column
+              prop="dingjin"
+              label="订金"
+              width="auto">
           </el-table-column>
         </el-table>
       </el-main>
@@ -68,26 +70,48 @@
       <el-form :model="addForm" ref="addUsr" label-width="100px"
                class="demo-info">
 
-        <input ref="file" type="file" id="pic_file" @change="fileSelect()" style="display: none">
         <!--        商品基本信息-->
         <el-row :gutter="15">
           <el-col :span="6">
-            <p class="dialog-title">商品规格</p>
+            <p class="dialog-title">期初-客户</p>
           </el-col>
         </el-row>
         <el-row :gutter="15">
           <el-col :span="8">
-            <el-form-item label="商品分类" prop="type" class="custom-form-item">
-              <el-input ref="acc_inp" v-model="addForm.type" class="custom-login-inp"></el-input>
+            <el-form-item label="编号" prop="bianhao" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.bianhao" class="custom-login-inp" readonly="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="规格名称" prop="guige" class="custom-form-item">
-              <el-input ref="acc_inp" type="textarea" autosize="true" v-model="addForm.guige" class="custom-login-inp"></el-input>
+            <el-form-item label="客户名称" prop="name" class="custom-form-item">
+              <el-select style="z-index:3000;" v-model="addForm.name" @change="changeKeHu()" clearable filterable placeholder="请选择客户">
+                <!-- types 为后端查询 -->
+                <el-option
+                    style="z-index:3000;"
+                    v-for="item in XiaLa_KeHu"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="15">
+          <el-col :span="8">
+            <el-form-item label="欠款" prop="qiankuan" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.qiankuan" class="custom-login-inp"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="订金" prop="dingjin" class="custom-form-item">
+              <el-input ref="acc_inp" v-model="addForm.dingjin" class="custom-login-inp"></el-input>
             </el-form-item>
           </el-col>
 
         </el-row>
+
         <el-row :gutter="15">
           <el-col :span="4">
             <div style="display: flex">
@@ -130,12 +154,13 @@ export default {
       },
       addDialog: false,
       tableData: [],
-      multipleSelection: []
-
+      multipleSelection: [],
+      XiaLa_KeHu:[],
     }
   },
 created() {
   this.getUser();
+  this.getXiaLa_KeHu();
 },
   methods:{
     handleSelectionChange(val) {
@@ -150,8 +175,10 @@ created() {
         return;
       }
       this.addForm = {
-        type:'',
-        guige:''
+        bianhao:'',
+        name:'',
+        qiankuan:'',
+        dingjin:'',
       };
       this.addDialog = true;
       return true;
@@ -175,13 +202,13 @@ created() {
       console.log(this.multipleSelection)
       this.addForm = {
         id:list[0].id,
-        type:list[0].type,
-        guige:list[0].guige
+        bianhao:list[0].bianhao,
+        name:list[0].name,
+        qiankuan:list[0].qiankuan,
+        dingjin:list[0].dingjin,
       };
       this.addDialog = true;
       return true;
-
-
     },
 
     getUser(){
@@ -189,7 +216,7 @@ created() {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -202,16 +229,12 @@ created() {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
           this.userPower = res.data.data
-          if(this.userPower.shangpinSel == '是'){
-            this.getAll();
-          }else{
-            MessageUtil.error("无查询权限");
-          }
+          this.getAll();
           window.localStorage.setItem('userPower',JSON.stringify(res.data.data))
           console.log("权限信息已获取");
         } else {
@@ -228,17 +251,10 @@ created() {
         MessageUtil.error("无查询权限");
         return;
       }
-      let url = "http://localhost:8102/peiZhiGuiGe/getAll"
+      let url = "http://yhocn.cn:8102/qiChuKeHu/getAll"
       this.axios(url).then(res => {
         if(res.data.code == '00') {
           this.tableData = res.data.data;
-          console.log('data')
-          console.log(this.tableData)
-          for(var i=0; i<this.tableData.length; i++){
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\r\n/g, '<br/>');
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\n/g, '<br/>');
-          }
-          console.log(this.tableData)
           this.total = res.data.data.length;
           console.log("数据")
           console.log(res.data.data)
@@ -260,69 +276,24 @@ created() {
       this.getAll()
     },
 
-    //条件查询
-    query(){
-      if(this.userPower.shangpinSel != '是'){
-        MessageUtil.error("无查询权限");
+    save(){
+      if(this.addForm.name == ''){
+        MessageUtil.error("未选择客户")
         return;
       }
-      var date = {
-        type:this.type,
-        guige:this.guige
+      if(this.addForm.qiankuan == '' && this.addForm.dingjin == ''){
+        MessageUtil.error("欠款或订金至少填写一个")
+        return;
       }
-      let url = "http://localhost:8102/peiZhiGuiGe/queryProduct"
-      this.axios.post(url, date).then(res => {
-        if(res.data.code == '00') {
-          this.tableData = res.data.data;
-          for(var i=0; i<this.tableData.length; i++){
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\r\n/g, '<br/>');
-            this.tableData[i].guige2 = this.tableData[i].guige.replace(/\n/g, '<br/>');
-          }
-          this.total = res.data.data.length;
-          console.log("数据")
-          console.log(res.data.data)
-          MessageUtil.success("共查询到" + this.tableData.length + "条数据")
-        } else {
-          MessageUtil.error(res.data.msg);
-        }
-      }).catch(() => {
-        MessageUtil.error("网络异常");
-      })
-    },
-
-    delLianXiRen(index){
-      console.log(index)
-      this.$confirm('是否删除此商品?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.Product.body.splice(index, 1)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
-
-    save(){
       if(this.addForm.id != undefined && this.addForm.id != null){
-        if(this.userPower.shangpinSel != '是'){
-          MessageUtil.error("无修改权限");
-          return;
-        }
         this.updShangPinGuiGe()
       }else{
         this.saveShangPinGuiGe()
       }
     },
+
     saveShangPinGuiGe(){
-      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeAdd";
+      let url = "http://yhocn.cn:8102/qiChuKeHu/add";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -335,8 +306,9 @@ created() {
         MessageUtil.error("网络异常")
       })
     },
+
     updShangPinGuiGe(){
-      let url = "http://localhost:8102/peiZhiGuiGe/peiZhiGuiGeUpd";
+      let url = "http://yhocn.cn:8102/qiChuKeHu/upd";
       this.axios.post(url, this.addForm).then(res => {
         if (res.data.code == '00') {
           MessageUtil.success("添加成功");
@@ -352,10 +324,6 @@ created() {
     },
 
     deleteClick(){
-      if(this.userPower.shangpinDel != '是'){
-        MessageUtil.error("无删除权限");
-        return;
-      }
       if(this.multipleSelection.length == 0){
         MessageUtil.error("未选中信息");
         return;
@@ -365,19 +333,18 @@ created() {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-
         var list = []
         for(var i=0; i<this.multipleSelection.length; i++){
           list.push(this.multipleSelection[i].id)
         }
         console.log(list)
-        let url = "http://localhost:8102/peiZhiGuiGe/delPeiZhiGuiGe";
+        let url = "http://yhocn.cn:8102/qiChuKeHu/del";
         axios.post(url, {"list": list}).then(res => {
           switch (res.data.code) {
             case "00": {
               MessageUtil.success("删除成功");
               list.length = 0;
-              this.query();
+              this.getAll();
               break;
             }
             default: {
@@ -395,21 +362,6 @@ created() {
       });
     },
 
-    fileSelect(){
-      var file = document.getElementById("pic_file").files;
-      var this_file = file[0];
-      var fileName = file[0].name;
-      console.log(fileName)
-      console.log(this_file)
-      let URL = window.URL || window.webkitURL;
-      // 通过 file 生成目标 url
-      let imgURL = URL.createObjectURL(this_file);
-      console.log(imgURL)
-      this.Product.body[this.p_index].image = imgURL
-      this.Product.body[this.p_index].imgFile = file[0]
-      this.Product.body[this.p_index].imgFileName = file[0].name
-      console.log(this.Product.body[this.p_index])
-    },
 
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
@@ -422,6 +374,33 @@ created() {
       console.log(`每页 ${val} 条`);
     },
 
+    getXiaLa_KeHu(){
+      let url = "http://yhocn.cn:8102/customer/getAll"
+      this.axios(url).then(res => {
+        if(res.data.code == '00') {
+          this.XiaLa_KeHu = res.data.data;
+          for(var i=0; i<this.XiaLa_KeHu.length; i++){
+            this.XiaLa_KeHu[i].label = this.XiaLa_KeHu.name
+          }
+          console.log("客户下拉已获取");
+        } else {
+          console.log("客户下拉获取失败");
+        }
+      }).catch(() => {
+        MessageUtil.error("网络异常");
+      })
+    },
+
+    changeKeHu(){
+      var this_val = this.addForm.name
+      for(var i=0; i< this.XiaLa_KeHu.length; i++){
+        if(this.XiaLa_KeHu[i].name == this_val){
+          this.addForm.bianhao = this.XiaLa_KeHu[i].bianhao
+          break;
+        }
+      }
+    },
+
 
   }
 }
@@ -430,5 +409,8 @@ created() {
 <style scoped>
 .el-table .cells{
   white-space: pre-line !important;
+}
+.el-select-dropdown__list{
+  z-index:3000 !important;
 }
 </style>

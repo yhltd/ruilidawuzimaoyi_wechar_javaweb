@@ -7,25 +7,25 @@
 
     <select id="getShouRuByDay" resultType="com.myboot.pojo.ShouZhiTongJi">
         <![CDATA[
-            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入' ${this_where}) as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
         ]]>
     </select>
 
     <select id="getShouRuByMonth" resultType="com.myboot.pojo.ShouZhiTongJi">
         <![CDATA[
-            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '收入' ${this_where}) as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
         ]]>
     </select>
 
     <select id="getZhiChuByDay" resultType="com.myboot.pojo.ShouZhiTongJi">
         <![CDATA[
-            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出' ${this_where}) as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-31' group by shouzhi_riqi,jizhang_type
         ]]>
     </select>
 
     <select id="getZhiChuByMonth" resultType="com.myboot.pojo.ShouZhiTongJi">
         <![CDATA[
-            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出') as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
+            select shouzhi_riqi,jizhang_type,sum(money) as money from (select SUBSTRING(shouzhi_riqi,1,7) as shouzhi_riqi,jizhang_type,round(convert(float,isnull(jizhang_jine,0)) + convert(float,isnull(kedi_shuie,0)),2) as money from shouzhi_mingxi where shouzhi_type = '支出' ${this_where}) as shouzhi where shouzhi_riqi >= #{riqi} + '-01' and shouzhi_riqi <= #{riqi} + '-12' group by shouzhi_riqi,jizhang_type
         ]]>
     </select>
 

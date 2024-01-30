@@ -70,4 +70,9 @@ public class GongYingShangImpl implements GongYingShangService {
         return mapper.selectMaxDanHao();
     }
 
+    @Override
+    public List<GongYingShang> getChongFu(String this_where) {
+        List<GongYingShang> gongYingShang = mapper.getChongFu(this_where);
+        return gongYingShang;
+    }
 }

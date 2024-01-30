@@ -47,4 +47,5 @@ public class CaiGouDingDanXiangQing {
     private String weikai;
     private String thisKai;
 
+    private String isselect;
 }

@@ -18,23 +18,23 @@ public class ShouZhiTongJiImpl implements ShouZhiTongJiService {
     private ShouZhiTongJiMapper mapper;
 
     @Override
-    public List<ShouZhiTongJi> getShouRu(String type, String riqi) {
+    public List<ShouZhiTongJi> getShouRu(String type, String riqi,String this_where) {
         List<ShouZhiTongJi> shouZhiTongJi = null;
         if(type.equals("按日")){
-            shouZhiTongJi = mapper.getShouRuByDay(type,riqi);
+            shouZhiTongJi = mapper.getShouRuByDay(type,riqi,this_where);
         }else if(type.equals("按月")){
-            shouZhiTongJi = mapper.getShouRuByMonth(type,riqi);
+            shouZhiTongJi = mapper.getShouRuByMonth(type,riqi,this_where);
         }
         return shouZhiTongJi;
     }
 
     @Override
-    public List<ShouZhiTongJi> getZhiChu(String type, String riqi) {
+    public List<ShouZhiTongJi> getZhiChu(String type, String riqi,String this_where) {
         List<ShouZhiTongJi> shouZhiTongJi = null;
         if(type.equals("按日")){
-            shouZhiTongJi = mapper.getZhiChuByDay(type,riqi);
+            shouZhiTongJi = mapper.getZhiChuByDay(type,riqi,this_where);
         }else if(type.equals("按月")){
-            shouZhiTongJi = mapper.getZhiChuByMonth(type,riqi);
+            shouZhiTongJi = mapper.getZhiChuByMonth(type,riqi,this_where);
         }
         return shouZhiTongJi;
     }

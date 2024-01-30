@@ -34,4 +34,10 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="getChongFu" resultType="com.myboot.pojo.PeiZhiGuiGe">
+        <![CDATA[
+            select * from peizhi_guige ${this_where}
+        ]]>
+    </select>
+
 </mapper>

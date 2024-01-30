@@ -10,9 +10,9 @@
           active-text-color="#ffd04b"
           router
       ><!-- ui-->
-        <el-menu-item  style="margin-left:3%">
+        <el-menu-item  style="margin-left:10px">
           <img src="../assets/menuLogo.png" style="height: 50px;width: 50px;margin-right: 10px"><!-- ui-->
-          <span style="font-size: 30px">进销存系统</span>
+          <span style="font-size: 25px">进销存系统</span>
         </el-menu-item>
 
         <el-menu-item @click="goRouter('/main')">首页</el-menu-item>
@@ -33,21 +33,29 @@
           <el-menu-item @click="goRouter('/zhichujilu')"><p class="custom-menu-item">支出记录</p></el-menu-item>
         </el-submenu>
         <el-submenu index="3">
-          <template slot="title">统计</template>
-          <el-menu-item @click="goRouter('/ZhuanZhang')"><p class="custom-menu-item">转账</p></el-menu-item>
-          <el-menu-item @click="goRouter('/KuCun')"><p class="custom-menu-item">库存</p></el-menu-item>
-          <el-menu-item @click="goRouter('/ZhangHuYuE')"><p class="custom-menu-item">账户余额</p></el-menu-item>
+          <template slot="title">统计1</template>
+          <el-menu-item @click="goRouter('/xiaoshoudingdantongji')"><p class="custom-menu-item">销售订单统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/dingdanzoushi')"><p class="custom-menu-item">销售订单走势</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoushoukuantongji')"><p class="custom-menu-item">销售收款统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/shoukuanzoushi')"><p class="custom-menu-item">销售收款走势</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoShouKaiPiaoTongJi')"><p class="custom-menu-item">销售开票统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/xiaoshoumaolitongji')"><p class="custom-menu-item">销售毛利统计</p></el-menu-item>
+          <el-menu-item @click="goRouter('/kehuwanglai')"><p class="custom-menu-item">客户往来</p></el-menu-item>
+          <el-menu-item @click="goRouter('/gongyingshangwanglai')"><p class="custom-menu-item">供应商往来</p></el-menu-item>
+          <el-menu-item @click="goRouter('/caigoufukuanzoushi')"><p class="custom-menu-item">采购付款走势</p></el-menu-item>
           <el-menu-item @click="goRouter('/ShouRuFenLei')"><p class="custom-menu-item">收入分类统计</p></el-menu-item>
           <el-menu-item @click="goRouter('/ZhiChuFenLei')"><p class="custom-menu-item">支出分类统计</p></el-menu-item>
           <el-menu-item @click="goRouter('/YueDuShouZhi')"><p class="custom-menu-item">月度收支统计</p></el-menu-item>
-          <el-menu-item @click="goRouter('/xiaoshoumaolitongji')"><p class="custom-menu-item">销售毛利统计</p></el-menu-item>
-          <el-menu-item @click="goRouter('/xiaoshoudingdantongji')"><p class="custom-menu-item">销售订单统计</p></el-menu-item>
-          <el-menu-item @click="goRouter('/xiaoshoushoukuantongji')"><p class="custom-menu-item">销售收款统计</p></el-menu-item>
-          <el-menu-item @click="goRouter('/kehuwanglai')"><p class="custom-menu-item">客户往来</p></el-menu-item>
-          <el-menu-item @click="goRouter('/gongyingshangwanglai')"><p class="custom-menu-item">供应商往来</p></el-menu-item>
-          <el-menu-item @click="goRouter('/dingdanzoushi')"><p class="custom-menu-item">销售订单走势</p></el-menu-item>
-          <el-menu-item @click="goRouter('/shoukuanzoushi')"><p class="custom-menu-item">销售收款走势</p></el-menu-item>
-          <el-menu-item @click="goRouter('/caigoufukuanzoushi')"><p class="custom-menu-item">采购付款走势</p></el-menu-item>
+        </el-submenu>
+        <el-submenu index="6">
+          <template slot="title">统计2</template>
+          <el-menu-item @click="goRouter('/KuCun')"><p class="custom-menu-item">库存</p></el-menu-item>
+          <el-menu-item @click="goRouter('/ZhangHuYuE')"><p class="custom-menu-item">账户余额</p></el-menu-item>
+          <el-menu-item @click="goRouter('/JiZhang')"><p class="custom-menu-item">记账</p></el-menu-item>
+          <el-menu-item @click="goRouter('/ZhuanZhang')"><p class="custom-menu-item">转账</p></el-menu-item>
+          <el-menu-item @click="goRouter('/qiChuKeHu')"><p class="custom-menu-item">期初-客户</p></el-menu-item>
+          <el-menu-item @click="goRouter('/qiChuGongYingShang')"><p class="custom-menu-item">期初-供应商</p></el-menu-item>
+          <el-menu-item @click="goRouter('/qiChuShangPin')"><p class="custom-menu-item">期初-库存</p></el-menu-item>
         </el-submenu>
         <el-submenu index="4">
           <template slot="title">基础资料</template>
@@ -103,7 +111,7 @@
         </el-submenu>
 
         <el-menu-item style="float: right;" >
-          <span>1.0.0</span>
+          <span>1.0.1</span>
         </el-menu-item>
 
         <el-menu-item style="float: right;margin-right: 1%" index="7" @click="quit()">
@@ -180,7 +188,7 @@ export default {
       this.userPower = JSON.parse(window.localStorage.getItem('userPower'))
       console.log(this.userInfo)
       console.log(this.userPower)
-      let url = "http://localhost:8102/user/queryUserInfoById"
+      let url = "http://yhocn.cn:8102/user/queryUserInfoById"
       this.axios.post(url,{"id":this.userInfo.id}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -193,7 +201,7 @@ export default {
       }).catch(() => {
         MessageUtil.error("网络异常");
       })
-      let poweruUrl = "http://localhost:8102/userpower/getUserPowerByName"
+      let poweruUrl = "http://yhocn.cn:8102/userpower/getUserPowerByName"
       this.axios.post(poweruUrl,{"name":this.userInfo.power}).then(res => {
         if(res.data.code == '00') {
           console.log(res.data.data)
@@ -347,4 +355,5 @@ body {
 /deep/th.el-table_2_column_23 is-hidden is-leaf el-table__cell{
   background:#d6e5ef!important;
 }
+
 </style>

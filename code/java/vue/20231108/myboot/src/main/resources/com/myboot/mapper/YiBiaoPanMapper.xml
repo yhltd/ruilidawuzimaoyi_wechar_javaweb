@@ -209,7 +209,32 @@
     <!--    销售毛利统计 按业务员-->
     <select id="xiaoShouMaoLiTongJi_YeWuYuan" resultMap="retu">
         <![CDATA[
-            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,0 as money,'' as riqi,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,yewuyuan as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan
+            select 0 as num,0 as id,'' as kehu,'' as gongyingshang,0 as qiankuan,0 as money,'' as riqi,'' as yewuyuan,0 as chuku,0 as shoukuan,0 as dingdan,0 as jiashui_xiaoji,yewuyuan as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli
+            where riqi >= #{start_date} and riqi <= #{stop_date} group by yewuyuan
+        ]]>
+    </select>
+
+    <!--    销售毛利统计 按店铺-->
+    <select id="xiaoShouMaoLiTongJi_DianPu" resultMap="retu">
+        <![CDATA[
+            select dianpu as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,dianpu,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,dianpu,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli
+             where riqi >= #{start_date} and riqi <= #{stop_date} group by dianpu
+        ]]>
+    </select>
+
+    <!--    销售毛利统计 按核算单位-->
+    <select id="xiaoShouMaoLiTongJi_HeSuanDanWei" resultMap="retu">
+        <![CDATA[
+            select chuku_danwei as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,name,kehu,chuku_danwei,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,chuku_danwei,jiashui_xiaoji,shangpin_bianma,shuliang from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli
+            where riqi >= #{start_date} and riqi <= #{stop_date} group by chuku_danwei
+        ]]>
+    </select>
+
+    <!--    销售毛利统计 按销售订单-->
+    <select id="xiaoShouMaoLiTongJi_XiaoShouDingDan" resultMap="retu">
+        <![CDATA[
+            select xiaoshou_id as name,sum(convert(float,isnull(jiashui_xiaoji,0))) as xiaoshou,sum(convert(float,isnull(chengben,0))) as chengben,sum(convert(float,isnull(jiashui_xiaoji,0))) - sum(convert(float,isnull(chengben,0))) as maoli from (select riqi,chuku.bianhao,xiaoshou_id,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,convert(float,isnull(shuliang,0)) * convert(float,isnull(caigou_price,0)) as chengben from (select riqi,bianhao,name,kehu,yewuyuan,jiashui_xiaoji,shangpin_bianma,shuliang,xiaoshou_id from xiaoshou_chuku as chuku left join xiaoshou_chuku_item as item on chuku.id = item.chuku_id) as chuku left join product_item as item on chuku.shangpin_bianma = item.bianhao) as maoli
+            where riqi >= #{start_date} and riqi <= #{stop_date} group by xiaoshou_id
         ]]>
     </select>
 

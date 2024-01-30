@@ -45,4 +45,10 @@
             select convert(float,SUBSTRING(isnull(max(bianhao),'GYS000000'),4,9)) + 1 as bianhao from gongyingshang
         ]]>
     </select>
+
+    <select id="getChongFu" resultType="com.myboot.pojo.GongYingShang">
+        <![CDATA[
+            select * from gongyingshang ${this_where}
+        ]]>
+    </select>
 </mapper>

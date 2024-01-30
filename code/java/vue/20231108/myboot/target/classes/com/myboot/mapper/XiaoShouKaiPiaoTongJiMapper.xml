@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myboot.mapper.XiaoShouKaiPiaoTongJiMapper">
+
+    <select id="getTongJiByDanWei" resultType="com.myboot.pojo.XiaoShouKaiPiaoTongJi">
+        <![CDATA[
+            select kaipiao_danwei as name,sum(convert(float,isnull(jiashui_heji,0))) as jiashui_heji from xiaoshou_kaipiao where kaipiao_riqi >= #{start_date} and kaipiao_riqi <= #{stop_date} group by kaipiao_danwei
+        ]]>
+    </select>
+
+    <select id="getTongJiByKeHu" resultType="com.myboot.pojo.XiaoShouKaiPiaoTongJi">
+        <![CDATA[
+            select shoupiao_danwei as name,sum(convert(float,isnull(jiashui_heji,0))) as jiashui_heji from xiaoshou_kaipiao where kaipiao_riqi >= #{start_date} and kaipiao_riqi <= #{stop_date} group by shoupiao_danwei
+        ]]>
+    </select>
+
+</mapper>

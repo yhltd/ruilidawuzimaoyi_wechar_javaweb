@@ -1,5 +1,6 @@
 package com.myboot.service;
 
+import com.myboot.pojo.CaiGouDingDanXiangQing;
 import com.myboot.pojo.CaiGouShouPiao;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface CaiGouShouPiaoService {
     public List<CaiGouShouPiao> selectByShouPiaoId(Integer id);
 
     //根据采购id查询
-    public List<CaiGouShouPiao> selectYingShou();
+    public List<CaiGouDingDanXiangQing> selectYingShou();
 
 
 
