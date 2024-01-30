@@ -1,0 +1,272 @@
+<scroll-view class="main" scroll-x="true" scroll-y="true">
+  <view style="padding-top: 10px;">
+    <view class="title_text">商品基本信息：</view>
+    <van-cell-group inset>
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ product_body.name }}"
+        data-column="name"
+        label="商品名称"
+        placeholder="请输入商品名称"
+        border="false"
+      />
+
+      <van-field
+        custom-class="bianju2"
+        bind:input="onInput"
+        model:value="{{ product_body.type }}"
+        data-column="type"
+        bind:click-input="xiala_show"
+        label="商品分类"
+        placeholder="请输入商品分类"
+        border="false"
+        readonly="true"
+      >
+          <van-tag type="primary" size="medium" slot="button" bindtap="peizhi_goto" data-column="type">添加</van-tag>
+        
+      </van-field>
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ product_body.danwei }}"
+        data-column="danwei"
+        bind:click-input="danwei_select"
+        label="单位"
+        placeholder="请输入单位"
+        border="false"
+        readonly="true"
+      >
+
+        <van-tag type="primary" size="medium" slot="button" bindtap="peizhi_goto" data-column="danwei">添加</van-tag>
+      
+      </van-field>
+
+      <van-field
+        custom-class="bianju2"
+        bind:input="onInput"
+        model:value="{{ product_body.caizhi }}"
+        data-column="caizhi"
+        label="材质"
+        placeholder="请输入材质"
+        border="false"
+      />
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ product_body.jishu_biaozhun }}"
+        data-column="jishu_biaozhun"
+        label="技术标准"
+        placeholder="请输入技术标准"
+        border="false"
+        >
+        
+      </van-field>
+
+      <van-field
+        custom-class="bianju2"
+        bind:input="onInput"
+        model:value="{{ product_body.zhibao_dengji }}"
+        data-column="zhibao_dengji"
+        bind:click-input="xiala_show"
+        label="质保等级"
+        placeholder="请输入质保等级"
+        border="false"
+        readonly="true"
+        >
+          <van-tag type="primary" size="medium" slot="button" bindtap="peizhi_goto" data-column="zhibao_dengji">添加</van-tag>
+        
+      </van-field>
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ product_body.beizhu }}"
+        data-column="beizhu"
+        label="备注"
+        placeholder="请输入备注"
+        border="false"
+      />
+    </van-cell-group>
+  </view>
+
+  <view wx:for="{{lianxi_list}}" wx:for-item="list_item" wx:for-index="i" wx:key="id" style="padding-top: 10px;">
+    <view class="title1">
+      <view class="title_item">商品信息{{i+1}}：</view>
+      <van-icon bind:click="del_lianxiren" name="close" size="20px" style="display:{{lianxi_list.length-1==0?'none':'flex'}}" data-index="{{i}}"/>
+    </view> 
+    <van-cell-group inset>
+      <van-cell center title='图片' title-width='6.2em'> 
+        <image data-index="{{i}}" src="{{ list_item.image }}" mode='aspectFill' style="width: 30px;height:30px;border: 1px solid #A6A6A6" slot="right-icon" bindtap="imgClick" />
+      </van-cell>
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ list_item.guige }}"
+        data-column="guige"
+        data-index="{{i}}"
+        label="规格"
+        placeholder="请输入规格"
+        border="false"
+      />
+
+      <van-field
+        custom-class="bianju2"
+        bind:input="onInput"
+        model:value="{{ list_item.bianhao }}"
+        data-column="bianhao"
+        data-index="{{i}}"
+        label="编号"
+        placeholder="请输入编号"
+        border="false"
+        >
+          <van-tag type="primary" size="medium" slot="button" bindtap="bianhao_get" data-index="{{i}}">扫码</van-tag>
+      </van-field>
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ list_item.caigou_price }}"
+        data-column="caigou_price"
+        data-index="{{i}}"
+        label="采购价格"
+        placeholder="请输入采购价格"
+        border="false"
+      />
+
+      <van-field
+        custom-class="bianju2"
+        bind:input="onInput"
+        model:value="{{ list_item.jinxiang }}"
+        data-column="jinxiang"
+        data-index="{{i}}" 
+        bind:click-input="xiala_show"
+        label="进项税率"
+        placeholder="请输入进项税率"
+        right-icon="../../image/baifenbi.png"
+        border="false"
+        readonly="true"
+      />
+
+      <van-field
+        custom-class="bianju"
+        bind:input="onInput"
+        model:value="{{ list_item.enable }}"
+        data-column="enable"
+        data-index="{{i}}"
+        bind:click-input="xiala_show"
+        label="是否启用"
+        placeholder="请输入是否启用"
+        border="false"
+        readonly="true"
+      />
+    </van-cell-group>
+  </view>
+  <view class="bottom_view" style="padding-bottom: 10px;">
+    <button class="bt_bottom" bindtap="add_lianxiren">添加商品</button>
+    <button class="bt_bottom" bindtap="add_more_lianxiren">批量添加</button>
+  </view>
+</scroll-view>
+
+<view class="bottom_view"> 
+  <button class="bt_bottom" bindtap="save">保存</button>
+  <button class="bt_bottom" bindtap="back">取消</button>
+</view>
+
+<!------------------------->
+<!---------图片弹窗--------->
+<!------------------------->
+<van-popup bind:click-overlay="qxShow" show="{{ xgShow2 }}" position="bottom" custom-style="height: 15%;">
+  <view class="bottom_view" style="height:10%;margin-top: calc(50vmin / 7.5);">
+    <button class="bt_bottom" bindtap="imgload">上传</button>
+    <button class="bt_bottom" bindtap="imgdown">预览</button>
+  </view>
+</van-popup>
+
+<!--表单下拉选择-->
+<van-action-sheet show="{{xlShow2}}" actions="{{list_xiala}}" close-on-click-overlay bind:close="select2" bind:select="select2">
+</van-action-sheet>
+
+<van-popup
+  show="{{ moreShow }}"
+  closeable
+  position="bottom"
+  custom-style="height: 90%"
+  bind:close="onClose"
+>
+<view class="title_text" style="height:7%;margin-top: 4%;margin-left: 3%;font-size: 40rpx;">批量选择规格</view>
+<scroll-view style="height: 82%;" scroll-x="true" scroll-y="true">
+  <block class="title" wx:for="{{all_peizhi_guige}}" wx:for-index="i" >
+  <van-checkbox-group value="{{ all_peizhi_guige[i].click_guige }}" data-index="{{i}}" bind:change="onChange2">
+    <van-cell class="cell_title" title="{{all_peizhi_guige[i].type}}" size="large">
+      <van-tag wx:if="{{all_peizhi_guige[i].click_guige.length == all_peizhi_guige[i].guige.length}}" data-index="{{i}}" bindtap="quanxuan_clean" size="medium" type="primary" slot="right-icon">全选</van-tag> 
+      <van-tag wx:if="{{all_peizhi_guige[i].click_guige.length != all_peizhi_guige[i].guige.length}}" plain data-index="{{i}}" bindtap="quanxuan_add" size="medium" type="primary" slot="right-icon">全选</van-tag> 
+    </van-cell>
+    <van-cell-group border="false">
+      <van-cell
+        wx:for="{{ item.guige }}"
+        wx:key="index"
+        title="{{ all_peizhi_guige[i].guige[index] }}"
+        value-class="value-class"
+        clickable
+        data-first_index="{{ i }}"
+        data-index="{{ index }}"
+        bind:click="toggle2"
+        title-width="90%"
+        use-label-slot
+      >
+        <van-checkbox
+          catch:tap="noop"
+          class="checkboxes-{{ i }}-{{ index }}"
+          name="{{ all_peizhi_guige[i].guige[index] }}"
+        />
+      </van-cell>
+    </van-cell-group>
+  </van-checkbox-group>
+</block>
+</scroll-view>
+
+<view class="bottom_view" style="height:6%;padding-top:2%">
+  <button class="bt_bottom" bindtap="guige_goto">编辑规格</button>
+  <button class="bt_bottom" bindtap="guige_add">确定</button>
+</view>
+
+</van-popup>
+
+<!--选择单位-->
+<van-popup
+  show="{{ danwei_show }}"
+  close-on-click-overlay
+  position="bottom"
+  custom-style="height: 80%"
+  bind:close="qxShow"
+>
+  <view style="height: 9%;">
+    <view style="display: flex;">
+      <view class="lables">单位名称：</view>
+      <input bindinput="onInput_text" data-column="name" class="input_text_form" value="{{name}}" type="text" name="name"></input>
+    </view>
+  </view>
+  <scroll-view style="height:78%" scroll-x="true" scroll-y="true">
+    <van-cell-group style="height: 78%;">
+    <van-cell
+      wx:for="{{ danwei_list }}"
+      wx:key="index"
+      title="{{ item.name }}"
+      value-class="value-class"
+      clickable
+      data-index="{{ index }}"
+      bind:click="danwei_click"
+      wx:if="{{item.isselect == 1}}"
+      use-label-slot
+    >
+    </van-cell>
+  </van-cell-group>
+  </scroll-view>
+  <view class="bottom_view" style="margin-top: 10px;">
+    <button class="bt_bottom" bindtap="sel_danwei">查询</button>
+  </view>
+</van-popup>

@@ -1,0 +1,120 @@
+<scroll-view class="main" scroll-x="true" scroll-y="true">
+  <view style="padding-top: 10px;" wx:for="{{list}}" wx:for-item="list_item" wx:for-index="i" wx:key="id">
+    <van-cell-group inset data-index="{{i}}" bindtap="click_view" bindlongpress="del1">
+      <van-cell title="{{list_item.name}}" center use-label-slot>
+        <view slot="label">
+          <text>编号：{{list_item.bianhao}} \n</text>
+          <text>规格：{{list_item.guige}} \n</text>
+          <text>分类：{{list_item.type}} \n</text>
+          <text decode="{{true}}">采购价格：{{list_item.caigou_price}}</text>
+        </view>
+        <view slot="icon">
+          <image data-index="{{i}}" src="{{ list_item.image }}" mode='aspectFill' style="margin-right:10px;width: 30px;height:30px;border: 1px solid #A6A6A6"/>
+        </view>
+      </van-cell>
+    </van-cell-group>
+  </view>
+</scroll-view>
+
+<view class="bottom_view">
+  <view class="bt_text">合计：{{num}}个</view>
+  <button class="bt_bottom" data-column="gongneng" bindtap="xiala_show">功能</button>
+</view>
+
+<button class="tianjia" bindtap='tianjia'>
+  <image class='jiahao1' src='cloud://yhltd-hsxl2.7968-yhltd-hsxl2-1259412419/images/jiahao1.png'> </image>
+</button>
+
+<!--表单下拉选择-->
+<van-action-sheet z-index='100' show="{{xlShow2}}" actions="{{list_xiala}}" close-on-click-overlay bind:close="select2" bind:select="select2" />
+
+<!--选择导出excel列-->
+<van-popup
+  show="{{ dayin_show }}"
+  close-on-click-overlay
+  position="bottom"
+  custom-style="height: 39%"
+  bind:close="qxShow"
+>
+<van-checkbox-group value="{{ result }}" bind:change="onChange">
+    <van-cell-group>
+      <van-cell
+        wx:for="{{ list_check }}"
+        wx:key="index"
+        title="{{ item.name }}"
+        value-class="value-class"
+        clickable
+        data-index="{{ index }}"
+        bind:click="toggle"
+      >
+        <van-checkbox
+          catch:tap="noop"
+          class="checkboxes-{{ index }}"
+          name="{{ item.name }}"
+        />
+      </van-cell>
+    </van-cell-group>
+  </van-checkbox-group>
+  <view class="bottom_view" style="margin-top: 10px;">
+    <button class="bt_bottom" bindtap="toExcel">确定</button>
+  </view>
+</van-popup>
+
+<!--选择打印条码商品-->
+<van-popup
+  show="{{ print_show }}"
+  close-on-click-overlay
+  position="bottom"
+  custom-style="height: 80%"
+  bind:close="qxShow"
+>
+<van-checkbox-group value="{{ print_result }}" bind:change="onChange2">
+    <van-cell-group>
+      <van-cell
+        wx:for="{{ list }}"
+        wx:key="index"
+        title="{{ item.name }}"
+        value-class="value-class"
+        clickable
+        data-index="{{ index }}"
+        bind:click="toggle2"
+        use-label-slot
+      >
+        <van-checkbox
+          catch:tap="noop"
+          class="checkboxes2-{{ index }}"
+          name="{{ item.bianhao }}"
+        />
+        <view slot="label">
+          <text>编号：{{item.bianhao}} \n</text>
+          <text>规格：{{item.guige}} \n</text>
+          <text>分类：{{item.type}} \n</text>
+        </view>
+      </van-cell>
+    </van-cell-group>
+  </van-checkbox-group>
+  <view class="bottom_view" style="margin-top: 10px;">
+    <view class="bt_text">
+      <van-checkbox
+      bind:change="quanxuan"
+      value="{{quanxuan_value}}">全选</van-checkbox>
+    </view>
+    <button class="bt_bottom" bindtap="toPrint">确定</button>
+  </view>
+</van-popup>
+
+<!------------------------->
+<!---------查询弹窗--------->
+<!------------------------->
+<van-popup z-index='90' bind:click-overlay="qxShow" show="{{ cxShow }}" position="bottom" custom-style="height: 40%;" >
+  <view class="lables">商品名称</view>
+    <input bindinput="onInput" data-column="name" class="input_text_form"  value="{{name}}" type="text" name="name"></input>
+    <view class="lables">商品分类</view>
+    <input bindinput="onInput" data-column="type" class="input_text_form"  value="{{type}}" type="text" name="type" ></input>
+    <view class="lables">启用</view>
+    <input bindinput="onInput" data-column="enable" class="input_text_form"  value="{{enable}}" type="text" name="enable" ></input>
+  <view class="bottom_view" style="height:10%">
+    <button class="bt_bottom" hover-class="bt_bottom_hover" bindtap="qxShow">取消</button>
+    <button class="bt_bottom" hover-class="bt_bottom_hover" bindtap="sel1">查询</button>
+  </view>
+</van-popup>
